@@ -16,7 +16,11 @@ import javax.swing.JOptionPane;
 import model.Command;
 
 public class GameClient{
-	private String clientName; // user name of the client
+	private String clientName = "tester"; // user name of the client
+	
+	// Hardcoded values for testing
+	private String host = "localhost";
+	private String port = "9001";
 	
 	private Socket server; // connection to server
 	private ObjectOutputStream out; // output stream
@@ -55,9 +59,10 @@ public class GameClient{
 	
 	public GameClient(){
 		// ask the user for a host, port, and user name
-		String host = JOptionPane.showInputDialog("Host address:");
-		String port = JOptionPane.showInputDialog("Host port:");
-		clientName = JOptionPane.showInputDialog("User name:");
+		// String host = JOptionPane.showInputDialog("Host address:");
+		// String port = JOptionPane.showInputDialog("Host port:");
+		// clientName = JOptionPane.showInputDialog("User name:");
+		
 		
 		if (host == null || port == null || clientName == null)
 			return;
