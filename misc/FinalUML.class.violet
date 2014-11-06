@@ -8,14 +8,16 @@
       <void method="setRect">
        <double>410.0</double>
        <double>10.0</double>
-       <double>120.0</double>
-       <double>60.0</double>
+       <double>140.0</double>
+       <double>80.0</double>
       </void>
      </object>
     </void>
     <void property="attributes">
      <void property="text">
       <string>Vector&lt;Player&gt;;
+ServerSocket socket;
+
 </string>
      </void>
     </void>
@@ -218,8 +220,8 @@ String mapType;</string>
       <void method="setRect">
        <double>1100.0</double>
        <double>180.0</double>
-       <double>400.0</double>
-       <double>180.0</double>
+       <double>440.0</double>
+       <double>200.0</double>
       </void>
      </object>
     </void>
@@ -271,7 +273,7 @@ int modifier; // modify basic behavior of enemy, maybe an enum?
       <void method="setRect">
        <double>1100.0</double>
        <double>370.0</double>
-       <double>400.0</double>
+       <double>420.0</double>
        <double>140.0</double>
       </void>
      </object>
