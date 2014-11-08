@@ -39,6 +39,7 @@ public class GameServer {
 				while(true){
 					// read a command from the client, execute on the server
 					Command<GameServer> command = (Command<GameServer>)input.readObject();
+					System.out.println("\t\t Command " + command + " received");
 					command.execute(GameServer.this);
 					
 					// terminate if client is disconnecting
@@ -48,7 +49,9 @@ public class GameServer {
 					}
 				}
 			} catch(Exception e){
-				e.printStackTrace();
+				// will be thrown if client does not safely disconnect
+				//e.printStackTrace();
+				System.out.println("\t\t This client did not safely disconnect");
 			}
 		}
 	}
@@ -61,6 +64,7 @@ public class GameServer {
 			try{
 				while(true){
 					// accept a new client, get output & input streams
+					System.out.println("\t socket accepter");
 					Socket s = socket.accept();
 					ObjectOutputStream output = new ObjectOutputStream(s.getOutputStream());
 					ObjectInputStream input = new ObjectInputStream(s.getInputStream());
@@ -75,6 +79,7 @@ public class GameServer {
 					new Thread(new ClientHandler(input)).start();
 					
 					// add a notification message to the chat log
+					System.out.println("\t new client: " + clientName);
 					newMessage(clientName + " connected");
 				}
 			}catch(Exception e){
@@ -104,6 +109,7 @@ public class GameServer {
 	 */
 	public void updateClients() {
 		// make an UpdateClientCommmand, write to all connected users
+		System.out.println("updateClients");
 		SendClientMessageCommand update = new SendClientMessageCommand(latestMessage);
 		try{
 			for (ObjectOutputStream out : outputs.values())
@@ -136,7 +142,9 @@ public class GameServer {
 	
 	public void newMessage(String message) {
 		// TODO Send this message to all of our clients
+		System.out.println("newMessage");
 		this.latestMessage = message;
+		updateClients();
 	}
 	
 	public void execute(Command<GameServer> command){

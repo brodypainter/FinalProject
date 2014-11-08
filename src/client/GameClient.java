@@ -13,6 +13,7 @@ import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import server.GameServer;
 import model.Command;
 
 public class GameClient{
@@ -28,6 +29,7 @@ public class GameClient{
 	
 	public void newMessage(String message) {
 		// TODO Display a new message to our text/chat panel. May need to add a local list of messages	
+		System.out.println(message);
 	}
 
 	/**
@@ -95,6 +97,57 @@ public class GameClient{
 			new Thread(new ServerHandler()).start();
 			
 		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	
+	public GameClient(String string) {
+		// ask the user for a host, port, and user name
+		// String host = JOptionPane.showInputDialog("Host address:");
+		// String port = JOptionPane.showInputDialog("Host port:");
+		// clientName = JOptionPane.showInputDialog("User name:");
+		this.clientName = string;
+		
+		if (host == null || port == null || clientName == null)
+			return;
+		
+		try{
+			// Open a connection to the server
+			server = new Socket(host, Integer.parseInt(port));
+			out = new ObjectOutputStream(server.getOutputStream());
+			in = new ObjectInputStream(server.getInputStream());
+			
+			// write out the name of this client
+			out.writeObject(clientName);
+			
+			// add a listener that sends a disconnect command to when closing
+//			this.addWindowListener(new WindowAdapter(){
+//				public void windowClosing(WindowEvent arg0) {
+//					try {
+//						out.writeObject(null);// TODO send a disconnect command to the server to safely disconnect
+//						out.close();
+//						in.close();
+//					} catch (IOException e) {
+//						e.printStackTrace();
+//					}
+//				}
+//			});
+			
+			// TODO set up the GUI
+			
+			// start a thread for handling server events
+			new Thread(new ServerHandler()).start();
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	
+	public void sendCommand(Command<GameServer> command){
+		try {
+			out.writeObject(command);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
