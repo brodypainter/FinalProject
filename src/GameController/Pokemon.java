@@ -34,4 +34,24 @@ public abstract class Pokemon implements Serializable{
 		this.Location = x;
 		return true;
 	}
+	
+	public int getAttackPower(){
+		return AttackPower;
+	}
+	
+	public int getDefense(){
+		return Defense;
+	}
+	
+	public int getSpeed(){
+		return Speed;
+	}
+	
+	public int getBounty(){
+		return Worth;
+	}
+	
+	public void damage(int hplost){
+		Health = Health - hplost;
+	}
 }
