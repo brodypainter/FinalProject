@@ -101,7 +101,11 @@ public abstract class Map implements Serializable{
 		player.loseHealth(hpLost);
 	}
 	
-	
+	public void gainedGold(int goldGained){
+		//called by any enemy Pokemon that dies
+		//Map just passes on this information to the Player object.
+		player.gainMoney(goldGained);
+	}
 	
 	
 	
