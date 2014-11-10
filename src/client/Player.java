@@ -33,6 +33,10 @@ public class Player implements Serializable{
 		money = amount;
 	}
 	
+	public void gainMoney(int amount){
+		money = money + amount;
+	}
+	
 	public void setHealth(int amount){
 		healthPoints = amount;
 	}
