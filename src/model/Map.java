@@ -66,7 +66,7 @@ public abstract class Map implements Serializable{
 		
 	public boolean spawnEnemy(Pokemon enemy){
 		enemy.setMap(this);
-		grid[firstPathTile.y][firstPathTile.x].addPokemon(enemy);
+		grid[firstPathTile.x][firstPathTile.y].addPokemon(enemy);
 		enemy.setLocation(firstPathTile);
 		currentEnemies++;
 		
@@ -80,7 +80,8 @@ public abstract class Map implements Serializable{
 	public boolean updateEnemyPosition(Pokemon enemy){
 		
 		//Each Pokemon running in its own thread will call this method, passing a reference
-		//to itself, to make Map updat its position
+		//to itself, to make Map update its position when appropriate. Can only move in
+		//1 square discrete amounts along the path currently.
 		
 		//get enemy's current coordinates, determine what his next coordinates will be
 		Point enemyCoords = enemy.getLocation();
@@ -93,6 +94,11 @@ public abstract class Map implements Serializable{
 		grid[nextCoords.x][nextCoords.y].addPokemon(enemy);
 		
 		return true;
+	}
+	
+	public void removeDeadEnemy(Point location, Pokemon enemy){
+		grid[location.x][location.y].removePokemon(enemy);
+		currentEnemies--;
 	}
 	
 	public void lostHealth(int hpLost){
