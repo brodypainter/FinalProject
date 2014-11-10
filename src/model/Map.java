@@ -14,6 +14,10 @@ public abstract class Map implements Serializable{
 	
 	
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6337999339368538419L;
 	private Tile[][] grid;
 	private Image img; //The background image of the map, determined by mapType (did I import the right one?)
 	private LinkedList<Point> enemyPath; //A list of all of the tile coordinates that the
@@ -50,13 +54,13 @@ public abstract class Map implements Serializable{
 		Point tempCoords;
 		for(int i = 0; i < enemyPath.size(); i++){
 			tempCoords = enemyPath.get(i);
-			grid[tempCoords.y][tempCoords.x].setAsPath();
+			grid[tempCoords.x][tempCoords.y].setAsPath();
 			if(i == 0){
-				grid[tempCoords.y][tempCoords.x].setFirstPathTile();
+				grid[tempCoords.x][tempCoords.y].setFirstPathTile();
 				firstPathTile = tempCoords;
 			}
 			if(i == enemyPath.size() - 1){
-				grid[tempCoords.y][tempCoords.x].setLastPathTile();
+				grid[tempCoords.x][tempCoords.y].setLastPathTile();
 				lastPathTile = tempCoords;
 			}
 			
