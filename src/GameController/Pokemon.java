@@ -16,6 +16,7 @@ public abstract class Pokemon implements Serializable{
 	private String Pokemon;
 	private int Worth;
 	private Point Location;
+	private Map map; //the map on which this enemy is spawned
 	
 	public Pokemon (int health, int attackPower, int defense, int speed, String name, int worth){
 		this.Health = health;
@@ -24,6 +25,7 @@ public abstract class Pokemon implements Serializable{
 		this.Speed = speed;
 		this.Pokemon = name;
 		this.Worth = worth;
+		map = null;
 	} // end constructor
 	
 	public Point getLocation(){
@@ -49,6 +51,14 @@ public abstract class Pokemon implements Serializable{
 	
 	public int getBounty(){
 		return Worth;
+	}
+	
+	public Map getMap(){
+		return map;
+	}
+	
+	public void setMap(Map map){
+		this.map = map; 
 	}
 	
 	public void damage(int hplost){
