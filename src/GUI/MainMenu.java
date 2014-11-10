@@ -5,8 +5,9 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.Insets;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.WindowEvent;
@@ -17,6 +18,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
 public class MainMenu extends JFrame implements WindowListener
@@ -56,21 +58,28 @@ public class MainMenu extends JFrame implements WindowListener
 		addComponentListener(new resizeListener());
 		ImageIcon bgIcon = createImageIcon("/images/mainMenuBackground.png");
 		bg = bgIcon.getImage();
-		//bg = (new ImageIcon("/images/pikachuDown.gif")).getImage();
 		orig = bg;
 		
+		//Creating buttons and sizing them, and adding listeners
 		singlePlayer = new JButton("Single Player");
 		singlePlayer.setBounds(this.getWidth()/4, this.getHeight()/5, this.getWidth()/2, this.getHeight()/10);
+		singlePlayer.addActionListener(new buttonListener());
 		multiPlayer = new JButton("Online");
 		multiPlayer.setBounds(this.getWidth()/4, (this.getHeight()*2)/5, this.getWidth()/2, this.getHeight()/10);
+		multiPlayer.addActionListener(new buttonListener());
 		settings = new JButton("Settings");
 		settings.setBounds(this.getWidth()/4, (this.getHeight()*3)/5, this.getWidth()/2, this.getHeight()/10);
-		
-		JLabel title = new JLabel("Pokemon Tower Defense");
+		settings.addActionListener(new buttonListener());
+		/*
+		//Set title
+		title = new JLabel("Pokemon Tower Defense");
 		title.setForeground(Color.WHITE);
-		title.setBounds(600, 100, 100, 100);
+		title.setFont(new Font("Serif", Font.PLAIN, 24));
+		title.setOpaque(false);
+		title.setBounds(this.getWidth() / 2 - (title.getText().length() * 6), this.getHeight() / 30, this.getWidth(), 50);
 		
 		this.add(title);
+		*/
 		this.add(singlePlayer);
 		this.add(multiPlayer);
 		this.add(settings);
@@ -109,7 +118,7 @@ public class MainMenu extends JFrame implements WindowListener
 	{
 		public void componentResized(ComponentEvent arg0)
 		{
-			bg = orig.getScaledInstance(frame.getSize().width, frame.getSize().height, Image.SCALE_FAST);
+			bg = orig.getScaledInstance(frame.getSize().width, frame.getSize().height-30, Image.SCALE_FAST);
 			singlePlayer.setBounds(frame.getWidth()/4, frame.getHeight()/5, frame.getWidth()/2, frame.getHeight()/10);
 			multiPlayer.setBounds(frame.getWidth()/4, (frame.getHeight()*2)/5, frame.getWidth()/2, frame.getHeight()/10);
 			settings.setBounds(frame.getWidth()/4, (frame.getHeight()*3)/5, frame.getWidth()/2, frame.getHeight()/10);
@@ -118,6 +127,41 @@ public class MainMenu extends JFrame implements WindowListener
 		public void componentShown(ComponentEvent arg0){}
 		public void componentHidden(ComponentEvent arg0){}
 		public void componentMoved(ComponentEvent arg0){}
+	}
+	
+	class buttonListener implements ActionListener
+	{
+		public void actionPerformed(ActionEvent arg0)
+		{
+			if(arg0.getSource().equals(singlePlayer))
+			{
+				frame.setVisible(false);
+				String username = JOptionPane.showInputDialog("Enter username");
+				if(username == null || username.equals(""))
+				{
+					frame.setVisible(true);
+					return;
+				}
+				new GameView(GameView.gameType.SINGLE, username);
+			}
+			if(arg0.getSource().equals(multiPlayer))
+			{
+				frame.setVisible(false);
+				String username = JOptionPane.showInputDialog("Enter username");
+				if(username == null || username.equals(""))
+				{
+					frame.setVisible(true);
+					return;
+				}
+				new GameView(GameView.gameType.MULTI, username);
+			}
+			if(arg0.getSource().equals(settings))
+			{
+				JOptionPane.showMessageDialog(frame, "Settings menu not yet available", "Pokemon Tower Defense", JOptionPane.OK_OPTION);
+			}
+			
+		}
+		
 	}
 	
 	public void windowActivated(WindowEvent arg0){}
@@ -131,10 +175,15 @@ public class MainMenu extends JFrame implements WindowListener
 	public void paint(Graphics g)
 	{
 		super.paint(g);
-		g.drawImage(bg, 0, 0, this);
+		g.drawImage(bg, 0, 30, this);
 		multiPlayer.repaint();
 		settings.repaint();
 		singlePlayer.repaint();
+		/*
+		title.setOpaque(true);
+		title.setBackground(null);
+		title.repaint();
+		*/
 	}
 
 }
