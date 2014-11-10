@@ -1,10 +1,9 @@
 package model;
 
+import java.awt.Image;
 import java.awt.Point;
 import java.io.Serializable;
 import java.util.LinkedList;
-
-import org.eclipse.swt.graphics.Image;
 
 import client.Player;
 import GameController.Pokemon;
@@ -90,7 +89,7 @@ public abstract class Map implements Serializable{
 		
 		//remove enemy from current tile, update his position, and add him to the next one
 		grid[enemyCoords.x][enemyCoords.y].removePokemon(enemy);
-		enemy.setPosition(nextCoords);
+		enemy.setLocation(nextCoords);
 		grid[nextCoords.x][nextCoords.y].addPokemon(enemy);
 		
 		return true;

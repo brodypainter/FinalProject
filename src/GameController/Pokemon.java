@@ -3,6 +3,8 @@ package GameController;
 import java.awt.Point;
 import java.io.Serializable;
 
+import model.Map;
+
 /**
  * This is our Enemy class called Pokemon.  It 
  * @author Max Justice

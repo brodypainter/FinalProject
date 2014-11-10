@@ -1,10 +1,9 @@
 package model;
 
 
+import java.awt.Image;
 import java.awt.Point;
 import java.util.LinkedList;
-
-import org.eclipse.swt.graphics.Image;
 
 import client.Player;
 
