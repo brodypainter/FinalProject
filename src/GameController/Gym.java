@@ -2,6 +2,7 @@ package GameController;
 
 import java.awt.Point;
 import java.io.Serializable;
+import java.util.ArrayList;
 /**
  * 
  * @author Max
@@ -20,9 +21,9 @@ public abstract class Gym implements Serializable{
 	private int RadiusPxls;
 	private int FireRateSecs;
 	private int Level = 1;
-	private int GymCost;
 	private Point BoardLocation; 
 	private String GymOwner;
+	private String ImageURL;
 	private int Modifier;  //A modifier that might be used later on
 	
 	// for image load the location of the image here
@@ -36,13 +37,13 @@ public abstract class Gym implements Serializable{
 	 * @param PlayersName is the name of the player who owns the tower (Might be unnecessary)
 	 * This is our constructor
 	 */
-	public Gym (String Name, int Attack, int Radius, int FireRateSec, int Cost, String PlayersName){
+	public Gym (String Name, int Attack, int Radius, int FireRateSec, String PlayersName, String Image){
 		this.TowerName = Name;
 		this.AttackPts = Attack;
 		this.RadiusPxls = Radius;
 		this.FireRateSecs = FireRateSec;
-		this.GymCost = Cost;
 		this.GymOwner = PlayersName;
+		this.ImageURL = Image;
 	} // end Currency
 	
 	/**
@@ -51,7 +52,7 @@ public abstract class Gym implements Serializable{
 	 */
 	
 	// attack an enemy!!!  this is dependent on the Gym
-	public abstract int AttackEnemy();
+	public abstract int AttackEnemy(ArrayList<Pokemon> enemies);
 	
 	// a modifier method that might be used later on and is dependent on the Gyms Attributes
 	public abstract boolean setModifer();
@@ -79,11 +80,11 @@ public abstract class Gym implements Serializable{
 	 * It compares it with the cost of the Gym and returns true if the player has the money
 	 * to buy it with else false
 	 */
-	public boolean checkBuy(int PlayerCurrency){
+	public abstract boolean checkBuy(int PlayerCurrency);/*{
 		if (PlayerCurrency >= this.GymCost)
 			return true;
 		return false;
-	} // end checkBuy
+	} // end checkBuy*/
 	
 	/**
 	 * 
@@ -136,9 +137,25 @@ public abstract class Gym implements Serializable{
 		return this.GymOwner;
 	}
 	
-	// return the cost of the gym
-	public int getGymCost(){
-		return this.GymCost;
+	// returns the current firerate
+	public Boolean setFireRate (int fireRate){
+		this.FireRateSecs = fireRate;
+		return true;
+	}
+	
+	// get the attack power of the gym
+	public int getAttackPower(){
+		return this.AttackPts;
+	}
+	
+	// this is set attack.  it prevents from attack from being less or equal to 0 by setting it to 1
+	public boolean setAttackPower(int attackPower){
+		int attack = this.AttackPts + attackPower;
+		if (attack <= 0){
+			attack = 1;
+		}
+		this.AttackPts = attack;
+		return true;
 	}
 	
 }

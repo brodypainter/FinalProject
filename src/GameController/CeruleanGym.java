@@ -22,17 +22,47 @@ public class CeruleanGym extends Gym{
 		// TODO Auto-generated constructor stub
 	}
 
-	// this method sets the animation
+	/**
+	 * (non-Javadoc)
+	 * @see GameController.Gym#AttackEnemy(java.util.ArrayList)
+	 * Attack Enemy algorithm is simply.  It is passed the arraylist
+	 * of current enemies on the board that are alive.  It then runs a 
+	 * for loop for each enemy getting their current point on the board
+	 * checks if that enemy is within range with canAttackEnemy() method which
+	 * returns true if it can be attacked.  It then uses the incomingAttack()
+	 * method from the pokemon object and subtracts from the current pokemons
+	 * instance of its health.  
+	 * 
+	 * TODO add the images and sprites for the attack.  Update the list of
+	 * when a pokemon dies to the listeners or observers.  If a pokemon faints
+	 * add currency to the player.
+	 */
 	@Override
 	public int AttackEnemy(ArrayList<Pokemon> enemies) {
 		//TODO is set up the graphics call for attack
 		for (Pokemon pokemon : enemies){
-			if (canAttackEnemy(enemies.pokemon.getlocation())){
+			if (canAttackEnemy(pokemon.getLocation())){
 				//TODO Attack enemy with graphics commands
 				// Figure out how to implement the fireRate in here??
 				pokemon.incomingAttack(super.getAttackPower());
-			}
-		}
+				/*
+				 * After we found an enemy and attacked we then pause the thread 
+				 * for for a shot per a second.  The thread counts time in
+				 * milliseconds so 1 sec = 1000 milliseconds with 3 shots per a sec
+				 * we get a pause of 333 milliseconds for each shot
+				 *               1000 milliseconds
+				 * Pause time =   ________________
+				 * 			(	   units of fire    )
+				 * 			(         ---------     )
+				 * 					  second
+				 */
+				try {
+				    Thread.sleep(1000/this.getFireRate());                 //1000 milliseconds is one second.
+				} catch(InterruptedException ex) {
+				    Thread.currentThread().interrupt();
+				}
+			}// end if
+		} // end for loop
 		return 0;
 	}
 
