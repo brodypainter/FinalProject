@@ -1,5 +1,6 @@
 package GUI;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -55,6 +56,7 @@ public class MainMenu extends JFrame implements WindowListener
 		addComponentListener(new resizeListener());
 		ImageIcon bgIcon = createImageIcon("/images/mainMenuBackground.png");
 		bg = bgIcon.getImage();
+		//bg = (new ImageIcon("/images/pikachuDown.gif")).getImage();
 		orig = bg;
 		
 		singlePlayer = new JButton("Single Player");
@@ -64,7 +66,11 @@ public class MainMenu extends JFrame implements WindowListener
 		settings = new JButton("Settings");
 		settings.setBounds(this.getWidth()/4, (this.getHeight()*3)/5, this.getWidth()/2, this.getHeight()/10);
 		
+		JLabel title = new JLabel("Pokemon Tower Defense");
+		title.setForeground(Color.WHITE);
+		title.setBounds(600, 100, 100, 100);
 		
+		this.add(title);
 		this.add(singlePlayer);
 		this.add(multiPlayer);
 		this.add(settings);
@@ -103,7 +109,6 @@ public class MainMenu extends JFrame implements WindowListener
 	{
 		public void componentResized(ComponentEvent arg0)
 		{
-			
 			bg = orig.getScaledInstance(frame.getSize().width, frame.getSize().height, Image.SCALE_FAST);
 			singlePlayer.setBounds(frame.getWidth()/4, frame.getHeight()/5, frame.getWidth()/2, frame.getHeight()/10);
 			multiPlayer.setBounds(frame.getWidth()/4, (frame.getHeight()*2)/5, frame.getWidth()/2, frame.getHeight()/10);
@@ -126,11 +131,10 @@ public class MainMenu extends JFrame implements WindowListener
 	public void paint(Graphics g)
 	{
 		super.paint(g);
-		Insets insets = getInsets();
-		g.drawImage(bg, insets.left, insets.top, this);
-		multiPlayer.grabFocus();
-		settings.grabFocus();
-		singlePlayer.grabFocus();
+		g.drawImage(bg, 0, 0, this);
+		multiPlayer.repaint();
+		settings.repaint();
+		singlePlayer.repaint();
 	}
 
 }
