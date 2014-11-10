@@ -63,5 +63,15 @@ public abstract class Pokemon implements Serializable{
 	
 	public void damage(int hplost){
 		Health = Health - hplost;
+		if(Health <= 0){
+			dies();
+		}
+	}
+	
+	public void dies(){
+		map.gainedGold(Worth);
+		map.removeDeadEnemy(Location, this);
+		//Close thread/delete enemy and its animations as well...
+		
 	}
 }
