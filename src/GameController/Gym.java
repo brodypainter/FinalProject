@@ -5,14 +5,46 @@ import java.io.Serializable;
 import java.util.ArrayList;
 /**
  * 
- * @author Max
+ * @author Max Justice
  * This is the tower abstract class for the 3 or more types of towers we will have in our
  * Pokemon themed tower defense game.  We need the towerName which is the gym type.  Every
  * tower will have an attack level, radius with which to attack and amount of Firerate that
  * can be displayed in Seconds.  All gyms currently start at level one and can go up for 
  * Infinity or until it changes.  Each tower will also have a cost associated with it, but
- * this will be determined by the concrete type of the gym
- *
+ * this will be determined by the concrete type of the gym.
+ * 
+ * Instance Variables:
+ * String TowerName 	- Name of the gym
+ * Int RadiusPxls		- Radius of attack in pixels.   Can't be less than zero
+ * Int AttackPts		- The attack power of the gym.  Can't be less that zero.
+ * Int FireRateSecs		- The amount of shots that can be fired per second.  Can't be less than zero.
+ * Int Level			- The initial level is 1
+ * Point BoardLocation	- The board location stores where the tower is stored
+ * String GymOwner		- The gym owner is the owner of the Gym
+ * String ImageURL		- This is the string that contains the URL to the image.  It allows easy server-client transfer
+ * int Modifier			- this variable has yet to be determined what is used for
+ * 
+ * Abstract Methods:
+ * int AttackEnemy(ArrayList<Pokemon> enemies)  - attack algorithm
+ * boolean setModifer()							- the modifier to what ever we want it to be
+ * boolean getModifer()							- get the current state of the modifier
+ * 
+ * Methods:
+ * boolean setPlaceOnBoard (Point x)
+ * boolean canAttackEnemy(Point EnemysLocation)
+ * int getCurrentLevel()
+ * String getGymName()
+ * int getFireRate()
+ * Boolean setFireRate (int fireRate)
+ * int getAttackPower()
+ * boolean setAttackPower(int attackPower)
+ * boolean levelUp()
+ * String getOwnerName()
+ * String getImageURL()
+ * int getAttackRadius()
+ * boolean modifyAttackRadius()
+ * boolean levelIncrease()
+ * Point getPosition();
  */
 
 public abstract class Gym implements Serializable{
@@ -51,7 +83,7 @@ public abstract class Gym implements Serializable{
 	 * @return
 	 */
 	
-	// attack an enemy!!!  this is dependent on the Gym
+	// attack an enemy!!!  this is could be dependent on the Gym
 	public abstract int AttackEnemy(ArrayList<Pokemon> enemies);
 	
 	// a modifier method that might be used later on and is dependent on the Gyms Attributes
@@ -85,6 +117,18 @@ public abstract class Gym implements Serializable{
 			return true;
 		return false;
 	} // end checkBuy*/
+	
+	/**
+	 * Level Up is a per
+	 * @return
+	 */
+	public abstract boolean levelUp();/*{
+		this.Level++;
+		this.AttackPts += 5;
+		this.RadiusPxls += 25;
+		this.FireRateSecs++;
+		return true;
+	}*/
 	
 	/**
 	 * 
@@ -158,4 +202,37 @@ public abstract class Gym implements Serializable{
 		return true;
 	}
 	
+	/**
+	 * Changes the attack radius of the tower.  If the value is negative, or go below 25 it sets the radius at 25
+	 * @param radius
+	 * @return true that the radius was modified
+	 */
+	public boolean modifyAttackRadius(int radius){
+		int newRadius = this.RadiusPxls + radius;
+		if (newRadius < 25){
+			newRadius = 25;
+		}
+		this.RadiusPxls = newRadius;
+		return true;
+		
+	}
+	
+	// returns the attack radius of the tower
+	public int getAttackRadius(){
+		return this.RadiusPxls;
+	}
+	
+	// returns the image URL
+	public String getImageURL(){
+		 return this.ImageURL;
+	 }
+	
+	public boolean levelIncrease(){
+		this.Level++;
+		return true;
+	}
+	
+	public Point getPosition(){
+		return this.BoardLocation;
+	}
 }

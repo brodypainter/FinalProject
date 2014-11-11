@@ -8,9 +8,39 @@ import java.io.Serializable;
  * This is our Enemy class called Pokemon.  It our enemy abstract class containg the attributes
  * shared across enemies.  It calls the constructor which initializes health, attack and defense
  * power.  It also declares the worth of the pokemon that the player wins when the pokemon
- * dies.  
+ * dies.
+ * 
+ * NOTE: A POINT LOCATION IS NOT DECLARED BY DEFAULT.  MEANING IF YOU DON'T CALL 
+ * SETPOINT() THE POKEMON WILL NOT BE PLACED ON THE BOARD
+ * 
+ * TODO figure out the speed of the pokemon and its units.  Figure out other methods that might be needed.
  * @author Max Justice
- *
+ * 
+ * Instance Variables
+ * int Health			-Stores the health of the pokemon
+ * int AttackPower		-stores the attack power though this might be unused
+ * int Defense			- the defense of the pokemon.  it used to calculate the attack power
+ * int Speed			- the speed of the pokemon on how fast it can walk.  The units are yet to be determined
+ * String Pokemon		- this is jus the name of the pokemon
+ * int Worth			- this is how much the pokemon is worth when it is killed
+ * Point Location		- this gets the current location of the pokemon on the board as a Point
+ * String imageURL		- this gets the image URL for the Pokemon
+ * 
+ * Abstract Methods
+ * None
+ * 
+ * Methods
+ * Point getLocation()			- get the location
+ * boolean setLocation(Point x)	- set the location as it moves
+ * int getMoney()				- this gets the value the pokemon has
+ * String getPokemon()			- get pokemon name
+ * int getAttackPower()
+ * boolean isDead()
+ * boolean incomingAttack(int incomingAttack)
+ * int getSpeed()
+ * boolean setSpeed(int speed)
+ * String getImageURL()
+ * 
  */
 public abstract class Pokemon implements Serializable{
 	private int Health;
@@ -118,5 +148,23 @@ public abstract class Pokemon implements Serializable{
 	 */
 	public String getImageURL(){
 		return this.imageURL;
+	}
+	
+	/**
+	 * Increase the defense of the pokemon.  If the defense gets below 0, defense is set to default
+	 * of 0 to avoid issues in attack
+	 * @param defense
+	 * @return
+	 */
+	public boolean increaseDefense(int defense){
+		int newDefense = this.Defense + defense;
+		if (newDefense < 0)
+			newDefense = 0;
+		this.Defense = newDefense;
+		return true;
+	}
+	
+	public int getHealth(){
+		return this.Health;
 	}
 }

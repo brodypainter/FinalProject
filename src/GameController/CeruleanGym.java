@@ -4,8 +4,19 @@ import java.util.ArrayList;
 
 /**
  * This is a concrete gym type that extends Gym and Implements serializable
- * @author brennan
- *
+ * @author Max Justice
+ * 
+ * instance variables
+ * final int Cost = 300; 		- these establishes the Gym as a cost of 300
+ * 
+ * methods
+ * Constructor declares a the name of the player and a few other
+ * ArrayList<Pokemon> AttackEnemy(ArrayList<Pokemon> enemies)
+ * setModifier
+ * getModifer
+ * boolean increaseFireRate(int amountToIncrease)
+ *  boolean checkBuy(int PlayerCurrency)
+ *  boolean levelUp()
  */
 public class CeruleanGym extends Gym{
 
@@ -40,11 +51,17 @@ public class CeruleanGym extends Gym{
 	@Override
 	public int AttackEnemy(ArrayList<Pokemon> enemies) {
 		//TODO is set up the graphics call for attack
+		while (!enemies.isEmpty()){
 		for (Pokemon pokemon : enemies){
 			if (canAttackEnemy(pokemon.getLocation())){
 				//TODO Attack enemy with graphics commands
 				// Figure out how to implement the fireRate in here??
 				pokemon.incomingAttack(super.getAttackPower());
+				System.out.println("Health" + pokemon.getHealth());
+				if (pokemon.isDead())  		     // if it is dead remove it
+					enemies.remove(pokemon);	 // remove to pokemon from list
+				System.out.println(enemies.size());
+				
 				/*
 				 * After we found an enemy and attacked we then pause the thread 
 				 * for for a shot per a second.  The thread counts time in
@@ -63,6 +80,7 @@ public class CeruleanGym extends Gym{
 				}
 			}// end if
 		} // end for loop
+		}// end while loop
 		return 0;
 	}
 
@@ -95,5 +113,14 @@ public class CeruleanGym extends Gym{
 			return true;
 		return false;
 	} // end checkBuy
+
+	@Override
+	public boolean levelUp() {
+		this.levelIncrease(); 		// increases the leve by one
+		this.setAttackPower(5); 	// increase attack power by 5 poins
+		this.modifyAttackRadius(25);// increase attack radius to 25 pixels
+		this.increaseFireRate(1); 	// increase the fire rate by one
+		return true;
+	}
 
 }
