@@ -123,4 +123,9 @@ public class Tile implements Serializable{
 		public void setMap(Map map) {
 			this.map = map;
 		}
+
+		public void removeGym() {
+			gymTower = null;
+			containsGym = false;
+		}
 }

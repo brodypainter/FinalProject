@@ -129,12 +129,23 @@ public abstract class Map implements Serializable{
 	
 	public boolean addTower(Gym gym, Point location){
 		if(!grid[location.x][location.y].containsGym()){
-			gym.setPlaceOnBoard(x)
+			gym.setPlaceOnBoard(location);
+			towers.add(gym);
 		return grid[location.x][location.y].setGym(gym);
 		}else{
 			return false;
 		}
-		
+	}
+	
+	//Not implemented yet, could pass either just the tower, or the tower's location on
+	//the grid, whichever is easier. Could also have it automatically add gold to player
+	//assuming we only use this method when tower is being resold.
+	public void removeTower(Gym gym){
+		Point p = gym.getPosition();
+		grid[p.x][p.y].removeGym();
+		towers.remove(gym);
+		//If tower is being resold for $ we could figure out how much money to send
+		//to Player object and do so here as well
 	}
 	
 	
