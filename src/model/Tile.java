@@ -51,7 +51,7 @@ public class Tile implements Serializable{
 		}
 		
 		public boolean setGym(Gym tower){
-			if(!containsGym){
+			if(!containsGym && !partOfPath){
 			containsGym = true;
 			this.gymTower = tower;
 			return true;
