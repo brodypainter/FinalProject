@@ -84,6 +84,7 @@ public abstract class Map implements Serializable{
 		currentEnemies = 0;
 		setPath();
 		setTilesMap();
+		player.setMap(this);
 		enemies = new ArrayList<Pokemon>();
 		towers = new ArrayList<Gym>();
 	}
@@ -218,8 +219,6 @@ public abstract class Map implements Serializable{
 		}
 	}
 	
-	
-	
 	/**
 	 * Removes a Gym tower from the Map. Unfinished, may be useful for resale feature.
 	 * @param gym The Gym tower to be removed.
@@ -234,4 +233,12 @@ public abstract class Map implements Serializable{
 		//If tower is being resold for $ we could figure out how much money to send
 		//to Player object and do so here as well
 	}
+	
+	//Maybe we should add methods that each Gym tower running in their own thread would
+	//be able to call every x sec/atk which would give them access to the enemies list to look
+	//for nearby in range target-able enemies, and then attack them?
+	
+	
+	
+	
 }
