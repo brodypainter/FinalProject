@@ -4,6 +4,8 @@ import java.awt.Image;
 import java.awt.Point;
 import java.io.Serializable;
 
+import model.Map;
+
 /**
  * This is our Enemy class called Pokemon.  It our enemy abstract class containg the attributes
  * shared across enemies.  It calls the constructor which initializes health, attack and defense
@@ -25,6 +27,7 @@ import java.io.Serializable;
  * int Worth			- this is how much the pokemon is worth when it is killed
  * Point Location		- this gets the current location of the pokemon on the board as a Point
  * String imageURL		- this gets the image URL for the Pokemon
+ * Map map				-The map on which the pokemon is placed
  * 
  * Abstract Methods
  * None
@@ -51,6 +54,7 @@ public abstract class Pokemon implements Serializable{
 	private int Worth;
 	private Point Location;
 	private String imageURL;
+	private Map map;
 	
 	/**
 	 * The constructor for Pokemon it takes the following variables
@@ -166,5 +170,15 @@ public abstract class Pokemon implements Serializable{
 	
 	public int getHealth(){
 		return this.Health;
+	}
+	
+	/**
+	 * Sets the pokemon's map instance variable, method to be called by the Map that it is spawned on
+	 * 
+	 * @param map the map on which the enemy is
+	 */
+	public void setMap(Map map) {
+		this.map = map;
+		
 	}
 }

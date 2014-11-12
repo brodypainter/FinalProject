@@ -3,10 +3,12 @@ package model;
 import java.awt.Image;
 import java.awt.Point;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 import model.Tile;
 import client.Player;
+import GameController.Gym;
 import GameController.Pokemon;
 
 //Created Map class hopefully in right folder ....Test comment PWH
@@ -31,6 +33,8 @@ public abstract class Map implements Serializable{
 	private String mapType; //A description of the map level, can be used for theme differentiation
 	private int mapTypeCode; //A code # to differentiate each level
 	private Player player; //The associated player object for this map
+	private ArrayList<Pokemon> enemies; //A list of all the enemies currently on the map
+	private ArrayList<Gym> towers; //A list of all the towers currently placed on the map
 	
 	public Map(Tile[][] gridDimensions, LinkedList<Point> path, String mapType, Image background, int mapTypeCode, Player player){
 		grid = gridDimensions;
@@ -42,6 +46,8 @@ public abstract class Map implements Serializable{
 		currentEnemies = 0;
 		setPath();
 		setTilesMap();
+		enemies = new ArrayList<Pokemon>();
+		towers = new ArrayList<Gym>();
 	}
 	
 	private void setTilesMap() {
@@ -74,6 +80,7 @@ public abstract class Map implements Serializable{
 		enemy.setMap(this);
 		grid[firstPathTile.x][firstPathTile.y].addPokemon(enemy);
 		enemy.setLocation(firstPathTile);
+		enemies.add(enemy);
 		currentEnemies++;
 		
 		
@@ -104,6 +111,7 @@ public abstract class Map implements Serializable{
 	
 	public void removeDeadEnemy(Point location, Pokemon enemy){
 		grid[location.x][location.y].removePokemon(enemy);
+		enemies.remove(enemy);
 		currentEnemies--;
 	}
 	
@@ -117,6 +125,16 @@ public abstract class Map implements Serializable{
 		//called by any enemy Pokemon that dies
 		//Map just passes on this information to the Player object.
 		player.gainMoney(goldGained);
+	}
+	
+	public boolean addTower(Gym gym, Point location){
+		if(!grid[location.x][location.y].containsGym()){
+			gym.setPlaceOnBoard(x)
+		return grid[location.x][location.y].setGym(gym);
+		}else{
+			return false;
+		}
+		
 	}
 	
 	

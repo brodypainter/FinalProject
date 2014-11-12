@@ -108,7 +108,7 @@ public abstract class Gym implements Serializable{
 	/**
 	 * 
 	 * @param PlayerCurrency is the incoming total amount of currency the player has
-	 * @return Boolen
+	 * @return Boolean
 	 * It compares it with the cost of the Gym and returns true if the player has the money
 	 * to buy it with else false
 	 */
@@ -131,8 +131,10 @@ public abstract class Gym implements Serializable{
 	}*/
 	
 	/**
-	 * 
-	 * @param x just a point with where the gym was set on the board
+	 * Sets the location of the gym on the board. Point.x = the -y coordinate, Point.y = the x coordinate
+	 * from a Euclidian coordinate view.
+	 * @param x just a point with where the gym was set on the board.
+	 *
 	 * @return
 	 */
 	public boolean setPlaceOnBoard (Point x){
@@ -155,6 +157,9 @@ public abstract class Gym implements Serializable{
 		Double Distance = Math.sqrt( Math.pow((EnemysLocation.getX() - this.BoardLocation.getX()), 2) +
 				Math.pow((EnemysLocation.getY() - this.BoardLocation.getY()), 2 ));
 		//System.out.println("Distance fromCanAttackEnemy is %.2f", Distance);
+		
+		//TODO:Currently we are only moving the enemies/towers in 1x1 discrete squares on model
+		//so RadiusPxls should be replaced by something like "squareRange" for now. -PWH
 		if(Distance <= this.RadiusPxls){
 			return true;
 		}

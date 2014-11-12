@@ -15,6 +15,8 @@ public class Player implements Serializable{
 	private int money;
 	private int healthPoints;
 	
+	//May possibly want to include Map and Level instance variables for ease of save state
+	
 	public Player(String name, int money, int healthPoints){
 		this.name = name;
 		this.money = money;
@@ -49,10 +51,16 @@ public class Player implements Serializable{
 	
 	public void loseHealth(int hpLost) {
 		healthPoints = healthPoints - hpLost;
+		if(healthPoints < 0){
+			healthPoints = 0;
+		}
 	}
 	
 	public void spendMoney(int moneySpent){
 		money = money - moneySpent;
+		if(money < 0){
+			money = 0;
+		}
 	}
 	
 	public boolean isAlive(){
