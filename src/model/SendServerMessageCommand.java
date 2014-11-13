@@ -2,6 +2,13 @@ package model;
 
 import server.GameServer;
 
+/**
+ * This class is a Command used to send a text String from the GameClient to the GameServer. This class is used for sending
+ * chat messages to the server, from the client.
+ * 
+ * @author brodypainter
+ *
+ */
 public class SendServerMessageCommand extends Command<GameServer>{
 
 	private static final long serialVersionUID = 4504506147509198509L;
@@ -9,7 +16,7 @@ public class SendServerMessageCommand extends Command<GameServer>{
 	
 	/**
 	 * 
-	 * @param message A message to be sent to the server for 
+	 * @param message A message to be sent to the server for chat purposes
 	 */
 	public SendServerMessageCommand(String message){
 		this.message = message;

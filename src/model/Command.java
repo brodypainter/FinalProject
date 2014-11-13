@@ -3,10 +3,7 @@ package model;
 import java.io.Serializable;
 
 /**
- *	This abstract class defines a serializable command that can be sent
- * 	and executed on either a client or server.
- *  
- *  @author Gabriel Kishi
+ * This is an abstract class for a serializable Command Object that will be used to send commands to some type of receiver
  */
 
 public abstract class Command<T> implements Serializable {
@@ -15,7 +12,7 @@ public abstract class Command<T> implements Serializable {
 	/**
 	 * Executes the command on the given argument
 	 * 
-	 * @param executeOn	Object to execute command on
+	 * @param executeOn	Object to execute the command on
 	 */
 	public abstract void execute(T executeOn);
 }
