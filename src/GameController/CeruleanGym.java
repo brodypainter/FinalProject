@@ -18,7 +18,7 @@ import java.util.ArrayList;
  *  boolean checkBuy(int PlayerCurrency)
  *  boolean levelUp()
  */
-public class CeruleanGym extends Gym{
+public class CeruleanGym extends Tower{
 
 	// the Cerulean Gym cost 300 but can be changed if desired
 	public static final int Cost = 300;
@@ -35,7 +35,7 @@ public class CeruleanGym extends Gym{
 
 	/**
 	 * (non-Javadoc)
-	 * @see GameController.Gym#AttackEnemy(java.util.ArrayList)
+	 * @see GameController.Tower#AttackEnemy(java.util.ArrayList)
 	 * Attack Enemy algorithm is simply.  It is passed the arraylist
 	 * of current enemies on the board that are alive.  It then runs a 
 	 * for loop for each enemy getting their current point on the board
@@ -49,17 +49,17 @@ public class CeruleanGym extends Gym{
 	 * add currency to the player.
 	 */
 	@Override
-	public int AttackEnemy(ArrayList<Pokemon> enemies) {
+	public int AttackEnemy(ArrayList<Enemy> enemies) {
 		//TODO is set up the graphics call for attack
 		while (!enemies.isEmpty()){
-		for (Pokemon pokemon : enemies){
-			if (canAttackEnemy(pokemon.getLocation())){
+		for (Enemy enemy : enemies){
+			if (canAttackEnemy(enemy.getLocation())){
 				//TODO Attack enemy with graphics commands
 				// Figure out how to implement the fireRate in here??
-				pokemon.incomingAttack(super.getAttackPower());
-				System.out.println("Health" + pokemon.getHealth());
-				if (pokemon.isDead())  		     // if it is dead remove it
-					enemies.remove(pokemon);	 // remove to pokemon from list
+				enemy.incomingAttack(super.getAttackPower());
+				System.out.println("Health" + enemy.getHealth());
+				if (enemy.isDead())  		     // if it is dead remove it
+					enemies.remove(enemy);	 // remove to pokemon from list
 				System.out.println(enemies.size());
 				
 				/*

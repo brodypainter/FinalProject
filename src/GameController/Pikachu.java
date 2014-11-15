@@ -8,7 +8,7 @@ package GameController;
  * @author Max Justice
  *
  */
-public class Pikachu extends Pokemon{
+public class Pikachu extends Enemy{
 
 	/**
 	 * The constructor for Pokemon it takes the following variables

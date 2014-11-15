@@ -12,14 +12,14 @@ import server.GameServer;
 public class SendServerTowerCommand extends Command<GameServer>{
 
 	private static final long serialVersionUID = 4504506147509198509L;
-	private String message;
+	private Tower tower;
 	
 	/**
 	 * 
 	 * @param message A message to be sent to the server for chat purposes
 	 */
-	public SendServerTowerCommand(String message){
-		this.message = message;
+	public SendServerTowerCommand(Tower tower){
+		this.tower = tower;
 	}
 
 	@Override

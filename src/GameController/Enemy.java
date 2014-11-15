@@ -45,7 +45,7 @@ import model.Map;
  * String getImageURL()
  * 
  */
-public abstract class Pokemon implements Serializable{
+public abstract class Enemy implements Serializable{
 	private int Health;
 	private int AttackPower;
 	private int Defense;
@@ -66,7 +66,7 @@ public abstract class Pokemon implements Serializable{
 	 * @param worth the worth of the monster as it is created
 	 * @param Image
 	 */
-	public Pokemon (int health, int attackPower, int defense, int speed, String name, int worth, String Image){
+	public Enemy (int health, int attackPower, int defense, int speed, String name, int worth, String Image){
 		this.Health = health;
 		this.AttackPower = attackPower;
 		this.Defense = defense;

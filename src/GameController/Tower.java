@@ -47,7 +47,7 @@ import java.util.ArrayList;
  * Point getPosition();
  */
 
-public abstract class Gym implements Serializable{
+public abstract class Tower implements Serializable{
 	private String TowerName;
 	private int AttackPts;
 	private int RadiusPxls;
@@ -69,7 +69,7 @@ public abstract class Gym implements Serializable{
 	 * @param PlayersName is the name of the player who owns the tower (Might be unnecessary)
 	 * This is our constructor
 	 */
-	public Gym (String Name, int Attack, int Radius, int FireRateSec, String PlayersName, String Image){
+	public Tower (String Name, int Attack, int Radius, int FireRateSec, String PlayersName, String Image){
 		this.TowerName = Name;
 		this.AttackPts = Attack;
 		this.RadiusPxls = Radius;
@@ -84,7 +84,7 @@ public abstract class Gym implements Serializable{
 	 */
 	
 	// attack an enemy!!!  this is could be dependent on the Gym
-	public abstract int AttackEnemy(ArrayList<Pokemon> enemies);
+	public abstract int AttackEnemy(ArrayList<Enemy> enemies);
 	
 	// a modifier method that might be used later on and is dependent on the Gyms Attributes
 	public abstract boolean setModifer();

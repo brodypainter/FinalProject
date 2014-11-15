@@ -2,8 +2,8 @@ package model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import GameController.Gym;
-import GameController.Pokemon;
+import GameController.Tower;
+import GameController.Enemy;
 
 /**
  * This class creates Tile objects which represent single squares in the gameboard grid
@@ -54,8 +54,8 @@ public class Tile implements Serializable{
 	private boolean containsEnemy;
 	private boolean firstPathTile;
 	private boolean lastPathTile;
-	private Gym gymTower;
-	private ArrayList<Pokemon> enemies;
+	private Tower gymTower;
+	private ArrayList<Enemy> enemies;
 	
 	
 		public Tile(){
@@ -65,7 +65,7 @@ public class Tile implements Serializable{
 			firstPathTile = false;
 			lastPathTile = false;
 			gymTower = null;
-			enemies = new ArrayList<Pokemon>();
+			enemies = new ArrayList<Enemy>();
 		}
 
 		public void setAsPath(){
@@ -80,7 +80,7 @@ public class Tile implements Serializable{
 			return containsGym;
 		}
 		
-		public boolean setGym(Gym tower){
+		public boolean setGym(Tower tower){
 			if(!containsGym && !partOfPath){
 			containsGym = true;
 			this.gymTower = tower;
@@ -90,7 +90,7 @@ public class Tile implements Serializable{
 			}
 		}
 		
-		public Gym getGym(){
+		public Tower getGym(){
 			if(containsGym){
 			return gymTower;
 			}else{
@@ -102,7 +102,7 @@ public class Tile implements Serializable{
 			return containsEnemy;
 		}
 		
-		public void addPokemon(Pokemon enemyPoke){
+		public void addPokemon(Enemy enemyPoke){
 			enemies.add(enemyPoke);
 			containsEnemy = true;
 			
@@ -117,7 +117,7 @@ public class Tile implements Serializable{
 			}
 		}
 		
-		public void removePokemon(Pokemon enemyPoke){
+		public void removePokemon(Enemy enemyPoke){
 			if(containsEnemy){
 			enemies.remove(enemyPoke);
 			}
@@ -126,7 +126,7 @@ public class Tile implements Serializable{
 			}
 		}
 		
-		public ArrayList<Pokemon> getPokemon(){
+		public ArrayList<Enemy> getPokemon(){
 			return enemies;
 		}
 

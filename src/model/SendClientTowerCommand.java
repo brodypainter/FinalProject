@@ -13,14 +13,14 @@ import client.GameClient;
 public class SendClientTowerCommand extends Command<GameClient>{
 
 	private static final long serialVersionUID = 4413135669815516633L;
-	private String message;
+	private Tower tower;
 	
 	/**
 	 * 
 	 * @param message A message to be sent to the server for 
 	 */
-	public SendClientTowerCommand(String message){
-		this.message = message;
+	public SendClientTowerCommand(Tower tower){
+		this.tower = tower;
 	}
 
 	/**

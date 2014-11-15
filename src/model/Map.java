@@ -8,8 +8,8 @@ import java.util.LinkedList;
 
 import model.Tile;
 import client.Player;
-import GameController.Gym;
-import GameController.Pokemon;
+import GameController.Tower;
+import GameController.Enemy;
 
 /**
  * This is the abstract Map class that all our concrete maps for each level will
@@ -61,8 +61,8 @@ public abstract class Map implements Serializable{
 	private String mapType; //A description of the map level, can be used for theme differentiation
 	private int mapTypeCode; //A code # to differentiate each level
 	private Player player; //The associated player object for this map
-	private ArrayList<Pokemon> enemies; //A list of all the enemies currently on the map
-	private ArrayList<Gym> towers; //A list of all the towers currently placed on the map
+	private ArrayList<Enemy> enemies; //A list of all the enemies currently on the map
+	private ArrayList<Tower> towers; //A list of all the towers currently placed on the map
 	
 	
 	/**
@@ -85,8 +85,8 @@ public abstract class Map implements Serializable{
 		setPath();
 		setTilesMap();
 		player.setMap(this);
-		enemies = new ArrayList<Pokemon>();
-		towers = new ArrayList<Gym>();
+		enemies = new ArrayList<Enemy>();
+		towers = new ArrayList<Tower>();
 	}
 	
 	/**
@@ -128,7 +128,7 @@ public abstract class Map implements Serializable{
 	 * @param enemy The pokemon to be spawned
 	 * @return boolean, true if successful, false if not
 	 */
-	public boolean spawnEnemy(Pokemon enemy){
+	public boolean spawnEnemy(Enemy enemy){
 		enemy.setMap(this);
 		grid[firstPathTile.x][firstPathTile.y].addPokemon(enemy);
 		enemy.setLocation(firstPathTile);
@@ -150,7 +150,7 @@ public abstract class Map implements Serializable{
 	 * @param enemy The Pokemon whose position is to be updated
 	 * @return true if the movement was successful, false if not.
 	 */
-	public boolean updateEnemyPosition(Pokemon enemy){
+	public boolean updateEnemyPosition(Enemy enemy){
 		
 		//Each Pokemon running in its own thread will call this method, passing a reference
 		//to itself, to make Map update its position when appropriate. Can only move in
@@ -175,7 +175,7 @@ public abstract class Map implements Serializable{
 	 * @param location The enemy Pokemon's location at death
 	 * @param enemy The dead enemy Pokemon to remove from the Map
 	 */
-	public void removeDeadEnemy(Point location, Pokemon enemy){
+	public void removeDeadEnemy(Point location, Enemy enemy){
 		grid[location.x][location.y].removePokemon(enemy);
 		enemies.remove(enemy);
 		currentEnemies--;
@@ -204,16 +204,16 @@ public abstract class Map implements Serializable{
 	
 	/**
 	 * Attempts to add a Gym tower to a given location on the map.
-	 * @param gym The Gym tower to be added.
+	 * @param tower The Gym tower to be added.
 	 * @param location The location to add the Gym tower to.
 	 * @return true if successful (no preexisting tower there and not part of path)
 	 * or false if tower cannot be placed.
 	 */
-	public boolean addTower(Gym gym, Point location){
+	public boolean addTower(Tower tower, Point location){
 		if(!grid[location.x][location.y].containsGym()){
-			gym.setPlaceOnBoard(location);
-			towers.add(gym);
-		return grid[location.x][location.y].setGym(gym);
+			tower.setPlaceOnBoard(location);
+			towers.add(tower);
+		return grid[location.x][location.y].setGym(tower);
 		}else{
 			return false;
 		}
@@ -221,15 +221,15 @@ public abstract class Map implements Serializable{
 	
 	/**
 	 * Removes a Gym tower from the Map. Unfinished, may be useful for resale feature.
-	 * @param gym The Gym tower to be removed.
+	 * @param tower The Gym tower to be removed.
 	 */
 	//Not implemented yet, could pass either just the tower, or the tower's location on
 	//the grid, whichever is easier. Could also have it automatically add gold to player
 	//assuming we only use this method when tower is being resold.
-	public void removeTower(Gym gym){
-		Point p = gym.getPosition();
+	public void removeTower(Tower tower){
+		Point p = tower.getPosition();
 		grid[p.x][p.y].removeGym();
-		towers.remove(gym);
+		towers.remove(tower);
 		//If tower is being resold for $ we could figure out how much money to send
 		//to Player object and do so here as well
 	}

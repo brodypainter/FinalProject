@@ -9,12 +9,14 @@ import org.junit.Test;
 
 import GameController.*;
 
-public class GymTest {
+public class TowerTest {
 
 	public static void main (String args[]){}
 
 	@Test
 	public void testGetters(){
+		
+		//TODO change below code to reflect refactor from Gym to Tower
 		
 		//super("Cerulean Gym", 25, 150, 3, PlayersName,"ImageURL Here");
 		//String Name, int Attack, int Radius, int FireRateSec, String PlayersName
@@ -48,7 +50,7 @@ public class GymTest {
 		
 		gym.setPlaceOnBoard(new Point (25,25));
 		
-		ArrayList<Pokemon> badguys = new ArrayList<Pokemon>();
+		ArrayList<Enemy> badguys = new ArrayList<Enemy>();
 		Pikachu pika1 = new Pikachu();
 		pika1.setLocation( new Point(5,5));
 		Pikachu pika2 = new Pikachu();

@@ -8,7 +8,7 @@ import org.junit.Test;
 
 import GameController.*;
 
-public class PokemonTest {
+public class EnemyTest {
 	
 	public static void main (String args[]){}
 	 /* Point getLocation()			- get the location
