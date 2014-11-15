@@ -4,13 +4,13 @@ import client.GameClient;
 
 
 /**
- * This class is a Command used to send a text String from the GameServer to the GameClient. This class is used for sending
- * chat messages and game status updates to the client, from the server.
+ * This class is a Command used to send a Tower object from the GameServer to the GameClient. This class is used for sending
+ * new towers in the server to the client, from the server.
  * 
  * @author brodypainter
  *
  */
-public class SendClientMessageCommand extends Command<GameClient>{
+public class SendClientTowerCommand extends Command<GameClient>{
 
 	private static final long serialVersionUID = 4413135669815516633L;
 	private String message;
@@ -19,7 +19,7 @@ public class SendClientMessageCommand extends Command<GameClient>{
 	 * 
 	 * @param message A message to be sent to the server for 
 	 */
-	public SendClientMessageCommand(String message){
+	public SendClientTowerCommand(String message){
 		this.message = message;
 	}
 

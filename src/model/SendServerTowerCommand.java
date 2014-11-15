@@ -3,8 +3,8 @@ package model;
 import server.GameServer;
 
 /**
- * This class is a Command used to send a text String from the GameClient to the GameServer. This class is used for sending
- * chat messages to the server, from the client.
+ * This class is a Command used to send a Tower object from the GameClient to the GameServer. This class is used for sending
+ * new towers that the client has placed to the server, from the client.
  * 
  * @author brodypainter
  *
