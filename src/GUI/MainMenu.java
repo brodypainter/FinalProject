@@ -34,12 +34,12 @@ public class MainMenu extends JFrame implements WindowListener
 	
 	public static void main(String[] args)
 	{
-		new MainMenu(); 
+		new MainMenu();
 	}
 	
 	public MainMenu()
 	{
-		setTitle("Pokemon Tower Defense");
+		setTitle("Pokemin Tower Defense");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setLayout(null);
 		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
@@ -172,7 +172,7 @@ public class MainMenu extends JFrame implements WindowListener
 	public void windowIconified(WindowEvent arg0){}
 	public void windowOpened(WindowEvent arg0){}
 	
-	public void paintComponent(Graphics g)
+	public void paint(Graphics g)
 	{
 		super.paint(g);
 		g.drawImage(bg, 0, 30, this);

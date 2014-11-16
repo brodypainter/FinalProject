@@ -4,12 +4,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.MouseInfo;
 import java.awt.Point;
-import java.awt.Rectangle;
 import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.MouseEvent;
@@ -18,21 +14,13 @@ import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.awt.event.WindowEvent;
-import java.awt.geom.Point2D;
 import java.net.URL;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.Timer;
 import javax.swing.UIManager;
-
-
-
-//Personal stuff:
-//Find grid coordinate of point: ((arg0.get!() - scrollLocation.!) * 20)/(bg.get!(this))
-
 
 public class GameView extends JFrame implements MouseListener, MouseWheelListener, MouseMotionListener
 {
@@ -41,29 +29,14 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 	Image origBG;
 	ImageIcon towerStoreBG;
 	Image towerStoreBGOrig;
-	JLabel selectedTowerFromStore;
 	JPanel board;
 	JPanel towerStorePanel;
 	Point scrollLocation;
 	Point scrollLast;
-	Point mouseLoc;
 	double viewScale = 1;
 	boolean repaintGUI = true;
-	boolean clickedTowerStore = false;
-	
-	int selectedTowerType;
-	
-	Image tower1Image;
-	Image tower2Image;
-	Image tower3Image;
-	Image tower4Image;
-	
-	double testSpriteProgress = 0;
-	
-	map1Path path;
 	
 	Image pik;
-	JLabel pikLabel;
 	
 	public static void main(String[] args)
 	{
@@ -76,7 +49,6 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
 		setBounds(screen.width/8, screen.height/8, (3*screen.width)/4, (3*screen.height)/4);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		setBackground(Color.BLUE);
 		setLayout(null);
 		setTitle("Pokemon Tower Defense - " + user);
 		addMouseListener(this);
@@ -101,9 +73,6 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 		//TODO: make this a variable, so that different maps can be used.
 		ImageIcon mapTemp = createImageIcon("/images/map1.png");
 		bg = (mapTemp.getImage()).getScaledInstance(getSize().width, (3*getSize().height)/4, Image.SCALE_SMOOTH);
-		mapTemp.setImage(bg);
-		JLabel labelTemp = new JLabel(mapTemp);
-		labelTemp.setBounds(0, 0, getSize().width, (3*getSize().height)/4);
 		
 		//Create and size the towerStore background image
 		towerStoreBG = createImageIcon("/images/towerStore.png");
@@ -112,65 +81,28 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 		JLabel temp = new JLabel(towerStoreBG);
 		temp.setBounds(0, 0, getSize().width, getSize().height/4);
 		towerStorePanel = new JPanel();
-		towerStorePanel.setLayout(null);
-		towerStorePanel.setBounds(0, (int) ((getSize().height)/2), getSize().width, getSize().height/4 );
+		towerStorePanel.setBounds(0, (int) ((2*getSize().height)/4), getSize().width, getSize().height/4 );
 		towerStorePanel.add(temp);
 		
 		//Create the panel for the game "board"
 		board = new JPanel();
 		board.setBounds(0,0,getSize().width, (3*getSize().height)/4);
-		board.setLayout(null);
-		board.add(labelTemp);
-		board.setBackground(Color.BLUE);
+		board.setBackground(Color.WHITE);
 		
-		selectedTowerFromStore = new JLabel(new ImageIcon(createImageIcon("/images/cuboneStatic.png").getImage().getScaledInstance(getSize().width/20, getSize().height/12, Image.SCALE_SMOOTH)));
-		selectedTowerFromStore.setBounds(0,0,getSize().width/20, getSize().height/12);
-		selectedTowerFromStore.setVisible(false);
-		
-		Timer timer = new Timer(50, new TimerListener());
-		timer.start();
-		pik = createImageIcon("/images/pikachuStatic.png").getImage().getScaledInstance(getSize().width/20, board.getSize().height/13, Image.SCALE_SMOOTH);
-		path = new map1Path();
-		
-		add(selectedTowerFromStore);
 		add(towerStorePanel);
-		add(board);
-		
 		frame = this;
 		repaint();
 		setVisible(true);
 	}
 	
-	
-	public void paintComponent(Graphics g)
+	public void paint(Graphics g)
 	{
 		super.paint(g);
 		board.repaint();
-		selectedTowerFromStore.repaint();
-		//towerStorePanel.repaint();
-		//g.drawImage(bg, scrollLocation.x, scrollLocation.y + 30, frame);
-		g.drawImage(pik,(int) ((path.getLocation(testSpriteProgress).x/20) * viewScale * board.getSize().width),(int) ((path.getLocation(testSpriteProgress).y/9) * viewScale * board.getSize().height) + 15, this);
-		//System.out.println("(" + (int) ((path.getLocation(testSpriteProgress).x/20) * viewScale * board.getSize().width) + ", " + (int) ((path.getLocation(testSpriteProgress).y/11) * viewScale * board.getSize().height) + ")");
 		System.out.println("Repainting");
-		if(clickedTowerStore)
-		{
-			if(selectedTowerFromStore != null)
-			{
-				//g.drawImage(selectedTowerFromStore, mouseLoc.x, mouseLoc.y, this);
-			}
-		}
-		//g.drawImage(tower1Image, (int) (getSize().width)/15 + 10,(int) ((3*getSize().height)/3.8) + 30, this);
-		
-		//Bounding boxes for dragging towers from tower store
-		g.drawRect((int) (getSize().width)/15 + 10,(int) ((3*getSize().height)/3.8) + 30, (int) (getSize().width / 9.5), getSize().height / 8);
-		g.drawRect((int) (2.6*getSize().width)/15 + 10,(int) ((3*getSize().height)/3.8) + 30, (int) (getSize().width / 9.5), getSize().height / 8);
-		//g.drawRect((int) (4.25*getSize().width)/15 + 10,(int) ((3*getSize().height)/3.8) + 30, (int) (getSize().width / 9.5), getSize().height / 8);
-		//g.drawRect((int) (5.85*getSize().width)/15 + 10,(int) ((3*getSize().height)/3.8) + 30, (int) (getSize().width / 9.5), getSize().height / 8);
-		//g.drawRect((int) (7.45*getSize().width)/15 + 10,(int) ((3*getSize().height)/3.8) + 30, (int) (getSize().width / 9.5), getSize().height / 8);
-		//g.drawRect((int) (9.05*getSize().width)/15 + 10,(int) ((3*getSize().height)/3.8) + 30, (int) (getSize().width / 9.5), getSize().height / 8);
-		//g.drawRect((int) (10.67*getSize().width)/15 + 10,(int) ((3*getSize().height)/3.8) + 30, (int) (getSize().width / 9.5), getSize().height / 8);
-		//g.drawRect((int) (12.3*getSize().width)/15 + 10,(int) ((3*getSize().height)/3.8) + 30, (int) (getSize().width / 9.5), getSize().height / 8);
-		//g.drawRect(0, 30, bg.getWidth(this)/20, bg.getHeight(this)/12);
+		repaintGUI = false;
+		g.drawImage(bg, scrollLocation.x, scrollLocation.y + 30, this);
+		towerStorePanel.repaint();
 	}
 
 	/**
@@ -192,23 +124,12 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 		}
 	}
 	
-	class TimerListener implements ActionListener
-	{
-		public void actionPerformed(ActionEvent arg0)
-		{
-			testSpriteProgress += 0.2;
-			repaint();
-		}
-	}
-	
 	/**
 	 * Simple enum for game type
 	 * @author Desone
 	 *
 	 */
 	enum gameType{SINGLE, MULTI}
-	
-	enum towerType{NORMAL,FIRE,WATER,ICE}
 	
 	/**
 	 * Listens for the window resizing, and scales elements as needed
@@ -219,39 +140,17 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 	{
 		public void componentResized(ComponentEvent arg0)
 		{
-			
-			tower1Image = createImageIcon("/images/cuboneStatic.png").getImage().getScaledInstance((int) (getSize().width / 9.5), getSize().height / 8,Image.SCALE_SMOOTH);
-			ImageIcon tower1Icon = new ImageIcon(tower1Image);
-			JLabel tower1temp = new JLabel(tower1Icon);
-			tower1temp.setBounds((int) (getSize().width/15),(int) (towerStorePanel.getSize().height/6), (int) (getSize().width / 9.5), getSize().height / 8);
-			
 			towerStorePanel.setBounds(0, (3*frame.getSize().height)/4, frame.getSize().width, frame.getSize().height/4);
 			towerStorePanel.removeAll();
 			towerStoreBG.setImage(towerStoreBGOrig.getScaledInstance(frame.getSize().width, frame.getSize().height/5, Image.SCALE_SMOOTH));
 			JLabel temp = new JLabel(towerStoreBG);
-			temp.setBounds(0, 0, frame.getSize().width, frame.getSize().height/5);
-			towerStorePanel.add(tower1temp);
+			temp.setBounds(scrollLocation.x, scrollLocation.y, frame.getSize().width, frame.getSize().height/5);
 			towerStorePanel.add(temp);
-			
-			selectedTowerFromStore.removeAll();
-			selectedTowerFromStore.setIcon(new ImageIcon(createImageIcon("/images/cuboneStatic.png").getImage().getScaledInstance(getSize().width/20, getSize().height/12, Image.SCALE_SMOOTH)));
-			//selectedTowerFromStore.setBounds(100, 100, selectedTowerFromStore.getWidth(), selectedTowerFromStore.getHeight());
-			//repaintGUI = true;
-			
-			
+			board.setBounds(scrollLocation.x, scrollLocation.y,(int) (frame.getSize().width * viewScale), (int) ((3*frame.getSize().height)/4 * viewScale));
 			ImageIcon mapTemp = createImageIcon("/images/map1.png");
-			bg = (mapTemp.getImage()).getScaledInstance((int) (getSize().width * viewScale), (int) ((3*getSize().height)/4 * viewScale), Image.SCALE_SMOOTH);
-			board.removeAll();
-			
-			mapTemp.setImage(bg);
-			JLabel labelTemp = new JLabel(mapTemp);
-			labelTemp.setBounds(0, 0,(int) (getSize().width * viewScale),(int) (viewScale * (3*getSize().height)/4));
-			
-			
-			board.add(labelTemp);
-			
-			board.setBounds(board.getX(), board.getY(), (int) (getSize().width * viewScale), (int) ((3*getSize().height)/4 * viewScale));
-			//repaint();
+			bg = (mapTemp.getImage()).getScaledInstance(getSize().width, (3*getSize().height)/4, Image.SCALE_SMOOTH);
+			//repaintGUI = true;
+			repaint();
 		}
 		public void componentShown(ComponentEvent arg0){}
 		public void componentHidden(ComponentEvent arg0){}
@@ -261,7 +160,6 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 	public void mouseClicked(MouseEvent arg0)
 	{
 		//Not used yet, will find grid location of click and bring up options for towers
-		
 	}
 	
 	/**
@@ -269,63 +167,6 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 	 */
 	public void mousePressed(MouseEvent arg0)
 	{
-		
-		if(arg0.getY() >= (3*getSize().height)/4)
-		{
-			clickedTowerStore = true;
-			System.out.println("Building a towa!");
-			Rectangle tower1 = new Rectangle(getSize().width/15 + 10,(int) ((3*getSize().height)/3.8) + 30, (int) (getSize().width / 9.5), getSize().height / 8);
-			if(tower1.contains(arg0.getPoint()))
-			{
-				System.out.println("Attempting to build first tower");
-				selectedTowerFromStore.setBounds(arg0.getX()-10, arg0.getY()-20, selectedTowerFromStore.getWidth(), selectedTowerFromStore.getHeight());
-				selectedTowerFromStore.setVisible(true);
-				selectedTowerType = NORMAL;
-				return;
-			}
-			Rectangle tower2 = new Rectangle((int)(2.6*getSize().width)/15 + 10,(int) ((3*getSize().height)/3.8) + 30, (int) (getSize().width / 9.5), getSize().height / 8);
-			if(tower2.contains(arg0.getPoint()))
-			{
-				System.out.println("Attempting to build second tower");
-				return;
-			}
-			Rectangle tower3 = new Rectangle((int)(4.25*getSize().width)/15 + 10,(int) ((3*getSize().height)/3.8) + 30, (int) (getSize().width / 9.5), getSize().height / 8);
-			if(tower3.contains(arg0.getPoint()))
-			{
-				System.out.println("Attempting to build third tower");
-				return;
-			}
-			Rectangle tower4 = new Rectangle((int)(5.85*getSize().width)/15 + 10,(int) ((3*getSize().height)/3.8) + 30, (int) (getSize().width / 9.5), getSize().height / 8);
-			if(tower4.contains(arg0.getPoint()))
-			{
-				System.out.println("Attempting to build fourth tower");
-				return;
-			}
-			Rectangle tower5 = new Rectangle((int)(7.45*getSize().width)/15 + 10,(int) ((3*getSize().height)/3.8) + 30, (int) (getSize().width / 9.5), getSize().height / 8);
-			if(tower5.contains(arg0.getPoint()))
-			{
-				System.out.println("Attempting to build fifth tower");
-				return;
-			}
-			Rectangle tower6 = new Rectangle((int)(9.05*getSize().width)/15 + 10,(int) ((3*getSize().height)/3.8) + 30, (int) (getSize().width / 9.5), getSize().height / 8);
-			if(tower6.contains(arg0.getPoint()))
-			{
-				System.out.println("Attempting to build sixth tower");
-				return;
-			}
-			Rectangle tower7 = new Rectangle((int)(10.67*getSize().width)/15 + 10,(int) ((3*getSize().height)/3.8) + 30, (int) (getSize().width / 9.5), getSize().height / 8);
-			if(tower7.contains(arg0.getPoint()))
-			{
-				System.out.println("Attempting to build seventh tower");
-				return;
-			}
-			Rectangle tower8 = new Rectangle((int)(12.3*getSize().width)/15 + 10,(int) ((3*getSize().height)/3.8) + 30, (int) (getSize().width / 9.5), getSize().height / 8);
-			if(tower8.contains(arg0.getPoint()))
-			{
-				System.out.println("Attempting to build eighth tower");
-				return;
-			}
-		}
 		scrollLast = arg0.getPoint();
 	}
 	
@@ -348,16 +189,6 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 		
 		ImageIcon mapTemp = createImageIcon("/images/map1.png");
 		bg = (mapTemp.getImage()).getScaledInstance((int) (getSize().width * viewScale), (int) ((3*getSize().height)/4 * viewScale), Image.SCALE_SMOOTH);
-		board.removeAll();
-		
-		mapTemp.setImage(bg);
-		JLabel labelTemp = new JLabel(mapTemp);
-		labelTemp.setBounds(0, 0,(int) (getSize().width * viewScale),(int) (viewScale * (3*getSize().height)/4));
-		
-		
-		board.add(labelTemp);
-		
-		board.setBounds(board.getX(), board.getY(), (int) (getSize().width * viewScale), (int) ((3*getSize().height)/4 * viewScale));
 		repaint();
 	}
 
@@ -366,53 +197,17 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 	 */
 	public void mouseDragged(MouseEvent arg0)
 	{
-		if(clickedTowerStore)
-		{
-			mouseLoc = arg0.getPoint();
-			selectedTowerFromStore.setBounds(mouseLoc.x - 10, mouseLoc.y - 20, selectedTowerFromStore.getWidth(), selectedTowerFromStore.getHeight());
-			repaint();
-			//System.out.println("Dragging selected tower to (" + mouseLoc.x + ", " + mouseLoc.y + ").");
-			return;
-		}
 		scrollLocation.x += arg0.getX() - scrollLast.x;
 		scrollLocation.y += arg0.getY() - scrollLast.y;
 		scrollLast = arg0.getPoint();
-		board.setBounds(scrollLocation.x, scrollLocation.y,(int) (frame.getSize().width * viewScale),(int) ((3*frame.getSize().height)/4 * viewScale));
+		board.setBounds(scrollLocation.x, scrollLocation.y, frame.getSize().width, (3*frame.getSize().height)/4);
 		repaint();
-		//towerStorePanel.repaint();
 	}
 	
-	public void mouseMoved(MouseEvent arg0)
-	{
-		//if(clickedTowerStore)
-		//{
-			mouseLoc = arg0.getPoint();
-		//}
-	}
+	public void mouseMoved(MouseEvent arg0){}
 	public void mouseEntered(MouseEvent arg0){}
 	public void mouseExited(MouseEvent arg0){}
-	
-	//This is where I will send commands to the client, to send to the server, requesting to build a tower.
-	//Gui should not handle tower building after sending the command, except to update the list of towers
-	public void mouseReleased(MouseEvent arg0)
-	{
-		if(clickedTowerStore)
-		{
-			clickedTowerStore = false;
-			selectedTowerFromStore.setVisible(false);
-			switch(selectedTowerType)
-			{
-			case NORMAL:
-				System.out.println("Attempting to place a normal tower at (" + ((arg0.getX() - scrollLocation.x) * 20)/(bg.getWidth(this)) + ", " + ((arg0.getY() - scrollLocation.y) * 20)/(bg.getWidth(this)) + ")");
-			default:
-				System.out.println("Attempting to place a tower");
-			}
-			
-		}
-		
-		Point loc = new Point((int) ((arg0.getX() - scrollLocation.x)), arg0.getY());
-		System.out.println(loc);
-	}
+	public void mouseReleased(MouseEvent arg0){}
 	
 	public void windowActivated(WindowEvent arg0){}
 	public void windowClosed(WindowEvent arg0){}
