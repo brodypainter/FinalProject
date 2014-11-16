@@ -1,5 +1,6 @@
 package model;
 
+import GameController.Tower;
 import server.GameServer;
 
 /**
@@ -25,6 +26,6 @@ public class SendServerTowerCommand extends Command<GameServer>{
 	@Override
 	public void execute(GameServer executeOn) {
 		// TODO Auto-generated method stub
-		executeOn.newMessage(this.message);
+		executeOn.newTower(this.tower);
 	}
 }

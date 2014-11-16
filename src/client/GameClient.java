@@ -13,6 +13,7 @@ import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import GameController.Tower;
 import server.GameServer;
 import model.Command;
 
@@ -164,5 +165,10 @@ public class GameClient{
 	public void update(List<String> messages) {
 		// TODO update the gui when called
 		// GUI.update(messages);
+	}
+
+	//TODO Flesh out this method
+	public void newTower(Tower tower) {
+
 	}
 }

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import GameController.Tower;
 import model.Command;
 import model.DisconnectCommand;
 import model.SendClientMessageCommand;
@@ -149,6 +150,11 @@ public class GameServer {
 	
 	public void execute(Command<GameServer> command){
 		command.execute(this);
+	}
+
+	//TODO Flesh out this method
+	public void newTower(Tower tower) {
+		
 	}
 	
 }

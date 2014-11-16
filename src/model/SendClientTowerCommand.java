@@ -1,5 +1,6 @@
 package model;
 
+import GameController.Tower;
 import client.GameClient;
 
 
@@ -29,6 +30,6 @@ public class SendClientTowerCommand extends Command<GameClient>{
 	 */
 	@Override
 	public void execute(GameClient executeOn) {
-		executeOn.newMessage(this.message);
+		executeOn.newTower(this.tower);
 	}
 }
