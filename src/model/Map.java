@@ -8,8 +8,9 @@ import java.util.LinkedList;
 
 import model.Tile;
 import client.Player;
-import GameController.Tower;
 import GameController.Enemy;
+import GameController.Tower;
+
 
 /**
  * This is the abstract Map class that all our concrete maps for each level will
