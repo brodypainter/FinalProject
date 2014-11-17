@@ -19,15 +19,15 @@ import model.Map;
  * @author Max Justice
  * 
  * Instance Variables
- * int Health			-Stores the health of the pokemon
- * int AttackPower		-stores the attack power though this might be unused
+ * int Health			- Stores the health of the pokemon
+ * int AttackPower		- stores the attack power though this might be unused
  * int Defense			- the defense of the pokemon.  it used to calculate the attack power
- * int Speed			- the speed of the pokemon on how fast it can walk.  The units are yet to be determined
- * String Pokemon		- this is jus the name of the pokemon
+ * int Speed			- The number (or fraction) of tiles the enemy moves through each second
+ * String Pokemon		- this is just the name of the pokemon
  * int Worth			- this is how much the pokemon is worth when it is killed
  * Point Location		- this gets the current location of the pokemon on the board as a Point
  * String imageURL		- this gets the image URL for the Pokemon
- * Map map				-The map on which the pokemon is placed
+ * Map map				- The map on which the pokemon is placed
  * 
  * Abstract Methods
  * None
@@ -49,19 +49,23 @@ public abstract class Enemy implements Serializable{
 	private int Health;
 	private int AttackPower;
 	private int Defense;
-	private int Speed; // amount of pixels traversed per second
+	private double Speed; //The number (or fraction) of tiles the enemy moves through each second
 	private String Pokemon;
 	private int Worth;
-	private Point Location;
+	private Point previousLocation; //The immediately previous location of the enemy
+	private Point Location; //The current location of the enemy
+	private Point nextLocation; //The location the enemy will go to next when it is ready
 	private String imageURL;
 	private Map map;
+	private int timePerTile; //The time in ms the enemy will spend on each tile before moving to the next
+	private int timeSinceLastMovement; //The time in ms since the enemy has last moved a tile
 	
 	/**
 	 * The constructor for Pokemon it takes the following variables
 	 * @param health for the initial state of the pokemons health
 	 * @param attackPower for the attack power should we use attacks to take player health
 	 * @param defense The defense modifier.  It takes the attack incoming minus the defense and subtracts from health
-	 * @param speed the Speed of the enemy as they move across the screen in pixels per second
+	 * @param speed The number (or fraction) of tiles the enemy moves through each second
 	 * @param name the name of the monster
 	 * @param worth the worth of the monster as it is created
 	 * @param Image
@@ -71,9 +75,11 @@ public abstract class Enemy implements Serializable{
 		this.AttackPower = attackPower;
 		this.Defense = defense;
 		this.Speed = speed;
+		calculateTimePerTile();
 		this.Pokemon = name;
 		this.Worth = worth;
 		this.imageURL = Image;
+		timeSinceLastMovement = 0;
 	} // end constructor
 	
 	/**
@@ -134,14 +140,22 @@ public abstract class Enemy implements Serializable{
 	}
 	
 	// gets the current speed of the pokemon
-	public int getSpeed(){
+	public double getSpeed(){
 		return this.Speed;
 	}
 	
 	// set the speed of the pokemon is we need to later
 	public boolean setSpeed(int speed){
 		this.Speed = speed;
+		calculateTimePerTile();
 		return true;
+	}
+	
+	/**
+	 * Updates the timePerTile variable, must be called every time Speed is changed
+	 */
+	private void calculateTimePerTile(){
+		timePerTile = (int) (1.0/Speed)*1000;
 	}
 	
 	/**
@@ -180,5 +194,32 @@ public abstract class Enemy implements Serializable{
 	public void setMap(Map map) {
 		this.map = map;
 		
+	}
+
+	/**
+	 * Updates the timeSinceLastMovement variable and checks/moves if the Enemy can move
+	 */
+	public void tick() {
+		timeSinceLastMovement = timeSinceLastMovement + 20; //20 because master Timer ticks every 20 ms
+		if(timeSinceLastMovement >= timePerTile){
+			map.updateEnemyPosition(this);
+			timeSinceLastMovement = 0;
+		}
+	}
+
+	public Point getPreviousLocation() {
+		return previousLocation;
+	}
+
+	public void setPreviousLocation(Point previousLocation) {
+		this.previousLocation = previousLocation;
+	}
+
+	public Point getNextLocation() {
+		return nextLocation;
+	}
+
+	public void setNextLocation(Point nextLocation) {
+		this.nextLocation = nextLocation;
 	}
 }

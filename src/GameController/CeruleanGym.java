@@ -74,7 +74,7 @@ public class CeruleanGym extends Tower{
 				 * 					  second
 				 */
 				try {
-				    Thread.sleep(1000/this.getFireRate());                 //1000 milliseconds is one second.
+				    Thread.sleep(1000/(int)this.getFireRate());                 //1000 milliseconds is one second.
 				} catch(InterruptedException ex) {
 				    Thread.currentThread().interrupt();
 				}
@@ -99,8 +99,8 @@ public class CeruleanGym extends Tower{
 	}
 
 	@Override
-	public boolean increaseFireRate(int amountToIncrease) {
-		int newFire = super.getFireRate()+ amountToIncrease;
+	public boolean increaseFireRate(double amountToIncrease) {
+		double newFire = super.getFireRate()+ amountToIncrease;
 		if (newFire <= 0)
 			newFire = 1;
 		super.setFireRate(newFire);

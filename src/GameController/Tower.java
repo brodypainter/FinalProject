@@ -3,6 +3,8 @@ package GameController;
 import java.awt.Point;
 import java.io.Serializable;
 import java.util.ArrayList;
+
+import model.Map;
 /**
  * 
  * @author Max Justice
@@ -51,12 +53,15 @@ public abstract class Tower implements Serializable{
 	private String TowerName;
 	private int AttackPts;
 	private int RadiusPxls;
-	private int FireRateSecs;
+	private double FireRateSecs;
 	private int Level = 1;
 	private Point BoardLocation; 
 	private String GymOwner;
 	private String ImageURL;
 	private int Modifier;  //A modifier that might be used later on
+	private int timeSinceLastFire; //The time, in ms, since Tower last fired.
+	private int coolDownTime; // (1/FireRateSecs)*1000, the minimum time in ms allowed between attacks
+	private Map map; //The map on which the tower is placed
 	
 	// for image load the location of the image here
 	/**
@@ -69,13 +74,14 @@ public abstract class Tower implements Serializable{
 	 * @param PlayersName is the name of the player who owns the tower (Might be unnecessary)
 	 * This is our constructor
 	 */
-	public Tower (String Name, int Attack, int Radius, int FireRateSec, String PlayersName, String Image){
+	public Tower (String Name, int Attack, int Radius, double FireRateSec, String PlayersName, String Image){
 		this.TowerName = Name;
 		this.AttackPts = Attack;
 		this.RadiusPxls = Radius;
 		this.FireRateSecs = FireRateSec;
 		this.GymOwner = PlayersName;
 		this.ImageURL = Image;
+		timeSinceLastFire = 0;
 	} // end Currency
 	
 	/**
@@ -98,7 +104,7 @@ public abstract class Tower implements Serializable{
 	 * @param amountToIncrease the amount to increase the 
 	 * @return true
 	 */
-	public abstract boolean increaseFireRate(int amountToIncrease);/*{
+	public abstract boolean increaseFireRate(double amountToIncrease);/*{
 		
 		this.AttackPts += amountToIncrease;
 		return true;
@@ -177,7 +183,7 @@ public abstract class Tower implements Serializable{
 	}
 	 
 	// Getter to return the gym's FireRate fires per second
-	public int getFireRate(){
+	public double getFireRate(){
 		return this.FireRateSecs;
 	}
 	
@@ -187,7 +193,7 @@ public abstract class Tower implements Serializable{
 	}
 	
 	// returns the current firerate
-	public Boolean setFireRate (int fireRate){
+	public Boolean setFireRate (double fireRate){
 		this.FireRateSecs = fireRate;
 		return true;
 	}
@@ -239,5 +245,29 @@ public abstract class Tower implements Serializable{
 	
 	public Point getPosition(){
 		return this.BoardLocation;
+	}
+	
+	/**
+	 * Updates the coolDownTime variable, must be called every time FireRateSecs is changed
+	 */
+	private void calculateCoolDown(){
+		coolDownTime = (int)(1.0/FireRateSecs)*1000;
+	}
+	
+	public void setMap(Map map){
+		this.map = map;
+	}
+
+	/**
+	 * Called by the Tower's Map every time the master Timer ticks (20 ms). Updates
+	 * the timeSinceLastFire variable and checks/attacks if the Tower is ready to fire.
+	 */
+	public void tick() {
+		timeSinceLastFire = timeSinceLastFire + 20; //20 because the Timer ticks every 20 ms
+		if(timeSinceLastFire >= coolDownTime){
+			AttackEnemy(map.getEnemies());
+			timeSinceLastFire = 0;
+		}
+		
 	}
 }

@@ -31,19 +31,19 @@ import GameController.Tower;
  * String mapType				- A description of the map level, can be used for theme differentiation
  * int mapTypeCode				- A code # to differentiate each level
  * Player player				- The associated Player object playing this map
- * ArrayList<Pokemon> enemies	- A list of all the enemies currently on the map
- * ArrayList<Gym> towers		- A list of all the towers currently placed on the map
+ * ArrayList<Enemy> enemies		- A list of all the enemies currently on the map
+ * ArrayList<Tower> towers		- A list of all the towers currently placed on the map
  * 
  * 
  * Methods:
  * Map(Tile[][] gridDimensions, LinkedList<Point> path, String mapType, Image background, int mapTypeCode, Player player)
- * boolean spawnEnemy(Pokemon enemy)
- * boolean updateEnemyPosition(Pokemon enemy)
- * void removeDeadEnemy(Point location, Pokemon enemy)
+ * boolean spawnEnemy(Enemy enemy)
+ * boolean updateEnemyPosition(Enemy enemy)
+ * void removeDeadEnemy(Point location, Enemy enemy)
  * void lostHealth(int hpLost)
  * void gainedGold(int goldGained)
- * boolean addTower(Gym gym, Point location)
- * void removeTower(Gym gym)
+ * boolean addTower(Tower gym, Point location)
+ * void removeTower(Tower gym)
  * 
  * @author Peter Hanson
  * @version 1.0
@@ -160,12 +160,22 @@ public abstract class Map implements Serializable{
 		//get enemy's current coordinates, determine what his next coordinates will be
 		Point enemyCoords = enemy.getLocation();
 		int i = enemyPath.indexOf(enemyCoords);
+		int iLess = i - 1;
+		if(iLess == -1){
+			iLess = 0;
+		}
+		int iMore = i + 2;
+		if(iMore == enemyPath.size()){
+			iMore = enemyPath.size() - 1;
+		}
 		Point nextCoords = enemyPath.get(++i);
 		
 		//remove enemy from current tile, update his position, and add him to the next one
 		grid[enemyCoords.x][enemyCoords.y].removePokemon(enemy);
+		enemy.setPreviousLocation(enemyCoords);
 		enemy.setLocation(nextCoords);
 		grid[nextCoords.x][nextCoords.y].addPokemon(enemy);
+		enemy.setNextLocation(enemyPath.get(iMore));
 		
 		return true;
 	}
@@ -214,6 +224,7 @@ public abstract class Map implements Serializable{
 		if(!grid[location.x][location.y].containsGym()){
 			tower.setPlaceOnBoard(location);
 			towers.add(tower);
+			tower.setMap(this);
 		return grid[location.x][location.y].setGym(tower);
 		}else{
 			return false;
@@ -239,6 +250,20 @@ public abstract class Map implements Serializable{
 	//be able to call every x sec/atk which would give them access to the enemies list to look
 	//for nearby in range target-able enemies, and then attack them?
 	
+	public ArrayList<Enemy> getEnemies(){
+		return enemies;
+	}
+	
+	public void tick(){
+		//call all enemies and towers to call their tick() method, which will increment their
+		//cool down timers, causing them to move/shoot if they are ready
+		for(Tower tower : towers){
+			tower.tick();
+		}
+		for(Enemy enemy : enemies){
+			enemy.tick();
+		}
+	}
 	
 	
 	

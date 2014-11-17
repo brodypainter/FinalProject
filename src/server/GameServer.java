@@ -7,6 +7,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Timer;
 
 import GameController.Tower;
 import model.Command;
@@ -24,6 +25,7 @@ public class GameServer {
 	
 	private String latestMessage;	// the chat log
 	private HashMap<String, ObjectOutputStream> outputs; // map of all connected users' output streams
+	private Timer timer; //The master timer
 	
 	/**
 	 *	This thread reads and executes commands sent by a client
@@ -119,6 +121,40 @@ public class GameServer {
 		catch(Exception e){
 			e.printStackTrace();
 		}
+	}
+	
+	/**
+	 * Starts the master Timer, every 20 ms it will call this GameServer to
+	 * call the tickClients() command
+	 */
+	public void startTimer(){
+		TimerTaskUpdate task = new TimerTaskUpdate(this);
+		timer = new Timer();
+		timer.scheduleAtFixedRate(task, 0, 20);
+	}
+	
+	
+	/**
+	 * Writes a TimeCommand to every connected user, to be called by a
+	 * master Timer every 20 ms.
+	 */
+	public void tickClients() {
+		// make an TimeCommmand, write to all connected users
+		TimeCommand update = new TimeCommand();
+		try{
+			for (ObjectOutputStream out : outputs.values())
+				out.writeObject(update);
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Stops the GameServer's Timer
+	 */
+	public void stopTimer(){
+		timer.cancel();
 	}
 	
 	public static void main(String[] args){

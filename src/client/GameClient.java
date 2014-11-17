@@ -171,4 +171,12 @@ public class GameClient{
 	public void newTower(Tower tower) {
 
 	}
+	
+	/**
+	 * To be called by the TimeCommand objects every time they are executed (every ~20 ms)
+	 */
+	public void tick(){
+		//TODO call the Client's associated Map to tick()
+		
+	}
 }
