@@ -165,7 +165,7 @@ public abstract class Map implements Serializable{
 			iLess = 0;
 		}
 		int iMore = i + 2;
-		if(iMore == enemyPath.size()){
+		if(iMore >= enemyPath.size()){
 			iMore = enemyPath.size() - 1;
 		}
 		Point nextCoords = enemyPath.get(++i);
