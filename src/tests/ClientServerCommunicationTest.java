@@ -16,6 +16,7 @@ import commands.SendServerMessageCommand;
  * @author brodypainter
  *
  */
+//TODO: Find a way to test for ticks. Possibly something to do with a tester version of GameClient?
 public class ClientServerCommunicationTest {
 	
 	@Test
