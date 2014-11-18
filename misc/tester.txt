@@ -1,2 +1,2 @@
-tester
+just testing git settings!
 
