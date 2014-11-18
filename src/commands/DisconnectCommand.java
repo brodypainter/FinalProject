@@ -1,4 +1,4 @@
-package model;
+package commands;
 
 import server.GameServer;
 
@@ -10,11 +10,16 @@ import server.GameServer;
  *
  */
 public class DisconnectCommand extends Command<GameServer>{
+	
+	String name;
+
+	public DisconnectCommand(String name) {
+		this.name = name;
+	}
 
 	@Override
 	public void execute(GameServer executeOn) {
-		// TODO Auto-generated method stub
-		
+		executeOn.disconnect(this.name);
 	}
 
 }

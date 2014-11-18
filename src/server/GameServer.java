@@ -9,16 +9,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Timer;
 
+import commands.Command;
+import commands.DisconnectCommand;
+import commands.SendClientMessageCommand;
+import commands.TimeCommand;
 import GameController.Tower;
-import model.Command;
-import model.DisconnectCommand;
-import model.SendClientMessageCommand;
 
 /**
- * This class is the server side of NRC. The server communicates with clients, 
- * sends and receives commands, and holds the chat log
+ * This class is the server side of the tower defense game. The server keeps track of all client outputs, and manages
+ * communication between them. It also takes care of the global timer that synchronizes the clients' games.
  * 
- * @author Gabriel Kishi
+ * @author Brody Painter
  */
 public class GameServer {
 	private ServerSocket socket; // the server socket
@@ -101,6 +102,7 @@ public class GameServer {
 			
 			// spawn a client accepter thread
 			new Thread(new ClientAccepter()).start();
+			this.startTimer();
 		}
 		catch(Exception e){
 			e.printStackTrace();
@@ -126,11 +128,14 @@ public class GameServer {
 	/**
 	 * Starts the master Timer, every 20 ms it will call this GameServer to
 	 * call the tickClients() command
+	 * 
+	 * SLOWED TO 500ms TO DEBUG
 	 */
 	public void startTimer(){
 		TimerTaskUpdate task = new TimerTaskUpdate(this);
 		timer = new Timer();
-		timer.scheduleAtFixedRate(task, 0, 20);
+		//timer.scheduleAtFixedRate(task, 0, 20);
+		timer.scheduleAtFixedRate(task, 0, 500);
 	}
 	
 	
@@ -141,12 +146,17 @@ public class GameServer {
 	public void tickClients() {
 		// make an TimeCommmand, write to all connected users
 		TimeCommand update = new TimeCommand();
-		try{
-			for (ObjectOutputStream out : outputs.values())
-				out.writeObject(update);
-		}
-		catch(Exception e){
-			e.printStackTrace();
+		if(!outputs.isEmpty()){
+			
+			for (ObjectOutputStream out : outputs.values()){
+				try{
+					System.out.println("Tick try on " + out);
+					out.writeObject(update);
+					System.out.println("Tick sent");
+				}catch(Exception e){
+					e.printStackTrace();
+				}
+			}
 		}
 	}
 	

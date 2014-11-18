@@ -13,9 +13,10 @@ import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import commands.Command;
+
 import GameController.Tower;
 import server.GameServer;
-import model.Command;
 
 public class GameClient{
 	private String clientName = "tester"; // user name of the client
@@ -48,12 +49,12 @@ public class GameClient{
 					c.execute(GameClient.this);
 				}
 			}
-			catch(SocketException e){
-				return; // "gracefully" terminate after disconnect
-			}
-			catch (EOFException e) {
-				return; // "gracefully" terminate
-			}
+//			catch(SocketException e){
+//				return; // "gracefully" terminate after disconnect
+//			}
+//			catch (EOFException e) {
+//				return; // "gracefully" terminate
+//			}
 			catch(Exception e){
 				e.printStackTrace();
 			}
@@ -148,7 +149,7 @@ public class GameClient{
 		try {
 			out.writeObject(command);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			System.out.println("sendCommand FAILED");
 			e.printStackTrace();
 		}
 	}
@@ -176,7 +177,6 @@ public class GameClient{
 	 * To be called by the TimeCommand objects every time they are executed (every ~20 ms)
 	 */
 	public void tick(){
-		//TODO call the Client's associated Map to tick()
-		
+		System.out.println("Tick Received!");
 	}
 }

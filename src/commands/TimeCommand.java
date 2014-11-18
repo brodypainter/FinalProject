@@ -1,6 +1,5 @@
-package server;
+package commands;
 
-import model.Command;
 import client.GameClient;
 
 /**
@@ -17,8 +16,7 @@ public class TimeCommand extends Command<GameClient>{
 
 	@Override
 	public void execute(GameClient executeOn) {
-		// TODO Auto-generated method stub
-		
+		executeOn.tick();
 	}
 
 }
