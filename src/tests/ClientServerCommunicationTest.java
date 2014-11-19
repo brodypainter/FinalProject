@@ -3,8 +3,7 @@ package tests;
 import server.GameServer;
 import client.GameClient;
 
-import org.junit.Test;
-import org.junit.Assert.*;
+import org.junit.*;
 
 import commands.Command;
 import commands.DisconnectCommand;

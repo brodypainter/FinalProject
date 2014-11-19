@@ -14,7 +14,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import commands.Command;
-
+import GUI.MainMenu;
 import GameController.Tower;
 import server.GameServer;
 
@@ -28,6 +28,8 @@ public class GameClient{
 	private Socket server; // connection to server
 	private ObjectOutputStream out; // output stream
 	private ObjectInputStream in; // input stream
+	
+	private MainMenu mainMenu;
 	
 	public void newMessage(String message) {
 		// TODO Display a new message to our text/chat panel. May need to add a local list of messages	
@@ -101,6 +103,9 @@ public class GameClient{
 		}catch(Exception e){
 			e.printStackTrace();
 		}
+		
+		mainMenu = new MainMenu();
+		
 	}
 	
 	public GameClient(String string) {
@@ -178,5 +183,8 @@ public class GameClient{
 	 */
 	public void tick(){
 		System.out.println("Tick Received!");
+		
+		// added to repaint/update the gui on a tick from the server
+		mainMenu.repaint();
 	}
 }
