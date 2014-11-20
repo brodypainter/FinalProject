@@ -48,18 +48,22 @@ public class CeruleanGym extends Tower{
 	 * when a pokemon dies to the listeners or observers.  If a pokemon faints
 	 * add currency to the player.
 	 */
+	 
+	 //This method will be called by map every tick() as long as tower is not on cooldown from last attack and passed
+	 //a list of all enemies currently on the map
 	@Override
 	public int AttackEnemy(ArrayList<Enemy> enemies) {
 		//TODO is set up the graphics call for attack
-		while (!enemies.isEmpty()){
+		if(!enemies.isEmpty()){ //just check if enemies has size >=1
 		for (Enemy enemy : enemies){
 			if (canAttackEnemy(enemy.getLocation())){
 				//TODO Attack enemy with graphics commands
 				// Figure out how to implement the fireRate in here??
 				enemy.incomingAttack(super.getAttackPower());
+				//--------------code under here should be moved to enemy/deleted like we said ---------------
 				System.out.println("Health" + enemy.getHealth());
 				if (enemy.isDead())  		     // if it is dead remove it
-					enemies.remove(enemy);	 // remove to pokemon from list
+					enemies.remove(enemy);	 // remove to pokemon from list (no need to do this)
 				System.out.println(enemies.size());
 				
 				/*
