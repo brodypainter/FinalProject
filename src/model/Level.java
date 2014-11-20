@@ -11,6 +11,7 @@
 
 public abstract class Level {
 
+  private GameServer server; //Needs to know which server it is on so that it can call the server to start its global timer
   private Player player; //The person playing this level, passed in constructor
   private Map map; //The map of the level to which enemy waves will be spawned, create with MapFactory class
   private ArrayList<ArrayList<Enemy>> wavesList; //A list of lists of enemies, each a wave. ex: wave1, wave2, etc...
@@ -22,8 +23,9 @@ public abstract class Level {
   private int startingMoney;
   
   
-  public Level(Player player){
+  public Level(Player player, GameServer server){
   this.player = player;
+  this.server = server;
   timer = new Timer();
   playerIsAlive = true;
   levelSpecificSetup();
@@ -35,13 +37,13 @@ public abstract class Level {
   //send on this level, the time delay in between each enemy wave, the map to play on (use MapFactory to create Maps)
   private abstract void levelSpecificSetup();  
   
-  
+  //Call server to start its global timer
   //Set the timer with a level specific TimerTask method to call spawnEnemy on map with the waves in waveslist
   //maybe thread.sleep for 1 sec or so between each enemy spawn in the wave or make another timer for that?
   //check for if player is dead at any point in time (while loop?) to stop game
   //if player survives till end call a method to indicate player won the level
   private abstract void levelStart();
   
-
+  //May want game over/player won type methods...
 
 }
