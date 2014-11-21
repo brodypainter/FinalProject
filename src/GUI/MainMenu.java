@@ -26,7 +26,7 @@ public class MainMenu extends JFrame implements WindowListener
 	JFrame frame;
 	double xScale;
 	double yScale;
-	Image bg;
+	JLabel bg;
 	Image orig;
 	JButton singlePlayer;
 	JButton multiPlayer;
@@ -57,8 +57,12 @@ public class MainMenu extends JFrame implements WindowListener
 		setBounds((int) (screen.getWidth()/4), (int) (screen.getHeight()/4), (int) (screen.getWidth()/2), (int) (screen.getHeight()/2));
 		addComponentListener(new resizeListener());
 		ImageIcon bgIcon = createImageIcon("/images/mainMenuBackground.png");
-		bg = bgIcon.getImage();
-		orig = bg;
+		orig = bgIcon.getImage();
+		///bg = new JLabel(bgIcon.getImage().getSca);
+		//orig = bg.g;
+		//new ImageIcon(orig.getScaledInstance(frame.getSize().width, frame.getSize().height-30, Image.SCALE_FAST))
+		bg = new JLabel(new ImageIcon(createImageIcon("/images/mainMenuBackground.png").getImage().getScaledInstance(this.getWidth(), this.getHeight(), Image.SCALE_FAST)));
+		bg.setBounds(0, 0, this.getWidth(), this.getHeight());
 		
 		//Creating buttons and sizing them, and adding listeners
 		singlePlayer = new JButton("Single Player");
@@ -80,9 +84,12 @@ public class MainMenu extends JFrame implements WindowListener
 		
 		this.add(title);
 		*/
+		
 		this.add(singlePlayer);
 		this.add(multiPlayer);
 		this.add(settings);
+		this.add(bg);
+		
 		frame = this;
 		
 		setVisible(true);
@@ -118,7 +125,8 @@ public class MainMenu extends JFrame implements WindowListener
 	{
 		public void componentResized(ComponentEvent arg0)
 		{
-			bg = orig.getScaledInstance(frame.getSize().width, frame.getSize().height-30, Image.SCALE_FAST);
+			//bg = new JLabel(new ImageIcon(createImageIcon("/images/mainMenuBackground.png").getImage().getScaledInstance(this.getWidth(), this.getHeight(), Image.SCALE_FAST)));
+			bg.setBounds(0, 0, frame.getWidth(), frame.getHeight());
 			singlePlayer.setBounds(frame.getWidth()/4, frame.getHeight()/5, frame.getWidth()/2, frame.getHeight()/10);
 			multiPlayer.setBounds(frame.getWidth()/4, (frame.getHeight()*2)/5, frame.getWidth()/2, frame.getHeight()/10);
 			settings.setBounds(frame.getWidth()/4, (frame.getHeight()*3)/5, frame.getWidth()/2, frame.getHeight()/10);
@@ -175,7 +183,7 @@ public class MainMenu extends JFrame implements WindowListener
 	public void paintComponent(Graphics g)
 	{
 		super.paint(g);
-		g.drawImage(bg, 0, 30, this);
+		//g.drawImage(bg, 0, 30, this);
 		multiPlayer.repaint();
 		settings.repaint();
 		singlePlayer.repaint();

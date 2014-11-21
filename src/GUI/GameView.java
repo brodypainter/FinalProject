@@ -1,6 +1,7 @@
 package GUI;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -18,6 +19,7 @@ import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.awt.event.WindowEvent;
+import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.net.URL;
 
@@ -50,8 +52,12 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 	double viewScale = 1;
 	boolean repaintGUI = true;
 	boolean clickedTowerStore = false;
+	boolean trueForShrink;
 	
 	int selectedTowerType;
+	
+	int levelWidth = 20;
+	int levelHeight = 13;
 	
 	Image tower1Image;
 	Image tower2Image;
@@ -65,6 +71,15 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 	Image pik;
 	JLabel pikLabel;
 	
+	int qualitySetting;
+	
+	//Temp for attacking
+	int tempAttackTimerCounter = 0;
+	JLabel tempProjectile;
+	JLabel tempCubone;
+	Path tempAttackPath;
+	//End temp for attacking
+	
 	public static void main(String[] args)
 	{
 		new GameView(gameType.SINGLE, "Billy");
@@ -73,6 +88,9 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 	public GameView(gameType type, String user)
 	{
 		//Setup for the JFrame, sets size, closeOperation, adds listeners, and so on
+		//Have setting in settings to choose between smooth and fast scaling
+		qualitySetting = Image.SCALE_FAST;
+		
 		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
 		setBounds(screen.width/8, screen.height/8, (3*screen.width)/4, (3*screen.height)/4);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -83,6 +101,10 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 		addMouseWheelListener(this);
 		addComponentListener(new resizeListener());
 		addMouseMotionListener(this);
+		
+		Toolkit kit = Toolkit.getDefaultToolkit();
+		Cursor cursor = kit.createCustomCursor(createImageIcon("/images/cursor.png").getImage(), new Point(0,0), "Cursor");
+		setCursor(cursor);
 		
 		//Initialize scrollLocation for scrolling the map
 		scrollLocation = new Point(0,0);
@@ -114,6 +136,7 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 		towerStorePanel = new JPanel();
 		towerStorePanel.setLayout(null);
 		towerStorePanel.setBounds(0, (int) ((getSize().height)/2), getSize().width, getSize().height/4 );
+		towerStorePanel.setBackground(null);
 		towerStorePanel.add(temp);
 		
 		//Create the panel for the game "board"
@@ -132,13 +155,59 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 		pik = createImageIcon("/images/pikachuStatic.png").getImage().getScaledInstance(getSize().width/20, board.getSize().height/13, Image.SCALE_SMOOTH);
 		path = new map1Path();
 		
+		//More Temp stuff
+		tempProjectile = new JLabel(new ImageIcon(createImageIcon("/images/spinningBone.gif").getImage().getScaledInstance(this.getWidth()/40, this.getHeight()/26, Image.SCALE_FAST)));
+		tempProjectile.setBounds(100, 100, 25, 25);
+		tempCubone = new JLabel(new ImageIcon(createImageIcon("/images/cuboneStatic.png").getImage().getScaledInstance(this.getWidth()/levelWidth, this.getHeight()/levelHeight, qualitySetting)));
+		tempCubone.setBounds((5*(board.getWidth()/levelWidth)), (6*(board.getHeight()/levelHeight)), (board.getWidth()/levelWidth), (board.getHeight()/levelHeight));
+		//No more temp stuff
+		
+		
 		add(selectedTowerFromStore);
 		add(towerStorePanel);
+		//temp adding
+		add(tempProjectile);
+		add(tempCubone);
+		//done
 		add(board);
+		
+		tempAttack();
 		
 		frame = this;
 		repaint();
 		setVisible(true);
+	}
+	
+	void tempAttack()
+	{
+		tempAttackPath = new Path(1,1,5,5);
+		Timer temp = new Timer(20, new tempAttackTimer());
+		temp.start();
+	}
+	
+	class tempAttackTimer implements ActionListener
+	{
+		@Override
+		public void actionPerformed(ActionEvent arg0)
+		{
+			tempAttackTimerCounter++;
+			if(tempAttackTimerCounter <= 25)
+			{
+				tempProjectile.setVisible(true);
+				tempProjectile.setLocation((int) ((tempAttackPath.getLocation(tempAttackTimerCounter * 4).x) * ((frame.getWidth() / levelWidth) * viewScale) + scrollLocation.x), (int) ((tempAttackPath.getLocation(tempAttackTimerCounter * 4).y) * ((frame.getHeight() / levelHeight) * viewScale) + scrollLocation.y));
+			}
+			else
+			{
+				tempProjectile.setVisible(false);
+			}
+
+			if(tempAttackTimerCounter >= 50)
+			{
+				tempAttackTimerCounter = 0;
+				
+				//System.out.println("Movin da projectile");
+			}
+		}
 	}
 	
 	
@@ -208,7 +277,7 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 	 */
 	enum gameType{SINGLE, MULTI}
 	
-	enum towerType{NORMAL,FIRE,WATER,ICE}
+	public enum towerType{NORMAL,FIRE,WATER,ICE}
 	
 	/**
 	 * Listens for the window resizing, and scales elements as needed
@@ -224,6 +293,11 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 			ImageIcon tower1Icon = new ImageIcon(tower1Image);
 			JLabel tower1temp = new JLabel(tower1Icon);
 			tower1temp.setBounds((int) (getSize().width/15),(int) (towerStorePanel.getSize().height/6), (int) (getSize().width / 9.5), getSize().height / 8);
+			
+			//Temp stuff again
+			tempProjectile.setIcon(new ImageIcon(createImageIcon("/images/spinningBone.gif").getImage().getScaledInstance((int) ((frame.getWidth()/40) * viewScale), (int) ((frame.getHeight()/26) * viewScale), Image.SCALE_FAST)));
+			tempProjectile.setSize((int) ((frame.getWidth()/40) * viewScale), (int) ((frame.getHeight()/26) * viewScale));
+			//Last of it
 			
 			towerStorePanel.setBounds(0, (3*frame.getSize().height)/4, frame.getSize().width, frame.getSize().height/4);
 			towerStorePanel.removeAll();
@@ -273,12 +347,17 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 		if(arg0.getY() >= (3*getSize().height)/4)
 		{
 			clickedTowerStore = true;
+			
+			Toolkit kit = Toolkit.getDefaultToolkit();
+			Cursor cursor = kit.createCustomCursor(createImageIcon("/images/transPixel.png").getImage(), new Point(0,0), "Cubone");
+			setCursor(cursor);
+			
 			System.out.println("Building a towa!");
 			Rectangle tower1 = new Rectangle(getSize().width/15 + 10,(int) ((3*getSize().height)/3.8) + 30, (int) (getSize().width / 9.5), getSize().height / 8);
 			if(tower1.contains(arg0.getPoint()))
 			{
 				System.out.println("Attempting to build first tower");
-				selectedTowerFromStore.setBounds(arg0.getX()-10, arg0.getY()-20, selectedTowerFromStore.getWidth(), selectedTowerFromStore.getHeight());
+				selectedTowerFromStore.setBounds(arg0.getX()-30, arg0.getY()-45, selectedTowerFromStore.getWidth(), selectedTowerFromStore.getHeight());
 				selectedTowerFromStore.setVisible(true);
 				selectedTowerType = NORMAL;
 				return;
@@ -334,21 +413,39 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 	 */
 	public void mouseWheelMoved(MouseWheelEvent arg0)
 	{
-		switch(arg0.getWheelRotation())
+		if((viewScale < 2 && arg0.getWheelRotation() == -1) || (viewScale > 0.5 && arg0.getWheelRotation() == 1))
 		{
-		case 1:
-			viewScale *= 0.8;
-			//scrollLocation.x = (int) (scrollLocation.x + ((arg0.getX() - getWidth()/2)));
-		case -1:
-			viewScale *= 1.1;
-			//scrollLocation.x = (int) (scrollLocation.x + ((getWidth()/2 - arg0.getX())));
-		default:
-			;
+			switch(arg0.getWheelRotation())
+			{
+			case 1:
+				viewScale *= 0.8;
+				trueForShrink = true;
+				break;
+				//scrollLocation.x = (int) (scrollLocation.x + ((arg0.getX() - getWidth()/2)));
+			case -1:
+				viewScale *= 1.1;
+				trueForShrink = false;
+				break;
+				//scrollLocation.x = (int) (scrollLocation.x + ((getWidth()/2 - arg0.getX())));
+			default:
+				break;
+			}
+		}
+		else
+		{
+			return;
 		}
 		
 		ImageIcon mapTemp = createImageIcon("/images/map1.png");
 		bg = (mapTemp.getImage()).getScaledInstance((int) (getSize().width * viewScale), (int) ((3*getSize().height)/4 * viewScale), Image.SCALE_SMOOTH);
 		board.removeAll();
+		
+		
+		tempProjectile.setIcon(new ImageIcon(createImageIcon("/images/spinningBone.gif").getImage().getScaledInstance((int) ((frame.getWidth()/40) * viewScale), (int) ((frame.getHeight()/26) * viewScale), Image.SCALE_FAST)));
+		tempProjectile.setSize((int) ((frame.getWidth()/40) * viewScale), (int) ((frame.getHeight()/26) * viewScale));
+		tempCubone.setIcon(new ImageIcon(createImageIcon("/images/cuboneStatic.png").getImage().getScaledInstance((int) ((frame.getWidth()/levelWidth) * viewScale), (int) ((frame.getHeight()/levelHeight) * viewScale), qualitySetting)));
+		//tempCubone.setLocation((int) (tempCubone.getLocation().x * viewScale),(int) (tempCubone.getLocation().y * viewScale));
+		tempCubone.setSize((int) ((frame.getWidth()/levelWidth) * viewScale), (int) ((frame.getHeight()/levelHeight) * viewScale));
 		
 		mapTemp.setImage(bg);
 		JLabel labelTemp = new JLabel(mapTemp);
@@ -358,6 +455,17 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 		board.add(labelTemp);
 		
 		board.setBounds(board.getX(), board.getY(), (int) (getSize().width * viewScale), (int) ((3*getSize().height)/4 * viewScale));
+		
+		if(trueForShrink)
+		{
+			tempCubone.setLocation(scrollLocation.x + (5*(board.getWidth()/levelWidth)), scrollLocation.y + (6*(board.getHeight()/levelHeight)));
+		}
+		else
+		{
+			tempCubone.setLocation(scrollLocation.x + (5*(board.getWidth()/levelWidth)), scrollLocation.y + (6*(board.getHeight()/levelHeight)));
+		}
+		
+		
 		repaint();
 	}
 
@@ -369,13 +477,14 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 		if(clickedTowerStore)
 		{
 			mouseLoc = arg0.getPoint();
-			selectedTowerFromStore.setBounds(mouseLoc.x - 10, mouseLoc.y - 20, selectedTowerFromStore.getWidth(), selectedTowerFromStore.getHeight());
+			selectedTowerFromStore.setBounds(mouseLoc.x - 30, mouseLoc.y - 45, selectedTowerFromStore.getWidth(), selectedTowerFromStore.getHeight());
 			repaint();
 			//System.out.println("Dragging selected tower to (" + mouseLoc.x + ", " + mouseLoc.y + ").");
 			return;
 		}
 		scrollLocation.x += arg0.getX() - scrollLast.x;
 		scrollLocation.y += arg0.getY() - scrollLast.y;
+		tempCubone.setLocation(scrollLocation.x + (5*(board.getWidth()/levelWidth)), scrollLocation.y + (6*(board.getHeight()/levelHeight)));
 		scrollLast = arg0.getPoint();
 		board.setBounds(scrollLocation.x, scrollLocation.y,(int) (frame.getSize().width * viewScale),(int) ((3*frame.getSize().height)/4 * viewScale));
 		repaint();
@@ -400,6 +509,11 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 		{
 			clickedTowerStore = false;
 			selectedTowerFromStore.setVisible(false);
+
+			Toolkit kit = Toolkit.getDefaultToolkit();
+			Cursor cursor = kit.createCustomCursor(createImageIcon("/images/cursor.png").getImage(), new Point(0,0), "Cursor");
+			setCursor(cursor);
+			
 			switch(selectedTowerType)
 			{
 			case NORMAL:
