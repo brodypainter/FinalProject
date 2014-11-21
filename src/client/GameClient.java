@@ -8,13 +8,17 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.SocketException;
+import java.util.Collection;
 import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import commands.Command;
+import commands.SendServerTowerCommand;
+import commands.SendServerTowerRemoveCommand;
 import GUI.MainMenu;
+import GameController.Enemy;
 import GameController.Tower;
 import server.GameServer;
 
@@ -173,18 +177,38 @@ public class GameClient{
 		// GUI.update(messages);
 	}
 
-	//TODO Flesh out this method
-	public void newTower(Tower tower) {
-
+	/**
+	 * Receives a tower and enemy list and sends it on to the model.
+	 * @param enemyList
+	 * @param towerList
+	 */
+	public void update(List<Enemy> enemyList, List<Tower> towerList){
+		mainMenu.getView().update(enemyList, towerList);
 	}
+	
+	public void addTower(Tower t){
+		SendServerTowerCommand c = new SendServerTowerCommand(t);
+		this.sendCommand(c);
+	}
+	
+	public void removeTower(){
+		SendServerTowerRemoveCommand c = new SendServerTowerRemoveCommand(t);
+		this.sendCommand(c);
+	}
+	
+	public void addEnemy(){
+		this.sendCommand(c);
+	}
+	
+	public void removeEnemy(){
+		this.sendCommand(c);
+	}
+	
 	
 	/**
 	 * To be called by the TimeCommand objects every time they are executed (every ~20 ms)
 	 */
 	public void tick(){
 		System.out.println("Tick Received!");
-		
-		// added to repaint/update the gui on a tick from the server
-		mainMenu.repaint();
 	}
 }

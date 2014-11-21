@@ -1,3 +1,10 @@
+import java.util.ArrayList;
+import java.util.Timer;
+
+import server.GameServer;
+import GameController.Enemy;
+import client.Player;
+
 //Not finished by any means this is just a start, Max feel free to take over this class ask me if you have any questions -Peter
 //I did not write this in eclipse so import all the needed classes whoever updates next please.
 
@@ -15,7 +22,7 @@ public abstract class Level {
   private Player player; //The person playing this level, passed in constructor
   private Map map; //The map of the level to which enemy waves will be spawned, create with MapFactory class
   private ArrayList<ArrayList<Enemy>> wavesList; //A list of lists of enemies, each a wave. ex: wave1, wave2, etc...
-  private Timer timer//Use scheduleAtFixedRate() method and create a TimerTask that will spawn waves at intervals
+  private Timer timer;//Use scheduleAtFixedRate() method and create a TimerTask that will spawn waves at intervals
   private long waveIntervals; //May not be necessary, but could use this for consistent changeable intervals in timer method
                               //It is in miliseconds so it would have to be say 30000 for 30 secs between waves.
   private boolean playerIsAlive; //Can be used to tell if the game is still going and enemies should still be spawned or not

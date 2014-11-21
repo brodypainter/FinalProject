@@ -26,6 +26,6 @@ public class SendServerTowerCommand extends Command<GameServer>{
 	@Override
 	public void execute(GameServer executeOn) {
 		// TODO Auto-generated method stub
-		executeOn.newTower(this.tower);
+		executeOn.addTower(this.tower);
 	}
 }

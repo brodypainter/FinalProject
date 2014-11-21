@@ -5,14 +5,18 @@ import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Timer;
+import java.util.Vector;
 
 import commands.Command;
 import commands.DisconnectCommand;
 import commands.SendClientMessageCommand;
+import commands.SendClientUpdate;
 import commands.TimeCommand;
+import GameController.Enemy;
 import GameController.Tower;
 
 /**
@@ -27,6 +31,9 @@ public class GameServer {
 	private String latestMessage;	// the chat log
 	private HashMap<String, ObjectOutputStream> outputs; // map of all connected users' output streams
 	private Timer timer; //The master timer
+	private Vector<Enemy> enemyList;
+	private Vector<Tower> towerList;
+	private Level level;
 	
 	/**
 	 *	This thread reads and executes commands sent by a client
@@ -46,6 +53,8 @@ public class GameServer {
 					System.out.println("\t\t Command " + command + " received");
 					command.execute(GameServer.this);
 					
+					// When there is a command from a client, update all of the clients
+					GameServer.this.updateClients();
 					// terminate if client is disconnecting
 					if (command instanceof DisconnectCommand){
 						input.close();
@@ -112,7 +121,7 @@ public class GameServer {
 	/**
 	 * Writes an UpdateClientCommand to every connected user.
 	 */
-	public void updateClients() {
+	public void updateClientMessages() {
 		// make an UpdateClientCommmand, write to all connected users
 		System.out.println("updateClients");
 		SendClientMessageCommand update = new SendClientMessageCommand(latestMessage);
@@ -191,16 +200,44 @@ public class GameServer {
 		// TODO Send this message to all of our clients
 		System.out.println("newMessage");
 		this.latestMessage = message;
-		updateClients();
+		updateClientMessages();
 	}
 	
 	public void execute(Command<GameServer> command){
 		command.execute(this);
 	}
+	
+	private void updateClients(){
+		SendClientUpdate c = new SendClientUpdate(enemyList, towerList);
+		
+		if(!outputs.isEmpty()){
+			for (ObjectOutputStream out : outputs.values()){
+				try{
+					System.out.println("Update try on " + out);
+					out.writeObject(c);
+					System.out.println("Update sent");
+				}catch(Exception e){
+					e.printStackTrace();
+				}
+			}
+		}
+		
+	}
 
 	//TODO Flesh out this method
-	public void newTower(Tower tower) {
+	public void addTower(Tower tower) {
 		
 	}
 	
+	public void removeTower(Tower tower) {
+		
+	}
+	
+	public void addEnemy() {
+		
+	}
+	
+	public void removeEnemy() {
+		
+	}
 }
