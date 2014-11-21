@@ -22,6 +22,7 @@ import java.awt.event.WindowEvent;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.net.URL;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -63,6 +64,9 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 	Image tower2Image;
 	Image tower3Image;
 	Image tower4Image;
+	
+	List towers;
+	List enemies;
 	
 	double testSpriteProgress = 0;
 	
@@ -489,6 +493,12 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 		board.setBounds(scrollLocation.x, scrollLocation.y,(int) (frame.getSize().width * viewScale),(int) ((3*frame.getSize().height)/4 * viewScale));
 		repaint();
 		//towerStorePanel.repaint();
+	}
+	
+	public void update(List towers, List enemies)
+	{
+		this.towers = towers;
+		this.enemies = enemies;
 	}
 	
 	public void mouseMoved(MouseEvent arg0)

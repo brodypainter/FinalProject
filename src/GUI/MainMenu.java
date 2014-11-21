@@ -31,6 +31,7 @@ public class MainMenu extends JFrame implements WindowListener
 	JButton singlePlayer;
 	JButton multiPlayer;
 	JButton settings;
+	GameView view;
 	
 	public static void main(String[] args)
 	{
@@ -150,7 +151,7 @@ public class MainMenu extends JFrame implements WindowListener
 					frame.setVisible(true);
 					return;
 				}
-				new GameView(GameView.gameType.SINGLE, username);
+				view = new GameView(GameView.gameType.SINGLE, username);
 			}
 			if(arg0.getSource().equals(multiPlayer))
 			{
@@ -161,7 +162,7 @@ public class MainMenu extends JFrame implements WindowListener
 					frame.setVisible(true);
 					return;
 				}
-				new GameView(GameView.gameType.MULTI, username);
+				view = new GameView(GameView.gameType.MULTI, username);
 			}
 			if(arg0.getSource().equals(settings))
 			{
@@ -170,6 +171,11 @@ public class MainMenu extends JFrame implements WindowListener
 			
 		}
 		
+	}
+	
+	public GameView getView()
+	{
+		return view;
 	}
 	
 	public void windowActivated(WindowEvent arg0){}
