@@ -43,7 +43,8 @@ import model.Map;
  * int getSpeed()
  * boolean setSpeed(int speed)
  * String getImageURL()
- * 
+ * Int getProgress()
+ * void setProgress()
  */
 public abstract class Enemy implements Serializable{
 	private int Health;
@@ -59,7 +60,7 @@ public abstract class Enemy implements Serializable{
 	private Map map;
 	private int timePerTile; //The time in ms the enemy will spend on each tile before moving to the next
 	private int timeSinceLastMovement; //The time in ms since the enemy has last moved a tile
-	
+	private int progress;		// requested by Desonne track progress
 	/**
 	 * The constructor for Pokemon it takes the following variables
 	 * @param health for the initial state of the pokemons health
@@ -221,5 +222,20 @@ public abstract class Enemy implements Serializable{
 
 	public void setNextLocation(Point nextLocation) {
 		this.nextLocation = nextLocation;
+	}
+	
+	// for desonne and the GUI
+	public int getProgress(){
+		return this.progress;
+	}
+	
+	// for desonne and the GUI
+	public void setProgress(int prog){
+		if (prog < 0)
+			this.progress = 0;
+		else if (prog > 100)
+			this.progress = 100;
+		else
+			this.progress = prog;
 	}
 }

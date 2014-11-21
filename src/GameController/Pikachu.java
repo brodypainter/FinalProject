@@ -1,5 +1,7 @@
 package GameController;
 
+package model;
+
 /**
  * THis is the first concrete class for our pokemon.  It inherits from Pokemon.java
  * and contains nearly all of the methods to be used

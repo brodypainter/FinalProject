@@ -111,9 +111,8 @@ public class CeruleanGym extends Tower{
 		return true;
 	}
 
-	@Override
-	public boolean checkBuy(int PlayerCurrency) {
-		if (PlayerCurrency >= this.Cost)
+	public static boolean checkBuy(int PlayerCurrency) {
+		if (PlayerCurrency >= Cost)
 			return true;
 		return false;
 	} // end checkBuy
@@ -126,5 +125,15 @@ public class CeruleanGym extends Tower{
 		this.increaseFireRate(1); 	// increase the fire rate by one
 		return true;
 	}
-
+	
+	/**
+	 * Work on attacking enemy closet to the finish line and the players home
+	 */
+	private Enemy findClosestEnemy(ArrayList<Enemy> enemies){
+		Enemy closests;
+		for (Enemy enemy: enemies){
+			
+		}
+	}
+	
 }

@@ -27,7 +27,7 @@ import model.Map;
  * int Modifier			- this variable has yet to be determined what is used for
  * 
  * Abstract Methods:
- * int AttackEnemy(ArrayList<Pokemon> enemies)  - attack algorithm
+ * boolean AttackEnemy(ArrayList<Pokemon> enemies)  - attack algorithm
  * boolean setModifer()							- the modifier to what ever we want it to be
  * boolean getModifer()							- get the current state of the modifier
  * 
@@ -90,7 +90,7 @@ public abstract class Tower implements Serializable{
 	 */
 	
 	// attack an enemy!!!  this is could be dependent on the Gym
-	public abstract int AttackEnemy(ArrayList<Enemy> enemies);
+	public abstract boolean AttackEnemy(ArrayList<Enemy> enemies);
 	
 	// a modifier method that might be used later on and is dependent on the Gyms Attributes
 	public abstract boolean setModifer();
@@ -118,7 +118,7 @@ public abstract class Tower implements Serializable{
 	 * It compares it with the cost of the Gym and returns true if the player has the money
 	 * to buy it with else false
 	 */
-	public abstract boolean checkBuy(int PlayerCurrency);/*{
+	/*public abstract boolean checkBuy(int PlayerCurrency);{
 		if (PlayerCurrency >= this.GymCost)
 			return true;
 		return false;
