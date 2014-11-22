@@ -71,7 +71,7 @@ public abstract class Enemy implements Serializable{
 	 * @param worth the worth of the monster as it is created
 	 * @param Image
 	 */
-	public Enemy (int health, int attackPower, int defense, int speed, String name, int worth, String Image){
+	public Enemy (int health, int attackPower, int defense, int speed, String name, int worth, String Image, Map mapRef){
 		this.Health = health;
 		this.AttackPower = attackPower;
 		this.Defense = defense;
@@ -81,6 +81,7 @@ public abstract class Enemy implements Serializable{
 		this.Worth = worth;
 		this.imageURL = Image;
 		timeSinceLastMovement = 0;
+		this.map = mapRef;
 	} // end constructor
 	
 	/**
@@ -137,6 +138,9 @@ public abstract class Enemy implements Serializable{
 		if(healthToSubtract < 0)
 			healthToSubtract = 0;
 		this.Health -= healthToSubtract;
+		if(isDead()){
+			this.map.removeDeadEnemey(this.Location, this);
+		}
 		return true;
 	}
 	

@@ -24,8 +24,10 @@ public class Pikachu extends Enemy{
 	 *
 	 *public Pokemon (int health, int attackPower, int defense, int speed, String name, int worth, String Image)
 	 */
-	public Pikachu() {
-		super(100, 10, 12, 5, "Pikachu", 25, "Image URL");
+	
+	public Pikachu(Map currentMap) {
+		super(100, 10, 12, 5, "Pikachu", 25, "Image URL", currentMap);
 	}
 
+	
 }

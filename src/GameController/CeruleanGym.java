@@ -61,6 +61,13 @@ public class CeruleanGym extends Tower{
 		if (myClosestEnemy == null)
 			return false;
 		
+		if ( canAttackEnemy(myClosestEnemy.getLocation())){
+			enemy.incomingAttack(super.getAttackPower());
+			/*
+			 * GUI here
+			 */
+		}
+		/*
 		//TODO is set up the graphics call for attack
 		if(!enemies.isEmpty()){ //just check if enemies has size >=1
 		for (Enemy enemy : enemies){
@@ -74,7 +81,7 @@ public class CeruleanGym extends Tower{
 					enemies.remove(enemy);	 // remove to pokemon from list (no need to do this)
 				System.out.println(enemies.size());
 				
-				/*
+				*
 				 * After we found an enemy and attacked we then pause the thread 
 				 * for for a shot per a second.  The thread counts time in
 				 * milliseconds so 1 sec = 1000 milliseconds with 3 shots per a sec
@@ -84,7 +91,7 @@ public class CeruleanGym extends Tower{
 				 * 			(	   units of fire    )
 				 * 			(         ---------     )
 				 * 					  second
-				 */
+				 *
 				try {
 				    Thread.sleep(1000/(int)this.getFireRate());                 //1000 milliseconds is one second.
 				} catch(InterruptedException ex) {
@@ -92,8 +99,8 @@ public class CeruleanGym extends Tower{
 				}
 			}// end if
 		} // end for loop
-		}// end while loop
-		return 0;
+		}// end while loop*/
+		return true;
 	}
 
 	// This sets modifers when we figure it out
