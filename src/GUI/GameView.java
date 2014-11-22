@@ -93,11 +93,12 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 	JLabel tempProjectile;
 	JLabel tempCubone;
 	Path tempAttackPath;
+	Point towerLocation;
 	//End temp for attacking
 	
 	public static void main(String[] args)
 	{
-		new GameView(gameType.SINGLE, "Billy", new GameClient());
+		new GameView(gameType.SINGLE, "Billy", null);
 	}
 	
 	public GameView(gameType type, String user, GameClient client)
@@ -258,10 +259,7 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 		//g.drawRect(0, 30, bg.getWidth(this)/20, bg.getHeight(this)/12);
 	}
 	
-	public void setPlayer(Player player)
-	{
-		this.player = player;
-	}
+
 	/**
 	 * Creates an image icon based on the given URL
 	 * @param url The location of the target image
@@ -544,7 +542,9 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 			{
 			case NORMAL:
 				client.addTower(new CeruleanGym(user));
+				towerLocation = new Point(arg0.getX(), arg0.getY());
 				System.out.println("Attempting to place a normal tower at (" + ((arg0.getX() - scrollLocation.x) * 20)/(bg.getWidth(this)) + ", " + ((arg0.getY() - scrollLocation.y) * 20)/(bg.getWidth(this)) + ")");
+				break;
 			default:
 				System.out.println("Attempting to place a tower");
 			}
