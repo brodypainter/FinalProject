@@ -1,4 +1,4 @@
-package src.GameController;
+package GameController;
 
 //package src.model;
 
