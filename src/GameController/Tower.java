@@ -90,7 +90,7 @@ public abstract class Tower implements Serializable{
 	 */
 	
 	// attack an enemy!!!  this is could be dependent on the Gym
-	public abstract int AttackEnemy(ArrayList<Enemy> enemies);
+	public abstract boolean AttackEnemy(ArrayList<Enemy> enemies);
 	
 	// a modifier method that might be used later on and is dependent on the Gyms Attributes
 	public abstract boolean setModifer();

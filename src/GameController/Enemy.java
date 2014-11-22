@@ -139,7 +139,7 @@ public abstract class Enemy implements Serializable{
 			healthToSubtract = 0;
 		this.Health -= healthToSubtract;
 		if(isDead()){
-			this.map.removeDeadEnemey(this.Location, this);
+			this.map.removeDeadEnemy(this.Location, this);
 		}
 		return true;
 	}

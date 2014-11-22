@@ -52,7 +52,7 @@ public class CeruleanGym extends Tower{
 	 //This method will be called by map every tick() as long as tower is not on cooldown from last attack and passed
 	 //a list of all enemies currently on the map
 	@Override
-	public boolean AttackEnemy(ArrayList<Enemy> enemies) {
+	public int AttackEnemy(ArrayList<Enemy> enemies) {
 		
 		Enemy myClosestEnemy;
 		
