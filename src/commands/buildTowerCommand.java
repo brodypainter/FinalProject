@@ -24,13 +24,11 @@ public class buildTowerCommand extends Command
 		switch(type)
 		{
 		case NORMAL:
-			executeOn.newTower(new Tower("testTower", 3, 3, 1, "testPlayer", "/images/cuboneStatic.png"));
+			executeOn.addTower(new Tower("testTower", 3, 3, 1, "testPlayer", "/images/cuboneStatic.png"));
 			break;
 		default:
 			break;
 		}
-		
-		
 		
 	}
 

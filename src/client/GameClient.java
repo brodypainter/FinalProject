@@ -109,7 +109,7 @@ public class GameClient{
 			e.printStackTrace();
 		}
 		
-		mainMenu = new MainMenu();
+		mainMenu = new MainMenu(this);
 		
 	}
 	
