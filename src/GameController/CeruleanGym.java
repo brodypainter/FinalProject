@@ -2,6 +2,9 @@ package GameController;
 
 import java.util.ArrayList;
 
+import GameController.Enemy;
+import GameController.Tower;
+
 /**
  * This is a concrete gym type that extends Gym and Implements serializable
  * @author Max Justice
@@ -56,13 +59,13 @@ public class CeruleanGym extends Tower{
 		
 		Enemy myClosestEnemy;
 		
-		myClosestEnemy = findClosestEnemy(enemies);
+		myClosestEnemy = super.findClosestEnemy(enemies);
 		
 		if (myClosestEnemy == null)
 			return false;
 		
 		if ( canAttackEnemy(myClosestEnemy.getLocation())){
-			enemy.incomingAttack(super.getAttackPower());
+			myClosestEnemy.incomingAttack(super.getAttackPower());
 			/*
 			 * GUI here
 			 */

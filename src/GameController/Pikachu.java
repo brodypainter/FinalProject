@@ -1,6 +1,9 @@
 package GameController;
 
-package model;
+//package src.model;
+
+import GameController.Enemy;
+import model.Map;
 
 /**
  * THis is the first concrete class for our pokemon.  It inherits from Pokemon.java

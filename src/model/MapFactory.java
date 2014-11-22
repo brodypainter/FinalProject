@@ -45,7 +45,7 @@ public class MapFactory {
 		case 0: //The beta test level
 			
 			//Set the size of the map
-			horizontalSize = 5;
+			horizontalSize = 10;
 			verticalSize = 5;
 			grid = new Tile[verticalSize][horizontalSize];
 			
@@ -66,7 +66,7 @@ public class MapFactory {
 			//created a straight line along y = 2, x = 0 -> 4
 			
 			//assign the levelDesciption String
-			levelDescription = "This is the beta testing level. It is a 5x5 tile map with a "
+			levelDescription = "This is the beta testing level. It is a 5x10 tile map with a "
 					+ "straight path across the middle.";
 			
 			//assign the backgroundImage for the level
