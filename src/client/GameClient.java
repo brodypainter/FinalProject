@@ -16,6 +16,7 @@ import javax.swing.JOptionPane;
 
 import model.Level0Map;
 import commands.Command;
+import commands.DisconnectCommand;
 import commands.SendServerTowerCommand;
 import commands.SendServerTowerRemoveCommand;
 import commands.buildTowerCommand;
@@ -103,20 +104,19 @@ public class GameClient{
 //				}
 //			});
 			
-			// TODO set up the GUI
+			level = (Level0Map) in.readObject();
+			System.out.println("Level Received");
+			player = (Player) in.readObject();
+			System.out.println("Player Received");
 			
 			// start a thread for handling server events
 			new Thread(new ServerHandler()).start();
+		
 			
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-		try{
-			level = (Level0Map) in.readObject();
-			player = (Player) in.readObject();
-		}catch(Exception e){
-			e.printStackTrace();
-		}
+
 		mainMenu = new MainMenu(this);
 		mainMenu.setPlayer(player);
 		
@@ -213,6 +213,15 @@ public class GameClient{
 
 	}
 	
+	public int disconnect(){
+		try{
+			out.writeObject(new DisconnectCommand(player.getName()));
+			return 0;
+		}catch(Exception e){
+			e.printStackTrace();
+			return 1;
+		}
+	}
 	
 	/**
 	 * To be called by the TimeCommand objects every time they are executed (every ~20 ms)

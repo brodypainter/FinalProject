@@ -22,6 +22,7 @@ import java.awt.event.WindowEvent;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.swing.ImageIcon;
@@ -32,6 +33,7 @@ import javax.swing.Timer;
 import javax.swing.UIManager;
 
 import GameController.CeruleanGym;
+import GameController.Enemy;
 import GameController.Tower;
 import client.GameClient;
 import client.Player;
@@ -59,6 +61,8 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 	boolean repaintGUI = true;
 	boolean clickedTowerStore = false;
 	boolean trueForShrink;
+	
+	HashMap towerMap;
 	
 	String user;
 	
@@ -98,10 +102,10 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 	
 	public static void main(String[] args)
 	{
-		new GameView(gameType.SINGLE, "Billy", null);
+		new GameView(gameType.SINGLE, "Billy", null, new Player("Billy", 100, 100));
 	}
 	
-	public GameView(gameType type, String user, GameClient client)
+	public GameView(gameType type, String user, GameClient client, Player player)
 	{
 		//Setup for the JFrame, sets size, closeOperation, adds listeners, and so on
 		//Have setting in settings to choose between smooth and fast scaling
@@ -110,7 +114,7 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 		this.client = client;
 		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
 		setBounds(screen.width/8, screen.height/8, (3*screen.width)/4, (3*screen.height)/4);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setDefaultCloseOperation(client.disconnect());
 		setBackground(Color.BLUE);
 		setLayout(null);
 		setTitle("Pokemon Tower Defense - " + user);
@@ -225,6 +229,11 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 				//System.out.println("Movin da projectile");
 			}
 		}
+	}
+	
+	public boolean animateAttack(Enemy enemy, Tower tower)
+	{
+		return true;
 	}
 	
 	
