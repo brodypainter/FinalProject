@@ -7,8 +7,12 @@ import GUI.GameView;
 import GUI.GameView.towerType;
 import GameController.Tower;
 
-public class buildTowerCommand extends Command
+public class buildTowerCommand extends Command<GameClient>
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6931755999091078880L;
 	Point loc;
 	towerType type;
 	
