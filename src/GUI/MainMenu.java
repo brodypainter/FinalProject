@@ -42,7 +42,7 @@ public class MainMenu extends JFrame implements WindowListener
 	
 	public static void main(String[] args)
 	{
-		new GameServer();
+		//new GameServer();
 		new MainMenu(new GameClient()); 
 	}
 	
@@ -51,12 +51,11 @@ public class MainMenu extends JFrame implements WindowListener
 		this.username = JOptionPane.showInputDialog("Enter username");
 		if(username == null || username.equals(""))
 		{
-			
-
+			//Handle empty username
 		}
 		this.client = client;
 		setTitle("Pokemon Tower Defense");
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setDefaultCloseOperation(client.disconnect());
 		this.setLayout(null);
 		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
 		
@@ -161,21 +160,19 @@ public class MainMenu extends JFrame implements WindowListener
 			{
 				frame.setVisible(false);
 				
-				view = new GameView(GameView.gameType.SINGLE, username, client);
+				view = new GameView(GameView.gameType.SINGLE, username, client, player);
 			}
 			if(arg0.getSource().equals(multiPlayer))
 			{
 				frame.setVisible(false);
 			
-				view = new GameView(GameView.gameType.MULTI, username, client);
+				view = new GameView(GameView.gameType.MULTI, username, client, player);
 			}
 			if(arg0.getSource().equals(settings))
 			{
 				JOptionPane.showMessageDialog(frame, "Settings menu not yet available", "Pokemon Tower Defense", JOptionPane.OK_OPTION);
 			}
-			
 		}
-		
 	}
 	
 	public GameView getView()
