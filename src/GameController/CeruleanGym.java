@@ -52,7 +52,15 @@ public class CeruleanGym extends Tower{
 	 //This method will be called by map every tick() as long as tower is not on cooldown from last attack and passed
 	 //a list of all enemies currently on the map
 	@Override
-	public int AttackEnemy(ArrayList<Enemy> enemies) {
+	public boolean AttackEnemy(ArrayList<Enemy> enemies) {
+		
+		Enemy myClosestEnemy;
+		
+		myClosestEnemy = findClosestEnemy(enemies);
+		
+		if (myClosestEnemy == null)
+			return false;
+		
 		//TODO is set up the graphics call for attack
 		if(!enemies.isEmpty()){ //just check if enemies has size >=1
 		for (Enemy enemy : enemies){
@@ -126,6 +134,8 @@ public class CeruleanGym extends Tower{
 		return true;
 	}
 	
+<<<<<<< HEAD
+=======
 	/**
 	 * Work on attacking enemy closet to the finish line and the players home
 	 */
@@ -137,4 +147,5 @@ public class CeruleanGym extends Tower{
 		return null;
 	}
 	
+>>>>>>> 9da69505b92e3c5825295a5078a0357bb620d8b3
 }
