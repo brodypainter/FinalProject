@@ -21,6 +21,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
+import client.GameClient;
+
 public class MainMenu extends JFrame implements WindowListener
 {
 	JFrame frame;
@@ -32,14 +34,16 @@ public class MainMenu extends JFrame implements WindowListener
 	JButton multiPlayer;
 	JButton settings;
 	GameView view;
+	GameClient client;
 	
 	public static void main(String[] args)
 	{
-		new MainMenu(); 
+		new MainMenu(new GameClient()); 
 	}
 	
-	public MainMenu()
+	public MainMenu(GameClient client)
 	{
+		this.client = client;
 		setTitle("Pokemon Tower Defense");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setLayout(null);
@@ -151,7 +155,7 @@ public class MainMenu extends JFrame implements WindowListener
 					frame.setVisible(true);
 					return;
 				}
-				view = new GameView(GameView.gameType.SINGLE, username);
+				view = new GameView(GameView.gameType.SINGLE, username, client);
 			}
 			if(arg0.getSource().equals(multiPlayer))
 			{
@@ -162,7 +166,7 @@ public class MainMenu extends JFrame implements WindowListener
 					frame.setVisible(true);
 					return;
 				}
-				view = new GameView(GameView.gameType.MULTI, username);
+				view = new GameView(GameView.gameType.MULTI, username, client);
 			}
 			if(arg0.getSource().equals(settings))
 			{

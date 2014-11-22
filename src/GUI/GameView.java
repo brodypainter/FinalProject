@@ -31,6 +31,8 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 import javax.swing.UIManager;
 
+import client.GameClient;
+
 
 
 //Personal stuff:
@@ -86,10 +88,10 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 	
 	public static void main(String[] args)
 	{
-		new GameView(gameType.SINGLE, "Billy");
+		new GameView(gameType.SINGLE, "Billy", new GameClient());
 	}
 	
-	public GameView(gameType type, String user)
+	public GameView(gameType type, String user, GameClient client)
 	{
 		//Setup for the JFrame, sets size, closeOperation, adds listeners, and so on
 		//Have setting in settings to choose between smooth and fast scaling
@@ -195,10 +197,10 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 		public void actionPerformed(ActionEvent arg0)
 		{
 			tempAttackTimerCounter++;
-			if(tempAttackTimerCounter <= 25)
+			if(tempAttackTimerCounter <= 12)
 			{
 				tempProjectile.setVisible(true);
-				tempProjectile.setLocation((int) ((tempAttackPath.getLocation(tempAttackTimerCounter * 4).x) * ((frame.getWidth() / levelWidth) * viewScale) + scrollLocation.x), (int) ((tempAttackPath.getLocation(tempAttackTimerCounter * 4).y) * ((frame.getHeight() / levelHeight) * viewScale) + scrollLocation.y));
+				tempProjectile.setLocation((int) ((tempAttackPath.getLocation(tempAttackTimerCounter * 8).x) * ((frame.getWidth() / levelWidth) * viewScale) + scrollLocation.x), (int) ((tempAttackPath.getLocation(tempAttackTimerCounter * 8).y) * ((frame.getHeight() / levelHeight) * viewScale) + scrollLocation.y));
 			}
 			else
 			{
