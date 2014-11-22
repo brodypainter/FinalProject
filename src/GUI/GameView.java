@@ -583,6 +583,16 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 		
 	}
 	
+	public void addTower(Tower tower)
+	{
+		
+	}
+	
+	public void removeTower(Tower tower)
+	{
+		
+	}
+	
 	public void mouseMoved(MouseEvent arg0)
 	{
 		//if(clickedTowerStore)
