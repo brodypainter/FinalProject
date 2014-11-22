@@ -141,18 +141,4 @@ public class CeruleanGym extends Tower{
 		return true;
 	}
 	
-<<<<<<< HEAD
-=======
-	/**
-	 * Work on attacking enemy closet to the finish line and the players home
-	 */
-	private Enemy findClosestEnemy(ArrayList<Enemy> enemies){
-		Enemy closests;
-		for (Enemy enemy: enemies){
-			
-		}
-		return null;
-	}
-	
->>>>>>> 9da69505b92e3c5825295a5078a0357bb620d8b3
 }
