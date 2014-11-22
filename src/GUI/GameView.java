@@ -31,7 +31,10 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 import javax.swing.UIManager;
 
+import GameController.CeruleanGym;
+import GameController.Tower;
 import client.GameClient;
+import client.Player;
 
 
 
@@ -57,6 +60,10 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 	boolean clickedTowerStore = false;
 	boolean trueForShrink;
 	
+	String user;
+	
+	Player player;
+	
 	int selectedTowerType;
 	
 	int levelWidth = 20;
@@ -79,6 +86,8 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 	
 	int qualitySetting;
 	
+	GameClient client;
+	
 	//Temp for attacking
 	int tempAttackTimerCounter = 0;
 	JLabel tempProjectile;
@@ -95,8 +104,9 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 	{
 		//Setup for the JFrame, sets size, closeOperation, adds listeners, and so on
 		//Have setting in settings to choose between smooth and fast scaling
+		this.user = user;
 		qualitySetting = Image.SCALE_FAST;
-		
+		this.client = client;
 		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
 		setBounds(screen.width/8, screen.height/8, (3*screen.width)/4, (3*screen.height)/4);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -247,7 +257,11 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 		//g.drawRect((int) (12.3*getSize().width)/15 + 10,(int) ((3*getSize().height)/3.8) + 30, (int) (getSize().width / 9.5), getSize().height / 8);
 		//g.drawRect(0, 30, bg.getWidth(this)/20, bg.getHeight(this)/12);
 	}
-
+	
+	public void setPlayer(Player player)
+	{
+		this.player = player;
+	}
 	/**
 	 * Creates an image icon based on the given URL
 	 * @param url The location of the target image
@@ -529,6 +543,7 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 			switch(selectedTowerType)
 			{
 			case NORMAL:
+				client.addTower(new CeruleanGym(user));
 				System.out.println("Attempting to place a normal tower at (" + ((arg0.getX() - scrollLocation.x) * 20)/(bg.getWidth(this)) + ", " + ((arg0.getY() - scrollLocation.y) * 20)/(bg.getWidth(this)) + ")");
 			default:
 				System.out.println("Attempting to place a tower");
