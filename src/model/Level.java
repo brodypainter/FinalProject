@@ -1,3 +1,5 @@
+package model;
+
 import java.util.ArrayList;
 import java.util.Timer;
 
@@ -42,14 +44,14 @@ public abstract class Level {
   //Instantiate the rest of the needed instance variables according to specific level and difficulty
   //This will include things like setting player's initial HP and $, creating the waves of enemies you want to
   //send on this level, the time delay in between each enemy wave, the map to play on (use MapFactory to create Maps)
-  //private abstract void levelSpecificSetup();  
+  public abstract void levelSpecificSetup();  
   
   //Call server to start its global timer
   //Set the timer with a level specific TimerTask method to call spawnEnemy on map with the waves in waveslist
   //maybe thread.sleep for 1 sec or so between each enemy spawn in the wave or make another timer for that?
   //check for if player is dead at any point in time (while loop?) to stop game
   //if player survives till end call a method to indicate player won the level
-  //private abstract void levelStart();
+  public abstract void levelStart();
   
   //May want game over/player won type methods...
 
