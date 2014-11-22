@@ -16,6 +16,7 @@ import javax.swing.JOptionPane;
 
 import model.Level0Map;
 import commands.Command;
+import commands.DisconnectCommand;
 import commands.SendServerTowerCommand;
 import commands.SendServerTowerRemoveCommand;
 import commands.buildTowerCommand;
@@ -212,6 +213,9 @@ public class GameClient{
 
 	}
 	
+	public void disconnect() throws Exception{
+		out.writeObject(new DisconnectCommand(player.getName()));
+	}
 	
 	/**
 	 * To be called by the TimeCommand objects every time they are executed (every ~20 ms)
