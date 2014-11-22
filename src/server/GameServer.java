@@ -1,5 +1,6 @@
 package server;
 
+import java.awt.Point;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
@@ -222,21 +223,6 @@ public class GameServer {
 		command.execute(this);
 	}
 	
-	
-
-	//These methods will be called by Command objects passed from client to server
-	//call level.getMap.appropriateMethod() in each case
-	
-	//TODO Flesh out this method
-	public void addTower(Tower tower) {
-		
-	}
-	
-	//perhaps should be renamed to "sellTower"
-	public void removeTower(Tower tower) {
-		
-	}
-	
 	//These 2 methods won't be necessary except until multi-player possibly
 	//public void addEnemy() {
 		
@@ -273,6 +259,29 @@ public class GameServer {
 	public void updateClientsOfAttack(){
 		
 		
+	}
+	
+	//These methods will be called by Command objects passed from client to server
+	//call level.getMap.appropriateMethod() in each case
+	
+	//TODO Flesh out this method
+	public void addTower(Tower tower, Point loc) {
+		level.addTower(tower, loc);
+	}
+	
+	//perhaps should be renamed to "sellTower"
+	public void removeTower(Tower tower) {
+		
+	}
+
+	public void addEnemy(Enemy enemy) {
+		// TODO Auto-generated method stub
+		level.getEnemies().add(enemy);
+	}
+
+	public void removeEnemy(Enemy enemy) {
+		// TODO Auto-generated method stub
+		enemyList.remove(enemyList.indexOf(enemy));
 	}
 	
 }
