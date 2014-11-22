@@ -11,6 +11,9 @@ import java.util.List;
 import java.util.Timer;
 import java.util.Vector;
 
+import client.Player;
+import model.Level0Map;
+import model.Map;
 import commands.Command;
 import commands.DisconnectCommand;
 import commands.SendClientMessageCommand;
@@ -31,9 +34,10 @@ public class GameServer {
 	private String latestMessage;	// the chat log
 	private HashMap<String, ObjectOutputStream> outputs; // map of all connected users' output streams
 	private Timer timer; //The master timer
+	private Player player;
 	private Vector<Enemy> enemyList;
 	private Vector<Tower> towerList;
-	private Level level;
+	private Map level = new Level0Map();
 	
 	/**
 	 *	This thread reads and executes commands sent by a client
@@ -84,6 +88,9 @@ public class GameServer {
 					
 					// read the client's name
 					String clientName = (String)input.readObject();
+					
+					// create the single player, will need to change this for multiplayer games
+					player = new Player(clientName, 100, 100);
 					
 					// map client name to output stream
 					outputs.put(clientName, output);

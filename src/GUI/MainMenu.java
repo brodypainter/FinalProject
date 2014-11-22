@@ -21,6 +21,10 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
+import server.GameServer;
+import client.GameClient;
+import client.Player;
+
 public class MainMenu extends JFrame implements WindowListener
 {
 	JFrame frame;
@@ -32,14 +36,25 @@ public class MainMenu extends JFrame implements WindowListener
 	JButton multiPlayer;
 	JButton settings;
 	GameView view;
+	GameClient client;
+	String username;
+	Player player;
 	
 	public static void main(String[] args)
 	{
-		new MainMenu(); 
+		new GameServer();
+		new MainMenu(new GameClient()); 
 	}
 	
-	public MainMenu()
+	public MainMenu(GameClient client)
 	{
+		this.username = JOptionPane.showInputDialog("Enter username");
+		if(username == null || username.equals(""))
+		{
+			
+
+		}
+		this.client = client;
 		setTitle("Pokemon Tower Defense");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setLayout(null);
@@ -145,24 +160,14 @@ public class MainMenu extends JFrame implements WindowListener
 			if(arg0.getSource().equals(singlePlayer))
 			{
 				frame.setVisible(false);
-				String username = JOptionPane.showInputDialog("Enter username");
-				if(username == null || username.equals(""))
-				{
-					frame.setVisible(true);
-					return;
-				}
-				view = new GameView(GameView.gameType.SINGLE, username);
+				
+				view = new GameView(GameView.gameType.SINGLE, username, client);
 			}
 			if(arg0.getSource().equals(multiPlayer))
 			{
 				frame.setVisible(false);
-				String username = JOptionPane.showInputDialog("Enter username");
-				if(username == null || username.equals(""))
-				{
-					frame.setVisible(true);
-					return;
-				}
-				view = new GameView(GameView.gameType.MULTI, username);
+			
+				view = new GameView(GameView.gameType.MULTI, username, client);
 			}
 			if(arg0.getSource().equals(settings))
 			{
@@ -176,6 +181,11 @@ public class MainMenu extends JFrame implements WindowListener
 	public GameView getView()
 	{
 		return view;
+	}
+	
+	public void setPlayer(Player player)
+	{
+		this.player = player;
 	}
 	
 	public void windowActivated(WindowEvent arg0){}

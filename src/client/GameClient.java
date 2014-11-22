@@ -14,9 +14,11 @@ import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import model.Level0Map;
 import commands.Command;
 import commands.SendServerTowerCommand;
 import commands.SendServerTowerRemoveCommand;
+import commands.buildTowerCommand;
 import GUI.MainMenu;
 import GameController.Enemy;
 import GameController.Tower;
@@ -33,7 +35,9 @@ public class GameClient{
 	private ObjectOutputStream out; // output stream
 	private ObjectInputStream in; // input stream
 	
+	private Level0Map level = new Level0Map();
 	private MainMenu mainMenu;
+	private Player player;
 	
 	public void newMessage(String message) {
 		// TODO Display a new message to our text/chat panel. May need to add a local list of messages	
@@ -108,7 +112,8 @@ public class GameClient{
 			e.printStackTrace();
 		}
 		
-		mainMenu = new MainMenu();
+		mainMenu = new MainMenu(this);
+		mainMenu.setPlayer(player);
 		
 	}
 	
@@ -196,8 +201,8 @@ public class GameClient{
 		this.sendCommand(c);
 	}
 	
-	public void addEnemy(){
-		this.sendCommand(c);
+	public void addEnemy(Enemy e){
+
 	}
 	
 	public void removeEnemy(){

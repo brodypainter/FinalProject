@@ -31,6 +31,11 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 import javax.swing.UIManager;
 
+import GameController.CeruleanGym;
+import GameController.Tower;
+import client.GameClient;
+import client.Player;
+
 
 
 //Personal stuff:
@@ -55,6 +60,10 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 	boolean clickedTowerStore = false;
 	boolean trueForShrink;
 	
+	String user;
+	
+	Player player;
+	
 	int selectedTowerType;
 	
 	int levelWidth = 20;
@@ -77,24 +86,28 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 	
 	int qualitySetting;
 	
+	GameClient client;
+	
 	//Temp for attacking
 	int tempAttackTimerCounter = 0;
 	JLabel tempProjectile;
 	JLabel tempCubone;
 	Path tempAttackPath;
+	Point towerLocation;
 	//End temp for attacking
 	
 	public static void main(String[] args)
 	{
-		new GameView(gameType.SINGLE, "Billy");
+		new GameView(gameType.SINGLE, "Billy", null);
 	}
 	
-	public GameView(gameType type, String user)
+	public GameView(gameType type, String user, GameClient client)
 	{
 		//Setup for the JFrame, sets size, closeOperation, adds listeners, and so on
 		//Have setting in settings to choose between smooth and fast scaling
+		this.user = user;
 		qualitySetting = Image.SCALE_FAST;
-		
+		this.client = client;
 		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
 		setBounds(screen.width/8, screen.height/8, (3*screen.width)/4, (3*screen.height)/4);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -195,10 +208,10 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 		public void actionPerformed(ActionEvent arg0)
 		{
 			tempAttackTimerCounter++;
-			if(tempAttackTimerCounter <= 25)
+			if(tempAttackTimerCounter <= 12)
 			{
 				tempProjectile.setVisible(true);
-				tempProjectile.setLocation((int) ((tempAttackPath.getLocation(tempAttackTimerCounter * 4).x) * ((frame.getWidth() / levelWidth) * viewScale) + scrollLocation.x), (int) ((tempAttackPath.getLocation(tempAttackTimerCounter * 4).y) * ((frame.getHeight() / levelHeight) * viewScale) + scrollLocation.y));
+				tempProjectile.setLocation((int) ((tempAttackPath.getLocation(tempAttackTimerCounter * 8).x) * ((frame.getWidth() / levelWidth) * viewScale) + scrollLocation.x), (int) ((tempAttackPath.getLocation(tempAttackTimerCounter * 8).y) * ((frame.getHeight() / levelHeight) * viewScale) + scrollLocation.y));
 			}
 			else
 			{
@@ -245,6 +258,7 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 		//g.drawRect((int) (12.3*getSize().width)/15 + 10,(int) ((3*getSize().height)/3.8) + 30, (int) (getSize().width / 9.5), getSize().height / 8);
 		//g.drawRect(0, 30, bg.getWidth(this)/20, bg.getHeight(this)/12);
 	}
+	
 
 	/**
 	 * Creates an image icon based on the given URL
@@ -527,7 +541,10 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 			switch(selectedTowerType)
 			{
 			case NORMAL:
+				client.addTower(new CeruleanGym(user));
+				towerLocation = new Point(arg0.getX(), arg0.getY());
 				System.out.println("Attempting to place a normal tower at (" + ((arg0.getX() - scrollLocation.x) * 20)/(bg.getWidth(this)) + ", " + ((arg0.getY() - scrollLocation.y) * 20)/(bg.getWidth(this)) + ")");
+				break;
 			default:
 				System.out.println("Attempting to place a tower");
 			}
