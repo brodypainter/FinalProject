@@ -17,6 +17,7 @@ import javax.swing.JOptionPane;
 import commands.Command;
 import commands.SendServerTowerCommand;
 import commands.SendServerTowerRemoveCommand;
+import commands.buildTowerCommand;
 import GUI.MainMenu;
 import GameController.Enemy;
 import GameController.Tower;
@@ -196,7 +197,8 @@ public class GameClient{
 		this.sendCommand(c);
 	}
 	
-	public void addEnemy(){
+	public void addEnemy(Enemy e){
+		buildTowerCommand c = new buildTowerCommand(e);
 		this.sendCommand(c);
 	}
 	
