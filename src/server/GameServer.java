@@ -271,7 +271,7 @@ public class GameServer {
 	
 	//perhaps should be renamed to "sellTower"
 	public void removeTower(Tower tower) {
-		
+		level.removeTower(tower);
 	}
 
 	public void addEnemy(Enemy enemy) {

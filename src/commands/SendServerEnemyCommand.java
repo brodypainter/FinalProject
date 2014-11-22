@@ -1,8 +1,7 @@
 package commands;
 
-import GameController.Enemy;
-import GameController.Tower;
 import server.GameServer;
+import GameController.Enemy;
 
 /**
  * This class is a Command used to send a Tower object from the GameClient to the GameServer. This class is used for sending
