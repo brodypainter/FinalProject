@@ -213,8 +213,14 @@ public class GameClient{
 
 	}
 	
-	public void disconnect() throws Exception{
-		out.writeObject(new DisconnectCommand(player.getName()));
+	public int disconnect(){
+		try{
+			out.writeObject(new DisconnectCommand(player.getName()));
+			return 0;
+		}catch(Exception e){
+			e.printStackTrace();
+			return 1;
+		}
 	}
 	
 	/**
