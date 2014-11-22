@@ -97,7 +97,9 @@ public class GameServer {
 					outputs.put(clientName, output);
 					
 					//send the client the level and player, only once per player
+					System.out.println("Level Send Try");
 					output.writeObject(level);
+					System.out.println("Player Send Try");
 					output.writeObject(player);
 					
 					// spawn a thread to handle communication with this client
