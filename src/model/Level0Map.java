@@ -26,4 +26,8 @@ public class Level0Map extends Map{
 		super(gridDimensions, path, mapType, background, mapTypeCode, player);
 		
 	}
+
+	public Level0Map() {
+		super();
+	}
 }

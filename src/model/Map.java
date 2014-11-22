@@ -90,6 +90,10 @@ public abstract class Map implements Serializable{
 		towers = new ArrayList<Tower>();
 	}
 	
+	public Map() {
+		// TODO Auto-generated constructor stub
+	}
+
 	/**
 	 * Sets the Map instance variable in all the tiles in the 2D array grid to this map
 	 */
