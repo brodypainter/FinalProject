@@ -35,7 +35,7 @@ public class GameClient{
 	private ObjectOutputStream out; // output stream
 	private ObjectInputStream in; // input stream
 	
-	private Level0Map level = new Level0Map();
+	private Level0Map level;
 	private MainMenu mainMenu;
 	private Player player;
 	
@@ -111,7 +111,12 @@ public class GameClient{
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-		
+		try{
+			level = (Level0Map) in.readObject();
+			player = (Player) in.readObject();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 		mainMenu = new MainMenu(this);
 		mainMenu.setPlayer(player);
 		
@@ -197,8 +202,7 @@ public class GameClient{
 	}
 	
 	public void removeTower(){
-		SendServerTowerRemoveCommand c = new SendServerTowerRemoveCommand(t);
-		this.sendCommand(c);
+
 	}
 	
 	public void addEnemy(Enemy e){
@@ -206,7 +210,7 @@ public class GameClient{
 	}
 	
 	public void removeEnemy(){
-		this.sendCommand(c);
+
 	}
 	
 	

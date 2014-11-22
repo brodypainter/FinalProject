@@ -90,10 +90,15 @@ public class GameServer {
 					String clientName = (String)input.readObject();
 					
 					// create the single player, will need to change this for multiplayer games
+					// for multiplayer, this will need to check if the player already exists
 					player = new Player(clientName, 100, 100);
 					
 					// map client name to output stream
 					outputs.put(clientName, output);
+					
+					//send the client the level and player, only once per player
+					output.writeObject(level);
+					output.writeObject(player);
 					
 					// spawn a thread to handle communication with this client
 					new Thread(new ClientHandler(input)).start();
