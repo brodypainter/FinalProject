@@ -193,7 +193,7 @@ public class GameClient{
 	 * @param towerList
 	 */
 	public void update(List<Enemy> enemyList, List<Tower> towerList){
-		mainMenu.getView().update(enemyList, towerList);
+		mainMenu.getView().update(towerList, enemyList);
 	}
 	
 	public void addTower(Tower t){

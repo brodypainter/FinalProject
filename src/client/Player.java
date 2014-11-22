@@ -2,13 +2,14 @@ package client;
 
 import java.io.Serializable;
 
+import server.GameServer;
 import model.Map;
 
 
 
 /**
  * This class creates Player objects which are primarily responsible for
- * holding 4 instance variables, a name, the current map, and amounts of health points and money.
+ * holding 5 instance variables, a name, the server, the current map, and amounts of health points and money.
  * These objects will be stored in files and retrieved when games are saved and loaded.
  * 
  * Instance Variables:
@@ -19,7 +20,7 @@ import model.Map;
  * Map currentMap			- The Map that the player is currently playing
  * 
  * Methods:
- * Player(String name, int money, int healthPoints)
+ * Player(String name, GameServer server, int money, int healthPoints)
  * String getName()
  * int getMoney()
  * void setMoney(int amount)
@@ -39,6 +40,7 @@ public class Player implements Serializable{
 	
 	private static final long serialVersionUID = -937778023185001965L;
 	private String name;
+	private GameServer server;
 	private int money;
 	private int healthPoints;
 	private Map currentMap;
@@ -50,8 +52,9 @@ public class Player implements Serializable{
 	 * @param money The amount of money the Player starts with
 	 * @param healthPoints The amount of HP the player starts with
 	 */
-	public Player(String name, int money, int healthPoints){
+	public Player(String name, GameServer server, int money, int healthPoints){
 		this.name = name;
+		this.server = server;
 		this.money = money;
 		this.healthPoints = healthPoints;
 	}
@@ -145,7 +148,7 @@ public class Player implements Serializable{
 	 */
 	public void setMap(Map map){
 		currentMap = map;
+		map.setServer(server);
 	}
-	
 	
 }

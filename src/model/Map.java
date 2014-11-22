@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+import server.GameServer;
 import model.Tile;
 import client.Player;
 import GameController.Enemy;
@@ -64,6 +65,7 @@ public abstract class Map implements Serializable{
 	private Player player; //The associated player object for this map
 	private ArrayList<Enemy> enemies; //A list of all the enemies currently on the map
 	private ArrayList<Tower> towers; //A list of all the towers currently placed on the map
+	private GameServer server; //The GameServer that the player is on, map will send it notify update calls
 	
 	
 	/**
@@ -267,6 +269,11 @@ public abstract class Map implements Serializable{
 		for(Enemy enemy : enemies){
 			enemy.tick();
 		}
+	}
+
+	public void setServer(GameServer server) {
+		this.server = server;
+		
 	}
 	
 	

@@ -38,6 +38,7 @@ public class GameServer {
 	private Vector<Enemy> enemyList;
 	private Vector<Tower> towerList;
 	private Map level = new Level0Map();
+	private GameServer thisServer = this;
 	
 	/**
 	 *	This thread reads and executes commands sent by a client
@@ -91,7 +92,7 @@ public class GameServer {
 					
 					// create the single player, will need to change this for multiplayer games
 					// for multiplayer, this will need to check if the player already exists
-					player = new Player(clientName, 100, 100);
+					player = new Player(clientName, thisServer, 100, 100);
 					
 					// map client name to output stream
 					outputs.put(clientName, output);
@@ -221,7 +222,38 @@ public class GameServer {
 		command.execute(this);
 	}
 	
-	private void updateClients(){
+	
+
+	//These methods will be called by Command objects passed from client to server
+	//call level.getMap.appropriateMethod() in each case
+	
+	//TODO Flesh out this method
+	public void addTower(Tower tower) {
+		
+	}
+	
+	//perhaps should be renamed to "sellTower"
+	public void removeTower(Tower tower) {
+		
+	}
+	
+	//These 2 methods won't be necessary except until multi-player possibly
+	//public void addEnemy() {
+		
+	//}
+	
+	//public void removeEnemy() {
+		
+	//}
+	
+	
+	
+	//These following "notify" methods will be called by Map every time model changes in a way
+	//that requires animation, such as an enemy spawning, moving tiles, dying, or a
+	//tower being created, removed, upgraded, or removed.
+	//When Player is called to notify it will tell its GameServer to 
+	
+	public void updateClients(){
 		SendClientUpdate c = new SendClientUpdate(enemyList, towerList);
 		
 		if(!outputs.isEmpty()){
@@ -237,21 +269,10 @@ public class GameServer {
 		}
 		
 	}
-
-	//TODO Flesh out this method
-	public void addTower(Tower tower) {
+	
+	public void updateClientsOfAttack(){
+		
 		
 	}
 	
-	public void removeTower(Tower tower) {
-		
-	}
-	
-	public void addEnemy() {
-		
-	}
-	
-	public void removeEnemy() {
-		
-	}
 }
