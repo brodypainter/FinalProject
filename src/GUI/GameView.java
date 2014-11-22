@@ -32,9 +32,12 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 import javax.swing.UIManager;
 
+import GameController.Pikachu;
 import GameController.CeruleanGym;
 import GameController.Enemy;
 import GameController.Tower;
+import model.Level0Map;
+import model.Map;
 import client.GameClient;
 import client.Player;
 
@@ -61,6 +64,9 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 	boolean repaintGUI = true;
 	boolean clickedTowerStore = false;
 	boolean trueForShrink;
+	Timer animationTimer;
+	
+	String pewterProjectile = "/images/spinningBone.gif";
 	
 	HashMap towerMap;
 	
@@ -102,7 +108,7 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 	
 	public static void main(String[] args)
 	{
-		new GameView(gameType.SINGLE, "Billy", null, new Player("Billy", 100, 100));
+		new GameView(gameType.SINGLE, "Billy", null, new Player("Billy", 100, 100));//.animateAttack(new Pikachu(), new CeruleanGym("Billy"));
 	}
 	
 	public GameView(gameType type, String user, GameClient client, Player player)
@@ -123,6 +129,8 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 		addComponentListener(new resizeListener());
 		addMouseMotionListener(this);
 		
+		animationTimer = new Timer(50, null);
+
 		Toolkit kit = Toolkit.getDefaultToolkit();
 		Cursor cursor = kit.createCustomCursor(createImageIcon("/images/cursor.png").getImage(), new Point(0,0), "Cursor");
 		setCursor(cursor);
@@ -233,7 +241,31 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 	
 	public boolean animateAttack(Enemy enemy, Tower tower)
 	{
+		if(tower.getGymName().equals("Cerulean Gym"))
+		{
+			System.out.println("This tower");
+			JLabel proj = new JLabel(new ImageIcon(createImageIcon(pewterProjectile).getImage().getScaledInstance(this.getWidth()/40, this.getHeight()/26, Image.SCALE_FAST)));
+			animationTimer.addActionListener(new attackAnimation(proj, enemy));
+		}
 		return true;
+	}
+	
+	class attackAnimation implements ActionListener
+	{
+		JLabel label;
+		
+		attackAnimation(JLabel label, Enemy enemy)
+		{
+			this.label = label;
+			System.out.println(enemy.getProgress());
+		}
+		
+		public void actionPerformed(ActionEvent arg0)
+		{
+			
+			
+		}
+		
 	}
 	
 	
@@ -518,10 +550,37 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 		//towerStorePanel.repaint();
 	}
 	
-	public void update(List towers, List enemies)
+	public void update(List<Tower> towers, List<Enemy> enemies)
 	{
+		if(!this.towers.equals(towers))
+		{
+			for(int i = 0; i < board.getComponentCount(); i++)
+			{
+				if(board.getComponent(i).getName().equals("tower"))
+				{
+					board.remove(i);
+				}
+			}
+			for(Tower tower : towers)
+			{
+				
+			}
+		}
+		
+		
 		this.towers = towers;
 		this.enemies = enemies;
+		
+	}
+	
+	public void addEnemy(Enemy enemy)
+	{
+		
+	}
+	
+	public void removeEnemy(Enemy enemy)
+	{
+		
 	}
 	
 	public void mouseMoved(MouseEvent arg0)
