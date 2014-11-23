@@ -43,11 +43,20 @@ public class MainMenu extends JFrame implements WindowListener
 	public static void main(String[] args)
 	{
 		//new GameServer();
-		new MainMenu(new GameClient()); 
+		new GameClient(); 
 	}
 	
 	public MainMenu(GameClient client)
 	{
+		try
+		{
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		}
+		catch(Exception e)
+		{
+			System.out.println("Unable to set operating system look and feel");
+		}
+		
 		this.username = JOptionPane.showInputDialog("Enter username");
 		if(username == null || username.equals(""))
 		{
@@ -59,14 +68,7 @@ public class MainMenu extends JFrame implements WindowListener
 		this.setLayout(null);
 		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
 		
-		try
-		{
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		}
-		catch(Exception e)
-		{
-			System.out.println("Unable to set operating system look and feel");
-		}
+		
 		
 		//line below sets frame to be half of width and height of screen, and puts it in the middle
 		setBounds((int) (screen.getWidth()/4), (int) (screen.getHeight()/4), (int) (screen.getWidth()/2), (int) (screen.getHeight()/2));

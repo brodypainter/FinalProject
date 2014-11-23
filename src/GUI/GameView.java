@@ -68,7 +68,15 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 	
 	String pewterProjectile = "/images/spinningBone.gif";
 	
-	HashMap towerMap;
+	String pewterTower = "/images/cuboneStatic.png";
+	
+	String enemy1ImageUp = "/images/pikachuUp.gif";
+	String enemy1ImageDn = "/images/pikachuDown.gif";
+	String enemy1ImageL = "/images/pikachuLeft.gif";
+	String enemy1ImageR = "/images/pikachuRight.gif";
+	
+	HashMap<Tower, JLabel> towerMap;
+	HashMap<Enemy, JLabel> enemyMap;
 	
 	String user;
 	
@@ -108,7 +116,7 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 	
 	public static void main(String[] args)
 	{
-		new GameView(gameType.SINGLE, "Billy", null, new Player("Billy", 100, 100));//.animateAttack(new Pikachu(), new CeruleanGym("Billy"));
+		new GameClient();
 	}
 	
 	public GameView(gameType type, String user, GameClient client, Player player)
@@ -130,6 +138,8 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 		addMouseMotionListener(this);
 		
 		animationTimer = new Timer(50, null);
+		
+		//enemy1up = new JLabel(new ImageIcon(createImageIcon()));
 
 		Toolkit kit = Toolkit.getDefaultToolkit();
 		Cursor cursor = kit.createCustomCursor(createImageIcon("/images/cursor.png").getImage(), new Point(0,0), "Cursor");
@@ -419,6 +429,7 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 				selectedTowerFromStore.setBounds(arg0.getX()-30, arg0.getY()-45, selectedTowerFromStore.getWidth(), selectedTowerFromStore.getHeight());
 				selectedTowerFromStore.setVisible(true);
 				selectedTowerType = NORMAL;
+				addTower(new CeruleanGym("Test"));
 				return;
 			}
 			Rectangle tower2 = new Rectangle((int)(2.6*getSize().width)/15 + 10,(int) ((3*getSize().height)/3.8) + 30, (int) (getSize().width / 9.5), getSize().height / 8);
@@ -569,14 +580,54 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 		
 		
 		this.towers = towers;
-		this.enemies = enemies;
-		
+		this.enemies = enemies;	
+	}
+	
+
+	enum direction{NORTH, EAST, SOUTH, WEST};
+	
+	public direction direction(Enemy enemy)
+	{
+		if(enemy.getLocation().x - enemy.getNextLocation().x > 0)
+		{
+			System.out.println("L");
+		}
+		else if(enemy.getLocation().x - enemy.getNextLocation().x < 0)
+		{
+			System.out.println("R");
+		}
+		else if(enemy.getLocation().y - enemy.getNextLocation().y < 0)
+		{
+			System.out.println("U");
+		}
+		else if(enemy.getLocation().y - enemy.getNextLocation().y < 0)
+		{
+			System.out.println("D");
+		}
+		return direction.NORTH;
 	}
 	
 	public void addEnemy(Enemy enemy)
 	{
-		
+		JLabel temp;
+		switch(direction(enemy))
+		{
+		case NORTH:
+			temp = new JLabel(new ImageIcon(createImageIcon(enemy1ImageUp).getImage().getScaledInstance((int) ((frame.getWidth()/levelWidth) * viewScale), (int) ((frame.getHeight()/levelHeight) * viewScale),Image.SCALE_FAST)));
+		case SOUTH:
+			temp = new JLabel(new ImageIcon(createImageIcon(enemy1ImageDn).getImage().getScaledInstance((int) ((frame.getWidth()/levelWidth) * viewScale), (int) ((frame.getHeight()/levelHeight) * viewScale),Image.SCALE_FAST)));
+		case EAST:
+			temp = new JLabel(new ImageIcon(createImageIcon(enemy1ImageL).getImage().getScaledInstance((int) ((frame.getWidth()/levelWidth) * viewScale), (int) ((frame.getHeight()/levelHeight) * viewScale),Image.SCALE_FAST)));
+		case WEST:
+			temp = new JLabel(new ImageIcon(createImageIcon(enemy1ImageR).getImage().getScaledInstance((int) ((frame.getWidth()/levelWidth) * viewScale), (int) ((frame.getHeight()/levelHeight) * viewScale),Image.SCALE_FAST)));
+		default:
+			temp = new JLabel(new ImageIcon(createImageIcon(enemy1ImageUp).getImage().getScaledInstance((int) ((frame.getWidth()/levelWidth) * viewScale), (int) ((frame.getHeight()/levelHeight) * viewScale),Image.SCALE_FAST)));
+		}
+		enemyMap.put(enemy, temp);
+		temp.setLocation(scrollLocation.x + (enemy.getLocation().x*(board.getWidth()/levelWidth) - (enemy.getLocation().x*(board.getWidth()/levelWidth) % enemy.getLocation().x*(board.getWidth()/levelWidth))), scrollLocation.y + (enemy.getLocation().y*(board.getHeight()/levelHeight)));
+		board.add(temp);
 	}
+	
 	
 	public void removeEnemy(Enemy enemy)
 	{
@@ -585,6 +636,11 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 	
 	public void addTower(Tower tower)
 	{
+		JLabel temp = new JLabel(new ImageIcon(createImageIcon(pewterTower).getImage().getScaledInstance(this.getWidth()/levelWidth, this.getHeight()/levelHeight, qualitySetting)));
+		temp.setLocation(scrollLocation.x + (tower.getPosition().x*(board.getWidth()/levelWidth)), scrollLocation.y + (tower.getPosition().y*(board.getHeight()/levelHeight)));
+		temp.setSize(this.getWidth()/levelWidth, this.getHeight()/levelHeight);
+		towerMap.put(tower, temp);
+		
 		
 	}
 	
@@ -619,8 +675,8 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 			switch(selectedTowerType)
 			{
 			case NORMAL:
-				client.addTower(new CeruleanGym(user));
-				towerLocation = new Point(arg0.getX(), arg0.getY());
+				client.addTower(new CeruleanGym(user), new Point(arg0.getX(), arg0.getY()));
+				//towerLocation = new Point(arg0.getX(), arg0.getY());
 				System.out.println("Attempting to place a normal tower at (" + ((arg0.getX() - scrollLocation.x) * 20)/(bg.getWidth(this)) + ", " + ((arg0.getY() - scrollLocation.y) * 20)/(bg.getWidth(this)) + ")");
 				break;
 			default:
