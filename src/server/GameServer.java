@@ -308,10 +308,17 @@ public class GameServer implements Serializable{
 		sendCommand(c);
 	}
 	
-
-	//This method is called by the currentLevel's Map whenever a tower attacks
+	/**
+	 * Brody changed Sun 2:29
+	 * 
+	 * This method is called by the currentLevel's Map whenever a tower attacks
+	 * @param attackingTower
+	 * @param victim
+	 */
 	public void updateClientsOfAttack(Tower attackingTower, Enemy victim){
 		//TODO: Brody create and send a command object to the clients to animate the attack
+		Command c = new SendClientTowerAttack(attackingTower, victim);
+		sendCommand(c);
 	}
 	
 	//This method is called once when the currentLevel's Map is first instantiated
