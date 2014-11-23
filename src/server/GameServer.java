@@ -1,6 +1,7 @@
 package server;
 
 import java.awt.Point;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
@@ -17,12 +18,9 @@ import model.LevelFactory;
 import model.Map;
 import GameController.Enemy;
 import GameController.Tower;
+import client.GameClient;
 import client.Player;
-import commands.Command;
-import commands.DisconnectCommand;
-import commands.SendClientMessageCommand;
-import commands.SendClientUpdate;
-import commands.TimeCommand;
+import commands.*;
 
 /**
  * This class is the server side of the tower defense game. The server keeps track of all client outputs, and manages
@@ -254,6 +252,20 @@ public class GameServer implements Serializable{
 		
 	//}
 	
+	// Implement this in a few
+	public void sendCommand(Command<GameClient> c){
+		if(!outputs.isEmpty()){
+			for (ObjectOutputStream out : outputs.values()){
+				try{
+					System.out.println("Send command try on " + out);
+					out.writeObject(c);
+					System.out.println("command sent");
+				}catch(Exception e){
+					e.printStackTrace();
+				}
+			}
+		}
+	}
 	
 	
 	//These following "notify" methods will be called by Map every time model changes in a way
@@ -284,13 +296,16 @@ public class GameServer implements Serializable{
 	}
 	
 	/**
+	 * Brody changed Sun 2:18
+	 * 
 	 * This method will be called every time player's info changes
 	 * @param playerHealth
 	 * @param playerMoney
 	 */
 	public void updateClients(int playerHealth, int playerMoney){
-		//TODO: Brody make a new Command to transfer player's updated HP and Money to Client then send it
-		
+		//TODO Finish SendClientHPandMoney with a method for it to execute on in client
+		Command c = new SendClientHPandMoney(playerHealth, playerMoney);
+		sendCommand(c);
 	}
 	
 
