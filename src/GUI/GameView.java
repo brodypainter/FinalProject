@@ -130,7 +130,8 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 		this.client = client;
 		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
 		setBounds(screen.width/8, screen.height/8, (3*screen.width)/4, (3*screen.height)/4);
-		setDefaultCloseOperation(client.disconnect());
+		//setDefaultCloseOperation(client.disconnect());
+		setDefaultCloseOperation(this.EXIT_ON_CLOSE);
 		setBackground(Color.BLUE);
 		setLayout(null);
 		setTitle("Pokemon Tower Defense - " + user);
