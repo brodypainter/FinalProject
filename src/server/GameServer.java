@@ -267,6 +267,7 @@ public class GameServer {
 	
 	//TODO Flesh out this method
 	public void addTower(Tower tower, Point loc) {
+		System.out.println("addTower command received, adding tower to current level");
 		currentLevel.getMap().addTower(tower, loc);
 	}
 	

@@ -190,8 +190,11 @@ public class GameClient{
 	}
 	
 	public void addTower(Tower t, Point loc){
+		System.out.println("Constructing SendServerTowerCommand");
 		SendServerTowerCommand c = new SendServerTowerCommand(t, loc);
+		System.out.println("Sending SendServerTowerCommand");
 		this.sendCommand(c);
+		System.out.println("Command Sent");
 	}
 	
 	public void removeTower(Tower t){
