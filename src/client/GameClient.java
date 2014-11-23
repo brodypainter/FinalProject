@@ -15,7 +15,6 @@ import GameController.Tower;
 
 import commands.Command;
 import commands.DisconnectCommand;
-import commands.SendServerEnemyRemoveCommand;
 import commands.SendServerTowerCommand;
 import commands.SendServerTowerRemoveCommand;
 
@@ -202,10 +201,11 @@ public class GameClient{
 		this.sendCommand(c);
 	}
 	
+	/*//Unnecessary method for now unless we make a player click remove enemy type thing
 	public void removeEnemy(Enemy e){
 		SendServerEnemyRemoveCommand c = new SendServerEnemyRemoveCommand(e);
 		this.sendCommand(c);
-	}
+	}*/
 	
 	public int disconnect(){
 		try{

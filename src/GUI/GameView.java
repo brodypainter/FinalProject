@@ -481,9 +481,9 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 	
 	class tempTower extends Tower
 	{
-		public tempTower(String Name, int Attack, int Radius, double FireRateSec, String PlayersName, String Image)
+		public tempTower(String Name, int Attack, int Radius, double FireRateSec, String PlayersName, String Image, int cost)
 		{
-			super(Name, Attack, Radius, FireRateSec, PlayersName, Image);
+			super(Name, Attack, Radius, FireRateSec, PlayersName, Image, cost);
 		}
 		public boolean AttackEnemy(ArrayList<Enemy> enemies)
 		{
@@ -711,7 +711,7 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 				client.addTower(new CeruleanGym(user), new Point(arg0.getX(), arg0.getY()));
 				//towerLocation = new Point(arg0.getX(), arg0.getY());
 				System.out.println("Attempting to place a normal tower at (" + ((arg0.getX() - scrollLocation.x) * 20)/(bg.getWidth(this)) + ", " + ((arg0.getY() - scrollLocation.y) * 20)/(bg.getWidth(this)) + ")");
-				client.addTower(new tempTower("Test Tower", 10, 3, 1, user, pewterTower), new Point(((arg0.getX() - scrollLocation.x) * 20)/(bg.getWidth(this)), ((arg0.getY() - scrollLocation.y) * 20)/(bg.getWidth(this))));
+				client.addTower(new tempTower("Test Tower", 10, 3, 1, user, pewterTower, 0), new Point(((arg0.getX() - scrollLocation.x) * 20)/(bg.getWidth(this)), ((arg0.getY() - scrollLocation.y) * 20)/(bg.getWidth(this))));
 				break;
 			default:
 				System.out.println("Attempting to place a tower");
