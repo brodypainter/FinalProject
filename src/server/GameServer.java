@@ -81,8 +81,8 @@ public class GameServer {
 	 */
 	private class ClientAccepter implements Runnable{
 		public void run() {
-			try{
-				while(true){
+			while(true){
+				try{
 					// accept a new client, get output & input streams
 					System.out.println("\t socket accepter");
 					Socket s = socket.accept();
@@ -102,8 +102,9 @@ public class GameServer {
 					//send the client the level and player, only once per player
 					System.out.println("Level Send Try");
 					output.writeObject(currentLevel);
-					System.out.println("Player Send Try");
+					System.out.println("Level Send Success\nPlayer Send Try");
 					output.writeObject(player);
+					System.out.println("Player Send Success");
 					
 					// spawn a thread to handle communication with this client
 					new Thread(new ClientHandler(input)).start();
@@ -111,9 +112,9 @@ public class GameServer {
 					// add a notification message to the chat log
 					System.out.println("\t new client: " + clientName);
 					newMessage(clientName + " connected");
+				}catch(Exception e){
+					e.printStackTrace();
 				}
-			}catch(Exception e){
-				e.printStackTrace();
 			}
 		}
 	}
@@ -259,7 +260,6 @@ public class GameServer {
 				}
 			}
 		}
-		
 	}
 	
 
@@ -271,7 +271,6 @@ public class GameServer {
 	//These methods will be called by Command objects passed from client to server
 	//call level.getMap.appropriateMethod() in each case
 	
-	//TODO Flesh out this method
 	public void addTower(Tower tower, Point loc) {
 		System.out.println("addTower command received, adding tower to current level");
 		currentLevel.getMap().addTower(tower, loc);
@@ -283,12 +282,10 @@ public class GameServer {
 	}
 
 	public void addEnemy(Enemy enemy) {
-		// TODO Auto-generated method stub
 		currentLevel.getMap().spawnEnemy(enemy);
-		}
+	}
 
 	public void removeEnemy(Enemy enemy) {
-		// TODO Auto-generated method stub
 		currentLevel.getMap().removeDeadEnemy(enemy.getLocation(), enemy);
 		//enemyList.remove(enemyList.indexOf(enemy));
 	}
