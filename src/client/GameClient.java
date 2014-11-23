@@ -1,31 +1,29 @@
 package client;
 
 import java.awt.Point;
+<<<<<<< HEAD
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.EOFException;
+=======
+>>>>>>> 439ea0fb3ac227faea8edda5cdaf59334b6960c6
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.net.SocketException;
-import java.util.Collection;
 import java.util.List;
 
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-
 import model.Level0Map;
+import server.GameServer;
+import GUI.MainMenu;
+import GameController.Enemy;
+import GameController.Tower;
+
 import commands.Command;
 import commands.DisconnectCommand;
 import commands.SendServerEnemyRemoveCommand;
 import commands.SendServerTowerCommand;
 import commands.SendServerTowerRemoveCommand;
-import commands.buildTowerCommand;
-import GUI.MainMenu;
-import GameController.Enemy;
-import GameController.Tower;
-import server.GameServer;
 
 public class GameClient{
 	private String clientName = "tester"; // user name of the client
@@ -171,7 +169,6 @@ public class GameClient{
 			out.writeObject(command);
 		} catch (IOException e) {
 			System.out.println("sendCommand FAILED");
-			e.printStackTrace();
 		}
 	}
 

@@ -271,7 +271,11 @@ public abstract class Tower implements Serializable{
 		
 	}
 	
-	
+	/**
+	 * This takes the list of enemies and in that list find a single enemy that is the closest
+	 * @param enemies
+	 * @return
+	 */
 	public Enemy findClosestEnemy(ArrayList<Enemy> enemies){
 		Enemy closests = null;
 		Double shortestDist = null;

@@ -32,9 +32,10 @@ public abstract class Level {
   private int startingMoney;
   
   
-  public Level(Player player, GameServer server){
+  public Level(Player player, GameServer server, Map theMap){
   this.player = player;
   this.server = server;
+  this.map = theMap;
   timer = new Timer();
   playerIsAlive = true;
   levelSpecificSetup();
@@ -55,9 +56,18 @@ public abstract class Level {
   
   //May want game over/player won type methods...
   
+<<<<<<< HEAD
   
   public Map getMap(){
 	  return map;
+=======
+  public Map getMap(){
+	  return this.map;
+  }
+  
+  public Player getPlayer(){
+	  return this.player;
+>>>>>>> 332f0501e71a13ccba0055cdf4135682046c82e0
   }
 
 }
