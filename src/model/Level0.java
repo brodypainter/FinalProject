@@ -147,6 +147,12 @@ public class Level0 extends Level{
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public void setMap() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }
 

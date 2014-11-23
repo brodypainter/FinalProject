@@ -2,6 +2,7 @@ package model;
 
 import java.util.ArrayList;
 import java.util.Timer;
+import java.util.TimerTask;
 
 import server.GameServer;
 import GameController.Enemy;
@@ -25,6 +26,7 @@ public abstract class Level {
   protected Map map; //The map of the level to which enemy waves will be spawned, create with MapFactory class
   private ArrayList<ArrayList<Enemy>> wavesList; //A list of lists of enemies, each a wave. ex: wave1, wave2, etc...
   private Timer timer;//Use scheduleAtFixedRate() method and create a TimerTask that will spawn waves at intervals
+  private TimerTask enemySpawnTask;
   private long waveIntervals; //May not be necessary, but could use this for consistent changeable intervals in timer method
                               //It is in miliseconds so it would have to be say 30000 for 30 secs between waves.
   private int enemySpawnIntervals; //The time in miliseconds between each spawning of an enemy within a wave
@@ -36,7 +38,6 @@ public abstract class Level {
   public Level(Player player, GameServer server){
   this.player = player;
   this.server = server;
-  timer = new Timer();
   playerIsAlive = true;
   levelSpecificSetup();
   levelStart();
@@ -51,6 +52,7 @@ public abstract class Level {
 	  setPlayerStartingMoney();
 	  setWaveDelayIntervals();
 	  setEnemySpawnDelayIntervals();
+	  setMap();
   }
   
   public abstract void createWaves(); //create wavesList and populate it with enemies specific to each Level
@@ -58,17 +60,32 @@ public abstract class Level {
   public abstract void setPlayerStartingMoney();
   public abstract void setWaveDelayIntervals();
   public abstract void setEnemySpawnDelayIntervals();
+  public abstract void setMap(); //Use MapFactory to say this.map = MapFactory.generateMap(...)
   
   //Call server to start its global timer
   //Set the timer with a level specific TimerTask method to call spawnEnemy on map with the waves in waveslist
   //maybe thread.sleep for 1 sec or so between each enemy spawn in the wave or make another timer for that?
   //check for if player is dead at any point in time (while loop?) to stop game
   //if player survives till end call a method to indicate player won the level
-  public abstract void levelStart();
+  public void levelStart(){
+	  server.startTimer(); //Starts the Master Timer on the server
+	  timer = new Timer(); //A timer for Level to use personally to delay spawn of each individual enemy of the wave
+	  TimerTask task = new spawnEnemyTask();
+	timer.scheduleAtFixedRate(task, 20000L, enemySpawnIntervals);
+	 
+  }
   
   //May want game over/player won type methods...
   
-  
+  private class spawnEnemyTask extends TimerTask{
+
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		
+	}
+	  
+  }
   
   public Map getMap(){
 	  return map;
