@@ -19,7 +19,7 @@ import commands.SendServerTowerCommand;
 import commands.SendServerTowerRemoveCommand;
 
 public class GameClient{
-	private String clientName = "tester"; // user name of the client
+	private String clientName = "Tester"; // user name of the client
 	
 	// Hardcoded values for testing
 	private String host = "localhost";
@@ -46,21 +46,26 @@ public class GameClient{
 	 */
 	private class ServerHandler implements Runnable{
 		public void run() {
-			try{
-				while(true){
+			while(true){
+				try{
 					// read a command from server and execute it
+					/*
+					 * GET RID OF THE LOOP HERE AND FIND ANOTHER WAY TO WAIT FOR AN OBJECT!
+					 * 
+					 */
+					System.out.println("Read Object");
 					Command<GameClient> c = (Command<GameClient>)in.readObject();
 					c.execute(GameClient.this);
 				}
-			}
-//			catch(SocketException e){
-//				return; // "gracefully" terminate after disconnect
-//			}
-//			catch (EOFException e) {
-//				return; // "gracefully" terminate
-//			}
-			catch(Exception e){
-				e.printStackTrace();
+	//			catch(SocketException e){
+	//				return; // "gracefully" terminate after disconnect
+	//			}
+	//			catch (EOFException e) {
+	//				return; // "gracefully" terminate
+	//			}
+				catch(Exception e){
+					e.printStackTrace();
+				}
 			}
 		}
 	}
@@ -162,6 +167,7 @@ public class GameClient{
 			out.writeObject(command);
 		} catch (IOException e) {
 			System.out.println("sendCommand FAILED");
+			e.printStackTrace();
 		}
 	}
 
