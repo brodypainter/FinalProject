@@ -77,7 +77,8 @@ public abstract class Tower implements Serializable{
 	 * @param PlayersName is the name of the player who owns the tower (Might be unnecessary)
 	 * This is our constructor
 	 */
-	public Tower (String Name, int Attack, int Radius, double FireRateSec, String PlayersName, String Image, int cost){
+	public Tower (String Name, int Attack, int Radius, double FireRateSec, String PlayersName,
+					String Image, int cost){
 		this.TowerName = Name;
 		this.AttackPts = Attack;
 		this.RadiusPxls = Radius;

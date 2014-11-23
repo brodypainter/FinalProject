@@ -120,8 +120,10 @@ public abstract class Enemy implements Serializable{
 	
 	// this method just checks if the enemy is dead and returns a boolean depending on it
 	public boolean isDead(){
-		if( this.Health <= 0)
+		if( this.Health <= 0){
+			map.gainedGold(Worth); // this calls the maps gainedGold method passing it he worth of the Enemy
 			return true;
+		}
 		return false;
 	}
 	
