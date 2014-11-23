@@ -12,6 +12,7 @@ import javax.swing.JOptionPane;
 
 import model.Level0Map;
 import server.GameServer;
+import GUI.GameView.towerType;
 import GUI.MainMenu;
 import GameController.Enemy;
 import GameController.Tower;
@@ -196,9 +197,9 @@ public class GameClient{
 		mainMenu.getView().update(towerList, enemyList);
 	}
 	
-	public void addTower(Tower t, Point loc){
+	public void addTower(towerType normal, Point loc){
 		System.out.println("Constructing SendServerTowerCommand");
-		SendServerTowerCommand c = new SendServerTowerCommand(t, loc);
+		SendServerTowerCommand c = new SendServerTowerCommand(normal, loc);
 		System.out.println("Sending SendServerTowerCommand");
 		this.sendCommand(c);
 		System.out.println("Command Sent");
@@ -217,6 +218,7 @@ public class GameClient{
 	
 	public int disconnect(){
 		try{
+			System.out.println("Disconnecting");
 			out.writeObject(new DisconnectCommand(player.getName()));
 			return 0;
 		}catch(Exception e){
