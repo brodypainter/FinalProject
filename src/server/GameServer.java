@@ -10,9 +10,6 @@ import java.util.HashMap;
 import java.util.Timer;
 import java.util.Vector;
 
-
-
-
 import model.Level;
 import model.Level0Map;
 import model.Map;
@@ -260,16 +257,17 @@ public class GameServer {
 	}
 	
 
-	public void updateClientsOfAttack(Tower gym, Enemy pokemon){
+
+	public void updateClientsOfAttack(Tower attackingTower, Enemy victim){
 		//Brody create and send a command object to the clients to animate the attack
-		
 	}
-	
+
 	//These methods will be called by Command objects passed from client to server
 	//call level.getMap.appropriateMethod() in each case
 	
 	//TODO Flesh out this method
 	public void addTower(Tower tower, Point loc) {
+		System.out.println("addTower command received, adding tower to current level");
 		currentLevel.getMap().addTower(tower, loc);
 	}
 	
