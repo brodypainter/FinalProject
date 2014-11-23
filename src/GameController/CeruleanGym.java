@@ -32,7 +32,7 @@ public class CeruleanGym extends Tower{
 	 * @param PlayersName is the only value the gym 
 	 */
 	public CeruleanGym(String PlayersName){
-		super("Cerulean Gym", 25, 3, 3.0, PlayersName,"ImageURL Here", Cost);
+		super("Cerulean Gym", 25, 3, 3.0, PlayersName,"src/images/cuboneStatic.png", Cost);
 		// TODO Auto-generated constructor stub
 	}
 

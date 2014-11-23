@@ -25,11 +25,11 @@ public class Pikachu extends Enemy{
 	 * @param worth the worth of the monster as it is created
 	 * @param Image
 	 *
-	 *public Pokemon (int health, int attackPower, int defense, int speed, String name, int worth, String Image)
+	 *public Pokemon (int health, int attackPower, int defense, int speed, String name, int worth, String Image, Map map)
 	 */
 	
 	public Pikachu(Map currentMap) {
-		super(100, 10, 12, 1.0, "Pikachu", 25, "Image URL", currentMap);
+		super(100, 10, 12, 1.0, "Pikachu", 25, "src/images/pikachuStatic.png", currentMap);
 	}
 
 	

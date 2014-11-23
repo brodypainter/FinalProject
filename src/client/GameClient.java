@@ -1,18 +1,20 @@
 package client;
 
 import java.awt.Point;
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 import model.Level0Map;
 import server.GameServer;
 import GUI.MainMenu;
 import GameController.Enemy;
 import GameController.Tower;
-
 import commands.Command;
 import commands.DisconnectCommand;
 import commands.SendServerTowerCommand;
@@ -41,7 +43,7 @@ public class GameClient{
 	/**
 	 * This class reads and executes commands sent from the server
 	 * 
-	 * @author Gabriel Kishi
+	 * @author Brody Painter
 	 *
 	 */
 	private class ServerHandler implements Runnable{
@@ -54,15 +56,15 @@ public class GameClient{
 					 * 
 					 */
 					System.out.println("Read Object");
-					Command<GameClient> c = (Command<GameClient>)in.readObject();
-					c.execute(GameClient.this);
+					//Command<GameClient> c = (Command<GameClient>)in.readObject();
+					//c.execute(GameClient.this);
+					System.out.println(in.readObject());
 				}
-	//			catch(SocketException e){
 	//				return; // "gracefully" terminate after disconnect
 	//			}
-	//			catch (EOFException e) {
-	//				return; // "gracefully" terminate
-	//			}
+				catch (EOFException e) {
+					return; // "gracefully" terminate
+				}
 				catch(Exception e){
 					e.printStackTrace();
 				}
@@ -72,9 +74,9 @@ public class GameClient{
 	
 	public GameClient(){
 		// ask the user for a host, port, and user name
-		// String host = JOptionPane.showInputDialog("Host address:");
-		// String port = JOptionPane.showInputDialog("Host port:");
-		// clientName = JOptionPane.showInputDialog("User name:");
+		 String host = JOptionPane.showInputDialog("Host address:");
+		 String port = JOptionPane.showInputDialog("Host port:");
+		 clientName = JOptionPane.showInputDialog("User name:");
 		
 		
 		if (host == null || port == null || clientName == null)
