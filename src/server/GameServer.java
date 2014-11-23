@@ -30,6 +30,12 @@ import commands.TimeCommand;
  * @author Brody Painter
  */
 public class GameServer implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2161825695191929679L;
+
 	private ServerSocket socket; // the server socket
 	
 	private String latestMessage;	// the chat log
@@ -82,8 +88,8 @@ public class GameServer implements Serializable{
 	 */
 	private class ClientAccepter implements Runnable{
 		public void run() {
-			try{
-				while(true){
+			while(true){
+				try{
 					// accept a new client, get output & input streams
 					System.out.println("\t socket accepter");
 					Socket s = socket.accept();
@@ -95,7 +101,7 @@ public class GameServer implements Serializable{
 					
 					// create the single player, will need to change this for multiplayer games
 					// for multiplayer, this will need to check if the player already exists
-					player = new Player(clientName, thisServer, 100, 100);
+					player = new Player(clientName, 100, 100);
 					
 					// map client name to output stream
 					outputs.put(clientName, output);
@@ -103,8 +109,10 @@ public class GameServer implements Serializable{
 					//send the client the level and player, only once per player
 					System.out.println("Level Send Try");
 					output.writeObject(currentLevel);
-					System.out.println("Player Send Try");
+					System.out.println("Level Send Success\nPlayer Send Try");
+					System.out.println("Player is: " + player.toString());
 					output.writeObject(player);
+					System.out.println("Player Send Success");
 					
 					// spawn a thread to handle communication with this client
 					new Thread(new ClientHandler(input)).start();
@@ -112,9 +120,9 @@ public class GameServer implements Serializable{
 					// add a notification message to the chat log
 					System.out.println("\t new client: " + clientName);
 					newMessage(clientName + " connected");
+				}catch(Exception e){
+					e.printStackTrace();
 				}
-			}catch(Exception e){
-				e.printStackTrace();
 			}
 		}
 	}
@@ -260,7 +268,6 @@ public class GameServer implements Serializable{
 				}
 			}
 		}
-		
 	}
 	
 
@@ -272,7 +279,6 @@ public class GameServer implements Serializable{
 	//These methods will be called by Command objects passed from client to server
 	//call level.getMap.appropriateMethod() in each case
 	
-	//TODO Flesh out this method
 	public void addTower(Tower tower, Point loc) {
 		System.out.println("addTower command received, adding tower to current level");
 		currentLevel.getMap().addTower(tower, loc);
@@ -284,12 +290,10 @@ public class GameServer implements Serializable{
 	}
 
 	public void addEnemy(Enemy enemy) {
-		// TODO Auto-generated method stub
 		currentLevel.getMap().spawnEnemy(enemy);
-		}
+	}
 
 	public void removeEnemy(Enemy enemy) {
-		// TODO Auto-generated method stub
 		currentLevel.getMap().removeDeadEnemy(enemy.getLocation(), enemy);
 		//enemyList.remove(enemyList.indexOf(enemy));
 	}

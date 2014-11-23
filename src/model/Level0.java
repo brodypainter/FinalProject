@@ -123,6 +123,30 @@ public class Level0 extends Level{
 		}
 		return false;
 	}
+
+	@Override
+	public void setPlayerStartingHP() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setPlayerStartingMoney() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setWaveDelayIntervals() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setEnemySpawnDelayIntervals() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }
 
