@@ -231,6 +231,7 @@ public abstract class Map implements Serializable{
 			tower.setPlaceOnBoard(location);
 			towers.add(tower);
 			tower.setMap(this);
+			server.updateClients(enemies, towers);
 		return grid[location.x][location.y].setGym(tower);
 		}else{
 			return false;

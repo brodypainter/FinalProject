@@ -1,12 +1,6 @@
 package client;
 
 import java.awt.Point;
-<<<<<<< HEAD
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.io.EOFException;
-=======
->>>>>>> 439ea0fb3ac227faea8edda5cdaf59334b6960c6
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;

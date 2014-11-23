@@ -5,16 +5,20 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Timer;
 import java.util.Vector;
 
+
+
+
+import model.Level;
 import model.Level0Map;
 import model.Map;
 import GameController.Enemy;
 import GameController.Tower;
 import client.Player;
-
 import commands.Command;
 import commands.DisconnectCommand;
 import commands.SendClientMessageCommand;
@@ -34,9 +38,10 @@ public class GameServer {
 	private HashMap<String, ObjectOutputStream> outputs; // map of all connected users' output streams
 	private Timer timer; //The master timer
 	private Player player;
-	private Vector<Enemy> enemyList;
-	private Vector<Tower> towerList;
-	private Map level = new Level0Map();
+	//private Vector<Enemy> enemyList;
+	//private Vector<Tower> towerList;
+	//private Map map = new Level0Map();
+	private Level currentLevel; //to be set by a command object from server
 	private GameServer thisServer = this;
 	
 	/**
@@ -58,7 +63,7 @@ public class GameServer {
 					command.execute(GameServer.this);
 					
 					// When there is a command from a client, update all of the clients
-					GameServer.this.updateClients();
+					//GameServer.this.updateClients();
 					// terminate if client is disconnecting
 					if (command instanceof DisconnectCommand){
 						input.close();
@@ -98,7 +103,7 @@ public class GameServer {
 					
 					//send the client the level and player, only once per player
 					System.out.println("Level Send Try");
-					output.writeObject(level);
+					output.writeObject(currentLevel);
 					System.out.println("Player Send Try");
 					output.writeObject(player);
 					
@@ -237,8 +242,8 @@ public class GameServer {
 	//tower being created, removed, upgraded, or removed.
 	//When Player is called to notify it will tell its GameServer to 
 	
-	public void updateClients(){
-		SendClientUpdate c = new SendClientUpdate(enemyList, towerList);
+	public void updateClients(ArrayList<Enemy> enemies, ArrayList<Tower> towers){
+		SendClientUpdate c = new SendClientUpdate(enemies, towers);
 		
 		if(!outputs.isEmpty()){
 			for (ObjectOutputStream out : outputs.values()){
@@ -254,8 +259,13 @@ public class GameServer {
 		
 	}
 	
+<<<<<<< HEAD
 	public void updateClientsOfAttack(Tower gym, Enemy pokemon){
 		
+=======
+	public void updateClientsOfAttack(Tower attackingTower, Enemy victim){
+		//Brody create and send a command object to the clients to animate the attack
+>>>>>>> cb8c0d2a99b30ebfacf26392d7bb0f85e32e3eeb
 		
 	}
 	
@@ -264,22 +274,23 @@ public class GameServer {
 	
 	//TODO Flesh out this method
 	public void addTower(Tower tower, Point loc) {
-		level.addTower(tower, loc);
+		currentLevel.getMap().addTower(tower, loc);
 	}
 	
 	//perhaps should be renamed to "sellTower"
 	public void removeTower(Tower tower) {
-		level.removeTower(tower);
+		currentLevel.getMap().removeTower(tower);
 	}
 
 	public void addEnemy(Enemy enemy) {
 		// TODO Auto-generated method stub
-		level.getEnemies().add(enemy);
-	}
+		currentLevel.getMap().spawnEnemy(enemy);
+		}
 
 	public void removeEnemy(Enemy enemy) {
 		// TODO Auto-generated method stub
-		enemyList.remove(enemyList.indexOf(enemy));
+		currentLevel.getMap().removeDeadEnemy(enemy.getLocation(), enemy);
+		//enemyList.remove(enemyList.indexOf(enemy));
 	}
 	
 }

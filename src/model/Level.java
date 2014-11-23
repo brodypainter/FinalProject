@@ -56,12 +56,18 @@ public abstract class Level {
   
   //May want game over/player won type methods...
   
+<<<<<<< HEAD
+  
+  public Map getMap(){
+	  return map;
+=======
   public Map getMap(){
 	  return this.map;
   }
   
   public Player getPlayer(){
 	  return this.player;
+>>>>>>> 332f0501e71a13ccba0055cdf4135682046c82e0
   }
 
 }
