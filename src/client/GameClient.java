@@ -57,7 +57,6 @@ public class GameClient{
 					Command<GameClient> c = (Command<GameClient>)in.readObject();
 					c.execute(GameClient.this);
 				}
-	//			catch(SocketException e){
 	//				return; // "gracefully" terminate after disconnect
 	//			}
 	//			catch (EOFException e) {
