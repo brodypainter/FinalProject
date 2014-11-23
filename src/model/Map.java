@@ -54,7 +54,7 @@ public abstract class Map implements Serializable{
 	
 	private static final long serialVersionUID = -6337999339368538419L;
 	private Tile[][] grid;
-	private Image img; //The background image of the map, determined by mapType (did I import the right one?)
+	private String imageURL; //The background image of the map
 	private LinkedList<Point> enemyPath; //A list of all of the tile coordinates that the
 	                                     //enemies will attempt to pass through
 	private Point firstPathTile; //The path tile on which enemies spawn
@@ -77,17 +77,17 @@ public abstract class Map implements Serializable{
 	 * @param mapTypeCode The level number of this map, can be used to differentiate map events according to level
 	 * @param player The Player object associated with who is playing this map
 	 */
-	public Map(Tile[][] gridDimensions, LinkedList<Point> path, String mapType, Image background, int mapTypeCode, Player player){
+	public Map(Tile[][] gridDimensions, LinkedList<Point> path, String mapType, String backgroundImageURL, int mapTypeCode, Player player){
 		grid = gridDimensions;
 		enemyPath = path;
 		this.mapType = mapType;
-		img = background;
+		imageURL = backgroundImageURL;
 		this.mapTypeCode = mapTypeCode;
 		this.player = player;
 		currentEnemies = 0;
 		setPath();
 		setTilesMap();
-		//player.setMap(this);
+		//player.setMap(this); //may not be necessary -PH
 		enemies = new ArrayList<Enemy>();
 		towers = new ArrayList<Tower>();
 	}
@@ -135,7 +135,7 @@ public abstract class Map implements Serializable{
 	 * @param enemy The pokemon to be spawned
 	 * @return boolean, true if successful, false if not
 	 */
-	public boolean spawnEnemy(Enemy enemy){
+	public void spawnEnemy(Enemy enemy){
 		enemy.setMap(this);
 		grid[firstPathTile.x][firstPathTile.y].addPokemon(enemy);
 		enemy.setLocation(firstPathTile);
@@ -144,9 +144,7 @@ public abstract class Map implements Serializable{
 		
 		
 		
-		//Also may need to do other things here for GUI/threads, ...
-		
-		return true;
+		//Also may need to do other things here for GUI ...
 	}
 	
 	
@@ -159,7 +157,7 @@ public abstract class Map implements Serializable{
 	 */
 	public boolean updateEnemyPosition(Enemy enemy){
 		
-		//Each Pokemon running in its own thread will call this method, passing a reference
+		//Each Pokemon will call this method when it is ready to move, passing a reference
 		//to itself, to make Map update its position when appropriate. Can only move in
 		//1 square discrete amounts along the path currently.
 		
@@ -227,12 +225,17 @@ public abstract class Map implements Serializable{
 	 * or false if tower cannot be placed.
 	 */
 	public boolean addTower(Tower tower, Point location){
-		if(!grid[location.x][location.y].containsGym()){
-			tower.setPlaceOnBoard(location);
-			towers.add(tower);
-			tower.setMap(this);
-			server.updateClients(enemies, towers);
-		return grid[location.x][location.y].setGym(tower);
+		if(!grid[location.x][location.y].containsGym() && !grid[location.x][location.y].isPartOfPath()){
+			if(tower.checkBuy(player.getMoney())){
+				tower.setPlaceOnBoard(location);
+				towers.add(tower);
+				tower.setMap(this);
+				player.spendMoney(tower.getCost());
+				server.updateClients(enemies, towers);
+				return grid[location.x][location.y].setGym(tower);
+			}else{
+				return false;
+			}
 		}else{
 			return false;
 		}

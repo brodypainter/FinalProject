@@ -39,14 +39,14 @@ public abstract class Level {
   private boolean enemiesLeftToSpawn;//True if enemies left to spawn on the level, false if not
   
   public Level(Player player, GameServer server){
-  this.player = player;
-  this.server = server;
-  timeSinceLastWave = 0;
-  waveInProgress = false;
-  enemiesLeftToSpawn = true;
-  setPlayerIsAlive(true);
-  levelSpecificSetup();
-  levelStart();
+	  this.player = player;
+	  this.server = server;
+	  timeSinceLastWave = 0;
+	  waveInProgress = false;
+	  enemiesLeftToSpawn = true;
+	  setPlayerIsAlive(true);
+	  levelSpecificSetup();
+	  levelStart();
   }
   
   
@@ -71,8 +71,6 @@ public abstract class Level {
   public abstract void setMap(); //Use MapFactory to say MapFactory.generateMap(...)
   
   //Call server to start its global timer
-  //Set the timer with a level specific TimerTask method to call spawnEnemy on map with the waves in waveslist
-  //maybe thread.sleep for 1 sec or so between each enemy spawn in the wave or make another timer for that?
   //check for if player is dead at any point in time (while loop?) to stop game
   //if player survives till end call a method to indicate player won the level
   public void levelStart(){
@@ -81,6 +79,7 @@ public abstract class Level {
   
   //That game loop doe -PH
   public void tick(){
+	  if(!gameOver()){
 	  if(enemiesLeftToSpawn){
 		  if(!waveInProgress){
 			  timeSinceLastWave = timeSinceLastWave + server.getTickLength();
@@ -109,13 +108,32 @@ public abstract class Level {
 			  }
 		  }
 	  }
+	  }
   }
   
-  
-  
-  //May want game over/player won type methods...
-  
+  public boolean gameOver(){
+		if(this.player.getHealthPoints() < 0){
+			youLose();
+			return true;
+		}else if (!enemiesLeftToSpawn && map.getEnemies().isEmpty() && this.player.getHealthPoints() > 0){
+			youWin();
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean youLose(){
+		server.gameLost();
+		return false;
+	}
+	
+	public boolean youWin(){
+		server.gameWon();
+		return false;
+	}
  
+  
+  
   
   public Map getMap(){
 	  return map;

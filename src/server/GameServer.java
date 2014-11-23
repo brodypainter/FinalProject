@@ -173,7 +173,8 @@ public class GameServer implements Serializable{
 	}
 	
 	public void tickModel(){
-		currentLevel.getMap().tick();
+		currentLevel.tick(); //spawn enemies when ready
+		currentLevel.getMap().tick(); //towers fire and enemies move when ready
 	}
 	
 	
@@ -273,7 +274,7 @@ public class GameServer implements Serializable{
 
 
 	public void updateClientsOfAttack(Tower attackingTower, Enemy victim){
-		//Brody create and send a command object to the clients to animate the attack
+		//TODO: Brody create and send a command object to the clients to animate the attack
 	}
 
 	//These methods will be called by Command objects passed from client to server
@@ -300,5 +301,21 @@ public class GameServer implements Serializable{
 	
 	public long getTickLength(){
 		return timePerTick;
+	}
+
+	public void gameLost() {
+		// TODO Auto-generated method stub
+		//Stop the GameServer master Timer, create a GameOver Command object that contains a
+		//boolean value gameWon set to false, that causes GUI to print out a game over pic
+		//and return to the main menu
+		
+		
+	}
+
+	public void gameWon() {
+		// TODO Auto-generated method stub
+		//Stop the GameServer master Timer, create a GameOver Command object that contains a
+		//boolean value gameWon set to true, that causes GUI to print out a game won pic
+		//and return to the main menu
 	}
 }

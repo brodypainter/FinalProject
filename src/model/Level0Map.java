@@ -21,17 +21,12 @@ import client.Player;
 public class Level0Map extends Map{
 	
 	private static final long serialVersionUID = 8007542926289934852L;
-	
-	private int countDownTimerSecs = 180;		//countdown timer in seconds
 
-	public Level0Map(Tile[][] gridDimensions, LinkedList<Point> path, String mapType, Image background, int mapTypeCode, Player player){
-		super(gridDimensions, path, mapType, background, mapTypeCode, player);
-		
+	public Level0Map(Tile[][] gridDimensions, LinkedList<Point> path, String mapType, String background, int mapTypeCode, Player player){
+		super(gridDimensions, path, mapType, background, mapTypeCode, player);	
 	}
 
 	public Level0Map() {
 		super();
 	}
-	
-	private void coundDown (){};
 }

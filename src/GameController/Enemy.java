@@ -60,7 +60,7 @@ public abstract class Enemy implements Serializable{
 	private Map map;
 	private int timePerTile; //The time in ms the enemy will spend on each tile before moving to the next
 	private int timeSinceLastMovement; //The time in ms since the enemy has last moved a tile
-	private int progress;		// requested by Desonne track progress
+	private int progress;		// requested by Desone track progress
 	/**
 	 * The constructor for Pokemon it takes the following variables
 	 * @param health for the initial state of the pokemons health
@@ -207,7 +207,7 @@ public abstract class Enemy implements Serializable{
 	 * Updates the timeSinceLastMovement variable and checks/moves if the Enemy can move
 	 */
 	public void tick() {
-		timeSinceLastMovement = timeSinceLastMovement + 20; //20 because master Timer ticks every 20 ms
+		timeSinceLastMovement = timeSinceLastMovement + 20; //20 because master Timer ticks every 20 ms, make sure it is equal
 		if(timeSinceLastMovement >= timePerTile){
 			map.updateEnemyPosition(this);
 			timeSinceLastMovement = 0;

@@ -35,7 +35,7 @@ public class MapFactory {
 		Tile[][] grid;			//A 2D array of Tile objects whose size is set and then is populated
 		LinkedList<Point> path;	//The sequence of Points representing coordinates that enemies will follow
 		String levelDescription;//A short description of the Map of the given level
-		Image backgroundImage;	//The background image of the map
+		String backgroundImage;	//The URL of the background image of the map
 		
 		//The coordinate system I am using is (-y,x) with (0,0) being the top left corner in the grid
 		//Point.x will return the -y value (rows down) and Point.y will return the x value (column) from a cartesian coordinate viewpoint
@@ -71,7 +71,8 @@ public class MapFactory {
 			
 			//assign the backgroundImage for the level
 			
-			backgroundImage = null; //I haven't figured this out yet
+			backgroundImage = null; //TODO:Desone, make an image of this 5 row x 10 column map with path straight across middle
+									//and place the image's location here <---
 			
 			//instantiate a LevelXMap object that extends Map class
 			map = new Level0Map(grid, path, levelDescription, backgroundImage, mapCode, player);

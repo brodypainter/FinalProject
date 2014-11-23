@@ -15,17 +15,13 @@ import client.Player;
 public class Level0 extends Level{
 	
 	private static final int numbOfWaves = 3;
-	//private int countDown = 180;
-	private int waveCounter = 0;
 	
-
 	public Level0(Player player, GameServer server) {
-		super(player, server);
-		
-		
+		super(player, server);	
 	}
 
-	
+	//Method below no longer needs to be overridden, the game loop is now in Level class.
+	/*
 	@Override
 	public void levelStart() {
 		//assume the map will always have already been set in constructor Max - PH
@@ -43,7 +39,7 @@ public class Level0 extends Level{
 			 * an empty arraylist on the map signifies the wave is dead and it is time
 			 * to move to the next one
 			 */
-			ArrayList<Enemy> wave = getWavesList().get(waveCounter);
+		/*	ArrayList<Enemy> wave = getWavesList().get(waveCounter);
 			int enemiesInWave = 0;
 			
 			do{
@@ -57,7 +53,7 @@ public class Level0 extends Level{
 			
 			waveCounter++;
 		}
-	}
+	}/*
 	
 	
 	
@@ -65,26 +61,7 @@ public class Level0 extends Level{
 	 * 
 	 * @return
 	 */
-	public boolean gameOver(){
-		if(this.getPlayer().getHealthPoints() < 0){
-			youLose();
-			return true;
-		}else if (getWavesList().isEmpty() && this.getPlayer().getHealthPoints() <= 0){
-			youWin();
-			return true;
-		}
-		return false;
-	}
 	
-	public boolean youLose(){
-		
-		return false;
-	}
-	
-	public boolean youWin(){
-		
-		return false;
-	}
 	
 	/**@ Max Justice
 	 * this method takes the tower that was selected by the player and the position they want to set it at
@@ -95,16 +72,6 @@ public class Level0 extends Level{
 	 * 
 	 */
 
-	
-	public boolean SetTower(Tower newTower, Point position){
-		if(newTower.checkBuy(getPlayer().getMoney())){
-			getPlayer().spendMoney(newTower.getCost());
-			getMap().addTower(newTower, position);
-			newTower.setPlaceOnBoard(position);
-			return true;
-		}
-		return false;
-	}
 
 	/**
 	 * 
@@ -118,8 +85,8 @@ public class Level0 extends Level{
 				wave.add(pika);
 			}
 			waveList.add(wave);
-			setWavesList(waveList); //Set the master wavesList inherited instance variable
 		}
+		setWavesList(waveList); //Set the master wavesList inherited instance variable
 	}
 	@Override
 	public void setPlayerStartingHP() {
