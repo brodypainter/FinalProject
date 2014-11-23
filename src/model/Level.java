@@ -22,28 +22,36 @@ import client.Player;
 public abstract class Level {
 
   private GameServer server; //Needs to know which server it is on so that it can call the server to start its global timer
-  protected Player player; //The person playing this level, passed in constructor
-  protected Map map; //The map of the level to which enemy waves will be spawned, create with MapFactory class
+  private Player player; //The person playing this level, passed in constructor
+  private Map map; //The map of the level to which enemy waves will be spawned, create with MapFactory class
   private ArrayList<ArrayList<Enemy>> wavesList; //A list of lists of enemies, each a wave. ex: wave1, wave2, etc...
   private Timer timer;//Use scheduleAtFixedRate() method and create a TimerTask that will spawn waves at intervals
   private TimerTask enemySpawnTask;
   private long waveIntervals; //May not be necessary, but could use this for consistent changeable intervals in timer method
-                              //It is in miliseconds so it would have to be say 30000 for 30 secs between waves.
-  private int enemySpawnIntervals; //The time in miliseconds between each spawning of an enemy within a wave
+                              //It is in milliseconds so it would have to be say 30000 for 30 secs between waves.
+  private long enemySpawnIntervals; //The time in milliseconds between each spawning of an enemy within a wave
   private boolean playerIsAlive; //Can be used to tell if the game is still going and enemies should still be spawned or not
-  private int startingHP;
-  private int startingMoney;
-  
+  private long timeSinceLastWave; //The time in milliseconds since the last enemy in last wave spawned
+  private long timeSinceLastEnemySpawned; //The time in ms since last enemy within the wave was spawned
+  private boolean waveInProgress; //True if a wave is still in progress, false if not
+  private int enemyIndexCounter;//The index of the enemy to spawn next in the wave
+  private int waveIndexCounter;//The index of the enemy wave to send next in the wavesList
+  private boolean enemiesLeftToSpawn;//True if enemies left to spawn on the level, false if not
   
   public Level(Player player, GameServer server){
   this.player = player;
   this.server = server;
-  playerIsAlive = true;
+  timeSinceLastWave = 0;
+  waveInProgress = false;
+  enemiesLeftToSpawn = true;
+  setPlayerIsAlive(true);
   levelSpecificSetup();
   levelStart();
   }
   
-  //Instantiate the rest of the needed instance variables according to specific level and difficulty
+  
+
+//Instantiate the rest of the needed instance variables according to specific level and difficulty
   //This will include things like setting player's initial HP and $, creating the waves of enemies you want to
   //send on this level, the time delay in between each enemy wave, the map to play on (use MapFactory to create Maps)
   public void levelSpecificSetup(){
@@ -60,7 +68,7 @@ public abstract class Level {
   public abstract void setPlayerStartingMoney();
   public abstract void setWaveDelayIntervals();
   public abstract void setEnemySpawnDelayIntervals();
-  public abstract void setMap(); //Use MapFactory to say this.map = MapFactory.generateMap(...)
+  public abstract void setMap(); //Use MapFactory to say MapFactory.generateMap(...)
   
   //Call server to start its global timer
   //Set the timer with a level specific TimerTask method to call spawnEnemy on map with the waves in waveslist
@@ -68,31 +76,92 @@ public abstract class Level {
   //check for if player is dead at any point in time (while loop?) to stop game
   //if player survives till end call a method to indicate player won the level
   public void levelStart(){
-	  server.startTimer(); //Starts the Master Timer on the server
-	  timer = new Timer(); //A timer for Level to use personally to delay spawn of each individual enemy of the wave
-	  TimerTask task = new spawnEnemyTask();
-	timer.scheduleAtFixedRate(task, 20000L, enemySpawnIntervals);
-	 
+	  server.startTimer(); //Starts the Master Timer on the server	 
   }
+  
+  //That game loop doe -PH
+  public void tick(){
+	  if(enemiesLeftToSpawn){
+		  if(!waveInProgress){
+			  timeSinceLastWave = timeSinceLastWave + server.getTickLength();
+			  if(timeSinceLastWave >= waveIntervals){
+				  waveInProgress = true;
+				  timeSinceLastWave = 0;
+			  }
+		  }	  
+		  if(waveInProgress){
+			  timeSinceLastEnemySpawned = timeSinceLastEnemySpawned + server.getTickLength();
+			  if(timeSinceLastEnemySpawned >= enemySpawnIntervals){
+				  if(enemyIndexCounter < wavesList.get(waveIndexCounter).size()){
+					  map.spawnEnemy(wavesList.get(waveIndexCounter).get(enemyIndexCounter));
+					  timeSinceLastEnemySpawned = 0; //reset time counter
+					  enemyIndexCounter++;
+				  }else{//All the enemies in the wave have been spawned
+					  waveInProgress = false;
+					  timeSinceLastEnemySpawned = 0;
+					  enemyIndexCounter = 0;
+					  waveIndexCounter++;
+					  if(waveIndexCounter == wavesList.size()){
+						  //All enemies in the level have been spawned
+						  enemiesLeftToSpawn = false;
+					  }
+				  }
+			  }
+		  }
+	  }
+  }
+  
+  
   
   //May want game over/player won type methods...
   
-  private class spawnEnemyTask extends TimerTask{
-
-	@Override
-	public void run() {
-		// TODO Auto-generated method stub
-		
-	}
-	  
-  }
+ 
   
   public Map getMap(){
 	  return map;
+  }
+  
+  public void setMap(Map map){
+	  this.map = map;
   }
 
   public Player getPlayer(){
 	  return this.player;
   }
 
+  public ArrayList<ArrayList<Enemy>> getWavesList() {
+	return wavesList;
+  }
+
+  public void setWavesList(ArrayList<ArrayList<Enemy>> wavesList) {
+	this.wavesList = wavesList;
+  }
+
+  public TimerTask getEnemySpawnTask() {
+	return enemySpawnTask;
+  }
+
+  public void setEnemySpawnTask(TimerTask enemySpawnTask) {
+	this.enemySpawnTask = enemySpawnTask;
+  }
+
+  public long getWaveIntervals() {
+	return waveIntervals;
+  }
+
+  public void setWaveIntervals(long waveIntervals) {
+	this.waveIntervals = waveIntervals;
+  }
+
+  public boolean isPlayerIsAlive() {
+	return playerIsAlive;
+  }
+
+  public void setEnemySpawnIntervals(long length){
+	  this.enemySpawnIntervals = length;
+  }
+  private void setPlayerIsAlive(boolean b) {
+	this.playerIsAlive = b;
+	
+  }
 }

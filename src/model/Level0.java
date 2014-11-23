@@ -15,23 +15,17 @@ import client.Player;
 public class Level0 extends Level{
 	
 	private static final int numbOfWaves = 3;
-	private int countDown = 180;
+	//private int countDown = 180;
 	private int waveCounter = 0;
 	
-	ArrayList<ArrayList<Enemy> > waveList;
 
 	public Level0(Player player, GameServer server) {
 		super(player, server);
-		waveList = new ArrayList<ArrayList<Enemy>>();
-		// TODO Auto-generated constructor stub
-	}
-
-	@Override
-	public void levelSpecificSetup() {
-		map = MapFactory.generateMap(player, 0);
+		
 		
 	}
 
+	
 	@Override
 	public void levelStart() {
 		//assume the map will always have already been set in constructor Max - PH
@@ -49,35 +43,23 @@ public class Level0 extends Level{
 			 * an empty arraylist on the map signifies the wave is dead and it is time
 			 * to move to the next one
 			 */
-			ArrayList<Enemy> wave = waveList.get(waveCounter);
+			ArrayList<Enemy> wave = getWavesList().get(waveCounter);
 			int enemiesInWave = 0;
 			
 			do{
 				// as we add enemies to the board take them out of this arrayList
 				if(!wave.isEmpty()){
-					map.spawnEnemy(wave.remove(enemiesInWave));
+					getMap().spawnEnemy(wave.remove(enemiesInWave));
 					enemiesInWave++;
 				}
 				
-			}while (!map.getEnemies().isEmpty());
+			}while (!getMap().getEnemies().isEmpty());
 			
 			waveCounter++;
 		}
 	}
 	
-	/**
-	 * 
-	 */
-	public void createWaves( ){
-		for (int i = 0; i < 3; i++){
-			ArrayList<Enemy> wave = new ArrayList<Enemy>();
-			for (int j = 0; j < 20; j++){
-				Pikachu pika = new Pikachu(getMap());
-				wave.add(pika);
-			}
-			waveList.add(wave);
-		}
-	}
+	
 	
 	/**
 	 * 
@@ -87,7 +69,7 @@ public class Level0 extends Level{
 		if(this.getPlayer().getHealthPoints() < 0){
 			youLose();
 			return true;
-		}else if (waveList.isEmpty() && this.getPlayer().getHealthPoints() <= 0){
+		}else if (getWavesList().isEmpty() && this.getPlayer().getHealthPoints() <= 0){
 			youWin();
 			return true;
 		}
@@ -124,34 +106,48 @@ public class Level0 extends Level{
 		return false;
 	}
 
+	/**
+	 * 
+	 */
+	public void createWaves(){
+		ArrayList<ArrayList<Enemy>> waveList = new ArrayList<ArrayList<Enemy>>(); //A temporary 2D array list
+		for (int i = 0; i < 3; i++){
+			ArrayList<Enemy> wave = new ArrayList<Enemy>();
+			for (int j = 0; j < 20; j++){
+				Pikachu pika = new Pikachu(getMap());
+				wave.add(pika);
+			}
+			waveList.add(wave);
+			setWavesList(waveList); //Set the master wavesList inherited instance variable
+		}
+	}
 	@Override
 	public void setPlayerStartingHP() {
-		// TODO Auto-generated method stub
+		getPlayer().setHealth(100);
 		
 	}
 
 	@Override
 	public void setPlayerStartingMoney() {
-		// TODO Auto-generated method stub
+		getPlayer().setMoney(1000);
 		
 	}
 
 	@Override
 	public void setWaveDelayIntervals() {
-		// TODO Auto-generated method stub
+		setWaveIntervals(30000L); //30 seconds between the last and first enemy of 2 successive waves
 		
 	}
 
 	@Override
 	public void setEnemySpawnDelayIntervals() {
-		// TODO Auto-generated method stub
+		setEnemySpawnIntervals(1000L); //1 second between each enemy spawning in a wave
 		
 	}
 
 	@Override
 	public void setMap() {
-		// TODO Auto-generated method stub
-		
+		setMap(MapFactory.generateMap(getPlayer(), 0));
 	}
 	
 }

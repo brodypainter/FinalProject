@@ -46,7 +46,7 @@ public class GameServer implements Serializable{
 	//private Map map = new Level0Map(); //If you need the map use currentLevel.getMap()
 	private Level currentLevel; //to be set by a command object from server
 	private GameServer thisServer = this; //A reference to itself, the server
-	private int timePerTick = 500; //The time in ms per tick, will be set to 20 ms after debugging
+	private long timePerTick = 500; //The time in ms per tick, will be set to 20 ms after debugging
 	
 	/**
 	 *	This thread reads and executes commands sent by a client
@@ -297,4 +297,7 @@ public class GameServer implements Serializable{
 		//enemyList.remove(enemyList.indexOf(enemy));
 	}
 	
+	public long getTickLength(){
+		return timePerTick;
+	}
 }
