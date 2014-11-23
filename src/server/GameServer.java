@@ -10,9 +10,6 @@ import java.util.HashMap;
 import java.util.Timer;
 import java.util.Vector;
 
-
-
-
 import model.Level;
 import model.Level0Map;
 import model.Map;
