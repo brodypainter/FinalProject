@@ -99,6 +99,7 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 	double testSpriteProgress = 0;
 	
 	map1Path path;
+	Map map;
 	
 	Image pik;
 	JLabel pikLabel;
@@ -129,7 +130,8 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 		this.client = client;
 		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
 		setBounds(screen.width/8, screen.height/8, (3*screen.width)/4, (3*screen.height)/4);
-		setDefaultCloseOperation(client.disconnect());
+		//setDefaultCloseOperation(client.disconnect());
+		setDefaultCloseOperation(this.EXIT_ON_CLOSE);
 		setBackground(Color.BLUE);
 		setLayout(null);
 		setTitle("Pokemon Tower Defense - " + user);
@@ -430,7 +432,6 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 				selectedTowerFromStore.setBounds(arg0.getX()-30, arg0.getY()-45, selectedTowerFromStore.getWidth(), selectedTowerFromStore.getHeight());
 				selectedTowerFromStore.setVisible(true);
 				selectedTowerType = NORMAL;
-				addTower(new CeruleanGym("Test"));
 				return;
 			}
 			Rectangle tower2 = new Rectangle((int)(2.6*getSize().width)/15 + 10,(int) ((3*getSize().height)/3.8) + 30, (int) (getSize().width / 9.5), getSize().height / 8);
@@ -673,6 +674,7 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 		JLabel temp = new JLabel(new ImageIcon(createImageIcon(pewterTower).getImage().getScaledInstance(this.getWidth()/levelWidth, this.getHeight()/levelHeight, qualitySetting)));
 		temp.setLocation(scrollLocation.x + (tower.getPosition().x*(board.getWidth()/levelWidth)), scrollLocation.y + (tower.getPosition().y*(board.getHeight()/levelHeight)));
 		temp.setSize(this.getWidth()/levelWidth, this.getHeight()/levelHeight);
+		System.out.println("Placing " + tower.getGymName() + " Tower at (" + tower.getPosition().x + ", " + tower.getPosition().y + ")");
 		towerMap.put(tower, temp);
 		board.add(temp);
 	}
@@ -712,7 +714,7 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 				client.addTower(new CeruleanGym(user), new Point(arg0.getX(), arg0.getY()));
 				//towerLocation = new Point(arg0.getX(), arg0.getY());
 				System.out.println("Attempting to place a normal tower at (" + ((arg0.getX() - scrollLocation.x) * 20)/(bg.getWidth(this)) + ", " + ((arg0.getY() - scrollLocation.y) * 20)/(bg.getWidth(this)) + ")");
-				client.addTower(new tempTower("Test Tower", 10, 3, 1, user, pewterTower, 0), new Point(((arg0.getX() - scrollLocation.x) * 20)/(bg.getWidth(this)), ((arg0.getY() - scrollLocation.y) * 20)/(bg.getWidth(this))));
+				//client.addTower(new tempTower("Test Tower", 10, 3, 1, user, pewterTower, 0), new Point(((arg0.getX() - scrollLocation.x) * 20)/(bg.getWidth(this)), ((arg0.getY() - scrollLocation.y) * 20)/(bg.getWidth(this))));
 				break;
 			default:
 				System.out.println("Attempting to place a tower");

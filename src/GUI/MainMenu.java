@@ -20,6 +20,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
+import javax.swing.text.IconView;
 
 import server.GameServer;
 import client.GameClient;
@@ -39,6 +40,7 @@ public class MainMenu extends JFrame implements WindowListener
 	GameClient client;
 	String username;
 	Player player;
+	String map;
 	
 	public static void main(String[] args)
 	{
@@ -57,14 +59,17 @@ public class MainMenu extends JFrame implements WindowListener
 			System.out.println("Unable to set operating system look and feel");
 		}
 		
-		this.username = JOptionPane.showInputDialog("Enter username");
-		if(username == null || username.equals(""))
-		{
+		//this.username = JOptionPane.showInputDialog("Enter username");
+		//if(username == null || username.equals(""))
+		//{
 			//Handle empty username
-		}
+		//}
+		//String[] levels = {"Map0"};
+		//map = JOptionPane.showOptionDialog(this, "Please select a map", JOptionPane.PLAIN_MESSAGE, new ImageIcon(), JOptionPane.OK_OPTION, levels);
+		
 		this.client = client;
 		setTitle("Pokemon Tower Defense");
-		setDefaultCloseOperation(client.disconnect());
+		//setDefaultCloseOperation(client.disconnect());
 		this.setLayout(null);
 		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
 		
