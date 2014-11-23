@@ -257,6 +257,10 @@ public abstract class Tower implements Serializable{
 	public void setMap(Map map){
 		this.map = map;
 	}
+	
+	public Map getMap(){
+		return this.map;
+	}
 
 	/**
 	 * Called by the Tower's Map every time the master Timer ticks (20 ms). Updates
