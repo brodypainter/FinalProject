@@ -30,6 +30,7 @@ import commands.TimeCommand;
  * @author Brody Painter
  */
 public class GameServer implements Serializable{
+
 	/**
 	 * 
 	 */
