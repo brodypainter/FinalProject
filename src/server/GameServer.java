@@ -119,7 +119,9 @@ public class GameServer implements Serializable{
 					
 					// add a notification message to the chat log
 					System.out.println("\t new client: " + clientName);
-					newMessage(clientName + " connected");
+					
+					// for now we wont send a message
+					//newMessage(clientName + " connected");
 				}catch(Exception e){
 					e.printStackTrace();
 				}
@@ -192,9 +194,9 @@ public class GameServer implements Serializable{
 			
 			for (ObjectOutputStream out : outputs.values()){
 				try{
-					System.out.println("Tick try on " + out);
+					//System.out.println("Tick try on " + out);
 					//out.writeObject(update);
-					System.out.println("Tick sent");
+					//System.out.println("Tick sent");
 				}catch(Exception e){
 					e.printStackTrace();
 				}
@@ -227,7 +229,8 @@ public class GameServer implements Serializable{
 			outputs.remove(clientName); // remove from map
 			
 			// add notification message
-			newMessage(clientName + " disconnected");
+			// dont send a message for now
+			// newMessage(clientName + " disconnected");
 		} catch(Exception e){
 			e.printStackTrace();
 		}
@@ -340,8 +343,6 @@ public class GameServer implements Serializable{
 	
 	//These methods below will be called by Command objects passed from client to server
 	//call level.getMap.appropriateMethod() in each case
-	
-	
 	
 	public void addTower(Tower tower, Point loc) {
 		System.out.println("addTower command received, adding tower to current level");
