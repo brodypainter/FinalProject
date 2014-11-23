@@ -40,10 +40,9 @@ public class Player implements Serializable{
 	
 	private static final long serialVersionUID = -937778023185031965L;
 	private String name;
-	//private GameServer server;
 	private int money;
 	private int healthPoints;
-	//private Map currentMap;
+	private Map currentMap;
 	
 	
 	/**
@@ -56,7 +55,6 @@ public class Player implements Serializable{
 	 */
 	public Player(String name, int money, int healthPoints){
 		this.name = name;
-		//this.server = server;
 		this.money = money;
 		this.healthPoints = healthPoints;
 	}
@@ -148,9 +146,8 @@ public class Player implements Serializable{
 	 * associated with the Player object when it is created.
 	 * @param map The Map to set currentMap to.
 	 */
-//	public void setMap(Map map){
-//		currentMap = map;
-//		map.setServer(server);
-//	}
+	public void setMap(Map map){
+		currentMap = map;
+	}
 	
 }
