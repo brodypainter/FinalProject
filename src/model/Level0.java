@@ -87,7 +87,7 @@ public class Level0 extends Level{
 		if(this.getPlayer().getHealthPoints() < 0){
 			youLose();
 			return true;
-		}else if (waveList.isEmpty() && this.getPlayer().getHealthPoints() <= 0){
+		}else if (waveList.isEmpty() && this.getPlayer().getHealthPoints() >= 0){
 			youWin();
 			return true;
 		}

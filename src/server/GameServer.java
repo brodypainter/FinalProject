@@ -3,6 +3,7 @@ package server;
 import java.awt.Point;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -28,7 +29,7 @@ import commands.TimeCommand;
  * 
  * @author Brody Painter
  */
-public class GameServer {
+public class GameServer implements Serializable{
 	private ServerSocket socket; // the server socket
 	
 	private String latestMessage;	// the chat log
