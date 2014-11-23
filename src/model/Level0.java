@@ -53,10 +53,10 @@ public class Level0 extends Level{
 	 * @return
 	 */
 	public boolean gameOver(){
-		if(this.getPlayer.getHealthPoints() < 0){
+		if(this.getPlayer().getHealthPoints() < 0){
 			youLose();
 			return true;
-		}else if (waveList.isEmpty() && this.getPlayer.getHealthPoints() <= 0){
+		}else if (waveList.isEmpty() && this.getPlayer().getHealthPoints() <= 0){
 			youWin();
 			return true;
 		}
@@ -74,4 +74,4 @@ public class Level0 extends Level{
 	}
 	
 }
-}
+
