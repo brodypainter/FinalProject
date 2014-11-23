@@ -22,6 +22,7 @@ import java.awt.event.WindowEvent;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -478,6 +479,34 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 		scrollLast = arg0.getPoint();
 	}
 	
+	class tempTower extends Tower
+	{
+		public tempTower(String Name, int Attack, int Radius, double FireRateSec, String PlayersName, String Image)
+		{
+			super(Name, Attack, Radius, FireRateSec, PlayersName, Image);
+		}
+		public boolean AttackEnemy(ArrayList<Enemy> enemies)
+		{
+			return false;
+		}
+		public boolean setModifer()
+		{
+			return false;
+		}
+		public boolean getModifer()
+		{
+			return false;
+		}
+		public boolean increaseFireRate(double amountToIncrease)
+		{
+			return false;
+		}
+		public boolean levelUp()
+		{
+			return false;
+		}
+	}
+	
 	/**
 	 * Zooms in and out of the map based on direction of scrolling
 	 */
@@ -636,12 +665,16 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 	
 	public void addTower(Tower tower)
 	{
+		if(tower == null)
+		{
+			System.out.println("Null tower");
+			return;
+		}
 		JLabel temp = new JLabel(new ImageIcon(createImageIcon(pewterTower).getImage().getScaledInstance(this.getWidth()/levelWidth, this.getHeight()/levelHeight, qualitySetting)));
 		temp.setLocation(scrollLocation.x + (tower.getPosition().x*(board.getWidth()/levelWidth)), scrollLocation.y + (tower.getPosition().y*(board.getHeight()/levelHeight)));
 		temp.setSize(this.getWidth()/levelWidth, this.getHeight()/levelHeight);
 		towerMap.put(tower, temp);
-		
-		
+		board.add(temp);
 	}
 	
 	public void removeTower(Tower tower)
@@ -678,6 +711,7 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 				client.addTower(new CeruleanGym(user), new Point(arg0.getX(), arg0.getY()));
 				//towerLocation = new Point(arg0.getX(), arg0.getY());
 				System.out.println("Attempting to place a normal tower at (" + ((arg0.getX() - scrollLocation.x) * 20)/(bg.getWidth(this)) + ", " + ((arg0.getY() - scrollLocation.y) * 20)/(bg.getWidth(this)) + ")");
+				client.addTower(new tempTower("Test Tower", 10, 3, 1, user, pewterTower), new Point(((arg0.getX() - scrollLocation.x) * 20)/(bg.getWidth(this)), ((arg0.getY() - scrollLocation.y) * 20)/(bg.getWidth(this))));
 				break;
 			default:
 				System.out.println("Attempting to place a tower");
