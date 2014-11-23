@@ -45,7 +45,19 @@ public abstract class Level {
   //Instantiate the rest of the needed instance variables according to specific level and difficulty
   //This will include things like setting player's initial HP and $, creating the waves of enemies you want to
   //send on this level, the time delay in between each enemy wave, the map to play on (use MapFactory to create Maps)
-  public abstract void levelSpecificSetup();  
+  public void levelSpecificSetup(){
+	  createWaves();
+	  setPlayerStartingHP();
+	  setPlayerStartingMoney();
+	  setWaveDelayIntervals();
+	  setEnemySpawnDelayIntervals();
+  }
+  
+  public abstract void createWaves(); //create wavesList and populate it with enemies specific to each Level
+  public abstract void setPlayerStartingHP();
+  public abstract void setPlayerStartingMoney();
+  public abstract void setWaveDelayIntervals();
+  public abstract void setEnemySpawnDelayIntervals();
   
   //Call server to start its global timer
   //Set the timer with a level specific TimerTask method to call spawnEnemy on map with the waves in waveslist
