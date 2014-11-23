@@ -326,14 +326,15 @@ public class GameServer implements Serializable{
 	}
 	
 	/**
-	 * Brody changed Sun 2:38
+	 * PH changed Sun 4:06
 	 * 
 	 * This method is called once when the currentLevel's Map is first instantiated
 	 * Client and GUI should hold on to this unchanging Map Background image url and its enemy path
+	 * as well as its number of rows and columns
 	 * @param mapBackgroundURL
 	 * @param path
 	 */
-	public void updateClientsOfMapBackground(String mapBackgroundURL, List<Point> path){
+	public void updateClientsOfMapBackground(String mapBackgroundURL, List<Point> path, int numOfRows, int numOfColumns){
 		//TODO: Finish SendClientMapBackground with a method for it to execute in client
 		Command c = new SendClientMapBackground(mapBackgroundURL, path);
 		sendCommand(c);

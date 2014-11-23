@@ -54,6 +54,8 @@ public abstract class Map implements Serializable{
 	
 	private static final long serialVersionUID = -6337999339368538419L;
 	private Tile[][] grid;
+	private int numOfRows;
+	private int numOfColumns;
 	private String imageURL; //The background image of the map
 	private LinkedList<Point> enemyPath; //A list of all of the tile coordinates that the
 	                                     //enemies will attempt to pass through
@@ -79,6 +81,8 @@ public abstract class Map implements Serializable{
 	 */
 	public Map(Tile[][] gridDimensions, LinkedList<Point> path, String mapType, String backgroundImageURL, int mapTypeCode, Player player){
 		grid = gridDimensions;
+		numOfRows = grid.length;
+		numOfColumns = grid[0].length;
 		enemyPath = path;
 		this.mapType = mapType;
 		imageURL = backgroundImageURL;
@@ -281,7 +285,7 @@ public abstract class Map implements Serializable{
 
 	public void setServer(GameServer server) {
 		this.server = server;
-		this.server.updateClientsOfMapBackground(this.imageURL, this.enemyPath);
+		this.server.updateClientsOfMapBackground(this.imageURL, this.enemyPath, this.numOfRows, this.numOfColumns);
 		
 	}
 	
@@ -294,7 +298,8 @@ public abstract class Map implements Serializable{
 	 * @return
 	 */
 	public boolean notifyOfAttack( Tower gym, Enemy pokemon){
-		this.server.updateClientsOfAttack(gym, pokemon);
+		//I should change this to send the enum TowerType, the location of tower, and location of enemy
+		//this.server.updateClientsOfAttack(, pokemon);
 		return true;
 		
 	}
