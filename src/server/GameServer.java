@@ -317,15 +317,23 @@ public class GameServer implements Serializable{
 	 * @param victim
 	 */
 	public void updateClientsOfAttack(Tower attackingTower, Enemy victim){
-		//TODO: Brody create and send a command object to the clients to animate the attack
+		//TODO: Finish SendClientTowerAttack with a method for it to execute in client
 		Command c = new SendClientTowerAttack(attackingTower, victim);
 		sendCommand(c);
 	}
 	
-	//This method is called once when the currentLevel's Map is first instantiated
-	//Client and GUI should hold on to this unchanging Map Background image url and its enemy path
+	/**
+	 * Brody changed Sun 2:38
+	 * 
+	 * This method is called once when the currentLevel's Map is first instantiated
+	 * Client and GUI should hold on to this unchanging Map Background image url and its enemy path
+	 * @param mapBackgroundURL
+	 * @param path
+	 */
 	public void updateClientsOfMapBackground(String mapBackgroundURL, List<Point> path){
-		//TODO: Brody create a Command object that pass this info to the GUI to store it
+		//TODO: Finish SendClientMapBackground with a method for it to execute in client
+		Command c = new SendClientMapBackground(mapBackgroundURL, path);
+		sendCommand(c);
 	}
 	
 	
