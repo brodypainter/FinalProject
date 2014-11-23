@@ -259,13 +259,10 @@ public class GameServer {
 		
 	}
 	
-<<<<<<< HEAD
-	public void updateClientsOfAttack(Tower gym, Enemy pokemon){
-		
-=======
+
 	public void updateClientsOfAttack(Tower attackingTower, Enemy victim){
 		//Brody create and send a command object to the clients to animate the attack
->>>>>>> cb8c0d2a99b30ebfacf26392d7bb0f85e32e3eeb
+
 		
 	}
 	

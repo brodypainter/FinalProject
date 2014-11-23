@@ -24,7 +24,7 @@ public class Level0 extends Level{
 
 	@Override
 	public void levelSpecificSetup() {
-		// TODO Auto-generated method stub
+		map = MapFactory.generateMap(player, 0);
 		
 	}
 
