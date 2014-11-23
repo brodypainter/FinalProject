@@ -36,14 +36,28 @@ public class Level0 extends Level{
 	public void levelStart(Map map) {
 		setMap(map);
 		createWaves();
+		
 		// TODO Auto-generated method stub
-		while (gameOver()){
+		while (!gameOver()){
+			
 			// TODO add the tick as to when to add enemies to the board
+			/**
+			 * this gets the arraylist<enemy> in the arraylist<arrayList>
+			 * it sets the enemiesInWave to.  it then adds the enemies from the waveList to the board
+			 * TODO Peter place you tick here for spawning and adding the board
+			 * it does this while the arraylist on the map is not empty
+			 * an empty arraylist on the map signifies the wave is dead and it is time
+			 * to move to the next one
+			 */
 			ArrayList<Enemy> wave = waveList.get(waveCounter);
+			int enemiesInWave = 0;
 			
 			do{
-				map.spawnEnemy(wave.)
-				
+				// as we add enemies to the board take them out of this arrayList
+				if(!wave.isEmpty()){
+					map.spawnEnemy(wave.remove(enemiesInWave));
+					enemiesInWave++;
+				}
 				
 			}while (!map.getEnemies().isEmpty());
 			
