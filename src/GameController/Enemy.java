@@ -61,7 +61,7 @@ public abstract class Enemy implements Serializable{
 	private int progress;		// requested by Desone track progress (timeSinceLastMovement/timePerTile)
 	private directionFacing orientation; //The way the enemy is facing based on it's Location nextLocation
 	private int stepsTaken; //The amount of tiles the enemy has taken along the path, useful for targeting farthest
-	
+	private int distanceLeftOnPath;
 	/**
 	 * The constructor for Pokemon it takes the following variables
 	 * @param health for the initial state of the pokemons health
@@ -85,6 +85,7 @@ public abstract class Enemy implements Serializable{
 		timeSinceLastMovement = 0;
 		stepsTaken = 0;
 		this.map = mapRef;
+		distanceLeftOnPath = mapRef.lengthOfPath();
 	} // end constructor
 	
 	/**
@@ -263,9 +264,14 @@ public enum directionFacing{NORTH, EAST, SOUTH, WEST};
 	public Point getNextLocation() {
 		return nextLocation;
 	}
-
+	/**
+	 * In setNextLocation I set the countdown to remaining path left on the map by the enemy
+	 * So whenever it moves it subtracts the distance left on enemy
+	 * @param nextLocation
+	 */
 	public void setNextLocation(Point nextLocation) {
 		this.nextLocation = nextLocation;
+		distanceLeftOnPath--;
 	}
 	
 	// for desonne and the GUI
@@ -287,5 +293,12 @@ public enum directionFacing{NORTH, EAST, SOUTH, WEST};
 			this.progress = 100;
 		else
 			this.progress = prog;
+	}
+	
+	/**
+	 * @ max Justice for attack algorithm
+	 */
+	public int getDistanceLeftForEnemy(){
+		return distanceLeftOnPath;
 	}
 }

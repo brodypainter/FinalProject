@@ -111,6 +111,7 @@ public abstract class Map implements Serializable{
 	 * Also stores the first and last coordinates of the enemy path as Points for convenience.
 	 */
 	private void setPath(){
+		
 		Point tempCoords;
 		for(int i = 0; i < enemyPath.size(); i++){
 			tempCoords = enemyPath.get(i);
@@ -299,5 +300,14 @@ public abstract class Map implements Serializable{
 
 	public String getImageURL() {
 		return imageURL;
+	}
+	
+	/**
+	 * @ Max Justice
+	 * This is for the attack algorithm and finding the cloesets enemy and one nearest the wall
+	 */
+	public int lengthOfPath(){
+		return enemyPath.size();
+		//System.out.println("the size of the path is: " + enemyPath.size());
 	}
 }
