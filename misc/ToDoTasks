@@ -1,0 +1,26 @@
+
+Ok as of 4:18 am the underlying game model is very close to being finished if not already acceptable.
+
+Max if you want to do anything else with the model look at the helper attack method notes I left about making a method
+to target the enemy Farthest along in the path not just closest to the attacking tower. Also you could create a GameLaunch class
+that will create a Server, create a client, connect them, and let the player actually play the game once that is ready.
+
+Brody I have (4ish) Commands for you to make and send/execute in methods in the GameServer. I don't know how many you have
+to make for the GameClient to Server for things like selecting a level, attempting to add/sell a tower, etc.
+
+Desone I made Enemy so that it contains an updated progress variable (% done with moving across tile) and a directionFacing
+enum N, W, E, S, so you can just draw a static image of it every update without having to keep track of enemies or animate them.
+Also if you can make the image for Map0 (just a 5 row x 10 column with path straight across row 2 [0,1,2 so 3 rows down in middle]) 
+and add the String url of it to Map0 we need that. Also add the String url of cubone image to CeruleanGym for now.
+And I think for simplicity and good practice we should just send everything to the GUI every time the tick updates
+and have it only responsible for painting static images with the exception of attack animations. Also every time Player's
+HP or $ changes both will be sent to GUI, if you can just display them in a corner as JLabels.
+
+We have a very good chance of being able to finish Iteration 1 requirements today, the model already does all of them when a
+Level0 object is instantiated on the server, all we need to do is show that it is happening with the GUI on the client side.
+Or do some text based representation if we can't finish GUI communication in time.
+Someone Email our Project Manager with some hour or so notice if you think we will be ready by like 5-6 pm today to demo it.
+
+I'll be asleep till like 10 am and can help explain anything when I wake up. Good luck guys let's do this.
+-Peter
+
