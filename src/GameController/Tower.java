@@ -4,6 +4,7 @@ import java.awt.Point;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import GUI.GameView.towerType;
 import model.Map;
 /**
  * 
@@ -53,6 +54,7 @@ import model.Map;
 
 public abstract class Tower implements Serializable{
 	private String TowerName;
+	private towerType type;
 	private int AttackPts;
 	private int RadiusPxls;
 	private double FireRateSecs;
@@ -188,6 +190,14 @@ public abstract class Tower implements Serializable{
 		return this.TowerName;
 	}
 	 
+	public void setTowerType(towerType type){
+		this.type = type;
+	}
+	
+	public towerType getType(){
+		return this.type;
+	}
+	
 	// Getter to return the gym's FireRate fires per second
 	public double getFireRate(){
 		return this.FireRateSecs;
@@ -299,7 +309,7 @@ public abstract class Tower implements Serializable{
 	public Enemy findClosestEnemy(ArrayList<Enemy> enemies){
 		Enemy closests = null;
 		Double shortestDist = null;
-		int distanceLeftOnPath = null;
+		int distanceLeftOnPath = 0;
 		if (enemies.isEmpty()){
 			return closests;
 		}

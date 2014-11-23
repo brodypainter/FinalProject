@@ -322,10 +322,10 @@ public class GameServer implements Serializable{
 	 * @param attackingTower
 	 * @param victim
 	 */
-	public void updateClientsOfAttack(Tower attackingTower, Enemy victim){
+	public void updateClientsOfAttack(towerType type, Point towerLocation, Point enemyLocation){
 		//TODO: Finish SendClientTowerAttack with a method for it to execute in client
-		Command c = new SendClientTowerAttack(attackingTower, victim);
-		sendCommand(c);
+		
+		//sendCommand(c);
 	}
 	
 	/**

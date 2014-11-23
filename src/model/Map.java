@@ -297,9 +297,9 @@ public abstract class Map implements Serializable{
 	 * @param pokemon
 	 * @return
 	 */
-	public boolean notifyOfAttack( Tower gym, Enemy pokemon){
+	public boolean notifyOfAttack(Tower gym, Enemy pokemon){
 		//I should change this to send the enum TowerType, the location of tower, and location of enemy
-		//this.server.updateClientsOfAttack(, pokemon);
+		this.server.updateClientsOfAttack(gym.getType(), gym.getPosition(), pokemon.getLocation());
 		return true;
 		
 	}
