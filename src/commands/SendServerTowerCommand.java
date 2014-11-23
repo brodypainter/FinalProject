@@ -1,5 +1,7 @@
 package commands;
 
+import java.awt.Point;
+
 import GameController.Tower;
 import server.GameServer;
 
@@ -14,18 +16,15 @@ public class SendServerTowerCommand extends Command<GameServer>{
 
 	private static final long serialVersionUID = 4504506147509198509L;
 	private Tower tower;
+	private Point loc;
 	
-	/**
-	 * 
-	 * @param message A message to be sent to the server for chat purposes
-	 */
-	public SendServerTowerCommand(Tower tower){
+	public SendServerTowerCommand(Tower tower, Point loc){
 		this.tower = tower;
+		this.loc = loc;
 	}
 
 	@Override
 	public void execute(GameServer executeOn) {
-		// TODO Auto-generated method stub
-		executeOn.addTower(this.tower);
+		executeOn.addTower(this.tower, this.loc);
 	}
 }

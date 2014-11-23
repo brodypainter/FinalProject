@@ -1,5 +1,6 @@
 package client;
 
+import java.awt.Point;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.EOFException;
@@ -17,6 +18,7 @@ import javax.swing.JOptionPane;
 import model.Level0Map;
 import commands.Command;
 import commands.DisconnectCommand;
+import commands.SendServerEnemyRemoveCommand;
 import commands.SendServerTowerCommand;
 import commands.SendServerTowerRemoveCommand;
 import commands.buildTowerCommand;
@@ -196,21 +198,19 @@ public class GameClient{
 		mainMenu.getView().update(towerList, enemyList);
 	}
 	
-	public void addTower(Tower t){
-		SendServerTowerCommand c = new SendServerTowerCommand(t);
+	public void addTower(Tower t, Point loc){
+		SendServerTowerCommand c = new SendServerTowerCommand(t, loc);
 		this.sendCommand(c);
 	}
 	
-	public void removeTower(){
-
+	public void removeTower(Tower t){
+		SendServerTowerRemoveCommand c = new SendServerTowerRemoveCommand(t);
+		this.sendCommand(c);
 	}
 	
-	public void addEnemy(Enemy e){
-
-	}
-	
-	public void removeEnemy(){
-
+	public void removeEnemy(Enemy e){
+		SendServerEnemyRemoveCommand c = new SendServerEnemyRemoveCommand(e);
+		this.sendCommand(c);
 	}
 	
 	public int disconnect(){
