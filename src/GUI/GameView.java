@@ -287,30 +287,9 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 		super.paint(g);
 		board.repaint();
 		selectedTowerFromStore.repaint();
-		//towerStorePanel.repaint();
-		//g.drawImage(bg, scrollLocation.x, scrollLocation.y + 30, frame);
 		g.drawImage(pik,(int) ((path.getLocation(testSpriteProgress).x/20) * viewScale * board.getSize().width),(int) ((path.getLocation(testSpriteProgress).y/9) * viewScale * board.getSize().height) + 15, this);
-		//System.out.println("(" + (int) ((path.getLocation(testSpriteProgress).x/20) * viewScale * board.getSize().width) + ", " + (int) ((path.getLocation(testSpriteProgress).y/11) * viewScale * board.getSize().height) + ")");
-		System.out.println("Repainting");
-		if(clickedTowerStore)
-		{
-			if(selectedTowerFromStore != null)
-			{
-				//g.drawImage(selectedTowerFromStore, mouseLoc.x, mouseLoc.y, this);
-			}
-		}
-		//g.drawImage(tower1Image, (int) (getSize().width)/15 + 10,(int) ((3*getSize().height)/3.8) + 30, this);
-		
-		//Bounding boxes for dragging towers from tower store
 		g.drawRect((int) (getSize().width)/15 + 10,(int) ((3*getSize().height)/3.8) + 30, (int) (getSize().width / 9.5), getSize().height / 8);
 		g.drawRect((int) (2.6*getSize().width)/15 + 10,(int) ((3*getSize().height)/3.8) + 30, (int) (getSize().width / 9.5), getSize().height / 8);
-		//g.drawRect((int) (4.25*getSize().width)/15 + 10,(int) ((3*getSize().height)/3.8) + 30, (int) (getSize().width / 9.5), getSize().height / 8);
-		//g.drawRect((int) (5.85*getSize().width)/15 + 10,(int) ((3*getSize().height)/3.8) + 30, (int) (getSize().width / 9.5), getSize().height / 8);
-		//g.drawRect((int) (7.45*getSize().width)/15 + 10,(int) ((3*getSize().height)/3.8) + 30, (int) (getSize().width / 9.5), getSize().height / 8);
-		//g.drawRect((int) (9.05*getSize().width)/15 + 10,(int) ((3*getSize().height)/3.8) + 30, (int) (getSize().width / 9.5), getSize().height / 8);
-		//g.drawRect((int) (10.67*getSize().width)/15 + 10,(int) ((3*getSize().height)/3.8) + 30, (int) (getSize().width / 9.5), getSize().height / 8);
-		//g.drawRect((int) (12.3*getSize().width)/15 + 10,(int) ((3*getSize().height)/3.8) + 30, (int) (getSize().width / 9.5), getSize().height / 8);
-		//g.drawRect(0, 30, bg.getWidth(this)/20, bg.getHeight(this)/12);
 	}
 	
 
@@ -349,7 +328,7 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 	 */
 	enum gameType{SINGLE, MULTI}
 	
-	public enum towerType{NORMAL,FIRE,WATER,ICE}
+	public enum towerType{NORMAL,WATER,ELECTRIC,GRASS,POISON,PHYCHIC,FIRE,GROUND}
 	
 	/**
 	 * Listens for the window resizing, and scales elements as needed
@@ -697,6 +676,8 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 	
 	//This is where I will send commands to the client, to send to the server, requesting to build a tower.
 	//Gui should not handle tower building after sending the command, except to update the list of towers
+	
+	
 	public void mouseReleased(MouseEvent arg0)
 	{
 		if(clickedTowerStore)
@@ -711,7 +692,7 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 			switch(selectedTowerType)
 			{
 			case NORMAL:
-				client.addTower(new CeruleanGym(user), new Point(arg0.getX(), arg0.getY()));
+				client.addTower(towerType.NORMAL, new Point(arg0.getX(), arg0.getY()));
 				//towerLocation = new Point(arg0.getX(), arg0.getY());
 				System.out.println("Attempting to place a normal tower at (" + ((arg0.getX() - scrollLocation.x) * 20)/(bg.getWidth(this)) + ", " + ((arg0.getY() - scrollLocation.y) * 20)/(bg.getWidth(this)) + ")");
 				//client.addTower(new tempTower("Test Tower", 10, 3, 1, user, pewterTower, 0), new Point(((arg0.getX() - scrollLocation.x) * 20)/(bg.getWidth(this)), ((arg0.getY() - scrollLocation.y) * 20)/(bg.getWidth(this))));
