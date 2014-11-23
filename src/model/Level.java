@@ -21,8 +21,8 @@ import client.Player;
 public abstract class Level {
 
   private GameServer server; //Needs to know which server it is on so that it can call the server to start its global timer
-  private Player player; //The person playing this level, passed in constructor
-  private Map map; //The map of the level to which enemy waves will be spawned, create with MapFactory class
+  protected Player player; //The person playing this level, passed in constructor
+  protected Map map; //The map of the level to which enemy waves will be spawned, create with MapFactory class
   private ArrayList<ArrayList<Enemy>> wavesList; //A list of lists of enemies, each a wave. ex: wave1, wave2, etc...
   private Timer timer;//Use scheduleAtFixedRate() method and create a TimerTask that will spawn waves at intervals
   private long waveIntervals; //May not be necessary, but could use this for consistent changeable intervals in timer method
