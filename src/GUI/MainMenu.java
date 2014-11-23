@@ -69,7 +69,7 @@ public class MainMenu extends JFrame implements WindowListener
 		
 		this.client = client;
 		setTitle("Pokemon Tower Defense");
-		setDefaultCloseOperation(client.disconnect());
+		//setDefaultCloseOperation(client.disconnect());
 		this.setLayout(null);
 		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
 		
