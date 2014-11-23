@@ -87,7 +87,7 @@ public abstract class Map implements Serializable{
 		currentEnemies = 0;
 		setPath();
 		setTilesMap();
-		player.setMap(this);
+		//player.setMap(this);
 		enemies = new ArrayList<Enemy>();
 		towers = new ArrayList<Tower>();
 	}

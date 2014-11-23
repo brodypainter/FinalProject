@@ -30,6 +30,7 @@ import commands.TimeCommand;
  * @author Brody Painter
  */
 public class GameServer implements Serializable{
+
 	/**
 	 * 
 	 */
@@ -190,7 +191,7 @@ public class GameServer implements Serializable{
 			for (ObjectOutputStream out : outputs.values()){
 				try{
 					System.out.println("Tick try on " + out);
-					out.writeObject(update);
+					//out.writeObject(update);
 					System.out.println("Tick sent");
 				}catch(Exception e){
 					e.printStackTrace();
