@@ -13,6 +13,7 @@ import java.util.Vector;
 
 import model.Level;
 import model.Level0Map;
+import model.LevelFactory;
 import model.Map;
 import GameController.Enemy;
 import GameController.Tower;
@@ -47,7 +48,7 @@ public class GameServer implements Serializable{
 	//private Map map = new Level0Map(); //If you need the map use currentLevel.getMap()
 	private Level currentLevel; //to be set by a command object from server
 	private GameServer thisServer = this; //A reference to itself, the server
-	private long timePerTick = 500; //The time in ms per tick, will be set to 20 ms after debugging
+	private int timePerTick = 500; //The time in ms per tick, will be set to 20 ms (50 fps) after debugging
 	
 	/**
 	 *	This thread reads and executes commands sent by a client
@@ -168,18 +169,19 @@ public class GameServer implements Serializable{
 	public void startTimer(){
 		TimerTaskUpdate task = new TimerTaskUpdate(thisServer);
 		this.timer = new Timer();
-		//timer.scheduleAtFixedRate(task, 0, 20);
 		timer.scheduleAtFixedRate(task, 0, timePerTick);
 	}
 	
 	public void tickModel(){
 		currentLevel.tick(); //spawn enemies when ready
-		currentLevel.getMap().tick(); //towers fire and enemies move when ready
+		currentLevel.getMap().tick(this.timePerTick); //towers fire and enemies move when ready
+		updateClients(currentLevel.getMap().getEnemies(), currentLevel.getMap().getTowers()); //Send updated enemy/towers to client and GUI
 	}
 	
 	
 	//tickClients may no longer be necessary since the model is stored
-	//entirely on the server and updated with tickModel.
+	//entirely on the server and updated with tickModel. We do not want to hold on to
+	//2 models and try to update them both. Instead use updateClients(enemies,towers) method
 	/**
 	 * Writes a TimeCommand to every connected user, to be called by a
 	 * master Timer every 20 ms.
@@ -206,6 +208,10 @@ public class GameServer implements Serializable{
 	 */
 	public void stopTimer(){
 		timer.cancel();
+	}
+	
+	public void removeLevel(){
+		currentLevel = null;
 	}
 	
 	public static void main(String[] args){
@@ -255,6 +261,12 @@ public class GameServer implements Serializable{
 	//tower being created, removed, upgraded, or removed.
 	//When Player is called to notify it will tell its GameServer to 
 	
+	
+	/**
+	 * This method will be called by map every time a tick occurs
+	 * @param enemies
+	 * @param towers
+	 */
 	public void updateClients(ArrayList<Enemy> enemies, ArrayList<Tower> towers){
 		SendClientUpdate c = new SendClientUpdate(enemies, towers);
 		
@@ -271,18 +283,42 @@ public class GameServer implements Serializable{
 		}
 	}
 	
+	/**
+	 * This method will be called every time player's info changes
+	 * @param playerHealth
+	 * @param playerMoney
+	 */
+	public void updateClients(int playerHealth, int playerMoney){
+		//TODO: Brody make a new Command to transfer player's updated HP and Money to Client then send it
+		
+	}
+	
 
-
+	//This method is called by the currentLevel's Map whenever a tower attacks
 	public void updateClientsOfAttack(Tower attackingTower, Enemy victim){
 		//TODO: Brody create and send a command object to the clients to animate the attack
 	}
-
-	//These methods will be called by Command objects passed from client to server
+	
+	//This method is called once when the currentLevel's Map is first instantiated
+	//Client and GUI should hold on to this unchanging Map Background image url
+	public void updateClientsOfMapBackground(String mapBackgroundURL){
+		//TODO: Brody create a Command object that pass this info to the GUI to store it
+	}
+	
+	
+	
+	//These methods below will be called by Command objects passed from client to server
 	//call level.getMap.appropriateMethod() in each case
+	
+	
 	
 	public void addTower(Tower tower, Point loc) {
 		System.out.println("addTower command received, adding tower to current level");
-		currentLevel.getMap().addTower(tower, loc);
+		if(currentLevel.getMap().addTower(tower, loc)){
+			System.out.println("successfully added tower");
+		}else{
+			System.out.println("Adding tower failed!");
+		}
 	}
 	
 	//perhaps should be renamed to "sellTower"
@@ -303,12 +339,19 @@ public class GameServer implements Serializable{
 		return timePerTick;
 	}
 
+	//Call this method with a command containing an int levelCode based on level selected passed by the client to start a level
+	public void startLevel(int levelCode){
+		currentLevel = LevelFactory.generateLevel(player, thisServer, levelCode);
+	}
+	
 	public void gameLost() {
 		// TODO Auto-generated method stub
 		//Stop the GameServer master Timer, create a GameOver Command object that contains a
 		//boolean value gameWon set to false, that causes GUI to print out a game over pic
 		//and return to the main menu
 		
+		stopTimer();
+		removeLevel();
 		
 	}
 
@@ -317,5 +360,8 @@ public class GameServer implements Serializable{
 		//Stop the GameServer master Timer, create a GameOver Command object that contains a
 		//boolean value gameWon set to true, that causes GUI to print out a game won pic
 		//and return to the main menu
+		
+		stopTimer();
+		removeLevel();
 	}
 }

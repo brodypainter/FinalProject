@@ -65,14 +65,15 @@ public abstract class Tower implements Serializable{
 	private int coolDownTime; // (1/FireRateSecs)*1000, the minimum time in ms allowed between attacks
 	private Map map; //The map on which the tower is placed
 	private int CostofTower;
+	private boolean readyToFire; //true if tower is ready to fire, false if not
 	
 	// for image load the location of the image here
 	/**
 	 * 
 	 * @param Name is the name of the Gym
-	 * @param Attack is the amount of attack the gym can perform
-	 * @param Radius is the distance with which the gym can perform it is in points which relate to pixels
-	 * @param FireRateSec that amount of Firerate per sec the gym can perform
+	 * @param Attack is the amount of damage the gym can do with each attack
+	 * @param Radius is the distance with which the gym can perform its attack in points which relate to tile coordinates
+	 * @param FireRateSec that amount of attacks per sec the gym can perform
 	 * @param Cost is the cost of the gym to buy
 	 * @param PlayersName is the name of the player who owns the tower (Might be unnecessary)
 	 * This is our constructor
@@ -90,7 +91,7 @@ public abstract class Tower implements Serializable{
 	} // end Currency
 	
 	/**
-	 * The following four methdods lines 53 to 72 are the abstract methods of the Gym Class
+	 * The following four methods lines 53 to 72 are the abstract methods of the Gym Class
 	 * @return
 	 */
 	
@@ -271,14 +272,24 @@ public abstract class Tower implements Serializable{
 	 * Called by the Tower's Map every time the master Timer ticks (20 ms). Updates
 	 * the timeSinceLastFire variable and checks/attacks if the Tower is ready to fire.
 	 */
-	public void tick() {
-		timeSinceLastFire = timeSinceLastFire + 20; //20 because the Timer ticks every 20 ms
-		if(timeSinceLastFire >= coolDownTime){
-			AttackEnemy(map.getEnemies());
-			timeSinceLastFire = 0;
+	public void tick(int timePerTick) {
+		if(!readyToFire){
+			timeSinceLastFire = timeSinceLastFire + timePerTick; //20 because the Timer ticks every 20 ms
+		}
+		if(timeSinceLastFire >= coolDownTime || readyToFire){
+			if(AttackEnemy(map.getEnemies())){
+				timeSinceLastFire = 0; //Attack was successful, restart cooldown
+				readyToFire = false;
+			}else{
+				readyToFire = true;
+			}
 		}
 		
 	}
+	
+	//TODO:
+	//We may also want a method that finds the farthest (not necessarily closest) enemy within its range
+	//or farthest along the path..., use the new method I made called Enemy.getStepsTaken() -PH
 	
 	/**
 	 * This takes the list of enemies and in that list find a single enemy that is the closest

@@ -20,7 +20,7 @@ public class Pikachu extends Enemy{
 	 * @param health for the initial state of the pokemons health
 	 * @param attackPower for the attack power should we use attacks to take player health
 	 * @param defense The defense modifier.  It takes the attack incoming minus the defense and subtracts from health
-	 * @param speed the Speed of the enemy as they move across the screen in pixels per second
+	 * @param speed The number (or fraction) of tiles the enemy moves through each second
 	 * @param name the name of the monster
 	 * @param worth the worth of the monster as it is created
 	 * @param Image
@@ -29,7 +29,7 @@ public class Pikachu extends Enemy{
 	 */
 	
 	public Pikachu(Map currentMap) {
-		super(100, 10, 12, 5, "Pikachu", 25, "Image URL", currentMap);
+		super(100, 10, 12, 1.0, "Pikachu", 25, "Image URL", currentMap);
 	}
 
 	

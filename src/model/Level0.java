@@ -77,7 +77,7 @@ public class Level0 extends Level{
 	 * 
 	 */
 	public void createWaves(){
-		ArrayList<ArrayList<Enemy>> waveList = new ArrayList<ArrayList<Enemy>>(); //A temporary 2D array list
+		ArrayList<ArrayList<Enemy>> waveList = new ArrayList<ArrayList<Enemy>>(); //A temporary 2D array list of Enemy
 		for (int i = 0; i < 3; i++){
 			ArrayList<Enemy> wave = new ArrayList<Enemy>();
 			for (int j = 0; j < 20; j++){
@@ -88,33 +88,32 @@ public class Level0 extends Level{
 		}
 		setWavesList(waveList); //Set the master wavesList inherited instance variable
 	}
+	
 	@Override
 	public void setPlayerStartingHP() {
 		getPlayer().setHealth(100);
-		
+		notifyPlayerInfoUpdated();
 	}
 
 	@Override
 	public void setPlayerStartingMoney() {
 		getPlayer().setMoney(1000);
-		
+		notifyPlayerInfoUpdated();
 	}
 
 	@Override
 	public void setWaveDelayIntervals() {
 		setWaveIntervals(30000L); //30 seconds between the last and first enemy of 2 successive waves
-		
 	}
 
 	@Override
 	public void setEnemySpawnDelayIntervals() {
 		setEnemySpawnIntervals(1000L); //1 second between each enemy spawning in a wave
-		
 	}
 
 	@Override
 	public void setMap() {
-		setMap(MapFactory.generateMap(getPlayer(), 0));
+		setMap(MapFactory.generateMap(getPlayer(), 0)); //the int mapCode is 0 because this is level 0 and we want Map 0
 	}
 	
 }

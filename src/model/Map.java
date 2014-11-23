@@ -1,6 +1,6 @@
 package model;
 
-import java.awt.Image;
+
 import java.awt.Point;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -82,6 +82,7 @@ public abstract class Map implements Serializable{
 		enemyPath = path;
 		this.mapType = mapType;
 		imageURL = backgroundImageURL;
+		server.updateClientsOfMapBackground(imageURL);
 		this.mapTypeCode = mapTypeCode;
 		this.player = player;
 		currentEnemies = 0;
@@ -92,9 +93,6 @@ public abstract class Map implements Serializable{
 		towers = new ArrayList<Tower>();
 	}
 	
-	public Map() {
-		// TODO Auto-generated constructor stub
-	}
 
 	/**
 	 * Sets the Map instance variable in all the tiles in the 2D array grid to this map
@@ -144,7 +142,7 @@ public abstract class Map implements Serializable{
 		
 		
 		
-		//Also may need to do other things here for GUI ...
+		//Also may need to do other things here to notify GUI ...
 	}
 	
 	
@@ -180,8 +178,10 @@ public abstract class Map implements Serializable{
 		enemy.setLocation(nextCoords);
 		grid[nextCoords.x][nextCoords.y].addPokemon(enemy);
 		enemy.setNextLocation(enemyPath.get(iMore));
+		enemy.takeStep();//Increments step counter to see how many tiles it has gone total
 		
 		return true;
+		
 	}
 	
 	/**
@@ -206,6 +206,7 @@ public abstract class Map implements Serializable{
 		//called by the last tile in the path every time an enemy gets to it
 		//Map just passes on this information to the Player object.
 		player.loseHealth(hpLost);
+		server.updateClients(player.getHealthPoints(), player.getMoney());
 	}
 	
 	/**
@@ -215,6 +216,7 @@ public abstract class Map implements Serializable{
 	 */
 	public void gainedGold(int goldGained){
 		player.gainMoney(goldGained);
+		server.updateClients(player.getHealthPoints(), player.getMoney());
 	}
 	
 	/**
@@ -242,36 +244,37 @@ public abstract class Map implements Serializable{
 	}
 	
 	/**
-	 * Removes a Gym tower from the Map. Unfinished, may be useful for resale feature.
-	 * @param tower The Gym tower to be removed.
+	 * Removes a Gym tower from the Map. Sells for half the initial cost.
+	 * @param tower The Gym tower to be removed. 
 	 */
-	//Not implemented yet, could pass either just the tower, or the tower's location on
-	//the grid, whichever is easier. Could also have it automatically add gold to player
-	//assuming we only use this method when tower is being resold.
+	
+	//could pass just the point where the desired tower to remove is instead
 	public void removeTower(Tower tower){
 		Point p = tower.getPosition();
+		Tower towerToRemove = grid[p.x][p.y].getGym();
 		grid[p.x][p.y].removeGym();
-		towers.remove(tower);
-		//If tower is being resold for $ we could figure out how much money to send
-		//to Player object and do so here as well
+		towers.remove(towerToRemove);
+		int reclaimedGold = towerToRemove.getCost()/2;
+		player.gainMoney(reclaimedGold);
+		server.updateClients(player.getHealthPoints(), player.getMoney());
 	}
-	
-	//Maybe we should add methods that each Gym tower running in their own thread would
-	//be able to call every x sec/atk which would give them access to the enemies list to look
-	//for nearby in range target-able enemies, and then attack them?
 	
 	public ArrayList<Enemy> getEnemies(){
 		return enemies;
 	}
 	
-	public void tick(){
+	public ArrayList<Tower> getTowers(){
+		return towers;
+	}
+	
+	public void tick(int timePerTick){
 		//call all enemies and towers to call their tick() method, which will increment their
 		//cool down timers, causing them to move/shoot if they are ready
 		for(Tower tower : towers){
-			tower.tick();
+			tower.tick(timePerTick);
 		}
 		for(Enemy enemy : enemies){
-			enemy.tick();
+			enemy.tick(timePerTick);
 		}
 	}
 
@@ -293,5 +296,8 @@ public abstract class Map implements Serializable{
 		return true;
 		
 	}
-	
+
+	public String getImageURL() {
+		return imageURL;
+	}
 }

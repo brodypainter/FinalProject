@@ -8,14 +8,11 @@ import server.GameServer;
 import GameController.Enemy;
 import client.Player;
 
-//Not finished by any means this is just a start, Max feel free to take over this class ask me if you have any questions -Peter
-//I did not write this in eclipse so import all the needed classes whoever updates next please.
-
 /**
-* An abstract class that will hold a concrete extention of Map, and an arraylist of arraylists of enemies as waves
-* to spawn on the map. May also want its own timer to schedule wave spawning. Each extending Level class will have
+* An abstract class that will hold a concrete extension of Map, and an arraylist of arraylists of enemies as waves
+* to spawn on the map. Each extending Level class will have
 * their own unique waves/times/starting gold amount and follow the naming template: "Level<#><Difficulty>" for instance
-* Level0Easy. Use MapFactory to create the appropriate Map object. Creating and running an extention of this class will
+* Level0. Use MapFactory to create the appropriate Map object. Creating and running an extension of this class will
 * actually cause the game model to run. Should be selected by player in GUI level selection which level for Server to instantiate.
 */
 
@@ -25,9 +22,7 @@ public abstract class Level {
   private Player player; //The person playing this level, passed in constructor
   private Map map; //The map of the level to which enemy waves will be spawned, create with MapFactory class
   private ArrayList<ArrayList<Enemy>> wavesList; //A list of lists of enemies, each a wave. ex: wave1, wave2, etc...
-  private Timer timer;//Use scheduleAtFixedRate() method and create a TimerTask that will spawn waves at intervals
-  private TimerTask enemySpawnTask;
-  private long waveIntervals; //May not be necessary, but could use this for consistent changeable intervals in timer method
+  private long waveIntervals; //Use this for consistent changeable intervals between waves.
                               //It is in milliseconds so it would have to be say 30000 for 30 secs between waves.
   private long enemySpawnIntervals; //The time in milliseconds between each spawning of an enemy within a wave
   private boolean playerIsAlive; //Can be used to tell if the game is still going and enemies should still be spawned or not
@@ -51,7 +46,7 @@ public abstract class Level {
   
   
 
-//Instantiate the rest of the needed instance variables according to specific level and difficulty
+  //Instantiate the rest of the needed instance variables according to specific level and difficulty
   //This will include things like setting player's initial HP and $, creating the waves of enemies you want to
   //send on this level, the time delay in between each enemy wave, the map to play on (use MapFactory to create Maps)
   public void levelSpecificSetup(){
@@ -64,20 +59,31 @@ public abstract class Level {
   }
   
   public abstract void createWaves(); //create wavesList and populate it with enemies specific to each Level
-  public abstract void setPlayerStartingHP();
+  public abstract void setPlayerStartingHP();//Self explanatory...etc.
   public abstract void setPlayerStartingMoney();
   public abstract void setWaveDelayIntervals();
   public abstract void setEnemySpawnDelayIntervals();
-  public abstract void setMap(); //Use MapFactory to say MapFactory.generateMap(...)
+  public abstract void setMap(); //Use MapFactory to generate a map to set the map to; say MapFactory.generateMap(...)
   
   //Call server to start its global timer
-  //check for if player is dead at any point in time (while loop?) to stop game
-  //if player survives till end call a method to indicate player won the level
   public void levelStart(){
 	  server.startTimer(); //Starts the Master Timer on the server	 
   }
   
   //That game loop doe -PH
+  /**
+   * Every time the Master Timer in GameServer ticks (after it has been started
+   * by this newly instantiated Level), this method will be called. Whether
+   * the game has been won or lost is first checked, then if there are still
+   * enemies left to spawn, 1 of 2 cooldown timers are incremented.
+   * If a wave is in progress, the timeSinceLastEnemySpawned tracker is incremented.
+   * If a wave is not in progress, the timeSinceLastWave tracker is incremented.
+   * Once either of these trackers become greater than their set cooldown interval,
+   * either another enemy is spawned or another wave is started. Once the last
+   * enemy of a wave has been spawned, it checks if there are any more waves
+   * and sets waveInProgress to false, and enemiesLeftToSpawn to false
+   * if there are no more waves.
+   */
   public void tick(){
 	  if(!gameOver()){
 	  if(enemiesLeftToSpawn){
@@ -109,10 +115,10 @@ public abstract class Level {
 		  }
 	  }
 	  }
-  }
+ }
   
   public boolean gameOver(){
-		if(this.player.getHealthPoints() < 0){
+		if(this.player.getHealthPoints() <= 0){
 			youLose();
 			return true;
 		}else if (!enemiesLeftToSpawn && map.getEnemies().isEmpty() && this.player.getHealthPoints() > 0){
@@ -131,19 +137,21 @@ public abstract class Level {
 		server.gameWon();
 		return false;
 	}
- 
+	
+	
+	public void notifyPlayerInfoUpdated(){
+		server.updateClients(player.getHealthPoints(), player.getMoney());
+	}
   
-  
-  
-  public Map getMap(){
+	public Map getMap(){
 	  return map;
   }
   
-  public void setMap(Map map){
+	public void setMap(Map map){
 	  this.map = map;
   }
 
-  public Player getPlayer(){
+	public Player getPlayer(){
 	  return this.player;
   }
 
@@ -155,14 +163,7 @@ public abstract class Level {
 	this.wavesList = wavesList;
   }
 
-  public TimerTask getEnemySpawnTask() {
-	return enemySpawnTask;
-  }
-
-  public void setEnemySpawnTask(TimerTask enemySpawnTask) {
-	this.enemySpawnTask = enemySpawnTask;
-  }
-
+  
   public long getWaveIntervals() {
 	return waveIntervals;
   }

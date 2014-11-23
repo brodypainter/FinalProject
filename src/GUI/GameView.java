@@ -677,9 +677,10 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 		board.add(temp);
 	}
 	
+	//Could also just send me the Point(rows, columns) of where you want to sell tower if that's easier) -PH
 	public void removeTower(Tower tower)
 	{
-		
+		//TODO:
 	}
 	
 	public void mouseMoved(MouseEvent arg0)

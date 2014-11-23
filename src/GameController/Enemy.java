@@ -1,9 +1,7 @@
 package GameController;
 
-import java.awt.Image;
 import java.awt.Point;
 import java.io.Serializable;
-
 import model.Map;
 
 /**
@@ -54,13 +52,16 @@ public abstract class Enemy implements Serializable{
 	private String Pokemon;
 	private int Worth;
 	private Point previousLocation; //The immediately previous location of the enemy
-	private Point Location; //The current location of the enemy
+	private Point location; //The current location of the enemy
 	private Point nextLocation; //The location the enemy will go to next when it is ready
 	private String imageURL;
 	private Map map;
 	private int timePerTile; //The time in ms the enemy will spend on each tile before moving to the next
 	private int timeSinceLastMovement; //The time in ms since the enemy has last moved a tile
-	private int progress;		// requested by Desone track progress
+	private int progress;		// requested by Desone track progress (timeSinceLastMovement/timePerTile)
+	private directionFacing orientation; //The way the enemy is facing based on it's Location nextLocation
+	private int stepsTaken; //The amount of tiles the enemy has taken along the path, useful for targeting farthest
+	
 	/**
 	 * The constructor for Pokemon it takes the following variables
 	 * @param health for the initial state of the pokemons health
@@ -71,7 +72,7 @@ public abstract class Enemy implements Serializable{
 	 * @param worth the worth of the monster as it is created
 	 * @param Image
 	 */
-	public Enemy (int health, int attackPower, int defense, int speed, String name, int worth, String Image, Map mapRef){
+	public Enemy (int health, int attackPower, int defense, double speed, String name, int worth, String Image, Map mapRef){
 		this.Health = health;
 		this.AttackPower = attackPower;
 		this.Defense = defense;
@@ -80,7 +81,9 @@ public abstract class Enemy implements Serializable{
 		this.Pokemon = name;
 		this.Worth = worth;
 		this.imageURL = Image;
+		orientation = directionFacing.SOUTH; //By default
 		timeSinceLastMovement = 0;
+		stepsTaken = 0;
 		this.map = mapRef;
 	} // end constructor
 	
@@ -89,7 +92,7 @@ public abstract class Enemy implements Serializable{
 	 * @return the point of the current location on the screen
 	 */
 	public Point getLocation(){
-		return this.Location;
+		return this.location;
 	}
 	
 	/**
@@ -99,8 +102,41 @@ public abstract class Enemy implements Serializable{
 	 * @return returns true that this method successful ran
 	 */
 	public boolean setLocation(Point x){
-		this.Location = x;
+		this.location = x;
 		return true;
+	}
+	
+	//I moved a copy of this and changed name slightly to the Enemy Class
+	//Remember Point.x = how many rows down, Point.y = how many columns right the location is in the model
+public enum directionFacing{NORTH, EAST, SOUTH, WEST};
+	
+	public directionFacing direction(Enemy enemy)
+	{
+		if(enemy.getLocation().x - enemy.getNextLocation().x > 0)
+		{
+			return directionFacing.NORTH;
+		}
+		else if(enemy.getLocation().x - enemy.getNextLocation().x < 0)
+		{
+			return directionFacing.SOUTH;
+		}
+		else if(enemy.getLocation().y - enemy.getNextLocation().y < 0)
+		{
+			return directionFacing.EAST;
+		}
+		else if(enemy.getLocation().y - enemy.getNextLocation().y < 0)
+		{
+			return directionFacing.WEST;
+		}
+		return directionFacing.SOUTH;//By default, shouldn't ever get to this point
+	}
+	
+	public void takeStep(){
+		stepsTaken++;
+	}
+	
+	public int getStepsTaken(){
+		return stepsTaken;
 	}
 	
 	// Upon death is returns the worth of the Pokemon
@@ -120,7 +156,7 @@ public abstract class Enemy implements Serializable{
 	
 	// this method just checks if the enemy is dead and returns a boolean depending on it
 	public boolean isDead(){
-		if( this.Health <= 0){
+		if(this.Health <= 0){
 			map.gainedGold(Worth); // this calls the maps gainedGold method passing it he worth of the Enemy
 			return true;
 		}
@@ -141,7 +177,7 @@ public abstract class Enemy implements Serializable{
 			healthToSubtract = 0;
 		this.Health -= healthToSubtract;
 		if(isDead()){
-			this.map.removeDeadEnemy(this.Location, this);
+			this.map.removeDeadEnemy(this.location, this);
 		}
 		return true;
 	}
@@ -206,12 +242,14 @@ public abstract class Enemy implements Serializable{
 	/**
 	 * Updates the timeSinceLastMovement variable and checks/moves if the Enemy can move
 	 */
-	public void tick() {
-		timeSinceLastMovement = timeSinceLastMovement + 20; //20 because master Timer ticks every 20 ms, make sure it is equal
+	public void tick(int timePerTick) {
+		timeSinceLastMovement = timeSinceLastMovement + timePerTick; //20 because master Timer ticks every 20 ms, make sure it is equal
 		if(timeSinceLastMovement >= timePerTile){
 			map.updateEnemyPosition(this);
+			orientation = this.direction(this);//Enemy has just moved, update it's orientation
 			timeSinceLastMovement = 0;
 		}
+		calculateProgress(); //Updates % of tile he is finished with
 	}
 
 	public Point getPreviousLocation() {
@@ -233,6 +271,12 @@ public abstract class Enemy implements Serializable{
 	// for desonne and the GUI
 	public int getProgress(){
 		return this.progress;
+	}
+	
+	//The percentage that the enemy is across the tile is progress
+	//this method is called on each enemy every tick.
+	public void calculateProgress(){
+		setProgress(timeSinceLastMovement/timePerTile);
 	}
 	
 	// for desonne and the GUI

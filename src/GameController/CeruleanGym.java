@@ -27,12 +27,12 @@ public class CeruleanGym extends Tower{
 	public static final int Cost = 300;
 	//String Name, int Attack, int Radius, int FireRateSec, String PlayersName
 	/**
-	 * The default settings for the cerulean gym a attack power of 25, a radius of 150 pixels
+	 * The default settings for the cerulean gym a attack power of 25, a radius range of 3 tiles,
 	 * 3 shots per a second and the Image URL to the gym
 	 * @param PlayersName is the only value the gym 
 	 */
-	public CeruleanGym( String PlayersName){
-		super("Cerulean Gym", 25, 150, 3, PlayersName,"ImageURL Here", Cost);
+	public CeruleanGym(String PlayersName){
+		super("Cerulean Gym", 25, 3, 3.0, PlayersName,"ImageURL Here", Cost);
 		// TODO Auto-generated constructor stub
 	}
 
