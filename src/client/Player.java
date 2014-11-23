@@ -38,12 +38,12 @@ import model.Map;
  */
 public class Player implements Serializable{
 	
-	private static final long serialVersionUID = -937778023185001965L;
+	private static final long serialVersionUID = -937778023185031965L;
 	private String name;
-	private GameServer server;
+	//private GameServer server;
 	private int money;
 	private int healthPoints;
-	private Map currentMap;
+	//private Map currentMap;
 	
 	
 	/**
@@ -51,10 +51,12 @@ public class Player implements Serializable{
 	 * @param name The Player's name.
 	 * @param money The amount of money the Player starts with
 	 * @param healthPoints The amount of HP the player starts with
+	 * 
+	 * removed GameServer server as the second argument in the constructor.
 	 */
-	public Player(String name, GameServer server, int money, int healthPoints){
+	public Player(String name, int money, int healthPoints){
 		this.name = name;
-		this.server = server;
+		//this.server = server;
 		this.money = money;
 		this.healthPoints = healthPoints;
 	}
@@ -146,9 +148,9 @@ public class Player implements Serializable{
 	 * associated with the Player object when it is created.
 	 * @param map The Map to set currentMap to.
 	 */
-	public void setMap(Map map){
-		currentMap = map;
-		map.setServer(server);
-	}
+//	public void setMap(Map map){
+//		currentMap = map;
+//		map.setServer(server);
+//	}
 	
 }
