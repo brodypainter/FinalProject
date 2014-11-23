@@ -276,6 +276,18 @@ public abstract class Map implements Serializable{
 		
 	}
 	
-	
+	/** @ Max Justice
+	 * This method is to notify the server an attack happened.  It is then supposed to be passed to client and updated
+	 * inside the GUI.  It takes the tower that is attacking and the current pokemon that is being attacked.
+	 * it then returns true.
+	 * @param gym
+	 * @param pokemon
+	 * @return
+	 */
+	public boolean notifyOfAttack( Tower gym, Enemy pokemon){
+		this.server.updateClientsOfAttack(gym, pokemon);
+		return true;
+		
+	}
 	
 }

@@ -69,6 +69,9 @@ public class CeruleanGym extends Tower{
 			/*
 			 * GUI here
 			 */
+			getMap().notifyOfAttack(this, myClosestEnemy);
+				
+			
 		}
 		/*
 		//TODO is set up the graphics call for attack

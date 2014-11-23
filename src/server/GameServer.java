@@ -254,7 +254,7 @@ public class GameServer {
 		
 	}
 	
-	public void updateClientsOfAttack(){
+	public void updateClientsOfAttack(Tower gym, Enemy pokemon){
 		
 		
 	}
