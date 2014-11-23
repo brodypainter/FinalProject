@@ -8,6 +8,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Timer;
 import java.util.Vector;
 
@@ -300,8 +301,8 @@ public class GameServer implements Serializable{
 	}
 	
 	//This method is called once when the currentLevel's Map is first instantiated
-	//Client and GUI should hold on to this unchanging Map Background image url
-	public void updateClientsOfMapBackground(String mapBackgroundURL){
+	//Client and GUI should hold on to this unchanging Map Background image url and its enemy path
+	public void updateClientsOfMapBackground(String mapBackgroundURL, List<Point> path){
 		//TODO: Brody create a Command object that pass this info to the GUI to store it
 	}
 	
