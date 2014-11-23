@@ -54,5 +54,10 @@ public abstract class Level {
   public abstract void levelStart();
   
   //May want game over/player won type methods...
+  
+  
+  public Map getMap(){
+	  return map;
+  }
 
 }
