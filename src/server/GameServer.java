@@ -35,11 +35,12 @@ public class GameServer {
 	private HashMap<String, ObjectOutputStream> outputs; // map of all connected users' output streams
 	private Timer timer; //The master timer
 	private Player player;
-	//private Vector<Enemy> enemyList;
+	//private Vector<Enemy> enemyList; //Use currentLevel.getMap().getEnemies() and similar for towers
 	//private Vector<Tower> towerList;
-	//private Map map = new Level0Map();
+	//private Map map = new Level0Map(); //If you need the map use currentLevel.getMap()
 	private Level currentLevel; //to be set by a command object from server
-	private GameServer thisServer = this;
+	private GameServer thisServer = this; //A reference to itself, the server
+	private int timePerTick = 500; //The time in ms per tick, will be set to 20 ms after debugging
 	
 	/**
 	 *	This thread reads and executes commands sent by a client
@@ -57,7 +58,7 @@ public class GameServer {
 					// read a command from the client, execute on the server
 					Command<GameServer> command = (Command<GameServer>)input.readObject();
 					System.out.println("\t\t Command " + command + " received");
-					command.execute(GameServer.this);
+					command.execute(thisServer);
 					
 					// When there is a command from a client, update all of the clients
 					//GameServer.this.updateClients();
@@ -127,7 +128,6 @@ public class GameServer {
 			
 			// spawn a client accepter thread
 			new Thread(new ClientAccepter()).start();
-			this.startTimer();
 		}
 		catch(Exception e){
 			e.printStackTrace();
@@ -157,13 +157,19 @@ public class GameServer {
 	 * SLOWED TO 500ms TO DEBUG
 	 */
 	public void startTimer(){
-		TimerTaskUpdate task = new TimerTaskUpdate(this);
-		timer = new Timer();
+		TimerTaskUpdate task = new TimerTaskUpdate(thisServer);
+		this.timer = new Timer();
 		//timer.scheduleAtFixedRate(task, 0, 20);
-		timer.scheduleAtFixedRate(task, 0, 500);
+		timer.scheduleAtFixedRate(task, 0, timePerTick);
+	}
+	
+	public void tickModel(){
+		currentLevel.getMap().tick();
 	}
 	
 	
+	//tickClients may no longer be necessary since the model is stored
+	//entirely on the server and updated with tickModel.
 	/**
 	 * Writes a TimeCommand to every connected user, to be called by a
 	 * master Timer every 20 ms.

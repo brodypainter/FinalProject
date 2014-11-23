@@ -12,7 +12,8 @@ public class TimerTaskUpdate extends TimerTask{
 	
 	@Override
 	public void run() {
-		server.tickClients();
+		server.tickModel();
+		//server.tickClients(); //probably no longer necessary since model is on server
 	}
 
 }

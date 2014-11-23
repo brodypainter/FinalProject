@@ -22,7 +22,7 @@ public class Level0 extends Level{
 
 	public Level0(Player player, GameServer server) {
 		super(player, server);
-		waveList = new ArrayList<ArrayList<Enemy> >();
+		waveList = new ArrayList<ArrayList<Enemy>>();
 		// TODO Auto-generated constructor stub
 	}
 
@@ -33,8 +33,8 @@ public class Level0 extends Level{
 	}
 
 	@Override
-	public void levelStart(Map map) {
-		setMap(map);
+	public void levelStart() {
+		//assume the map will always have already been set in constructor Max - PH
 		createWaves();
 		
 		// TODO Auto-generated method stub

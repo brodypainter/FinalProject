@@ -27,6 +27,7 @@ public abstract class Level {
   private Timer timer;//Use scheduleAtFixedRate() method and create a TimerTask that will spawn waves at intervals
   private long waveIntervals; //May not be necessary, but could use this for consistent changeable intervals in timer method
                               //It is in miliseconds so it would have to be say 30000 for 30 secs between waves.
+  private int enemySpawnIntervals; //The time in miliseconds between each spawning of an enemy within a wave
   private boolean playerIsAlive; //Can be used to tell if the game is still going and enemies should still be spawned or not
   private int startingHP;
   private int startingMoney;
@@ -51,13 +52,11 @@ public abstract class Level {
   //maybe thread.sleep for 1 sec or so between each enemy spawn in the wave or make another timer for that?
   //check for if player is dead at any point in time (while loop?) to stop game
   //if player survives till end call a method to indicate player won the level
-  public abstract void levelStart(Map map);
+  public abstract void levelStart();
   
   //May want game over/player won type methods...
   
-  public void setMap(Map incoming){
-	  this.map = incoming;
-  }
+  
   
   public Map getMap(){
 	  return map;
