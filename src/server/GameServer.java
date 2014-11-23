@@ -14,9 +14,11 @@ import java.util.Timer;
 import java.util.Vector;
 
 import model.Level;
+import model.Level0;
 import model.Level0Map;
 import model.LevelFactory;
 import model.Map;
+import GUI.GameView.towerType;
 import GameController.Enemy;
 import GameController.Tower;
 import client.GameClient;
@@ -77,7 +79,7 @@ public class GameServer implements Serializable{
 				}
 			} catch(Exception e){
 				// will be thrown if client does not safely disconnect
-				//e.printStackTrace();
+				e.printStackTrace();
 				System.out.println("\t\t This client did not safely disconnect");
 			}
 		}
@@ -102,6 +104,7 @@ public class GameServer implements Serializable{
 					// create the single player, will need to change this for multiplayer games
 					// for multiplayer, this will need to check if the player already exists
 					player = new Player(clientName, 100, 100);
+					new Level0(player, GameServer.this);
 					
 					// map client name to output stream
 					outputs.put(clientName, output);
@@ -344,7 +347,7 @@ public class GameServer implements Serializable{
 	//These methods below will be called by Command objects passed from client to server
 	//call level.getMap.appropriateMethod() in each case
 	
-	public void addTower(Tower tower, Point loc) {
+	public void addTower(towerType tower, Point loc) {
 		System.out.println("addTower command received, adding tower to current level");
 		if(currentLevel.getMap().addTower(tower, loc)){
 			System.out.println("successfully added tower");
