@@ -82,7 +82,7 @@ public abstract class Map implements Serializable{
 		enemyPath = path;
 		this.mapType = mapType;
 		imageURL = backgroundImageURL;
-		server.updateClientsOfMapBackground(imageURL);
+		
 		this.mapTypeCode = mapTypeCode;
 		this.player = player;
 		currentEnemies = 0;
@@ -280,6 +280,7 @@ public abstract class Map implements Serializable{
 
 	public void setServer(GameServer server) {
 		this.server = server;
+		this.server.updateClientsOfMapBackground(this.imageURL, this.enemyPath);
 		
 	}
 	
