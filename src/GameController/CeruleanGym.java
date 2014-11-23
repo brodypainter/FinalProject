@@ -32,7 +32,7 @@ public class CeruleanGym extends Tower{
 	 * @param PlayersName is the only value the gym 
 	 */
 	public CeruleanGym( String PlayersName){
-		super("Cerulean Gym", 25, 150, 3, PlayersName,"ImageURL Here");
+		super("Cerulean Gym", 25, 150, 3, PlayersName,"ImageURL Here", Cost);
 		// TODO Auto-generated constructor stub
 	}
 
@@ -55,7 +55,7 @@ public class CeruleanGym extends Tower{
 	 //This method will be called by map every tick() as long as tower is not on cooldown from last attack and passed
 	 //a list of all enemies currently on the map
 	@Override
-	public int AttackEnemy(ArrayList<Enemy> enemies) {
+	public boolean AttackEnemy(ArrayList<Enemy> enemies) {
 		
 		Enemy myClosestEnemy;
 		
@@ -131,12 +131,6 @@ public class CeruleanGym extends Tower{
 		super.setFireRate(newFire);
 		return true;
 	}
-
-	public static boolean checkBuy(int PlayerCurrency) {
-		if (PlayerCurrency >= Cost)
-			return true;
-		return false;
-	} // end checkBuy
 
 	@Override
 	public boolean levelUp() {

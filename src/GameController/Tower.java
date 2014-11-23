@@ -47,6 +47,8 @@ import model.Map;
  * boolean modifyAttackRadius()
  * boolean levelIncrease()
  * Point getPosition();
+ * int getCost();
+ * boolean checkBuy();
  */
 
 public abstract class Tower implements Serializable{
@@ -62,6 +64,7 @@ public abstract class Tower implements Serializable{
 	private int timeSinceLastFire; //The time, in ms, since Tower last fired.
 	private int coolDownTime; // (1/FireRateSecs)*1000, the minimum time in ms allowed between attacks
 	private Map map; //The map on which the tower is placed
+	private int CostofTower;
 	
 	// for image load the location of the image here
 	/**
@@ -74,7 +77,7 @@ public abstract class Tower implements Serializable{
 	 * @param PlayersName is the name of the player who owns the tower (Might be unnecessary)
 	 * This is our constructor
 	 */
-	public Tower (String Name, int Attack, int Radius, double FireRateSec, String PlayersName, String Image){
+	public Tower (String Name, int Attack, int Radius, double FireRateSec, String PlayersName, String Image, int cost){
 		this.TowerName = Name;
 		this.AttackPts = Attack;
 		this.RadiusPxls = Radius;
@@ -82,6 +85,7 @@ public abstract class Tower implements Serializable{
 		this.GymOwner = PlayersName;
 		this.ImageURL = Image;
 		timeSinceLastFire = 0;
+		CostofTower = cost;
 	} // end Currency
 	
 	/**
@@ -301,5 +305,14 @@ public abstract class Tower implements Serializable{
 		
 		return closests;
 	}
+	
+	public boolean checkBuy(int PlayerCurrency) {
+		if (PlayerCurrency >= CostofTower)
+			return true;
+		return false;
+	} // end checkBuy
 
+	public int getCost(){
+		return CostofTower;
+	}
 }

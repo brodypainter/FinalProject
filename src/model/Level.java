@@ -51,11 +51,13 @@ public abstract class Level {
   //maybe thread.sleep for 1 sec or so between each enemy spawn in the wave or make another timer for that?
   //check for if player is dead at any point in time (while loop?) to stop game
   //if player survives till end call a method to indicate player won the level
-  public abstract void levelStart();
+  public abstract void levelStart(Map map);
   
   //May want game over/player won type methods...
   
-
+  public void setMap(Map incoming){
+	  this.map = incoming;
+  }
   
   public Map getMap(){
 	  return map;
