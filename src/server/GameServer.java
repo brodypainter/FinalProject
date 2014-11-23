@@ -260,12 +260,11 @@ public class GameServer {
 	}
 	
 
+
 	public void updateClientsOfAttack(Tower attackingTower, Enemy victim){
 		//Brody create and send a command object to the clients to animate the attack
-
-		
 	}
-	
+
 	//These methods will be called by Command objects passed from client to server
 	//call level.getMap.appropriateMethod() in each case
 	
