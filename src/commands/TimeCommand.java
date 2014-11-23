@@ -1,5 +1,9 @@
 package commands;
 
+/*This whole command may be unnecessary now because the master Timer is on the GameServer,
+ * and client should never call GameClient to tick. -PH
+ */
+
 import client.GameClient;
 
 /**
@@ -16,7 +20,7 @@ public class TimeCommand extends Command<GameClient>{
 
 	@Override
 	public void execute(GameClient executeOn) {
-		executeOn.tick();
+		//executeOn.tick();
 	}
 
 }

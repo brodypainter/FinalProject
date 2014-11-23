@@ -180,7 +180,7 @@ public class GameClient{
 	}
 
 	/**
-	 * Receives a tower and enemy list and sends it on to the model.
+	 * Receives a tower and enemy list and sends it on to the GUI's model.
 	 * @param enemyList
 	 * @param towerList
 	 */
@@ -217,10 +217,12 @@ public class GameClient{
 		}
 	}
 	
+	//Server should never receive orders to tick from client, do not use this method below. -PH
 	/**
 	 * To be called by the TimeCommand objects every time they are executed (every ~20 ms)
 	 */
-	public void tick(){
+	/* public void tick(){
 		System.out.println("Tick Received!");
 	}
+	*/
 }
