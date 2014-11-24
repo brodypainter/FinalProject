@@ -3,7 +3,6 @@ package commands;
 import java.awt.Point;
 
 import server.GameServer;
-import GameController.Tower;
 
 public class SendServerTowerRemoveCommand extends Command<GameServer>{
 	/**

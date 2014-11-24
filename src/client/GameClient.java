@@ -254,6 +254,15 @@ public class GameClient{
 		
 	}
 	
+	public void notifyLevelWasWon(){
+		//TODO:
+	}
+	
+	public void notifyLevelWasLost(){
+		//TODO:
+	}
+	
+	
 	//Server should never receive orders to tick from client, do not use this method below. -PH
 	/**
 	 * To be called by the TimeCommand objects every time they are executed (every ~20 ms)
