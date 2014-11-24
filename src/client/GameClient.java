@@ -190,12 +190,17 @@ public class GameClient{
 
 	/**
 	 * Receives a tower and enemy list and sends it on to the GUI's model.
-	 * @param enemyList
-	 * @param towerList
+	 * @param enemyImages
+	 * @param towerImages
 	 */
-	public void update(List<EnemyImage> enemyList, List<TowerImage> towerList){
+
+	
 		//TODO:
 		//mainMenu.getView().update(towerList, enemyList);
+
+	public void update(List<EnemyImage> enemyImages, List<TowerImage> towerImages){
+		mainMenu.getView().update(towerImages, enemyImages);
+		//GUI shouldn't hold enemies or towers, instead hold their image classes
 	}
 	
 	public void addTower(towerType normal, Point loc){

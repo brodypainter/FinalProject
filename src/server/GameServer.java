@@ -302,12 +302,17 @@ public class GameServer implements Serializable{
 	public void updateClients(ArrayList<EnemyImage> enemyImages, ArrayList<TowerImage> towerImages){
 		//TODO:Brody make moar commands
 		SendClientUpdate c = new SendClientUpdate(enemyImages, towerImages);
+<<<<<<< HEAD
 		sendCommand(c);
 		/*if(!outputs.isEmpty()){
+=======
+		
+		if(!outputs.isEmpty()){
+>>>>>>> 9bcd205aa8363c0fef6ea15786418421b9d54210
 			for (ObjectOutputStream out : outputs.values()){
 				try{
 					System.out.println("Update try on " + out);
-					//out.writeObject(c);
+					out.writeObject(c);
 					System.out.println("Update sent");
 				}catch(Exception e){
 					e.printStackTrace();
@@ -368,6 +373,7 @@ public class GameServer implements Serializable{
 	
 	
 	public void addTower(towerType type, Point loc) {
+		System.out.println(loc.toString());
 		Tower towerToAdd = TowerFactory.generateTower(type, player);		
 		System.out.println("addTower command received, adding tower to current level");
 		if(currentLevel.getMap().addTower(towerToAdd, loc)){

@@ -17,6 +17,7 @@ public class SendServerTowerRemoveCommand extends Command<GameServer>{
 	@Override
 	public void execute(GameServer executeOn) {
 		executeOn.removeTower(t);
+		//should pass just a point, not a tower -PH
 	}
 
 }
