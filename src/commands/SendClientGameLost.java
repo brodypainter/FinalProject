@@ -3,7 +3,7 @@ package commands;
 
 import client.GameClient;
 
-public class SendClientGameOver extends Command<GameClient>{
+public class SendClientGameLost extends Command<GameClient>{
 
 	/**
 	 * 
@@ -12,18 +12,12 @@ public class SendClientGameOver extends Command<GameClient>{
 
 	private boolean levelWon;
 	
-	public SendClientGameOver(boolean result){
-		levelWon = result;
+	public SendClientGameLost(){
 	}
 	
 	@Override
 	public void execute(GameClient executeOn) {
-
-		if(levelWon){
-			executeOn.notifyLevelWasWon();
-		}else{
-			executeOn.notifyLevelWasLost();
-		}
+		executeOn.notifyLevelWasLost();
 	}
 
 }

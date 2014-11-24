@@ -394,7 +394,7 @@ public class GameServer implements Serializable{
 		
 		stopTimer();
 		removeLevel();
-		Command<GameClient> c = new SendClientGameOver(false);
+		Command<GameClient> c = new SendClientGameLost();
 		sendCommand(c);
 		
 	}
@@ -407,5 +407,7 @@ public class GameServer implements Serializable{
 		
 		stopTimer();
 		removeLevel();
+		Command<GameClient> c = new SendClientGameWon();
+		sendCommand(c);
 	}
 }
