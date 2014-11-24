@@ -181,7 +181,7 @@ public class GameServer implements Serializable{
 	
 	public void tickModel(){
 		currentLevel.tick(); //spawn enemies when ready
-		currentLevel.getMap().tick(this.timePerTick); //towers fire and enemies move when ready
+		currentLevel.getMap().tick(this.timePerTick, this); //towers fire and enemies move when ready, modified with a reference to the server
 	}
 	
 	

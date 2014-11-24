@@ -274,7 +274,7 @@ public abstract class Map implements Serializable{
 		return towers;
 	}
 	
-	public void tick(int timePerTick){
+	public void tick(int timePerTick, GameServer gameServer){
 		//call all enemies and towers to call their tick() method, which will increment their
 		//cool down timers, causing them to move/shoot if they are ready
 		ArrayList<TowerImage> towerImages = new ArrayList<TowerImage>();
@@ -287,7 +287,7 @@ public abstract class Map implements Serializable{
 			enemy.tick(timePerTick);
 			enemyImages.add(new EnemyImage(enemy));
 		}
-		server.updateClients(enemyImages, towerImages);
+		gameServer.updateClients(enemyImages, towerImages);
 		
 	}
 

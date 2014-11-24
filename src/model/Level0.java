@@ -1,6 +1,7 @@
 package model;
 
 import java.awt.Point;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import GameController.Enemy;
@@ -12,7 +13,7 @@ import client.Player;
 
 //created Level0
 
-public class Level0 extends Level{
+public class Level0 extends Level implements Serializable{
 	
 	private static final int numbOfWaves = 3;
 	
