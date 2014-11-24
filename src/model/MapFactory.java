@@ -63,6 +63,12 @@ public class MapFactory {
 			path.add(new Point(2,2));
 			path.add(new Point(2,3));
 			path.add(new Point(2,4));
+			path.add(new Point(2,5));
+			path.add(new Point(2,6));
+			path.add(new Point(2,7));
+			path.add(new Point(2,8));
+			path.add(new Point(2,9));
+
 			//created a straight line along y = 2, x = 0 -> 4
 			
 			//assign the levelDesciption String
@@ -79,7 +85,66 @@ public class MapFactory {
 			//instantiate a LevelXMap object that extends Map class
 			map = new Level0Map(grid, path, levelDescription, backgroundImage, mapCode, player);
 			break;
+		/*case 1:
 			
+			//Set the size of the map
+			horizontalSize = 10;
+			verticalSize = 5;
+			grid = new Tile[verticalSize][horizontalSize];
+			
+			//Populate the Tile[][] with appropriate amount of tiles
+			for(int r = 0; r < verticalSize; r++){
+				for(int c = 0; c < horizontalSize; c++){
+					grid[r][c] = new Tile();
+				}
+			}
+			* 	  0 1 2 3 4 5 6 7 8 9
+			 * 	# # # # # # # # # # #
+			 *0	#   @ @ @ @ @
+			 *1	#   @ @     @     @ @
+			 *2	#     @     @     @
+			 *3	# @ @ @     @     @
+			 *4	#           @ @ @ @
+			 *
+			//Initialize and populate path
+			path = new LinkedList<Point>();
+			path.add(new Point(2,0));
+			path.add(new Point(2,1));
+			path.add(new Point(2,2));
+			path.add(new Point(2,3));
+			path.add(new Point(2,4));
+			path.add(new Point(,));
+			path.add(new Point(,));
+			path.add(new Point(,));
+			path.add(new Point(,));
+			path.add(new Point(,));
+			path.add(new Point(,));
+			path.add(new Point(,));
+			path.add(new Point(,));
+			path.add(new Point(,));
+			path.add(new Point(,));
+			path.add(new Point(,));
+			path.add(new Point(,));
+			path.add(new Point(,));
+			path.add(new Point(,));
+			path.add(new Point(,));
+			
+			//created a straight line along y = 2, x = 0 -> 4
+			
+			//assign the levelDesciption String
+			levelDescription = "This is the beta testing level. It is a 5x10 tile map with a "
+					+ "straight path across the middle.";
+			
+			//assign the backgroundImage for the level
+			//**
+			 * @ Max Justice Sun 10:50 added ceruleanGym
+			 /*
+			backgroundImage = null; //"src/images/Cerulean_Gym.png"; //TODO:Desone, make an image of this 5 row x 10 column map with path straight across middle
+									//and place the image's location here <---
+			
+			//instantiate a LevelXMap object that extends Map class
+			map = new Level0Map(grid, path, levelDescription, backgroundImage, mapCode, player);
+			break;*/
 			//case other levels...
 		
 		default:

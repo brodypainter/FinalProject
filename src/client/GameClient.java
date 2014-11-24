@@ -256,11 +256,13 @@ public class GameClient{
 	}
 	
 	public void notifyLevelWasWon(){
-		mainMenu.getView().gameWon();
+		JOptionPane.showMessageDialog(mainMenu, "You win");
+		mainMenu = new MainMenu(this);
 	}
 	
 	public void notifyLevelWasLost(){
-		mainMenu.getView().gameLost();
+		JOptionPane.showMessageDialog(mainMenu, "You lose");
+		mainMenu = new MainMenu(this);
 	}
 	
 	
