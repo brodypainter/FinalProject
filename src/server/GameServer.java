@@ -394,6 +394,7 @@ public class GameServer implements Serializable{
 		
 		stopTimer();
 		removeLevel();
+		//Command<GameClient> c = new 
 		
 	}
 
