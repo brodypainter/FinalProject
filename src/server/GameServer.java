@@ -18,6 +18,7 @@ import model.Level0;
 import model.Level0Map;
 import model.LevelFactory;
 import model.Map;
+import model.TowerFactory;
 import GUI.GameView.towerType;
 import GameController.Enemy;
 import GameController.Tower;
@@ -339,8 +340,8 @@ public class GameServer implements Serializable{
 	 */
 	public void updateClientsOfMapBackground(String mapBackgroundURL, List<Point> path, int numOfRows, int numOfColumns){
 		//TODO: Finish SendClientMapBackground with a method for it to execute in client
-		Command c = new SendClientMapBackground(mapBackgroundURL, path);
-		sendCommand(c);
+		//Command c = new SendClientMapBackground(mapBackgroundURL, path);
+		//sendCommand(c);
 	}
 	
 	
@@ -348,9 +349,10 @@ public class GameServer implements Serializable{
 	//These methods below will be called by Command objects passed from client to server
 	//call level.getMap.appropriateMethod() in each case
 	
-	public void addTower(towerType tower, Point loc) {
+	public void addTower(towerType type, Point loc) {
+		Tower towerToAdd = TowerFactory.generateTower(type, player);		
 		System.out.println("addTower command received, adding tower to current level");
-		if(currentLevel.getMap().addTower(tower, loc)){
+		if(currentLevel.getMap().addTower(towerToAdd, loc)){
 			System.out.println("successfully added tower");
 		}else{
 			System.out.println("Adding tower failed!");
