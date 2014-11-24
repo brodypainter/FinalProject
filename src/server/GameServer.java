@@ -80,10 +80,16 @@ public class GameServer implements Serializable{
 						return;
 					}
 				}
-			} catch(Exception e){
+			} catch(ArrayIndexOutOfBoundsException e){
+				System.out.println("Array index is still out of bounds");
+				e.printStackTrace();
+			} catch(IOException e){
 				// will be thrown if client does not safely disconnect
 				e.printStackTrace();
 				System.out.println("\t\t This client did not safely disconnect");
+			}catch(Exception e){
+				System.out.println("Something egiot lse is still wrong!");
+				e.printStackTrace();
 			}
 		}
 	}
