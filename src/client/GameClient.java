@@ -59,9 +59,9 @@ public class GameClient{
 					 * 
 					 */
 					System.out.println("Read Object");
-					//Command<GameClient> c = (Command<GameClient>)in.readObject();
-					//c.execute(GameClient.this);
-					System.out.println(in.readObject());
+					Command<GameClient> c = (Command<GameClient>)in.readObject();
+					c.execute(GameClient.this);
+					//System.out.println(in.readObject());
 				}
 	//				return; // "gracefully" terminate after disconnect
 	//			}
@@ -199,6 +199,7 @@ public class GameClient{
 		//mainMenu.getView().update(towerList, enemyList);
 
 	public void update(List<EnemyImage> enemyImages, List<TowerImage> towerImages){
+		System.out.println("Client update being called");
 		mainMenu.getView().update(towerImages, enemyImages);
 		//GUI shouldn't hold enemies or towers, instead hold their image classes
 	}
