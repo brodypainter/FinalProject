@@ -616,14 +616,15 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 	{
 		board.removeAll();
 		board.add(new JLabel(new ImageIcon(bg)));	
+		updateTileSize();
 		for(TowerImage image : towers)
 		{
-			JLabel temp = new JLabel(new ImageIcon(createImageIcon(image.getImageURL()).getImage().getScaledInstance(0, 0, Image.SCALE_FAST)));
+			JLabel temp = new JLabel(new ImageIcon(createImageIcon(image.getImageURL()).getImage().getScaledInstance(tileWidth, tileHeight, Image.SCALE_FAST)));
 		}
 		System.out.println("Updating images");
 	}
 	
-	void upadteTileSize()
+	void updateTileSize()
 	{
 		tileWidth = (int) ((frame.getWidth()/levelWidth) * viewScale);
 		tileHeight = (int) ((frame.getHeight()/levelHeight) * viewScale);
