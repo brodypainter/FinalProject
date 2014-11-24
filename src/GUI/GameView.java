@@ -46,7 +46,13 @@ import client.Player;
 
 //Personal stuff:
 //Find grid coordinate of point: ((arg0.get!() - scrollLocation.!) * 20)/(bg.get!(this))
-
+/**
+ * This is the class that runs the GUI, recieves info from the GameClient
+ * @author Desone
+ * 
+ * public GameView(gameType type, String user, GameClient client, Player player)
+ * void tempAttack()
+ */
 
 public class GameView extends JFrame implements MouseListener, MouseWheelListener, MouseMotionListener
 {
@@ -66,6 +72,7 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 	boolean clickedTowerStore = false;
 	boolean trueForShrink;
 	Timer animationTimer;
+	ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
 	
 	String pewterProjectile = "/images/spinningBone.gif";
 	
@@ -118,9 +125,18 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 	
 	public static void main(String[] args)
 	{
-		new GameClient();
+		//new GameClient();
+		GameView temp = new GameView(gameType.SINGLE, "Billy", new GameClient(), new Player("Billy", 10, 10));
+		temp.animateAttack(new Point(0,0), new Point(5,5), towerType.NORMAL);
 	}
 	
+	/**
+	 * Creates and runs the gui with the given parameters
+	 * @param type Specifies if the game is multiplayer or single player
+	 * @param user The username of the player
+	 * @param client The client under which the gui will run
+	 * @param player The player that is playing the game
+	 */
 	public GameView(gameType type, String user, GameClient client, Player player)
 	{
 		//Setup for the JFrame, sets size, closeOperation, adds listeners, and so on
@@ -130,7 +146,6 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 		this.client = client;
 		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
 		setBounds(screen.width/8, screen.height/8, (3*screen.width)/4, (3*screen.height)/4);
-		//setDefaultCloseOperation(client.disconnect());
 		setDefaultCloseOperation(this.EXIT_ON_CLOSE);
 		setBackground(Color.BLUE);
 		setLayout(null);
@@ -142,8 +157,6 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 		
 		animationTimer = new Timer(50, null);
 		
-		//enemy1up = new JLabel(new ImageIcon(createImageIcon()));
-
 		Toolkit kit = Toolkit.getDefaultToolkit();
 		Cursor cursor = kit.createCustomCursor(createImageIcon("/images/cursor.png").getImage(), new Point(0,0), "Cursor");
 		setCursor(cursor);
@@ -192,8 +205,7 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 		selectedTowerFromStore.setBounds(0,0,getSize().width/20, getSize().height/12);
 		selectedTowerFromStore.setVisible(false);
 		
-		Timer timer = new Timer(50, new TimerListener());
-		timer.start();
+		
 		pik = createImageIcon("/images/pikachuStatic.png").getImage().getScaledInstance(getSize().width/20, board.getSize().height/13, Image.SCALE_SMOOTH);
 		path = new map1Path();
 		
@@ -203,6 +215,11 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 		tempCubone = new JLabel(new ImageIcon(createImageIcon("/images/cuboneStatic.png").getImage().getScaledInstance(this.getWidth()/levelWidth, this.getHeight()/levelHeight, qualitySetting)));
 		tempCubone.setBounds((5*(board.getWidth()/levelWidth)), (6*(board.getHeight()/levelHeight)), (board.getWidth()/levelWidth), (board.getHeight()/levelHeight));
 		//No more temp stuff
+		
+		attackAnimation attackAnimationTimer = new attackAnimation();
+		Timer timer = new Timer(50, new TimerListener());
+		timer.addActionListener(attackAnimationTimer);
+		timer.start();
 		
 		
 		add(selectedTowerFromStore);
@@ -220,6 +237,8 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 		setVisible(true);
 	}
 	
+	
+	//Temporary methods
 	void tempAttack()
 	{
 		tempAttackPath = new Path(1,1,5,5);
@@ -252,30 +271,44 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 		}
 	}
 	
-	public boolean animateAttack(Enemy enemy, Tower tower)
+	/**
+	 * Animates a projectile of the given type between the two points
+	 * @param tower The point from which to animate
+	 * @param enemy The point to which to animate
+	 * @param type The type of tower that launched the projectile
+	 * @return Whether or not the gui was able to animate
+	 */
+	public boolean animateAttack(Point tower, Point enemy, towerType type)
 	{
-		if(tower.getGymName().equals("Cerulean Gym"))
+		if(type == towerType.NORMAL)
 		{
 			System.out.println("This tower");
-			JLabel proj = new JLabel(new ImageIcon(createImageIcon(pewterProjectile).getImage().getScaledInstance(this.getWidth()/40, this.getHeight()/26, Image.SCALE_FAST)));
-			animationTimer.addActionListener(new attackAnimation(proj, enemy));
+			JLabel proj = new JLabel(new ImageIcon(createImageIcon(pewterProjectile).getImage().getScaledInstance(this.getWidth()/(levelWidth*2), this.getHeight()/(levelHeight*2), Image.SCALE_FAST)));
+			proj.setLocation(tower.x, tower.y);
+			Bone newProjectile = new Bone();
+			newProjectile.setLabel(proj);
+			projectiles.add(newProjectile);
+			board.add(proj);
 		}
 		return true;
 	}
 	
 	class attackAnimation implements ActionListener
 	{
-		JLabel label;
-		
-		attackAnimation(JLabel label, Enemy enemy)
-		{
-			this.label = label;
-			System.out.println(enemy.getProgress());
-		}
-		
 		public void actionPerformed(ActionEvent arg0)
 		{
-			
+			for(int i = 0; i < projectiles.size(); i++)
+			{
+				if(projectiles.get(i).isValid())
+				{
+					projectiles.get(i).setProgress(projectiles.get(i).getProgress() + 5);
+				}
+				else
+				{
+					board.remove(projectiles.get(i).getLabel());
+					projectiles.remove(i);
+				}
+			}
 			
 		}
 		
