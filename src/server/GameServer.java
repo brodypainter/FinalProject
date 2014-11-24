@@ -59,9 +59,11 @@ public class GameServer implements Serializable{
 	 */
 	private class ClientHandler implements Runnable{
 		private ObjectInputStream input; // the input stream from the client
+		private String name;
 		
-		public ClientHandler(ObjectInputStream input){
+		public ClientHandler(ObjectInputStream input, String name){
 			this.input = input;
+			this.name = name;
 		}
 		
 		public void run() {
@@ -84,8 +86,9 @@ public class GameServer implements Serializable{
 				System.out.println("Array index is still out of bounds");
 				e.printStackTrace();
 			} catch(IOException e){
-				// will be thrown if client does not safely disconnect
+				// will be thrown if client does not safely disconnect, then we will remove the client
 				e.printStackTrace();
+				GameServer.this.outputs.remove(name);
 				System.out.println("\t\t This client did not safely disconnect");
 			}catch(Exception e){
 				System.out.println("Something egiot lse is still wrong!");
@@ -127,7 +130,7 @@ public class GameServer implements Serializable{
 
 					
 					// spawn a thread to handle communication with this client
-					new Thread(new ClientHandler(input)).start();
+					new Thread(new ClientHandler(input, clientName)).start();
 					
 					// add a notification message to the chat log
 					System.out.println("\t new client: " + clientName);
