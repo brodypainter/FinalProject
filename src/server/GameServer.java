@@ -359,9 +359,9 @@ public class GameServer implements Serializable{
 		}
 	}
 	
-	//perhaps should be renamed to "sellTower"
-	public void removeTower(Tower tower) {
-		currentLevel.getMap().removeTower(tower);
+	
+	public void sellTower(Point location) {
+		currentLevel.getMap().sellTower(location);
 	}
 
 	public void addEnemy(Enemy enemy) {

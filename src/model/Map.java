@@ -254,14 +254,15 @@ public abstract class Map implements Serializable{
 	 */
 	
 	//could pass just the point where the desired tower to remove is instead
-	public void removeTower(Tower tower){
-		Point p = tower.getPosition();
-		Tower towerToRemove = grid[p.x][p.y].getGym();
-		grid[p.x][p.y].removeGym();
+	public void sellTower(Point l){
+		if(grid[l.x][l.y].containsGym()){
+		Tower towerToRemove = grid[l.x][l.y].getGym();
+		grid[l.x][l.y].removeGym();
 		towers.remove(towerToRemove);
 		int reclaimedGold = towerToRemove.getCost()/2;
 		player.gainMoney(reclaimedGold);
 		server.updateClients(player.getHealthPoints(), player.getMoney());
+		}
 	}
 	
 	public ArrayList<Enemy> getEnemies(){
