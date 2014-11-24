@@ -71,7 +71,7 @@ public class CeruleanGym extends Tower{
 			/*
 			 * GUI here
 			 */
-			getMap().notifyOfAttack(this, myClosestEnemy);
+			getMap().notifyOfAttack(this.getType(), this.getPosition(), myClosestEnemy.getLocation());
 				
 			
 		}

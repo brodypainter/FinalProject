@@ -10,6 +10,7 @@ import server.GameServer;
 import model.Tile;
 import client.Player;
 import GUI.EnemyImage;
+import GUI.GameView.towerType;
 import GUI.TowerImage;
 import GameController.Enemy;
 import GameController.Tower;
@@ -311,13 +312,7 @@ public abstract class Map implements Serializable{
 	 * @param pokemon
 	 * @return
 	 */
-	public boolean notifyOfAttack(Tower gym, Enemy pokemon){
-		//I should change this to send the enum TowerType, the location of tower, and location of enemy
-		this.server.updateClientsOfAttack(gym.getType(), gym.getPosition(), pokemon.getLocation());
-		return true;
-		
-	}
-
+	
 	public String getImageURL() {
 		return imageURL;
 	}
@@ -329,5 +324,11 @@ public abstract class Map implements Serializable{
 	public int lengthOfPath(){
 		return enemyPath.size();
 		//System.out.println("the size of the path is: " + enemyPath.size());
+	}
+
+
+	public void notifyOfAttack(towerType type, Point towerLocation, Point enemyLocation) {
+		this.server.updateClientsOfAttack(type, towerLocation, enemyLocation);
+		
 	}
 }

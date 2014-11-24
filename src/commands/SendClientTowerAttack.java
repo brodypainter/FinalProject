@@ -1,5 +1,8 @@
 package commands;
 
+import java.awt.Point;
+
+import GUI.GameView.towerType;
 import GameController.Enemy;
 import GameController.Tower;
 import client.GameClient;
@@ -9,18 +12,19 @@ public class SendClientTowerAttack extends Command<GameClient>{
 	 * 
 	 */
 	private static final long serialVersionUID = 6895704955746837941L;
-	Tower t;
-	Enemy e;
+	towerType t;
+	Point towerLoc;
+	Point enemyLoc;
 		
-	public SendClientTowerAttack(Tower t, Enemy e){
-		this.t = t;
-		this.e = e;
+	public SendClientTowerAttack(towerType type, Point towerLocation, Point enemyLocation){
+		this.t = type;
+		this.towerLoc = towerLocation;
+		this.enemyLoc = enemyLocation;
 	}
 	
 	@Override
 	public void execute(GameClient executeOn) {
-		//TODO need to execute on something in the game client
-		//executeOn.towerAttack(t, e);
+		executeOn.towerAttack(t, towerLoc, enemyLoc);
 	}
 
 }
