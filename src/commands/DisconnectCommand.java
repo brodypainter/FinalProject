@@ -11,6 +11,10 @@ import server.GameServer;
  */
 public class DisconnectCommand extends Command<GameServer>{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3105967455662534541L;
 	String name;
 
 	public DisconnectCommand(String name) {

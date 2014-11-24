@@ -2,9 +2,6 @@ package commands;
 
 import java.awt.Point;
 import java.util.List;
-
-import GameController.Enemy;
-import GameController.Tower;
 import client.GameClient;
 
 public class SendClientMapBackground extends Command<GameClient>{

@@ -3,7 +3,6 @@ package commands;
 import java.awt.Point;
 
 import GUI.GameView.towerType;
-import GameController.Tower;
 import server.GameServer;
 
 /**

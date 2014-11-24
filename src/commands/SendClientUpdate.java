@@ -6,8 +6,6 @@ import java.util.List;
 import client.GameClient;
 import GUI.EnemyImage;
 import GUI.TowerImage;
-import GameController.Enemy;
-import GameController.Tower;
 
 /**
  * This class is a Command used to send a Tower object from the GameClient to the GameServer. This class is used for sending
@@ -19,10 +17,7 @@ import GameController.Tower;
 public class SendClientUpdate extends Command<GameClient>{
 
 	private static final long serialVersionUID = 4504506147509198509L;
-
-	private List<EnemyImage> enemyList;
-	private List<TowerImage> towerList;
-
+	
 	private List<EnemyImage> enemyImages;
 	private List<TowerImage> towerImages;
 

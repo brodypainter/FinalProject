@@ -3,8 +3,6 @@ package commands;
 import java.awt.Point;
 
 import GUI.GameView.towerType;
-import GameController.Enemy;
-import GameController.Tower;
 import client.GameClient;
 
 public class SendClientTowerAttack extends Command<GameClient>{
