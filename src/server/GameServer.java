@@ -301,9 +301,9 @@ public class GameServer implements Serializable{
 	 */
 	public void updateClients(ArrayList<EnemyImage> enemyImages, ArrayList<TowerImage> towerImages){
 		//TODO:Brody make moar commands
-		//SendClientUpdate c = new SendClientUpdate(enemyImages, towerImages);
-		
-		if(!outputs.isEmpty()){
+		SendClientUpdate c = new SendClientUpdate(enemyImages, towerImages);
+		sendCommand(c);
+		/*if(!outputs.isEmpty()){
 			for (ObjectOutputStream out : outputs.values()){
 				try{
 					System.out.println("Update try on " + out);
@@ -313,7 +313,7 @@ public class GameServer implements Serializable{
 					e.printStackTrace();
 				}
 			}
-		}
+		}*/
 	}
 	
 	/**
@@ -324,8 +324,7 @@ public class GameServer implements Serializable{
 	 * @param playerMoney
 	 */
 	public void updateClients(int playerHealth, int playerMoney){
-		//TODO Finish SendClientHPandMoney with a method for it to execute on in client
-		Command c = new SendClientHPandMoney(playerHealth, playerMoney);
+		Command<GameClient> c = new SendClientHPandMoney(playerHealth, playerMoney);
 		sendCommand(c);
 	}
 	
@@ -352,9 +351,8 @@ public class GameServer implements Serializable{
 	 * @param path
 	 */
 	public void updateClientsOfMapBackground(String mapBackgroundURL, List<Point> path, int numOfRows, int numOfColumns){
-		//TODO: Finish SendClientMapBackground with a method for it to execute in client
-		//Command c = new SendClientMapBackground(mapBackgroundURL, path);
-		//sendCommand(c);
+		Command<GameClient> c = new SendClientMapBackground(mapBackgroundURL, path, numOfRows, numOfColumns);
+		sendCommand(c);
 	}
 	
 	
@@ -362,7 +360,7 @@ public class GameServer implements Serializable{
 	//These methods below will be called by Command objects passed from client to server
 	//call level.getMap.appropriateMethod() in each case
 	
-	//Brody call this method with a command object from client when the level is selected
+	//TODO: Brody call this method with a command object from client when the level is selected
 	public void createLevel(int levelCode){
 		this.currentLevel = LevelFactory.generateLevel(this.player, thisServer, levelCode);
 	}
@@ -384,22 +382,20 @@ public class GameServer implements Serializable{
 		currentLevel.getMap().sellTower(location);
 	}
 
+	//May be useful method for multiplayer but would have to be Player specific
 	public void addEnemy(Enemy enemy) {
 		currentLevel.getMap().spawnEnemy(enemy);
 	}
 
+	//Do not use this method it is already inside Map and does so by itself -PH
+	/*
 	public void removeEnemy(Enemy enemy) {
 		currentLevel.getMap().removeDeadEnemy(enemy.getLocation(), enemy);
 		//enemyList.remove(enemyList.indexOf(enemy));
-	}
+	}*/
 	
 	public long getTickLength(){
 		return timePerTick;
-	}
-
-	//Call this method with a command containing an int levelCode based on level selected passed by the client to start a level
-	public void startLevel(int levelCode){
-		currentLevel = LevelFactory.generateLevel(player, thisServer, levelCode);
 	}
 	
 	public void gameLost() {

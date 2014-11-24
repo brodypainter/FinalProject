@@ -17,7 +17,7 @@ public class SendClientHPandMoney extends Command<GameClient>{
 	@Override
 	public void execute(GameClient executeOn) {
 		//TODO need to execute on something in the game client
-		//executeOn.updateHPandMoney(hp, money);
+		executeOn.updateHPandMoney(hp, money);
 	}
 
 }

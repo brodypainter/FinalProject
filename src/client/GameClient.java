@@ -12,8 +12,10 @@ import javax.swing.JOptionPane;
 
 import model.Level0Map;
 import server.GameServer;
+import GUI.EnemyImage;
 import GUI.GameView.towerType;
 import GUI.MainMenu;
+import GUI.TowerImage;
 import GameController.Enemy;
 import GameController.Tower;
 import commands.Command;
@@ -191,8 +193,9 @@ public class GameClient{
 	 * @param enemyList
 	 * @param towerList
 	 */
-	public void update(List<Enemy> enemyList, List<Tower> towerList){
-		mainMenu.getView().update(towerList, enemyList);
+	public void update(List<EnemyImage> enemyList, List<TowerImage> towerList){
+		//TODO:
+		//mainMenu.getView().update(towerList, enemyList);
 	}
 	
 	public void addTower(towerType normal, Point loc){
@@ -203,6 +206,8 @@ public class GameClient{
 		System.out.println("Command Sent");
 	}
 	
+	
+	//TODO:This should only send a Point not a Tower -PH
 	public void removeTower(Tower t){
 		SendServerTowerRemoveCommand c = new SendServerTowerRemoveCommand(t);
 		this.sendCommand(c);
@@ -223,6 +228,17 @@ public class GameClient{
 			e.printStackTrace();
 			return 1;
 		}
+	}
+
+	public void mapBackgroundUpdate(String backgroundImageURL, List<Point> enemyPathCoords, int rowsInMap, int columnsInMap) {
+		// TODO Send this info to the GUI for it to store
+		
+		
+	}
+
+	public void updateHPandMoney(int hp, int money) {
+		// TODO Send this info to the GUI and have it repaint it
+		
 	}
 	
 	//Server should never receive orders to tick from client, do not use this method below. -PH
