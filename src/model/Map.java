@@ -9,6 +9,8 @@ import java.util.LinkedList;
 import server.GameServer;
 import model.Tile;
 import client.Player;
+import GUI.EnemyImage;
+import GUI.TowerImage;
 import GameController.Enemy;
 import GameController.Tower;
 
@@ -238,7 +240,6 @@ public abstract class Map implements Serializable{
 				towers.add(tower);
 				tower.setMap(this);
 				player.spendMoney(tower.getCost());
-				server.updateClients(enemies, towers);
 				return grid[location.x][location.y].setGym(tower);
 			}else{
 				return false;
@@ -276,12 +277,18 @@ public abstract class Map implements Serializable{
 	public void tick(int timePerTick){
 		//call all enemies and towers to call their tick() method, which will increment their
 		//cool down timers, causing them to move/shoot if they are ready
+		ArrayList<TowerImage> towerImages = new ArrayList<TowerImage>();
 		for(Tower tower : towers){
 			tower.tick(timePerTick);
+			towerImages.add(new TowerImage(tower));
 		}
+		ArrayList<EnemyImage> enemyImages = new ArrayList<EnemyImage>();
 		for(Enemy enemy : enemies){
 			enemy.tick(timePerTick);
+			enemyImages.add(new EnemyImage(enemy));
 		}
+		server.updateClients(enemyImages, towerImages);
+		
 	}
 
 	public void setServer(GameServer server) {

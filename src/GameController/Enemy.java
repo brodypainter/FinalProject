@@ -90,7 +90,7 @@ public abstract class Enemy implements Serializable{
 		stepsTaken = 0;
 		healthPercentage = 100;
 		this.map = mapRef;
-		distanceLeftOnPath = mapRef.lengthOfPath();
+		//distanceLeftOnPath = mapRef.lengthOfPath();
 	} // end constructor
 	
 	/**

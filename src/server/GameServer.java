@@ -19,7 +19,9 @@ import model.Level0Map;
 import model.LevelFactory;
 import model.Map;
 import model.TowerFactory;
+import GUI.EnemyImage;
 import GUI.GameView.towerType;
+import GUI.TowerImage;
 import GameController.Enemy;
 import GameController.Tower;
 import client.GameClient;
@@ -180,7 +182,6 @@ public class GameServer implements Serializable{
 	public void tickModel(){
 		currentLevel.tick(); //spawn enemies when ready
 		currentLevel.getMap().tick(this.timePerTick); //towers fire and enemies move when ready
-		updateClients(currentLevel.getMap().getEnemies(), currentLevel.getMap().getTowers()); //Send updated enemy/towers to client and GUI
 	}
 	
 	
@@ -287,14 +288,15 @@ public class GameServer implements Serializable{
 	 * @param enemies
 	 * @param towers
 	 */
-	public void updateClients(ArrayList<Enemy> enemies, ArrayList<Tower> towers){
-		SendClientUpdate c = new SendClientUpdate(enemies, towers);
+	public void updateClients(ArrayList<EnemyImage> enemyImages, ArrayList<TowerImage> towerImages){
+		//TODO:Brody make moar commands
+		//SendClientUpdate c = new SendClientUpdate(enemyImages, towerImages);
 		
 		if(!outputs.isEmpty()){
 			for (ObjectOutputStream out : outputs.values()){
 				try{
 					System.out.println("Update try on " + out);
-					out.writeObject(c);
+					//out.writeObject(c);
 					System.out.println("Update sent");
 				}catch(Exception e){
 					e.printStackTrace();
