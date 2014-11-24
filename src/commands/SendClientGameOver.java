@@ -1,3 +1,4 @@
+
 package commands;
 
 import client.GameClient;
@@ -17,6 +18,7 @@ public class SendClientGameOver extends Command<GameClient>{
 	
 	@Override
 	public void execute(GameClient executeOn) {
+
 		if(levelWon){
 			executeOn.notifyLevelWasWon();
 		}else{
@@ -25,3 +27,5 @@ public class SendClientGameOver extends Command<GameClient>{
 	}
 
 }
+
+
