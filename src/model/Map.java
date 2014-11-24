@@ -234,6 +234,9 @@ public abstract class Map implements Serializable{
 	 * or false if tower cannot be placed.
 	 */
 	public boolean addTower(Tower tower, Point location){
+		if(location.x >= numOfRows || location.y >= numOfColumns){
+			return false;
+		}
 		if(!grid[location.x][location.y].containsGym() && !grid[location.x][location.y].isPartOfPath()){
 			if(tower.checkBuy(player.getMoney())){
 				tower.setPlaceOnBoard(location);
@@ -256,6 +259,9 @@ public abstract class Map implements Serializable{
 	
 	//could pass just the point where the desired tower to remove is instead
 	public void sellTower(Point l){
+		if(l.x >= numOfRows || l.y >= numOfColumns){
+			return;
+		}
 		if(grid[l.x][l.y].containsGym()){
 		Tower towerToRemove = grid[l.x][l.y].getGym();
 		grid[l.x][l.y].removeGym();
