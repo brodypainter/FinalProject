@@ -10,7 +10,7 @@ public class SendClientGameWon extends Command<GameClient> {
 	
 	@Override
 	public void execute(GameClient executeOn) {
-		executeOn.gameWon();
+		executeOn.notifyLevelWasWon();
 	}
 
 }
