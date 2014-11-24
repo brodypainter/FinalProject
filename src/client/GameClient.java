@@ -213,8 +213,8 @@ public class GameClient{
 	
 	
 	//TODO:This should only send a Point not a Tower -PH
-	public void removeTower(Tower t){
-		SendServerTowerRemoveCommand c = new SendServerTowerRemoveCommand(t);
+	public void removeTower(Point p){
+		SendServerTowerRemoveCommand c = new SendServerTowerRemoveCommand(p);
 		this.sendCommand(c);
 	}
 	

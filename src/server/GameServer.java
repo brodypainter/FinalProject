@@ -302,7 +302,7 @@ public class GameServer implements Serializable{
 	public void updateClients(ArrayList<EnemyImage> enemyImages, ArrayList<TowerImage> towerImages){
 		//TODO:Brody make moar commands
 		SendClientUpdate c = new SendClientUpdate(enemyImages, towerImages);
-<<<<<<< HEAD
+
 		sendCommand(c);
 		/*if(!outputs.isEmpty()){
 =======

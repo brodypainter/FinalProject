@@ -3,6 +3,8 @@ package commands;
 import server.GameServer;
 import GameController.Enemy;
 
+
+//Do not use this class at least for now -PH
 public class SendServerEnemyRemoveCommand extends Command<GameServer>{
 	
 	/**
