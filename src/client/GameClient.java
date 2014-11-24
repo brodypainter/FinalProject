@@ -256,11 +256,11 @@ public class GameClient{
 	}
 	
 	public void notifyLevelWasWon(){
-		//TODO:
+		mainMenu.getView().gameWon();
 	}
 	
 	public void notifyLevelWasLost(){
-		//TODO:
+		mainMenu.getView().gameLost();
 	}
 	
 	
