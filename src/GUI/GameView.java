@@ -367,7 +367,7 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 	 */
 	enum gameType{SINGLE, MULTI}
 	
-	public enum towerType{NORMAL,WATER,ELECTRIC,GRASS,POISON,PHYCHIC,FIRE,GROUND}
+	public enum towerType{NORMAL,WATER,ELECTRIC,GRASS,POISON,PSYCHIC,FIRE,GROUND}
 	
 	/**
 	 * Listens for the window resizing, and scales elements as needed
