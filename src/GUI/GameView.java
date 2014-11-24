@@ -73,6 +73,8 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 	boolean trueForShrink;
 	Timer animationTimer;
 	ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
+	int tileWidth;
+	int tileHeight;
 	
 	String pewterProjectile = "/images/spinningBone.gif";
 	
@@ -125,9 +127,9 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 	
 	public static void main(String[] args)
 	{
-		//new GameClient();
-		GameView temp = new GameView(gameType.SINGLE, "Billy", new GameClient(), new Player("Billy", 10, 10));
-		temp.animateAttack(new Point(0,0), new Point(5,5), towerType.NORMAL);
+		new GameClient();
+		//GameView temp = new GameView(gameType.SINGLE, "Billy", new GameClient(), new Player("Billy", 10, 10));
+		//temp.update(null, null);
 	}
 	
 	/**
@@ -235,6 +237,10 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 		frame = this;
 		repaint();
 		setVisible(true);
+		
+		
+		
+		//Testing
 	}
 	
 	
@@ -320,7 +326,6 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 		levelHeight = size.y;
 	}
 	
-	
 	public void paintComponent(Graphics g)
 	{
 		super.paint(g);
@@ -331,7 +336,6 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 		g.drawRect((int) (2.6*getSize().width)/15 + 10,(int) ((3*getSize().height)/3.8) + 30, (int) (getSize().width / 9.5), getSize().height / 8);
 	}
 	
-
 	/**
 	 * Creates an image icon based on the given URL
 	 * @param url The location of the target image
@@ -558,12 +562,12 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 		bg = (mapTemp.getImage()).getScaledInstance((int) (getSize().width * viewScale), (int) ((3*getSize().height)/4 * viewScale), Image.SCALE_SMOOTH);
 		board.removeAll();
 		
-		
 		tempProjectile.setIcon(new ImageIcon(createImageIcon("/images/spinningBone.gif").getImage().getScaledInstance((int) ((frame.getWidth()/40) * viewScale), (int) ((frame.getHeight()/26) * viewScale), Image.SCALE_FAST)));
-		tempProjectile.setSize((int) ((frame.getWidth()/40) * viewScale), (int) ((frame.getHeight()/26) * viewScale));
+		tempProjectile.setSize(tileWidth /2, tileHeight*2);
 		tempCubone.setIcon(new ImageIcon(createImageIcon("/images/cuboneStatic.png").getImage().getScaledInstance((int) ((frame.getWidth()/levelWidth) * viewScale), (int) ((frame.getHeight()/levelHeight) * viewScale), qualitySetting)));
 		//tempCubone.setLocation((int) (tempCubone.getLocation().x * viewScale),(int) (tempCubone.getLocation().y * viewScale));
-		tempCubone.setSize((int) ((frame.getWidth()/levelWidth) * viewScale), (int) ((frame.getHeight()/levelHeight) * viewScale));
+		upadteTileSize();
+		tempCubone.setSize(tileWidth, tileHeight);
 		
 		mapTemp.setImage(bg);
 		JLabel labelTemp = new JLabel(mapTemp);
@@ -573,17 +577,16 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 		board.add(labelTemp);
 		
 		board.setBounds(board.getX(), board.getY(), (int) (getSize().width * viewScale), (int) ((3*getSize().height)/4 * viewScale));
+		upadteTileSize();
 		
 		if(trueForShrink)
 		{
-			tempCubone.setLocation(scrollLocation.x + (5*(board.getWidth()/levelWidth)), scrollLocation.y + (6*(board.getHeight()/levelHeight)));
+			tempCubone.setLocation(scrollLocation.x + (5*tileWidth), scrollLocation.y + (6*tileHeight));
 		}
 		else
 		{
 			tempCubone.setLocation(scrollLocation.x + (5*(board.getWidth()/levelWidth)), scrollLocation.y + (6*(board.getHeight()/levelHeight)));
 		}
-		
-		
 		repaint();
 	}
 
@@ -609,28 +612,22 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 		//towerStorePanel.repaint();
 	}
 	
-	public void update(List<Tower> towers, List<Enemy> enemies)
+	public void update(List<TowerImage> towers, List<EnemyImage> enemies)
 	{
-		if(!this.towers.equals(towers))
+		board.removeAll();
+		board.add(new JLabel(new ImageIcon(bg)));	
+		for(TowerImage image : towers)
 		{
-			for(int i = 0; i < board.getComponentCount(); i++)
-			{
-				if(board.getComponent(i).getName().equals("tower"))
-				{
-					board.remove(i);
-				}
-			}
-			for(Tower tower : towers)
-			{
-				
-			}
+			JLabel temp = new JLabel(new ImageIcon(createImageIcon(image.getImageURL()).getImage().getScaledInstance(0, 0, Image.SCALE_FAST)));
 		}
-		
-		
-		this.towers = towers;
-		this.enemies = enemies;	
+		System.out.println("Updating images");
 	}
 	
+	void upadteTileSize()
+	{
+		tileWidth = (int) ((frame.getWidth()/levelWidth) * viewScale);
+		tileHeight = (int) ((frame.getHeight()/levelHeight) * viewScale);
+	}
 
 	enum direction{NORTH, EAST, SOUTH, WEST};
 	
@@ -675,7 +672,6 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 		temp.setLocation(scrollLocation.x + (enemy.getLocation().x*(board.getWidth()/levelWidth) - (enemy.getLocation().x*(board.getWidth()/levelWidth) % enemy.getLocation().x*(board.getWidth()/levelWidth))), scrollLocation.y + (enemy.getLocation().y*(board.getHeight()/levelHeight)));
 		board.add(temp);
 	}
-	
 	
 	public void removeEnemy(Enemy enemy)
 	{
@@ -744,10 +740,12 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 			System.out.println(loc);
 		}
 	}
-	
+	public void windowClosing(WindowEvent arg0)
+	{
+		client.disconnect();
+	}
 	public void windowActivated(WindowEvent arg0){}
 	public void windowClosed(WindowEvent arg0){}
-	public void windowClosing(WindowEvent arg0){}
 	public void windowDeactivated(WindowEvent arg0){}
 	public void windowDeiconified(WindowEvent arg0){}
 	public void windowIconified(WindowEvent arg0){}
