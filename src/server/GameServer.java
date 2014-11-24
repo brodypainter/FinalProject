@@ -300,25 +300,8 @@ public class GameServer implements Serializable{
 	 * @param towers
 	 */
 	public void updateClients(ArrayList<EnemyImage> enemyImages, ArrayList<TowerImage> towerImages){
-		//TODO:Brody make moar commands
 		SendClientUpdate c = new SendClientUpdate(enemyImages, towerImages);
-<<<<<<< HEAD
 		sendCommand(c);
-		/*if(!outputs.isEmpty()){
-=======
-		
-		if(!outputs.isEmpty()){
->>>>>>> 9bcd205aa8363c0fef6ea15786418421b9d54210
-			for (ObjectOutputStream out : outputs.values()){
-				try{
-					System.out.println("Update try on " + out);
-					out.writeObject(c);
-					System.out.println("Update sent");
-				}catch(Exception e){
-					e.printStackTrace();
-				}
-			}
-		}*/
 	}
 	
 	/**
@@ -341,9 +324,8 @@ public class GameServer implements Serializable{
 	 * @param victim
 	 */
 	public void updateClientsOfAttack(towerType type, Point towerLocation, Point enemyLocation){
-		//TODO: Finish SendClientTowerAttack with a method for it to execute in client
-		
-		//sendCommand(c);
+		Command<GameClient> c = new SendClientTowerAttack(type, towerLocation, enemyLocation);
+		sendCommand(c);
 	}
 	
 	/**
