@@ -54,6 +54,8 @@ public abstract class Map implements Serializable{
 	
 	private static final long serialVersionUID = -6337999339368538419L;
 	private Tile[][] grid;
+	private int numOfRows;
+	private int numOfColumns;
 	private String imageURL; //The background image of the map
 	private LinkedList<Point> enemyPath; //A list of all of the tile coordinates that the
 	                                     //enemies will attempt to pass through
@@ -79,6 +81,8 @@ public abstract class Map implements Serializable{
 	 */
 	public Map(Tile[][] gridDimensions, LinkedList<Point> path, String mapType, String backgroundImageURL, int mapTypeCode, Player player){
 		grid = gridDimensions;
+		numOfRows = grid.length;
+		numOfColumns = grid[0].length;
 		enemyPath = path;
 		this.mapType = mapType;
 		imageURL = backgroundImageURL;
@@ -250,14 +254,15 @@ public abstract class Map implements Serializable{
 	 */
 	
 	//could pass just the point where the desired tower to remove is instead
-	public void removeTower(Tower tower){
-		Point p = tower.getPosition();
-		Tower towerToRemove = grid[p.x][p.y].getGym();
-		grid[p.x][p.y].removeGym();
+	public void sellTower(Point l){
+		if(grid[l.x][l.y].containsGym()){
+		Tower towerToRemove = grid[l.x][l.y].getGym();
+		grid[l.x][l.y].removeGym();
 		towers.remove(towerToRemove);
 		int reclaimedGold = towerToRemove.getCost()/2;
 		player.gainMoney(reclaimedGold);
 		server.updateClients(player.getHealthPoints(), player.getMoney());
+		}
 	}
 	
 	public ArrayList<Enemy> getEnemies(){
@@ -281,7 +286,7 @@ public abstract class Map implements Serializable{
 
 	public void setServer(GameServer server) {
 		this.server = server;
-		this.server.updateClientsOfMapBackground(this.imageURL, this.enemyPath);
+		this.server.updateClientsOfMapBackground(this.imageURL, this.enemyPath, this.numOfRows, this.numOfColumns);
 		
 	}
 	
@@ -293,8 +298,9 @@ public abstract class Map implements Serializable{
 	 * @param pokemon
 	 * @return
 	 */
-	public boolean notifyOfAttack( Tower gym, Enemy pokemon){
-		this.server.updateClientsOfAttack(gym, pokemon);
+	public boolean notifyOfAttack(Tower gym, Enemy pokemon){
+		//I should change this to send the enum TowerType, the location of tower, and location of enemy
+		this.server.updateClientsOfAttack(gym.getType(), gym.getPosition(), pokemon.getLocation());
 		return true;
 		
 	}

@@ -2,6 +2,7 @@ package GameController;
 
 import java.util.ArrayList;
 
+import GUI.GameView.towerType;
 import GameController.Enemy;
 import GameController.Tower;
 
@@ -33,6 +34,7 @@ public class CeruleanGym extends Tower{
 	 */
 	public CeruleanGym(String PlayersName){
 		super("Cerulean Gym", 25, 3, 3.0, PlayersName,"src/images/cuboneStatic.png", Cost);
+		 setTowerType(towerType.NORMAL);
 		// TODO Auto-generated constructor stub
 	}
 

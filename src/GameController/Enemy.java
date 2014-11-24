@@ -54,7 +54,8 @@ public abstract class Enemy implements Serializable{
 	private Point previousLocation; //The immediately previous location of the enemy
 	private Point location; //The current location of the enemy
 	private Point nextLocation; //The location the enemy will go to next when it is ready
-	private String imageURL;
+	private String imageURL; //The current url of the image of the enemy to paint based on orientation/state
+	private String[] allImageURLs; //The list of all URLs of all images associated with the enemy
 	private Map map;
 	private int timePerTile; //The time in ms the enemy will spend on each tile before moving to the next
 	private int timeSinceLastMovement; //The time in ms since the enemy has last moved a tile
@@ -62,6 +63,8 @@ public abstract class Enemy implements Serializable{
 	private directionFacing orientation; //The way the enemy is facing based on it's Location nextLocation
 	private int stepsTaken; //The amount of tiles the enemy has taken along the path, useful for targeting farthest
 	private int distanceLeftOnPath;
+	private int maxHealth; //The initial, maximum health of Enemy
+	private int healthPercentage; //The percentage of current Health / maxHealth
 	/**
 	 * The constructor for Pokemon it takes the following variables
 	 * @param health for the initial state of the pokemons health
@@ -74,6 +77,7 @@ public abstract class Enemy implements Serializable{
 	 */
 	public Enemy (int health, int attackPower, int defense, double speed, String name, int worth, String Image, Map mapRef){
 		this.Health = health;
+		this.maxHealth = health;
 		this.AttackPower = attackPower;
 		this.Defense = defense;
 		this.Speed = speed;
@@ -84,6 +88,7 @@ public abstract class Enemy implements Serializable{
 		orientation = directionFacing.SOUTH; //By default
 		timeSinceLastMovement = 0;
 		stepsTaken = 0;
+		healthPercentage = 100;
 		this.map = mapRef;
 		distanceLeftOnPath = mapRef.lengthOfPath();
 	} // end constructor
@@ -105,6 +110,10 @@ public abstract class Enemy implements Serializable{
 	public boolean setLocation(Point x){
 		this.location = x;
 		return true;
+	}
+	
+	public void calculateHealthPercentage(){
+		this.healthPercentage = Health / maxHealth;
 	}
 	
 	//I moved a copy of this and changed name slightly to the Enemy Class
@@ -177,9 +186,11 @@ public enum directionFacing{NORTH, EAST, SOUTH, WEST};
 		if(healthToSubtract < 0)
 			healthToSubtract = 0;
 		this.Health -= healthToSubtract;
+		
 		if(isDead()){
 			this.map.removeDeadEnemy(this.location, this);
 		}
+		this.calculateHealthPercentage();
 		return true;
 	}
 	
@@ -295,10 +306,22 @@ public enum directionFacing{NORTH, EAST, SOUTH, WEST};
 			this.progress = prog;
 	}
 	
+	public directionFacing getOrientation(){
+		return orientation;
+	}
+	
 	/**
 	 * @ max Justice for attack algorithm
 	 */
 	public int getDistanceLeftForEnemy(){
 		return distanceLeftOnPath;
+	}
+
+	/**
+	 * Return the percent of health left out of max health
+	 * @return an int from 0-100 of percent of health left
+	 */
+	public int getHealthPercentage() {
+		return healthPercentage;
 	}
 }

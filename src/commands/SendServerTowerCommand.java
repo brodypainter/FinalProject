@@ -2,6 +2,7 @@ package commands;
 
 import java.awt.Point;
 
+import GUI.GameView.towerType;
 import GameController.Tower;
 import server.GameServer;
 
@@ -15,11 +16,11 @@ import server.GameServer;
 public class SendServerTowerCommand extends Command<GameServer>{
 
 	private static final long serialVersionUID = 4504506147509198509L;
-	private Tower tower;
+	private towerType tower;
 	private Point loc;
 	
-	public SendServerTowerCommand(Tower tower, Point loc){
-		this.tower = tower;
+	public SendServerTowerCommand(towerType normal, Point loc){
+		this.tower = normal;
 		this.loc = loc;
 	}
 
