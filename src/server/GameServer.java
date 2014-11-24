@@ -118,6 +118,8 @@ public class GameServer implements Serializable{
 					player = new Player(clientName, 100, 100);
 					createLevel(0);
 					
+					System.out.println("Level is: " + currentLevel.toString());
+					
 					System.out.println("Player Send Try");
 					System.out.println("Player is: " + player.toString());
 					output.writeObject(player);
@@ -277,9 +279,9 @@ public class GameServer implements Serializable{
 		if(!outputs.isEmpty()){
 			for (ObjectOutputStream out : outputs.values()){
 				try{
-					System.out.println("Send command try on " + out);
+					//System.out.println("Send command try on " + out);
 					out.writeObject(c);
-					System.out.println("command sent");
+					//System.out.println("command sent");
 				}catch(Exception e){
 					e.printStackTrace();
 				}
