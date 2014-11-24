@@ -237,21 +237,22 @@ public class GameClient{
 
 	//Called from server via command when a Map is first instantiated on Server
 	public void mapBackgroundUpdate(String backgroundImageURL, List<Point> enemyPathCoords, int rowsInMap, int columnsInMap) {
-		// TODO Send this info to the GUI for it to store
-		
-		
+		mainMenu.getView().setMapBackgroundImageURL(backgroundImageURL);
+		mainMenu.getView().setEnemyPathCoords(enemyPathCoords);
+		mainMenu.getView().setRowsInMap(rowsInMap);
+		mainMenu.getView().setColumnsInMap(columnsInMap);
 	}
 
 	//Called from server via command whenever any of these variables change in model
 	public void updateHPandMoney(int hp, int money) {
-		// TODO Send this info to the GUI and have it repaint it
-		
+		mainMenu.getView().setPlayerHP(hp);
+		mainMenu.getView().setPlayerMoney(money);
 	}
 
 	//Called from Server via command whenever a tower attacks an enemy
 	public void towerAttack(towerType t, Point towerLoc, Point enemyLoc) {
 		// TODO Send this info to the GUI and have it animate the attack
-		
+		mainMenu.getView().animateAttack(towerLoc, enemyLoc, t);
 	}
 	
 	public void notifyLevelWasWon(){
