@@ -85,14 +85,14 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 	String enemy1ImageL = "/images/pikachuLeft.gif";
 	String enemy1ImageR = "/images/pikachuRight.gif";
 	
-	HashMap<Tower, JLabel> towerMap;
-	HashMap<Enemy, JLabel> enemyMap;
+	//HashMap<Tower, JLabel> towerMap;
+	//HashMap<Enemy, JLabel> enemyMap;
 	
 	String user;
 	
-	Player player;
+	//Player player;
 	
-	int selectedTowerType;
+	int selectedTowerType; //Should replace with towerType enum
 	
 	int levelWidth = 20;
 	int levelHeight = 13;
@@ -102,13 +102,12 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 	Image tower3Image;
 	Image tower4Image;
 	
-	List towers;
-	List enemies;
+	
 	
 	double testSpriteProgress = 0;
 	
 	map1Path path;
-	Map map;
+	
 	
 	Image pik;
 	JLabel pikLabel;
@@ -124,6 +123,60 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 	Path tempAttackPath;
 	Point towerLocation;
 	//End temp for attacking
+	
+	
+	//Info received from and updated by model goes here:
+	
+	//From mapBackgroundUpdate
+	private String mapBackgroundImageURL;
+	private List<Point> enemyPathCoords;
+	private int rowsInMap;
+	private int columnsInMap;
+	
+	public void setMapBackgroundImageURL(String s){
+		this.mapBackgroundImageURL = s;
+	}
+	
+	public void setEnemyPathCoords(List<Point> l){
+		this.enemyPathCoords = l;
+	}
+	public void setRowsInMap(int r){
+		this.rowsInMap = r;
+	}
+	public void setColumnsInMap(int c){
+		this.columnsInMap = c;
+	}
+	
+	//From updateHPandMoney
+	private int playerHP;
+	private int playerMoney;
+	
+	public void setPlayerHP(int hp){
+		this.playerHP = hp;
+		this.repaintPlayerHP();
+	}
+	
+	public void repaintPlayerHP(){
+		//TODO: paint new value of playerHP
+	}
+	
+	public void setPlayerMoney(int m){
+		this.playerMoney = m;
+		this.repaintPlayerMoney();
+	}
+	
+	public void repaintPlayerMoney(){
+		//TODO: paint the new value of playerMoney
+	}
+	
+	
+	
+	//From update
+	private ArrayList<EnemyImage> enemyImages;
+	private ArrayList<TowerImage> towerImages;
+	
+	
+	
 	
 	public static void main(String[] args)
 	{
@@ -614,15 +667,27 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 	
 	public void update(List<TowerImage> towers, List<EnemyImage> enemies)
 	{
+		this.enemyImages = (ArrayList<EnemyImage>) enemies;
+		this.towerImages = (ArrayList<TowerImage>) towers;
+		repaintScreen();
+		
+	}
+	
+	public void repaintScreen(){
+		//TODO: Finish method
 		board.removeAll();
 		board.add(new JLabel(new ImageIcon(bg)));	
 		updateTileSize();
-		for(TowerImage image : towers)
+		for(TowerImage image : this.towerImages)
 		{
 			JLabel temp = new JLabel(new ImageIcon(createImageIcon(image.getImageURL()).getImage().getScaledInstance(tileWidth, tileHeight, Image.SCALE_FAST)));
 		}
 		System.out.println("Updating images");
 	}
+	
+	
+	
+	
 	
 	void updateTileSize()
 	{
@@ -630,6 +695,7 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 		tileHeight = (int) ((frame.getHeight()/levelHeight) * viewScale);
 	}
 
+	
 	enum direction{NORTH, EAST, SOUTH, WEST};
 	
 	public direction direction(Enemy enemy)
@@ -674,10 +740,7 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 		board.add(temp);
 	}
 	
-	public void removeEnemy(Enemy enemy)
-	{
-		
-	}
+	
 	
 	public void addTower(Tower tower)
 	{
