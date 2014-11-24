@@ -107,18 +107,18 @@ public class GameServer implements Serializable{
 					// create the single player, will need to change this for multiplayer games
 					// for multiplayer, this will need to check if the player already exists
 					player = new Player(clientName, 100, 100);
-					new Level0(player, GameServer.this);
+					createLevel(0);
+					
+					System.out.println("Player Send Try");
+					System.out.println("Player is: " + player.toString());
+					output.writeObject(player);
+					System.out.println("Player Send Success");
 					
 					// map client name to output stream
 					outputs.put(clientName, output);
 					
 					//send the client the level and player, only once per player
-					System.out.println("Level Send Try");
-					output.writeObject(currentLevel);
-					System.out.println("Level Send Success\nPlayer Send Try");
-					System.out.println("Player is: " + player.toString());
-					output.writeObject(player);
-					System.out.println("Player Send Success");
+
 					
 					// spawn a thread to handle communication with this client
 					new Thread(new ClientHandler(input)).start();
@@ -181,7 +181,7 @@ public class GameServer implements Serializable{
 	
 	public void tickModel(){
 		currentLevel.tick(); //spawn enemies when ready
-		currentLevel.getMap().tick(this.timePerTick); //towers fire and enemies move when ready
+		currentLevel.getMap().tick(this.timePerTick, this); //towers fire and enemies move when ready, modified with a reference to the server
 	}
 	
 	

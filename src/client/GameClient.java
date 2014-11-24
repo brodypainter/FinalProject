@@ -105,8 +105,6 @@ public class GameClient{
 //				}
 //			});
 			
-			level = (Level0Map) in.readObject();
-			System.out.println("Level Received");
 			player = (Player) in.readObject();
 			System.out.println("Player Received");
 			
