@@ -52,7 +52,7 @@ public class GameServer implements Serializable{
 	//private Map map = new Level0Map(); //If you need the map use currentLevel.getMap()
 	private Level currentLevel; //to be set by a command object from server
 	private GameServer thisServer = this; //A reference to itself, the server
-	private int timePerTick = 500; //The time in ms per tick, will be set to 20 ms (50 fps) after debugging
+	private int timePerTick = 20; //The time in ms per tick, will be set to 20 ms (50 fps) after debugging
 	
 	/**
 	 *	This thread reads and executes commands sent by a client
@@ -387,27 +387,27 @@ public class GameServer implements Serializable{
 	}
 	
 	public void gameLost() {
-		// TODO Auto-generated method stub
+		
 		//Stop the GameServer master Timer, create a GameOver Command object that contains a
 		//boolean value gameWon set to false, that causes GUI to print out a game over pic
 		//and return to the main menu
 		
 		stopTimer();
 		removeLevel();
-		Command<GameClient> c = new SendClientGameLost();
+		Command<GameClient> c = new SendClientGameOver(false);
 		sendCommand(c);
 		
 	}
 
 	public void gameWon() {
-		// TODO Auto-generated method stub
+		
 		//Stop the GameServer master Timer, create a GameOver Command object that contains a
 		//boolean value gameWon set to true, that causes GUI to print out a game won pic
 		//and return to the main menu
 		
 		stopTimer();
 		removeLevel();
-		Command<GameClient> c = new SendClientGameWon();
+		Command<GameClient> c = new SendClientGameOver(true);
 		sendCommand(c);
 	}
 }
