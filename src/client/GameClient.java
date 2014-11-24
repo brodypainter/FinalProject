@@ -12,8 +12,10 @@ import javax.swing.JOptionPane;
 
 import model.Level0Map;
 import server.GameServer;
+import GUI.EnemyImage;
 import GUI.GameView.towerType;
 import GUI.MainMenu;
+import GUI.TowerImage;
 import GameController.Enemy;
 import GameController.Tower;
 import commands.Command;
@@ -188,11 +190,11 @@ public class GameClient{
 
 	/**
 	 * Receives a tower and enemy list and sends it on to the GUI's model.
-	 * @param enemyList
-	 * @param towerList
+	 * @param enemyImages
+	 * @param towerImages
 	 */
-	public void update(List<Enemy> enemyList, List<Tower> towerList){
-		mainMenu.getView().update(towerList, enemyList);
+	public void update(List<EnemyImage> enemyImages, List<TowerImage> towerImages){
+		mainMenu.getView().update(towerImages, enemyImages);
 	}
 	
 	public void addTower(towerType normal, Point loc){
