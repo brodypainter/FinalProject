@@ -59,9 +59,11 @@ public class GameServer implements Serializable{
 	 */
 	private class ClientHandler implements Runnable{
 		private ObjectInputStream input; // the input stream from the client
+		private String name;
 		
-		public ClientHandler(ObjectInputStream input){
+		public ClientHandler(ObjectInputStream input, String name){
 			this.input = input;
+			this.name = name;
 		}
 		
 		public void run() {
@@ -80,10 +82,17 @@ public class GameServer implements Serializable{
 						return;
 					}
 				}
-			} catch(Exception e){
-				// will be thrown if client does not safely disconnect
+			} catch(ArrayIndexOutOfBoundsException e){
+				System.out.println("Array index is still out of bounds");
 				e.printStackTrace();
+			} catch(IOException e){
+				// will be thrown if client does not safely disconnect, then we will remove the client
+				e.printStackTrace();
+				GameServer.this.outputs.remove(name);
 				System.out.println("\t\t This client did not safely disconnect");
+			}catch(Exception e){
+				System.out.println("Something egiot lse is still wrong!");
+				e.printStackTrace();
 			}
 		}
 	}
@@ -121,7 +130,7 @@ public class GameServer implements Serializable{
 
 					
 					// spawn a thread to handle communication with this client
-					new Thread(new ClientHandler(input)).start();
+					new Thread(new ClientHandler(input, clientName)).start();
 					
 					// add a notification message to the chat log
 					System.out.println("\t new client: " + clientName);
@@ -192,7 +201,7 @@ public class GameServer implements Serializable{
 	 * Writes a TimeCommand to every connected user, to be called by a
 	 * master Timer every 20 ms.
 	 */
-	public void tickClients() {
+	/*public void tickClients() {
 		// make an TimeCommmand, write to all connected users
 		TimeCommand update = new TimeCommand();
 		if(!outputs.isEmpty()){
@@ -208,7 +217,7 @@ public class GameServer implements Serializable{
 			}
 		}
 	}
-	
+	*/
 	/**
 	 * Stops the GameServer's Timer
 	 */
@@ -216,10 +225,12 @@ public class GameServer implements Serializable{
 		timer.cancel();
 	}
 	
+	//call when level is finished
 	public void removeLevel(){
 		currentLevel = null;
 	}
 	
+	//run this class to create a GameServer.
 	public static void main(String[] args){
 		new GameServer();
 	}
@@ -290,19 +301,24 @@ public class GameServer implements Serializable{
 	 */
 	public void updateClients(ArrayList<EnemyImage> enemyImages, ArrayList<TowerImage> towerImages){
 		//TODO:Brody make moar commands
-		//SendClientUpdate c = new SendClientUpdate(enemyImages, towerImages);
+		SendClientUpdate c = new SendClientUpdate(enemyImages, towerImages);
+<<<<<<< HEAD
+		sendCommand(c);
+		/*if(!outputs.isEmpty()){
+=======
 		
 		if(!outputs.isEmpty()){
+>>>>>>> 9bcd205aa8363c0fef6ea15786418421b9d54210
 			for (ObjectOutputStream out : outputs.values()){
 				try{
 					System.out.println("Update try on " + out);
-					//out.writeObject(c);
+					out.writeObject(c);
 					System.out.println("Update sent");
 				}catch(Exception e){
 					e.printStackTrace();
 				}
 			}
-		}
+		}*/
 	}
 	
 	/**
@@ -313,8 +329,7 @@ public class GameServer implements Serializable{
 	 * @param playerMoney
 	 */
 	public void updateClients(int playerHealth, int playerMoney){
-		//TODO Finish SendClientHPandMoney with a method for it to execute on in client
-		Command c = new SendClientHPandMoney(playerHealth, playerMoney);
+		Command<GameClient> c = new SendClientHPandMoney(playerHealth, playerMoney);
 		sendCommand(c);
 	}
 	
@@ -341,9 +356,8 @@ public class GameServer implements Serializable{
 	 * @param path
 	 */
 	public void updateClientsOfMapBackground(String mapBackgroundURL, List<Point> path, int numOfRows, int numOfColumns){
-		//TODO: Finish SendClientMapBackground with a method for it to execute in client
-		//Command c = new SendClientMapBackground(mapBackgroundURL, path);
-		//sendCommand(c);
+		Command<GameClient> c = new SendClientMapBackground(mapBackgroundURL, path, numOfRows, numOfColumns);
+		sendCommand(c);
 	}
 	
 	
@@ -351,7 +365,7 @@ public class GameServer implements Serializable{
 	//These methods below will be called by Command objects passed from client to server
 	//call level.getMap.appropriateMethod() in each case
 	
-	//Brody call this method with a command object from client when the level is selected
+	//TODO: Brody call this method with a command object from client when the level is selected
 	public void createLevel(int levelCode){
 		this.currentLevel = LevelFactory.generateLevel(this.player, thisServer, levelCode);
 	}
@@ -359,6 +373,7 @@ public class GameServer implements Serializable{
 	
 	
 	public void addTower(towerType type, Point loc) {
+		System.out.println(loc.toString());
 		Tower towerToAdd = TowerFactory.generateTower(type, player);		
 		System.out.println("addTower command received, adding tower to current level");
 		if(currentLevel.getMap().addTower(towerToAdd, loc)){
@@ -373,22 +388,20 @@ public class GameServer implements Serializable{
 		currentLevel.getMap().sellTower(location);
 	}
 
+	//May be useful method for multiplayer but would have to be Player specific
 	public void addEnemy(Enemy enemy) {
 		currentLevel.getMap().spawnEnemy(enemy);
 	}
 
+	//Do not use this method it is already inside Map and does so by itself -PH
+	/*
 	public void removeEnemy(Enemy enemy) {
 		currentLevel.getMap().removeDeadEnemy(enemy.getLocation(), enemy);
 		//enemyList.remove(enemyList.indexOf(enemy));
-	}
+	}*/
 	
 	public long getTickLength(){
 		return timePerTick;
-	}
-
-	//Call this method with a command containing an int levelCode based on level selected passed by the client to start a level
-	public void startLevel(int levelCode){
-		currentLevel = LevelFactory.generateLevel(player, thisServer, levelCode);
 	}
 	
 	public void gameLost() {

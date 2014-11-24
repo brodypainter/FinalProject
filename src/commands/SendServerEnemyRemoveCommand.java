@@ -17,7 +17,9 @@ public class SendServerEnemyRemoveCommand extends Command<GameServer>{
 	
 	@Override
 	public void execute(GameServer executeOn) {
-		executeOn.removeEnemy(this.enemy);
+		//executeOn.removeEnemy(this.enemy);
+		//This method should not be used unless we want to let the player click and
+		//kill enemies, currently not implemented -PH
 		
 	}
 
