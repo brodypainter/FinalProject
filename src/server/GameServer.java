@@ -192,7 +192,7 @@ public class GameServer implements Serializable{
 	 * Writes a TimeCommand to every connected user, to be called by a
 	 * master Timer every 20 ms.
 	 */
-	public void tickClients() {
+	/*public void tickClients() {
 		// make an TimeCommmand, write to all connected users
 		TimeCommand update = new TimeCommand();
 		if(!outputs.isEmpty()){
@@ -208,7 +208,7 @@ public class GameServer implements Serializable{
 			}
 		}
 	}
-	
+	*/
 	/**
 	 * Stops the GameServer's Timer
 	 */
@@ -216,10 +216,12 @@ public class GameServer implements Serializable{
 		timer.cancel();
 	}
 	
+	//call when level is finished
 	public void removeLevel(){
 		currentLevel = null;
 	}
 	
+	//run this class to create a GameServer.
 	public static void main(String[] args){
 		new GameServer();
 	}
