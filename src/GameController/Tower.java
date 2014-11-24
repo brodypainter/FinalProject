@@ -299,7 +299,7 @@ public abstract class Tower implements Serializable{
 	public Enemy findClosestEnemy(ArrayList<Enemy> enemies){
 		Enemy closests = null;
 		Double shortestDist = null;
-		int distanceLeftOnPath = null;
+		Integer distanceLeftOnPath = null;
 		if (enemies.isEmpty()){
 			return closests;
 		}
