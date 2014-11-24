@@ -309,25 +309,24 @@ public abstract class Tower implements Serializable{
 	public Enemy findClosestEnemy(ArrayList<Enemy> enemies){
 		Enemy closests = null;
 		Double shortestDist = null;
-		Integer distanceLeftOnPath = null;
-
+		Integer greatestStepsTaken = null;
 
 		if (enemies.isEmpty()){
 			return closests;
 		}
 			for (Enemy enemy: enemies){
 				Point EnemysLocation = enemy.getLocation();
-				int distancePath = enemy.getDistanceLeftForEnemy();
+				int NumberOfStep = enemy.getStepsTaken();
 				Double Distance = Math.sqrt( Math.pow((EnemysLocation.getX() - this.BoardLocation.getX()), 2) +
 						Math.pow((EnemysLocation.getY() - this.BoardLocation.getY()), 2 ));
 				if (shortestDist == null){
 					closests = enemy;
 					shortestDist = Distance;
-					distanceLeftOnPath = distancePath;
-				} else if ( Distance < shortestDist && distancePath < distanceLeftOnPath){
+					greatestStepsTaken = NumberOfStep;
+				} else if ( Distance < shortestDist &&  NumberOfStep > greatestStepsTaken ){
 					closests = enemy;
 					shortestDist = Distance;
-					distanceLeftOnPath = distancePath;
+					greatestStepsTaken = NumberOfStep;
 				}
 			}
 		
