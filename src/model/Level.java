@@ -150,6 +150,10 @@ public abstract class Level {
 	public void setMap(Map map){
 	  this.map = map;
   }
+	
+	public GameServer getServer(){
+		return server;
+	}
 
 	public Player getPlayer(){
 	  return this.player;

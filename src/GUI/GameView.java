@@ -98,8 +98,17 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 	
 	int selectedTowerType;
 	
-	int levelWidth = 20;
-	int levelHeight = 10;
+	//No need to hardcode now, I update them when map is created
+	//with the setGridSize() method -PH
+	private int levelWidth;
+	private int levelHeight;
+	
+	private String mapBackgroundImageURL;
+	
+	private List<Point> enemyPathCoords; //The list of points containing the coordinates
+	//(rowsdown, columnsacross) of where the enemy path tiles should be painted in the grid
+	
+	
 	
 	ImageIcon tower1Image;
 	ImageIcon tower2Image;
@@ -354,11 +363,23 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 		
 	}
 	
+	//These 3 set methods are called by GameClient in its mapBackgroundUpdate method
+	//which is called 1 time only when the map is created on the Server -PH
 	public void setGridSize(Point size)
 	{
 		levelWidth = size.x;
 		levelHeight = size.y;
 	}
+	
+	public void setMapBackgroundImageURL(String url){
+		this.mapBackgroundImageURL = url;
+	}
+	
+	
+	public void setEnemyPathCoords(List<Point> l){
+		this.enemyPathCoords = l;
+	}
+	
 	
 	public void paintComponent(Graphics g)
 	{

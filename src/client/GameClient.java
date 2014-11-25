@@ -240,8 +240,8 @@ public class GameClient{
 	public void mapBackgroundUpdate(String backgroundImageURL, List<Point> enemyPathCoords, int rowsInMap, int columnsInMap) {
 		mainMenu.getView().setMapBackgroundImageURL(backgroundImageURL);
 		mainMenu.getView().setEnemyPathCoords(enemyPathCoords);
-		mainMenu.getView().setRowsInMap(rowsInMap);
-		mainMenu.getView().setColumnsInMap(columnsInMap);
+		Point mapSize = new Point(columnsInMap,rowsInMap);
+		mainMenu.getView().setGridSize(mapSize);
 	}
 
 	//Called from server via command whenever any of these variables change in model

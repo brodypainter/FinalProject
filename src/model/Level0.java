@@ -114,7 +114,10 @@ public class Level0 extends Level implements Serializable{
 
 	@Override
 	public void setMap() {
-		setMap(MapFactory.generateMap(getPlayer(), 0)); //the int mapCode is 0 because this is level 0 and we want Map 0
+		Map levelsMap = MapFactory.generateMap(getPlayer(), 0);
+		 //the int mapCode is 0 because this is level 0 and we want Map 0
+		levelsMap.setServer(this.getServer()); //Must set the map's server so it knows to send first update
+		this.setMap(levelsMap);							//and where to send updates thereafter
 	}
 	
 }
