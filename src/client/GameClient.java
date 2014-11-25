@@ -33,8 +33,6 @@ public class GameClient{
 	private Socket server; // connection to server
 	private ObjectOutputStream out; // output stream
 	private ObjectInputStream in; // input stream
-	
-	private Level0Map level;
 	private MainMenu mainMenu;
 	private Player player;
 	
