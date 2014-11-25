@@ -56,7 +56,7 @@ import client.Player;
  * void tempAttack()
  */
 
-public class GameView extends JFrame implements MouseListener, MouseWheelListener, MouseMotionListener
+public class GameView extends JFrame implements MouseListener, MouseMotionListener
 {
 	private JFrame frame;
 	private Image bg;
@@ -188,7 +188,7 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 		setLayout(null);
 		setTitle("Pokemon Tower Defense - " + user);
 		addMouseListener(this);
-		addMouseWheelListener(this);
+		//addMouseWheelListener(this);
 		//addComponentListener(new resizeListener());
 		addMouseMotionListener(this);
 		
