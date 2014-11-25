@@ -107,7 +107,7 @@ public class GameClient{
 //			});
 			
 			player = (Player) in.readObject();
-			System.out.println("Player Received");
+			//System.out.println("Player Received");
 			
 			// start a thread for handling server events
 			new Thread(new ServerHandler()).start();
@@ -174,7 +174,7 @@ public class GameClient{
 		try {
 			out.writeObject(command);
 		} catch (IOException e) {
-			System.out.println("sendCommand FAILED");
+			//System.out.println("sendCommand FAILED");
 			e.printStackTrace();
 		}
 	}
@@ -193,11 +193,7 @@ public class GameClient{
 		// GUI.update(messages);
 	}
 
-	/**
-	 * Receives a tower and enemy list and sends it on to the GUI's model.
-	 * @param enemyImages
-	 * @param towerImages
-	 */
+	
 
 	
 
@@ -205,11 +201,11 @@ public class GameClient{
 	
 	//Called by GUI when player attempts to add a tower
 	public void addTower(towerType normal, Point loc){
-		System.out.println("Constructing SendServerTowerCommand");
+		//System.out.println("Constructing SendServerTowerCommand");
 		SendServerTowerCommand c = new SendServerTowerCommand(normal, loc);
-		System.out.println("Sending SendServerTowerCommand");
+		//System.out.println("Sending SendServerTowerCommand");
 		this.sendCommand(c);
-		System.out.println("Command Sent");
+		//System.out.println("Command Sent");
 	}
 	
 	
@@ -246,8 +242,13 @@ public class GameClient{
 	}
 
 	//Called from server via command every tick to pass updated enemy/tower image locations/states
+	/**
+	 * Receives a tower and enemy list and sends it on to the GUI's model.
+	 * @param enemyImages
+	 * @param towerImages
+	 */
 	public void update(List<EnemyImage> enemyImages, List<TowerImage> towerImages){
-		System.out.println("Client update being called"); //Testing purposes
+		//System.out.println("Client update being called"); //Testing purposes
 		mainMenu.getView().update(towerImages, enemyImages);
 		//GUI shouldn't hold enemies or towers, instead hold their image classes
 	}
