@@ -739,9 +739,9 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 			for(TowerImage ti: newTowers){
 				tempTowerLabel = new JLabel(new ImageIcon(ti.getImageURL()));
 				Point tiLocation = ti.getLocation();//this point contains the rowsdown in x and the columnsacross in y
-				//TODO: Desone scale this tiLocation to put the image in the right place
-				
-				tempTowerLabel.setLocation(tiLocation);
+				int y = tiLocation.x * tileHeight;
+				int x = tiLocation.y * tileWidth;
+				tempTowerLabel.setLocation(x, y);
 				tempTowerLabel.setSize(tileWidth, tileHeight);
 				towers.add(tempTowerLabel);
 			}
@@ -764,11 +764,31 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 			tempEnemyLabel = new JLabel(new ImageIcon(ei.getImageURL()));
 			Point eiLocation = ei.getLocation();//this point contains the rowsdown in x and the columnsacross in y
 			directionFacing orientation = ei.getOrientation();
-			//TODO: Desone scale this eiLocation and offset
+			int progress = ei.getProgress();
+			
+			//get eiLocation and offset
 			//it by progress fraction of tilewidth/height in direction of orientation
 			//to put the image in the right place
 			
-			tempEnemyLabel.setLocation(eiLocation);
+			int x = eiLocation.y * tileWidth;
+			
+			if(orientation == directionFacing.WEST){
+				x = x - ((tileWidth * progress) / 100);
+			}
+			if(orientation == directionFacing.EAST){
+				x = x + ((tileWidth * progress) / 100);
+			}
+			
+			int y = eiLocation.x * tileHeight;
+			
+			if(orientation == directionFacing.NORTH){
+				y = y + ((tileHeight * progress) / 100);
+			}
+			if(orientation == directionFacing.SOUTH){
+				y = y - ((tileHeight * progress) / 100);
+			}
+			
+			tempEnemyLabel.setLocation(x, y);
 			tempEnemyLabel.setSize(tileWidth, tileHeight); //Idk how big we want each enemy, use this for now
 			enemies.add(tempEnemyLabel);
 		}
