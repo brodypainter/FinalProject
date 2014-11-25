@@ -34,6 +34,7 @@ import javax.swing.Timer;
 import javax.swing.UIManager;
 
 import server.GameServer;
+import GameController.Enemy.directionFacing;
 import GameController.Pikachu;
 import GameController.CeruleanGym;
 import GameController.Enemy;
@@ -112,16 +113,19 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 	private int playerMoney; //The player's current $, display in corner. it is updated
 	
 	//updated by model at every tick
-	private List<TowerImage> towersLast; //A list of all the TowerImages
-	private List<EnemyImage> enemiesLast; //A list of all the EnemyImages
+	//private List<TowerImage> towersLast; //A list of all the TowerImages
+	//private List<EnemyImage> enemiesLast; //A list of all the EnemyImages
+	private List<JLabel> towers = new ArrayList<JLabel>(); //A list of all the JLabels on board based on sent TowerImages
+	private List<JLabel> enemies = new ArrayList<JLabel>(); //A list of all the JLabels on board based on sent EnemyImages
+	private List<JLabel> pathTiles = new ArrayList<JLabel>(); //A list of all the JLabels on board based on enemyPathCoords
+	
 	
 	ImageIcon tower1Image;
 	ImageIcon tower2Image;
 	ImageIcon tower3Image;
 	ImageIcon tower4Image;
 	
-	List towers; //Please define and put parameter -PH
-	List enemies; //Please define and put parameter -PH
+	
 	
 	//double testSpriteProgress = 0;
 	
@@ -296,17 +300,12 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 	public void createScaledBackgroundImage(){
 		
 		//Create correctly scaled image to use as background (map)
-				//TODO: make this a variable, so that different maps can be used.
-				ImageIcon mapTemp = createImageIcon("/images/map1.png");
+				
+				ImageIcon mapTemp = createImageIcon(this.mapBackgroundImageURL);
 				bg = (mapTemp.getImage()).getScaledInstance(getSize().width, (3*getSize().height)/4, Image.SCALE_SMOOTH);
 				mapTemp.setImage(bg);
 				JLabel labelTemp = new JLabel(mapTemp);
 				labelTemp.setBounds(0, 0, getSize().width, (3*getSize().height)/4);
-		
-		
-		
-		
-		
 	}
 	
 	
@@ -456,8 +455,8 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 	{
 		public void actionPerformed(ActionEvent arg0)
 		{
-			testSpriteProgress += 0.2;
-			repaint();
+			//testSpriteProgress += 0.2;
+			//repaint();
 		}
 	}
 	
@@ -512,7 +511,7 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 			mapTemp.setImage(bg);
 			JLabel labelTemp = new JLabel(mapTemp);
 			labelTemp.setBounds(0, 0,(int) (getSize().width * viewScale),(int) (viewScale * (3*getSize().height)/4));
-			for(JLabel label : towerList)
+			for(JLabel label : towers)
 			{
 				board.add(label);
 			}
@@ -722,33 +721,61 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 		this.levelHeight = levelHeight;
 	}
 	
-	public void update(List<TowerImage> towers, List<EnemyImage> enemies)
+	//called every tick, passes new tower/enemy locations and images
+	public void update(List<TowerImage> newTowers, List<EnemyImage> newEnemies)
 	{
-		//board.re;
+		//If there is a different amount of TowerImages sent then there
+		//are already JLabels based on TowerImages on the board, remove
+		//all these JLabels, create new ones, add them to a new towers list, and put them on board
+		if(this.towers.size() != newTowers.size())
+		{
+			for(JLabel tower: towers){
+				board.remove(tower);
+			}
+			
+			towers = new ArrayList<JLabel>();
+			
+			JLabel tempTowerLabel;
+			for(TowerImage ti: newTowers){
+				tempTowerLabel = new JLabel(new ImageIcon(ti.getImageURL()));
+				Point tiLocation = ti.getLocation();//this point contains the rowsdown in x and the columnsacross in y
+				//TODO: Desone scale this tiLocation to put the image in the right place
+				
+				tempTowerLabel.setLocation(tiLocation);
+				tempTowerLabel.setSize(tileWidth, tileHeight);
+				towers.add(tempTowerLabel);
+			}
+			
+			for(JLabel j: towers){
+				board.add(j);
+			}
+		}
 		
-		//don't do this check here because it won't reach enemies
-		if(towers.size() == towersLast.size())
-		{
-			return;
+		//Unconditionally update all enemies because their progress will have updated every tick
+		
+		for(JLabel enemy: enemies){
+			board.remove(enemy);
 		}
-		board.removeAll();
-		towersLast = towers;
-		JLabel tempBackground = new JLabel(new ImageIcon(bg));
-		tempBackground.setSize(board.getWidth(), board.getHeight());
-		updateTileSize();
-	
-		for(TowerImage image : towers)
-		{
-			JLabel temp = new JLabel(tower1Image);
-			temp.setSize(tileWidth, tileHeight);
-			temp.setLocation((tileWidth * image.getLocation().x), (tileHeight * image.getLocation().y));
-			//make towerList reference a new List<JLabel> first? -PH
-			towerList.add(temp);
-			board.add(towerList.get(towerList.size()-1));
-			System.out.println(temp.getLocation().y);
+		
+		enemies = new ArrayList<JLabel>();
+		
+		JLabel tempEnemyLabel;
+		for(EnemyImage ei: newEnemies){
+			tempEnemyLabel = new JLabel(new ImageIcon(ei.getImageURL()));
+			Point eiLocation = ei.getLocation();//this point contains the rowsdown in x and the columnsacross in y
+			directionFacing orientation = ei.getOrientation();
+			//TODO: Desone scale this eiLocation and offset
+			//it by progress fraction of tilewidth/height in direction of orientation
+			//to put the image in the right place
+			
+			tempEnemyLabel.setLocation(eiLocation);
+			tempEnemyLabel.setSize(tileWidth, tileHeight); //Idk how big we want each enemy, use this for now
+			enemies.add(tempEnemyLabel);
 		}
-		board.add(tempBackground);	
-		System.out.println("Updating images");
+		
+		for(JLabel j: enemies){
+			board.add(j);
+		}
 	}
 	
 	void updateTileSize()
