@@ -116,9 +116,7 @@ public class GameServer implements Serializable{
 					// create the single player, will need to change this for multiplayer games
 					// for multiplayer, this will need to check if the player already exists
 					player = new Player(clientName, 100, 100);
-					
-					System.out.println("Level is: " + currentLevel.toString());
-					
+										
 					System.out.println("Player Send Try");
 					System.out.println("Player is: " + player.toString());
 					output.writeObject(player);
