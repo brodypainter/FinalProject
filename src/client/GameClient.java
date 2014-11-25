@@ -200,6 +200,7 @@ public class GameClient{
 	
 	
 	//Called by GUI when player attempts to add a tower
+	//The point loc should be (rowdown, columnacross) to attempt to add tower to
 	public void addTower(towerType normal, Point loc){
 		//System.out.println("Constructing SendServerTowerCommand");
 		SendServerTowerCommand c = new SendServerTowerCommand(normal, loc);
@@ -260,6 +261,7 @@ public class GameClient{
 	}
 
 	//Called from Server via command whenever a tower attacks an enemy
+	//The points pass (rowsdown, columnsacross) in the model grid of tower and enemy
 	public void towerAttack(towerType t, Point towerLoc, Point enemyLoc) {
 		mainMenu.getView().animateAttack(towerLoc, enemyLoc, t);
 	}

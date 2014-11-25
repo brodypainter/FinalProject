@@ -29,7 +29,7 @@ public class Pikachu extends Enemy{
 	 */
 	
 	public Pikachu(Map currentMap) {
-		super(100, 10, 12, 1.0, "Pikachu", 25, "src/images/pikachuStatic.png", currentMap);
+		super(200, 10, 12, 1.0, "Pikachu", 25, "src/images/pikachuStatic.png", currentMap);
 	}
 
 	

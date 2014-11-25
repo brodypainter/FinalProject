@@ -35,14 +35,7 @@ import javax.swing.JProgressBar;
 import javax.swing.Timer;
 import javax.swing.UIManager;
 
-import server.GameServer;
 import GameController.Enemy.directionFacing;
-import GameController.Pikachu;
-import GameController.CeruleanGym;
-import GameController.Enemy;
-import GameController.Tower;
-import model.Level0Map;
-import model.Map;
 import client.GameClient;
 import client.Player;
 
@@ -105,7 +98,7 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 	
 	private Player player;
 	
-	int selectedTowerType;
+	int selectedTowerType; //Should replace this with the enum towerType -PH
 	
 	//No need to hardcode now, I update them when map is created
 	//with the setGridSize() method -PH
@@ -398,11 +391,16 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 	{
 		if(type == towerType.NORMAL)
 		{
-			System.out.println("This tower");
+			System.out.println("Tower at row " + tower.x + " column " + tower.y + " attacks!");
 			JLabel proj = new JLabel(new ImageIcon(createImageIcon(pewterProjectile).getImage().getScaledInstance(this.getWidth()/(levelWidth*2), this.getHeight()/(levelHeight*2), Image.SCALE_FAST)));
-			proj.setLocation(tower.x, tower.y);
+			proj.setLocation(tower.x, tower.y); 
+			//TODO:^Tower.x is the row of tower, tower.y is column, make sure to scale and keep
+			//track of which one you really want as first and second parameter
+						
 			Bone newProjectile = new Bone();
 			newProjectile.setLabel(proj);
+			//Also set newProjectile's destination point here based on Point enemy
+			//again make sure you know what is in point 
 			projectiles.add(newProjectile);
 			proj.setName("Projectile");
 			board.add(proj);
@@ -433,6 +431,11 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 	
 	//These 3 set methods are called by GameClient in its mapBackgroundUpdate method
 	//which is called 1 time only when the map is created on the Server -PH
+	
+	/**
+	 * This method is called by mapBackgroundUpdate by client when Map is created in model
+	 * @param size the point (columnsInMap, rowsInMap)
+	 */
 	public void setGridSize(Point size)
 	{
 		levelWidth = size.x;
@@ -457,8 +460,8 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 		for(Point p: enemyPathCoords){
 			tempTile = new JLabel(enemyTileTemp);
 			tempTile.setSize(tileHeight, tileWidth);
-			int x = p.x * tileWidth;
-			int y = p.y * tileHeight;
+			int x = p.y * tileWidth; //Reverses are due to how p is (rowsdown, columns) in model -PH
+			int y = p.x * tileHeight;
 			tempTile.setLocation(x, y);
 			tempTile.setName("EnemyPathTile");
 			pathTiles.add(tempTile);
@@ -471,13 +474,13 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 	public void setPlayerHP(int hp) {
 		this.playerHP = hp;
 		playerHealthLabel.setValue(playerHP);
-		System.out.println("Player now has $" + playerHP);
+		System.out.println("Player now has HP: " + playerHP);
 	}
 
 	public void setPlayerMoney(int money) {
 		this.playerMoney = money;
 		playerMoneyLabel.setText("$" + playerMoney);
-		System.out.println("Player now has $" + playerMoney);
+		System.out.println("Player now has $: " + playerMoney);
 	}
 	
 	
@@ -798,10 +801,10 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 			int y = eiLocation.x * tileHeight;
 			
 			if(orientation == directionFacing.NORTH){
-				y = y + ((tileHeight * progress) / 100);
+				y = y - ((tileHeight * progress) / 100);
 			}
 			if(orientation == directionFacing.SOUTH){
-				y = y - ((tileHeight * progress) / 100);
+				y = y + ((tileHeight * progress) / 100);
 			}
 			
 			tempEnemyLabel.setLocation(x, y);
@@ -925,14 +928,14 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 	}
 	*/
 	
-	//Just send me the Point(rowsdown, columns) of where you want to try to sell a tower.
+	
+	public void removeTower(Point removeTowerAtCoordinates)
+	{
+		//TODO://Just send me the Point(rowsdown, columns) of where you want to try to sell a tower.
 	//I would recommend you have a place/icon on GUI you can click to make your cursor
 	//appear like a hammer and set a boolean to "sellTower = true" or something
 	//and then on next click in mouselistener if sellTower == true then send the
 	//calculated coordinates the mouse was at in this method. -PH
-	public void removeTower(Point removeTowerAtCoordinates)
-	{
-		//TODO:
 	}
 	
 	public void mouseMoved(MouseEvent arg0)
@@ -960,14 +963,16 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 			Cursor cursor = kit.createCustomCursor(createImageIcon("/images/cursor.png").getImage(), new Point(0,0), "Cursor");
 			setCursor(cursor);
 			
-			Point loc = new Point((int) ((arg0.getX() - scrollLocation.x)/tileWidth),(int) ((arg0.getY() - scrollLocation.y)/tileHeight));
+			//Pass me the Point (rowsdown, columnsacross) where player attempts to add tower -PH
+			//Point loc = new Point((int) ((arg0.getX() - scrollLocation.x)/tileWidth),(int) ((arg0.getY() - scrollLocation.y)/tileHeight));
+			Point loc = new Point((int) ((arg0.getY() - scrollLocation.x)/tileWidth),(int) ((arg0.getX() - scrollLocation.y)/tileHeight));
 			
 			switch(selectedTowerType)
 			{
 			case NORMAL:
 				client.addTower(towerType.NORMAL, loc);
 				//towerLocation = new Point(arg0.getX(), arg0.getY());
-				System.out.println("Attempting to place a normal tower at (" + loc.x + ", " + loc.y + ")");
+				System.out.println("Attempting to place a normal tower at (row " + loc.y + ", column " + loc.x + ")");
 				//client.addTower(new tempTower("Test Tower", 10, 3, 1, user, pewterTower, 0), new Point(((arg0.getX() - scrollLocation.x) * 20)/(bg.getWidth(this)), ((arg0.getY() - scrollLocation.y) * 20)/(bg.getWidth(this))));
 				break;
 			default:
