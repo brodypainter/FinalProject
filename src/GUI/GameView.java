@@ -224,7 +224,7 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 		temp.setBounds(0, 0, getSize().width, getSize().height/4);
 		towerStorePanel = new JPanel();
 		towerStorePanel.setLayout(null);
-		towerStorePanel.setBounds(0, (int) ((getSize().height)/2), getSize().width, getSize().height/4 );
+		towerStorePanel.setBounds(0, (int) (3*(getSize().height)/4), getSize().width, getSize().height/4 );
 		towerStorePanel.setBackground(null);
 		towerStorePanel.add(temp);
 		this.add(towerStorePanel); //Added this line -PH
@@ -235,6 +235,7 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 		board.setLayout(null);
 		//board.add(labelTemp);
 		board.setBackground(Color.BLUE);
+		setResizable(false);
 		this.add(board); //moved this line here -PH
 		
 		/*
@@ -506,7 +507,7 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 	{
 		public void componentResized(ComponentEvent arg0)
 		{
-			
+			System.out.println("Resizing window");
 			tower1Image = new ImageIcon(createImageIcon("/images/cuboneStatic.png").getImage().getScaledInstance(tileWidth, tileHeight,Image.SCALE_SMOOTH));
 			ImageIcon tower1Icon = new ImageIcon(tower1Image.getImage());
 			JLabel tower1temp = new JLabel(tower1Icon);
@@ -661,6 +662,7 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 	/**
 	 * Zooms in and out of the map based on direction of scrolling
 	 */
+	/*
 	public void mouseWheelMoved(MouseWheelEvent arg0)
 	{
 		if((viewScale < 2 && arg0.getWheelRotation() == -1) || (viewScale > 0.5 && arg0.getWheelRotation() == 1))
@@ -720,6 +722,7 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 		}
 		repaint();
 	}
+	*/
 
 	/**
 	 * Moves the map around according to where the mouse is being dragged
