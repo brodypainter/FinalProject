@@ -108,6 +108,9 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 	private List<Point> enemyPathCoords; //The list of points containing the coordinates
 	//(rowsdown, columnsacross) of where the enemy path tiles should be painted in the grid
 	
+	private int playerHP; //The player's current HP, display in corner. it is updated
+	
+	private int playerMoney; //The player's current $, display in corner. it is updated
 	
 	
 	ImageIcon tower1Image;
@@ -379,6 +382,21 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 	public void setEnemyPathCoords(List<Point> l){
 		this.enemyPathCoords = l;
 	}
+	
+	//These 2 methods are called by GameClient in its updateHPandMoney method
+	//whenever these values are changed in the model
+	public void setPlayerHP(int hp) {
+		this.playerHP = hp;
+		
+	}
+
+	public void setPlayerMoney(int money) {
+		this.playerMoney = money;
+		
+	}
+	
+	
+	
 	
 	
 	public void paintComponent(Graphics g)
@@ -832,4 +850,6 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 	public void windowDeiconified(WindowEvent arg0){}
 	public void windowIconified(WindowEvent arg0){}
 	public void windowOpened(WindowEvent arg0){}
+
+	
 }
