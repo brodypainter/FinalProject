@@ -166,8 +166,8 @@ public class MainMenu extends JFrame implements WindowListener
 			if(arg0.getSource().equals(singlePlayer))
 			{
 				frame.setVisible(false);
-				
 				view = new GameView(GameView.gameType.SINGLE, username, client, player);
+				client.createLevel(0); //Call AFTER view is created
 			}
 			if(arg0.getSource().equals(multiPlayer))
 			{

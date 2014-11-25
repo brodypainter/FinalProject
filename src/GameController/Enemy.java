@@ -161,7 +161,7 @@ public enum directionFacing{NORTH, EAST, SOUTH, WEST};
 	
 	// this method just returns the current attack power of the pokemon
 	public int getAttackPower(){
-		return this.getAttackPower();
+		return this.AttackPower;
 	}
 	
 	// this method just checks if the enemy is dead and returns a boolean depending on it

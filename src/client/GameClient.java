@@ -20,6 +20,7 @@ import GameController.Enemy;
 import GameController.Tower;
 import commands.Command;
 import commands.DisconnectCommand;
+import commands.SendServerCreateLevelCommand;
 import commands.SendServerTowerCommand;
 import commands.SendServerTowerRemoveCommand;
 
@@ -33,8 +34,6 @@ public class GameClient{
 	private Socket server; // connection to server
 	private ObjectOutputStream out; // output stream
 	private ObjectInputStream in; // input stream
-	
-	private Level0Map level;
 	private MainMenu mainMenu;
 	private Player player;
 	
@@ -165,6 +164,12 @@ public class GameClient{
 		}
 	}
 	
+	public void createLevel(int i){
+		// Hardcoded as level 0 for now
+		SendServerCreateLevelCommand c = new SendServerCreateLevelCommand(0);
+		sendCommand(c);
+	}
+	
 	public void sendCommand(Command<GameServer> command){
 		try {
 			out.writeObject(command);
@@ -195,15 +200,10 @@ public class GameClient{
 	 */
 
 	
-		//TODO:
-		//mainMenu.getView().update(towerList, enemyList);
 
-	public void update(List<EnemyImage> enemyImages, List<TowerImage> towerImages){
-		System.out.println("Client update being called");
-		mainMenu.getView().update(towerImages, enemyImages);
-		//GUI shouldn't hold enemies or towers, instead hold their image classes
-	}
 	
+	
+	//Called by GUI when player attempts to add a tower
 	public void addTower(towerType normal, Point loc){
 		System.out.println("Constructing SendServerTowerCommand");
 		SendServerTowerCommand c = new SendServerTowerCommand(normal, loc);
@@ -214,14 +214,15 @@ public class GameClient{
 	
 	
 	//called by the GUI, sends command to server to attempt to sell any Tower at a point
+	//The point should contain coordinates (rowsdown, columnsacross) in the grid model
 	public void removeTower(Point p){
 		SendServerTowerRemoveCommand c = new SendServerTowerRemoveCommand(p);
 		this.sendCommand(c);
 	}
 	
-	/*//Unnecessary method for now unless we make a player click remove enemy type thing
-	public void removeEnemy(Enemy e){
-		SendServerEnemyRemoveCommand c = new SendServerEnemyRemoveCommand(e);
+	/*//Unnecessary method for now unless we make a player click remove enemy in area type thing
+	public void removeEnemy(Point p){
+		SendServerEnemyRemoveCommand c = new SendServerEnemyRemoveCommand(p);
 		this.sendCommand(c);
 	}*/
 	
@@ -240,10 +241,17 @@ public class GameClient{
 	public void mapBackgroundUpdate(String backgroundImageURL, List<Point> enemyPathCoords, int rowsInMap, int columnsInMap) {
 		mainMenu.getView().setMapBackgroundImageURL(backgroundImageURL);
 		mainMenu.getView().setEnemyPathCoords(enemyPathCoords);
-		mainMenu.getView().setRowsInMap(rowsInMap);
-		mainMenu.getView().setColumnsInMap(columnsInMap);
+		Point mapSize = new Point(columnsInMap,rowsInMap);
+		mainMenu.getView().setGridSize(mapSize);
 	}
 
+	//Called from server via command every tick to pass updated enemy/tower image locations/states
+	public void update(List<EnemyImage> enemyImages, List<TowerImage> towerImages){
+		System.out.println("Client update being called"); //Testing purposes
+		mainMenu.getView().update(towerImages, enemyImages);
+		//GUI shouldn't hold enemies or towers, instead hold their image classes
+	}
+	
 	//Called from server via command whenever any of these variables change in model
 	public void updateHPandMoney(int hp, int money) {
 		mainMenu.getView().setPlayerHP(hp);
@@ -252,27 +260,18 @@ public class GameClient{
 
 	//Called from Server via command whenever a tower attacks an enemy
 	public void towerAttack(towerType t, Point towerLoc, Point enemyLoc) {
-		// TODO Send this info to the GUI and have it animate the attack
 		mainMenu.getView().animateAttack(towerLoc, enemyLoc, t);
 	}
 	
+	//called from Server via command when the game is won
 	public void notifyLevelWasWon(){
 		JOptionPane.showMessageDialog(mainMenu, "You win");
 		mainMenu = new MainMenu(this);
 	}
 	
+	//called from Server via command when the game is lost
 	public void notifyLevelWasLost(){
 		JOptionPane.showMessageDialog(mainMenu, "You lose");
 		mainMenu = new MainMenu(this);
 	}
-	
-	
-	//Server should never receive orders to tick from client, do not use this method below. -PH
-	/**
-	 * To be called by the TimeCommand objects every time they are executed (every ~20 ms)
-	 */
-	/* public void tick(){
-		System.out.println("Tick Received!");
-	}
-	*/
 }

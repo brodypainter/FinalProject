@@ -12,7 +12,6 @@ public class TowerFactory {
 		switch(type){
 		case NORMAL:
 			tower = new CeruleanGym(player.getName());
-		case 
 		default:
 			tower = new CeruleanGym(player.getName());
 		}
