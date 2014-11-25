@@ -354,13 +354,13 @@ public class GameServer implements Serializable{
 	
 	
 	public void addTower(towerType type, Point loc) {
-		System.out.println(loc.toString());
+		System.out.println("GameServer attempting to add tower to row: " + loc.x + " col: " + loc.y);
 		Tower towerToAdd = TowerFactory.generateTower(type, player);		
 		System.out.println("addTower command received, adding tower to current level");
 		if(currentLevel.getMap().addTower(towerToAdd, loc)){
 			System.out.println("successfully added tower");
 		}else{
-			System.out.println("Adding tower failed!");
+			System.out.println("Adding tower failed due to position/lack of $!");
 		}
 	}
 	
