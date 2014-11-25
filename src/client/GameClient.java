@@ -20,6 +20,7 @@ import GameController.Enemy;
 import GameController.Tower;
 import commands.Command;
 import commands.DisconnectCommand;
+import commands.SendServerCreateLevelCommand;
 import commands.SendServerTowerCommand;
 import commands.SendServerTowerRemoveCommand;
 
@@ -163,6 +164,12 @@ public class GameClient{
 		}catch(Exception e){
 			e.printStackTrace();
 		}
+	}
+	
+	public void createLevel(int i){
+		// Hardcoded as level 0 for now
+		SendServerCreateLevelCommand c = new SendServerCreateLevelCommand(0);
+		sendCommand(c);
 	}
 	
 	public void sendCommand(Command<GameServer> command){
