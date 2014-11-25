@@ -189,7 +189,7 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 		setTitle("Pokemon Tower Defense - " + user);
 		addMouseListener(this);
 		addMouseWheelListener(this);
-		addComponentListener(new resizeListener());
+		//addComponentListener(new resizeListener());
 		addMouseMotionListener(this);
 		
 		//animationTimer = new Timer(50, null);
@@ -307,7 +307,7 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 	public void createScaledBackgroundImage(){
 		
 		//Create correctly scaled image to use as background (map)
-				
+				System.out.println(mapBackgroundImageURL);
 				ImageIcon mapTemp = createImageIcon(this.mapBackgroundImageURL);
 				bg = (mapTemp.getImage()).getScaledInstance(getSize().width, (3*getSize().height)/4, Image.SCALE_SMOOTH);
 				mapTemp.setImage(bg);
@@ -430,7 +430,6 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 			pathTiles.add(tempTile);
 			board.add(tempTile);
 		}
-		
 	}
 
 	//These 2 methods are called by GameClient in its updateHPandMoney method
@@ -508,46 +507,7 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 		public void componentResized(ComponentEvent arg0)
 		{
 			System.out.println("Resizing window");
-			tower1Image = new ImageIcon(createImageIcon("/images/cuboneStatic.png").getImage().getScaledInstance(tileWidth, tileHeight,Image.SCALE_SMOOTH));
-			ImageIcon tower1Icon = new ImageIcon(tower1Image.getImage());
-			JLabel tower1temp = new JLabel(tower1Icon);
-			tower1temp.setBounds((int) (getSize().width/15),(int) (towerStorePanel.getSize().height/6), (int) (getSize().width / 9.5), getSize().height / 8);
 			
-			//Temp stuff again
-			/*
-			tempProjectile.setIcon(new ImageIcon(createImageIcon("/images/spinningBone.gif").getImage().getScaledInstance((int) ((frame.getWidth()/40) * viewScale), (int) ((frame.getHeight()/26) * viewScale), Image.SCALE_FAST)));
-			tempProjectile.setSize((int) ((frame.getWidth()/40) * viewScale), (int) ((frame.getHeight()/26) * viewScale));
-			//Last of it
-			*/
-			towerStorePanel.setBounds(0, (3*frame.getSize().height)/4, frame.getSize().width, frame.getSize().height/4);
-			towerStorePanel.removeAll();
-			towerStoreBG.setImage(towerStoreBGOrig.getScaledInstance(frame.getSize().width, frame.getSize().height/5, Image.SCALE_SMOOTH));
-			JLabel temp = new JLabel(towerStoreBG);
-			temp.setBounds(0, 0, frame.getSize().width, frame.getSize().height/5);
-			towerStorePanel.add(tower1temp);
-			towerStorePanel.add(temp);
-			
-			selectedTowerFromStore.removeAll();
-			selectedTowerFromStore.setIcon(new ImageIcon(createImageIcon("/images/cuboneStatic.png").getImage().getScaledInstance(getSize().width/20, getSize().height/12, Image.SCALE_SMOOTH)));
-			//selectedTowerFromStore.setBounds(100, 100, selectedTowerFromStore.getWidth(), selectedTowerFromStore.getHeight());
-			//repaintGUI = true;
-			
-			
-			ImageIcon mapTemp = createImageIcon("/images/map1.png");
-			bg = (mapTemp.getImage()).getScaledInstance((int) (getSize().width * viewScale), (int) ((3*getSize().height)/4 * viewScale), Image.SCALE_SMOOTH);
-			board.removeAll();
-			
-			mapTemp.setImage(bg);
-			JLabel labelTemp = new JLabel(mapTemp);
-			labelTemp.setBounds(0, 0,(int) (getSize().width * viewScale),(int) (viewScale * (3*getSize().height)/4));
-			for(JLabel label : towers)
-			{
-				board.add(label);
-			}
-			
-			board.add(labelTemp);
-			
-			board.setBounds(board.getX(), board.getY(), (int) (getSize().width * viewScale), (int) ((3*getSize().height)/4 * viewScale));
 			//repaint();
 		}
 		public void componentShown(ComponentEvent arg0){}
@@ -833,6 +793,37 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 	{
 		tileWidth = (int) ((frame.getWidth()/levelWidth) * viewScale);
 		tileHeight = (int) ((frame.getHeight()/levelHeight) * viewScale);
+		
+		tower1Image = new ImageIcon(createImageIcon("/images/cuboneStatic.png").getImage().getScaledInstance(tileWidth, tileHeight,Image.SCALE_SMOOTH));
+		//ImageIcon tower1Icon = new ImageIcon(tower1Image.getImage());
+		//JLabel tower1temp = new JLabel(tower1Icon);
+		//tower1temp.setBounds((int) (getSize().width/15),(int) (towerStorePanel.getSize().height/6), (int) (getSize().width / 9.5), getSize().height / 8);
+		
+		//Temp stuff again
+		/*
+		tempProjectile.setIcon(new ImageIcon(createImageIcon("/images/spinningBone.gif").getImage().getScaledInstance((int) ((frame.getWidth()/40) * viewScale), (int) ((frame.getHeight()/26) * viewScale), Image.SCALE_FAST)));
+		tempProjectile.setSize((int) ((frame.getWidth()/40) * viewScale), (int) ((frame.getHeight()/26) * viewScale));
+		//Last of it
+		*/
+		//towerStorePanel.setBounds(0, (3*frame.getSize().height)/4, frame.getSize().width, frame.getSize().height/4);
+		//towerStorePanel.removeAll();
+		//towerStoreBG.setImage(towerStoreBGOrig.getScaledInstance(frame.getSize().width, frame.getSize().height/5, Image.SCALE_SMOOTH));
+		//JLabel temp = new JLabel(towerStoreBG);
+		//temp.setBounds(0, 0, frame.getSize().width, frame.getSize().height/5);
+		//towerStorePanel.add(tower1temp);
+		//towerStorePanel.add(temp);
+		
+		//selectedTowerFromStore.removeAll();
+		//selectedTowerFromStore.setIcon(new ImageIcon(createImageIcon("/images/cuboneStatic.png").getImage().getScaledInstance(getSize().width/20, getSize().height/12, Image.SCALE_SMOOTH)));
+
+		board.removeAll();
+		
+		for(JLabel label : towers)
+		{
+			board.add(label);
+		}
+		createScaledBackgroundImage();
+		board.setBounds(board.getX(), board.getY(), (int) (getSize().width * viewScale), (int) ((3*getSize().height)/4 * viewScale));
 	}
 
 	
