@@ -57,7 +57,7 @@ public class GameClient{
 					 * GET RID OF THE LOOP HERE AND FIND ANOTHER WAY TO WAIT FOR AN OBJECT!
 					 * 
 					 */
-					System.out.println("Read Object");
+					//System.out.println("Read Object");
 					Command<GameClient> c = (Command<GameClient>)in.readObject();
 					c.execute(GameClient.this);
 					//System.out.println(in.readObject());
