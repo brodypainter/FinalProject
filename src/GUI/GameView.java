@@ -3,6 +3,7 @@ package GUI;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.MouseInfo;
@@ -30,6 +31,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import javax.swing.Timer;
 import javax.swing.UIManager;
 
@@ -69,6 +71,10 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 	private Point scrollLocation;
 	private Point scrollLast;
 	private Point mouseLoc;
+	private JPanel playerMoneyPanel;
+	private JLabel playerMoneyLabel;
+	private JPanel playerHealthPanel;
+	private JProgressBar playerHealthLabel;
 	double viewScale = 1;
 	boolean repaintGUI = true;
 	boolean clickedTowerStore = false;
@@ -221,6 +227,26 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 		selectedTowerFromStore.setVisible(false);
 		this.add(selectedTowerFromStore);
 		
+		playerMoneyPanel = new JPanel();
+		playerMoneyPanel.setBounds(0,0, 100, 25);
+		playerMoneyLabel = new JLabel("$0");
+		playerMoneyPanel.add(playerMoneyLabel);
+		this.add(playerMoneyPanel);
+		
+		playerHealthPanel = new JPanel();
+		playerHealthPanel.setBounds(getWidth()-200, 0, 200, 25);
+		playerHealthLabel = new JProgressBar();
+		playerHealthLabel.setValue(100);
+		playerHealthLabel.setBackground(Color.RED);
+		playerHealthLabel.setForeground(Color.GREEN);
+		playerHealthLabel.setMaximum(100);
+		playerHealthLabel.setMinimum(0);
+		playerHealthLabel.setStringPainted(true);
+		Font tempFont = new Font("Comic Sans MS", Font.PLAIN, 10);
+		playerHealthLabel.setFont(tempFont);
+		playerHealthPanel.add(playerHealthLabel);
+		this.add(playerHealthPanel);
+		
 		//Create and size the towerStore background image
 		towerStoreBG = createImageIcon("/images/towerStore.png");
 		towerStoreBGOrig = towerStoreBG.getImage();
@@ -229,7 +255,7 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 		temp.setBounds(0, 0, getSize().width, getSize().height/4);
 		towerStorePanel = new JPanel();
 		towerStorePanel.setLayout(null);
-		towerStorePanel.setBounds(0, (int) (3*(getSize().height)/4), getSize().width, getSize().height/4 );
+		towerStorePanel.setBounds(0, (int) (3*(getSize().height)/4)-20, getSize().width, getSize().height/4 );
 		towerStorePanel.setBackground(null);
 		towerStorePanel.add(temp);
 		this.add(towerStorePanel); //Added this line -PH
@@ -241,6 +267,8 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 		//board.add(labelTemp);
 		board.setBackground(Color.BLUE);
 		this.add(board); //moved this line here -PH
+		
+		
 		
 		
 		setResizable(false);
@@ -442,12 +470,14 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 	//whenever these values are changed in the model
 	public void setPlayerHP(int hp) {
 		this.playerHP = hp;
-		
+		playerHealthLabel.setValue(playerHP);
+		System.out.println("Player now has $" + playerHP);
 	}
 
 	public void setPlayerMoney(int money) {
 		this.playerMoney = money;
-		
+		playerMoneyLabel.setText("$" + playerMoney);
+		System.out.println("Player now has $" + playerMoney);
 	}
 	
 	
