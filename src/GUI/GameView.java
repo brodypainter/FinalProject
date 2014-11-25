@@ -49,7 +49,7 @@ import client.Player;
 //Personal stuff:
 //Find grid coordinate of point: ((arg0.get!() - scrollLocation.!) * 20)/(bg.get!(this))
 /**
- * This is the class that runs the GUI, recieves info from the GameClient
+ * This is the class that runs the GUI, receives info from the GameClient
  * @author Desone
  * 
  * public GameView(gameType type, String user, GameClient client, Player player)
@@ -58,43 +58,46 @@ import client.Player;
 
 public class GameView extends JFrame implements MouseListener, MouseWheelListener, MouseMotionListener
 {
-	JFrame frame;
-	Image bg;
-	Image origBG;
-	ImageIcon towerStoreBG;
-	Image towerStoreBGOrig;
-	JLabel selectedTowerFromStore;
-	JPanel board;
-	JPanel towerStorePanel;
-	Point scrollLocation;
-	Point scrollLast;
-	Point mouseLoc;
+	private JFrame frame;
+	private Image bg;
+	private Image origBG;
+	private ImageIcon towerStoreBG;
+	private Image towerStoreBGOrig;
+	private JLabel selectedTowerFromStore;
+	private JPanel board;
+	private JPanel towerStorePanel;
+	private Point scrollLocation;
+	private Point scrollLast;
+	private Point mouseLoc;
 	double viewScale = 1;
 	boolean repaintGUI = true;
 	boolean clickedTowerStore = false;
 	boolean trueForShrink;
-	Timer animationTimer;
-	ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
+	private Timer animationTimer;
+	private ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
 	int tileWidth;
 	int tileHeight;
 	
 	
 	
-	String pewterProjectile = "/images/spinningBone.gif";
+	private String pewterProjectile = "/images/spinningBone.gif";
 	
-	String pewterTower = "/images/cuboneStatic.png";
+	private String pewterTower = "/images/cuboneStatic.png";
 	
-	String enemy1ImageUp = "/images/pikachuUp.gif";
-	String enemy1ImageDn = "/images/pikachuDown.gif";
-	String enemy1ImageL = "/images/pikachuLeft.gif";
-	String enemy1ImageR = "/images/pikachuRight.gif";
+	private String enemyPathTileImage = "/images/mainMenuBackground.png"; //Switch this later, only
+																		//set it to this for convenience to not add another image
+	
+	private String enemy1ImageUp = "/images/pikachuUp.gif";
+	private String enemy1ImageDn = "/images/pikachuDown.gif";
+	private String enemy1ImageL = "/images/pikachuLeft.gif";
+	private String enemy1ImageR = "/images/pikachuRight.gif";
 	
 	//ArrayList<JLabel> towerList;
 	//HashMap<Enemy, JLabel> enemyMap;
 	
-	String user;
+	private String user;
 	
-	Player player;
+	private Player player;
 	
 	int selectedTowerType;
 	
@@ -120,10 +123,10 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 	private List<JLabel> pathTiles = new ArrayList<JLabel>(); //A list of all the JLabels on board based on enemyPathCoords
 	
 	
-	ImageIcon tower1Image;
-	ImageIcon tower2Image;
-	ImageIcon tower3Image;
-	ImageIcon tower4Image;
+	private ImageIcon tower1Image;
+	private ImageIcon tower2Image;
+	private ImageIcon tower3Image;
+	private ImageIcon tower4Image;
 	
 	
 	
@@ -132,12 +135,12 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 	//map1Path path;
 	//Map map;
 	
-	Image pik;
-	JLabel pikLabel;
+	private Image pik;
+	private JLabel pikLabel;
 	
 	int qualitySetting;
 	
-	GameClient client;
+	private GameClient client;
 	
 	//Temp for attacking
 	//int tempAttackTimerCounter = 0;
@@ -148,10 +151,7 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 	
 	//End temp for attacking
 	
-	public static void main(String[] args)
-	{
-		
-		new GameClient();
+	//Removed main method, class shouldn't have one
 		
 		/*
 		GameView temp = new GameView(gameType.SINGLE, "Billy", new GameClient(), new Player("Billy", 10, 10));
@@ -165,7 +165,7 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 		System.out.println(((TowerImage) tempTowers.get(0)).getLocation().x);
 		temp.update(tempTowers, tempEnemies);
 		*/
-	}
+	
 	
 	/**
 	 * Creates and runs the gui with the given parameters
@@ -192,7 +192,7 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 		addComponentListener(new resizeListener());
 		addMouseMotionListener(this);
 		
-		animationTimer = new Timer(50, null);
+		//animationTimer = new Timer(50, null);
 		//towersLast = new ArrayList<TowerImage>();
 		
 		
@@ -227,6 +227,7 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 		towerStorePanel.setBounds(0, (int) ((getSize().height)/2), getSize().width, getSize().height/4 );
 		towerStorePanel.setBackground(null);
 		towerStorePanel.add(temp);
+		this.add(towerStorePanel); //Added this line -PH
 		
 		//Create the panel for the game "board"
 		board = new JPanel();
@@ -234,11 +235,13 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 		board.setLayout(null);
 		//board.add(labelTemp);
 		board.setBackground(Color.BLUE);
+		this.add(board); //moved this line here -PH
 		
+		/*
 		selectedTowerFromStore = new JLabel(new ImageIcon(createImageIcon("/images/cuboneStatic.png").getImage().getScaledInstance(getSize().width/20, getSize().height/12, Image.SCALE_SMOOTH)));
 		selectedTowerFromStore.setBounds(0,0,getSize().width/20, getSize().height/12);
 		selectedTowerFromStore.setVisible(false);
-		
+		*/
 		
 		//pik = createImageIcon("/images/pikachuStatic.png").getImage().getScaledInstance(getSize().width/20, board.getSize().height/13, Image.SCALE_SMOOTH);
 		//path = new map1Path();
@@ -252,6 +255,7 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 		//No more temp stuff
 		*/
 		//not sure what stuff below does -PH
+		/*
 		attackAnimation attackAnimationTimer = new attackAnimation();
 		Timer timer = new Timer(50, new TimerListener());
 		timer.addActionListener(attackAnimationTimer);
@@ -260,18 +264,19 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 		
 		add(selectedTowerFromStore);
 		add(towerStorePanel);
+		*/
 		//temp adding
 		//add(tempProjectile);
 		//add(tempCubone);
 		//done
-		add(board);
+		//add(board);
 		
 		//tempAttack();
 		
 		frame = this;
-		repaint();
+		//repaint();
 		
-		updateTileSize();
+		//updateTileSize(); //Call this after levelsize has been set, not in constructor -PH
 		
 		/*
 		tower1Image = new ImageIcon(createImageIcon(pewterTower).getImage().getScaledInstance(tileWidth, tileHeight, Image.SCALE_FAST));
@@ -297,6 +302,7 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 		//update(tempTowers, tempEnemies);
 	}
 	
+	//Call this once we get the mapBackgroundImageURL set
 	public void createScaledBackgroundImage(){
 		
 		//Create correctly scaled image to use as background (map)
@@ -306,6 +312,7 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 				mapTemp.setImage(bg);
 				JLabel labelTemp = new JLabel(mapTemp);
 				labelTemp.setBounds(0, 0, getSize().width, (3*getSize().height)/4);
+				board.add(labelTemp); //Added this line -PH
 	}
 	
 	
@@ -321,6 +328,7 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 	}
 	*/
 	
+	/*
 	class tempAttackTimer implements ActionListener
 	{
 		@Override
@@ -345,6 +353,7 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 			}
 		}
 	}
+	*/
 	
 	/**
 	 * Animates a projectile of the given type between the two points
@@ -395,17 +404,34 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 	{
 		levelWidth = size.x;
 		levelHeight = size.y;
+		this.updateTileSize();
 	}
 	
 	public void setMapBackgroundImageURL(String url){
 		this.mapBackgroundImageURL = url;
+		this.createScaledBackgroundImage();
 	}
 	
 	
 	public void setEnemyPathCoords(List<Point> l){
 		this.enemyPathCoords = l;
+		this.createEnemyPathJLabels();
 	}
 	
+	private void createEnemyPathJLabels() {
+		JLabel tempTile;
+		for(Point p: enemyPathCoords){
+			tempTile = new JLabel(new ImageIcon(enemyPathTileImage));
+			tempTile.setSize(tileHeight, tileWidth);
+			int x = p.y * tileWidth;
+			int y = p.x * tileHeight;
+			tempTile.setLocation(x, y);
+			pathTiles.add(tempTile);
+			board.add(tempTile);
+		}
+		
+	}
+
 	//These 2 methods are called by GameClient in its updateHPandMoney method
 	//whenever these values are changed in the model
 	public void setPlayerHP(int hp) {
@@ -432,12 +458,14 @@ public class GameView extends JFrame implements MouseListener, MouseWheelListene
 		g.drawRect((int) (2.6*getSize().width)/15 + 10,(int) ((3*getSize().height)/3.8) + 30, (int) (getSize().width / 9.5), getSize().height / 8);
 	}
 	
+	
+	//I'm pretty sure you can do this with ImageIcon's constructor, just pass it a String of url
 	/**
 	 * Creates an image icon based on the given URL
 	 * @param url The location of the target image
 	 * @return An ImageIcon created from the image found at the url
 	 */
-	ImageIcon createImageIcon(String url)
+	public ImageIcon createImageIcon(String url)
 	{
 		URL imageURL = getClass().getResource(url);
 		if(imageURL != null)

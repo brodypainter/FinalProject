@@ -346,7 +346,7 @@ public class GameServer implements Serializable{
 	//These methods below will be called by Command objects passed from client to server
 	//call level.getMap.appropriateMethod() in each case
 	
-	//TODO: Brody call this method with a command object from client when the level is selected
+	//call this method with a command object from client when the level is selected
 	public void createLevel(int levelCode){
 		this.currentLevel = LevelFactory.generateLevel(this.player, thisServer, levelCode);
 	}
