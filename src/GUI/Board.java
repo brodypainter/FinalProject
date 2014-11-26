@@ -18,6 +18,7 @@ public class Board extends JPanel
 	JLabel background;
 	int tileHeight = 155;
 	int tileWidth = 102;
+	int timesUpdated = 0;
 	
 	public Board()
 	{
@@ -65,7 +66,13 @@ public class Board extends JPanel
 	
 	public void addEnemies(List<JLabel> enemies)
 	{
-		this.enemies = (ArrayList<JLabel>) enemies;
+		timesUpdated++;
+		if(timesUpdated >= 2)
+		{
+			timesUpdated = 0;
+			this.enemies = (ArrayList<JLabel>) enemies;
+			System.out.println("Updating enemies");
+		}
 	}
 	
 	public void paintComponent(Graphics g)
@@ -73,6 +80,7 @@ public class Board extends JPanel
 		super.paintComponent(g);
 		g.drawImage(new ImageIcon("/images/cuboneStatic.png").getImage(), 0, 0, this);
 		g.drawImage((((ImageIcon) background.getIcon()).getImage()), 0, 0, this);
+		//g.drawImage(((ImageIcon) enemies.get(0).getIcon()).getImage(), enemies.get(0).getX(), enemies.get(0).getY(), this);
 		for(JLabel label : enemyTiles)
 		{
 			g.drawImage(((ImageIcon) label.getIcon()).getImage(), label.getX(), label.getY(), this);
@@ -83,7 +91,7 @@ public class Board extends JPanel
 		}
 		for(JLabel label : enemies)
 		{
-			g.drawImage(((ImageIcon) label.getIcon()).getImage(), label.getY(), label.getX(), this);
+			g.drawImage(((ImageIcon) label.getIcon()).getImage(), label.getX(), label.getY(), this);
 		}
 	}
 }
