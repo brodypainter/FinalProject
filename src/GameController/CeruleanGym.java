@@ -24,6 +24,11 @@ import GameController.Tower;
  */
 public class CeruleanGym extends Tower{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -264213046314837558L;
+	
 	// the Cerulean Gym cost 300 but can be changed if desired
 	public static final int Cost = 200;
 	//String Name, int Attack, int Radius, int FireRateSec, String PlayersName
@@ -141,6 +146,19 @@ public class CeruleanGym extends Tower{
 		this.modifyAttackRadius(25);// increase attack radius to 25 pixels
 		this.increaseFireRate(1); 	// increase the fire rate by one
 		return true;
+	}
+
+	@Override
+	public String printTowerStats() {
+		
+		String stats = new String ("Name: "+ getGymName() + "\n" +
+									"Owner: "+ getGymOwner() +
+									"Attack: " + getAttackPower() + "\n"+
+									"Rate of Fire: "+ getFireRate() + "\n" +
+									"Cost: " + getCost() + "\n"+
+									"Modifier: " + getModifer() + "\n"
+									);
+		return stats;
 	}
 	
 }

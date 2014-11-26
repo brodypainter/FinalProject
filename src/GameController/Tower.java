@@ -53,6 +53,11 @@ import model.Map;
  */
 
 public abstract class Tower implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7315638174112463208L;
+	
 	private String TowerName;
 	private towerType type;
 	private int AttackPts;
@@ -143,6 +148,12 @@ public abstract class Tower implements Serializable{
 		this.FireRateSecs++;
 		return true;
 	}*/
+	
+	/**@ Max justice 11/25 for displaying stats required
+	 * Print st
+	 * @return
+	 */
+	public abstract String printTowerStats();
 	
 	/**
 	 * Sets the location of the gym on the board. Point.x = the -y coordinate, Point.y = the x coordinate

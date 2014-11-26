@@ -65,6 +65,7 @@ public abstract class Enemy implements Serializable{
 	private int distanceLeftOnPath;
 	private int maxHealth; //The initial, maximum health of Enemy
 	private int healthPercentage; //The percentage of current Health / maxHealth
+
 	/**
 	 * The constructor for Pokemon it takes the following variables
 	 * @param health for the initial state of the pokemons health
@@ -324,4 +325,24 @@ public enum directionFacing{NORTH, EAST, SOUTH, WEST};
 	public int getHealthPercentage() {
 		return healthPercentage;
 	}
+	
+	public int getDefense (){
+		return this.Defense;
+	}
+	
+	/**
+	 * Abstract printEnemyStats that is specific to each pokemon
+	 * @return string
+	 */
+	public abstract String printEnemyStats( );/*{
+		
+		String stats = new String ("Name: "+ getPokemon() + "\n" +
+									"Current Health: " + getHealthPercentage() + "%\n" +
+									"Attack: " + getAttackPower() + "\n"+
+									"Defense: " + getDefense() + "\n"+
+									"Speed: "+ getSpeed() + "\n" +
+									"Value: " + getMoney() + "\n");
+		
+		return stats;
+	}*/
 }
