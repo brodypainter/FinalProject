@@ -441,6 +441,7 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 		levelWidth = size.x;
 		levelHeight = size.y;
 		this.updateTileSize();
+		((Board) board).setTileSize(tileWidth, tileHeight);
 	}
 	
 	public void setMapBackgroundImageURL(String url){
@@ -459,7 +460,7 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 		ImageIcon enemyTileTemp = new ImageIcon(createImageIcon(enemyPathTileImage).getImage().getScaledInstance(tileWidth, tileHeight, Image.SCALE_FAST));
 		for(Point p: enemyPathCoords){
 			tempTile = new JLabel(enemyTileTemp);
-			tempTile.setSize(tileHeight, tileWidth);
+			tempTile.setSize(tileWidth, tileHeight);
 			int x = p.y * tileWidth; //Reverses are due to how p is (rowsdown, columns) in model -PH
 			int y = p.x * tileHeight;
 			tempTile.setLocation(x, y);
@@ -812,7 +813,7 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 			enemies.add(tempEnemyLabel);
 		}
 		((Board) board).addEnemies(enemies);
-		board.repaint();
+		//board.repaint();
 		//for(JLabel j: enemies){
 		//	board.add(j);
 		//}
@@ -820,8 +821,9 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 	
 	void updateTileSize()
 	{
-		tileWidth = (int) ((frame.getWidth()/levelWidth) * viewScale);
-		tileHeight = (int) ((frame.getHeight()/levelHeight) * viewScale);
+		tileWidth = (int) ((board.getWidth()/levelWidth));
+		System.out.println("Level height" + levelHeight);
+		tileHeight = (int) ((board.getHeight()/levelHeight));
 		tower1Image = new ImageIcon(createImageIcon("/images/cuboneStatic.png").getImage().getScaledInstance(tileWidth, tileHeight,Image.SCALE_SMOOTH));
 		//ImageIcon tower1Icon = new ImageIcon(tower1Image.getImage());
 		//JLabel tower1temp = new JLabel(tower1Icon);
