@@ -300,6 +300,7 @@ public class GameServer implements Serializable{
 	 * @param towers
 	 */
 	public void updateClients(ArrayList<EnemyImage> enemyImages, ArrayList<TowerImage> towerImages){
+		System.out.println(enemyImages.toString());
 		SendClientUpdate c = new SendClientUpdate(enemyImages, towerImages);
 		sendCommand(c);
 	}

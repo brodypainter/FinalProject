@@ -40,7 +40,7 @@ public class CeruleanGym extends Tower{
 	public CeruleanGym(String PlayersName){
 		/* String Name, int Attack, int Radius, double FireRateSec, String PlayersName,
 					String Image, int cost */
-		super("Cerulean Gym", 25, 4, 2.0, PlayersName,"src/images/cuboneStatic.png", Cost);	
+		super("Cerulean Gym", 15, 1, 1.5, PlayersName,"src/images/cuboneStatic.png", Cost);	
 		 setTowerType(towerType.NORMAL);
 		// TODO Auto-generated constructor stub
 	}
