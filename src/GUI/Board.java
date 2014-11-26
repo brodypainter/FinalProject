@@ -87,7 +87,7 @@ public class Board extends JPanel
 		}
 		for(JLabel label : towers)
 		{
-			g.drawImage(((ImageIcon) label.getIcon()).getImage(), label.getY(), label.getX(), this);
+			g.drawImage(((ImageIcon) label.getIcon()).getImage(), label.getX(), label.getY(), this);
 		}
 		for(JLabel label : enemies)
 		{

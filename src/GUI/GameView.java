@@ -722,7 +722,7 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 		//tempCubone.setLocation(scrollLocation.x + (5*(board.getWidth()/levelWidth)), scrollLocation.y + (6*(board.getHeight()/levelHeight)));
 		scrollLast = arg0.getPoint();
 		board.setBounds(scrollLocation.x, scrollLocation.y,(int) (frame.getSize().width * viewScale),(int) ((3*frame.getSize().height)/4 * viewScale));
-		repaint();
+		//repaint();
 		//towerStorePanel.repaint();
 	}
 	
@@ -812,7 +812,7 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 			enemies.add(tempEnemyLabel);
 		}
 		((Board) board).addEnemies(enemies);
-		repaint();
+		board.repaint();
 		//for(JLabel j: enemies){
 		//	board.add(j);
 		//}
