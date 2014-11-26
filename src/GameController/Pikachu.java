@@ -16,6 +16,11 @@ import model.Map;
 public class Pikachu extends Enemy{
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7198976671070674320L;
+
+	/**
 	 * The constructor for Pokemon it takes the following variables
 	 * @param health for the initial state of the pokemons health
 	 * @param attackPower for the attack power should we use attacks to take player health
@@ -29,7 +34,22 @@ public class Pikachu extends Enemy{
 	 */
 	
 	public Pikachu(Map currentMap) {
-		super(100, 10, 12, 1.0, "Pikachu", 25, "src/images/pikachuStatic.png", currentMap);
+		super(100, 10, 12, 2.0, "Pikachu", 25, "src/images/pikachuStatic.png", currentMap);
+	}
+
+	@Override
+	public String printEnemyStats() {
+		
+		String stats = new String ("Name: "+ getPokemon() + "\n" +
+									"Current Health: " + getHealthPercentage() + "%\n" +
+									"Attack: " + getAttackPower() + "\n"+
+									"Defense: " + getDefense() + "\n"+
+									"Speed: "+ getSpeed() + "\n" +
+									"Value: " + getMoney() + "\n"+
+									"Modifier: " + /*getModifier() +*/ "\n"+
+									"Ability: Pikachu's ");
+		
+		return stats;
 	}
 
 	
