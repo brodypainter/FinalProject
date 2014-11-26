@@ -79,9 +79,9 @@ public class Level0 extends Level implements Serializable{
 	 */
 	public void createWaves(){
 		ArrayList<ArrayList<Enemy>> waveList = new ArrayList<ArrayList<Enemy>>(); //A temporary 2D array list of Enemy
-		for (int i = 0; i < 3; i++){
+		for (int i = 0; i < 10; i++){
 			ArrayList<Enemy> wave = new ArrayList<Enemy>();
-			for (int j = 0; j < 20; j++){
+			for (int j = 0; j < 3; j++){
 				Pikachu pika = new Pikachu(getMap());
 				wave.add(pika);
 			}
@@ -104,12 +104,12 @@ public class Level0 extends Level implements Serializable{
 
 	@Override
 	public void setWaveDelayIntervals() {
-		setWaveIntervals(10000L); //10 seconds between the last and first enemy of 2 successive waves
+		setWaveIntervals(15000L); //15 seconds between the last and first enemy of 2 successive waves
 	}
 
 	@Override
 	public void setEnemySpawnDelayIntervals() {
-		setEnemySpawnIntervals(500L); //0.5 second between each enemy spawning in a wave
+		setEnemySpawnIntervals(2000L); //2 second between each enemy spawning in a wave
 	}
 
 	@Override

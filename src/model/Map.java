@@ -175,10 +175,15 @@ public abstract class Map implements Serializable{
 			iLess = 0;
 		}
 		int iMore = i + 2;
-		if(iMore >= enemyPath.size()-1){
+		if(iMore >= enemyPath.size()){
 			iMore = enemyPath.size() - 1;
 		}
-		Point nextCoords = enemyPath.get(++i);
+		Point nextCoords;
+		if(i < enemyPath.size() - 1){
+			nextCoords = enemyPath.get(++i);
+		}else{
+			nextCoords = this.lastPathTile;
+		}
 		
 		//remove enemy from current tile, update his position, and add him to the next one
 		grid[enemyCoords.x][enemyCoords.y].removePokemon(enemy);

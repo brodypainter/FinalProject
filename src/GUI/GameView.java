@@ -467,6 +467,7 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 			tempTile.setName("EnemyPathTile");
 			pathTiles.add(tempTile);
 			board.add(tempTile);
+			//now call board to repaint
 		}
 	}
 
