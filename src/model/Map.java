@@ -175,7 +175,7 @@ public abstract class Map implements Serializable{
 			iLess = 0;
 		}
 		int iMore = i + 2;
-		if(iMore >= enemyPath.size()){
+		if(iMore >= enemyPath.size()-1){
 			iMore = enemyPath.size() - 1;
 		}
 		Point nextCoords = enemyPath.get(++i);
@@ -244,6 +244,7 @@ public abstract class Map implements Serializable{
 				towers.add(tower);
 				tower.setMap(this);
 				player.spendMoney(tower.getCost());
+				server.updateClients(player.getHealthPoints(), player.getMoney());
 				return grid[location.x][location.y].setGym(tower);
 			}else{
 				return false;
@@ -312,6 +313,10 @@ public abstract class Map implements Serializable{
 	 * @param pokemon
 	 * @return
 	 */
+	public void notifyOfAttack(towerType type, Point towerLocation, Point enemyLocation) {
+		this.server.updateClientsOfAttack(type, towerLocation, enemyLocation);
+		
+	}
 	
 	public String getImageURL() {
 		return imageURL;
@@ -327,8 +332,5 @@ public abstract class Map implements Serializable{
 	}
 
 
-	public void notifyOfAttack(towerType type, Point towerLocation, Point enemyLocation) {
-		this.server.updateClientsOfAttack(type, towerLocation, enemyLocation);
-		
-	}
+	
 }

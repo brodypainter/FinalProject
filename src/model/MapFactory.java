@@ -76,10 +76,7 @@ public class MapFactory {
 					+ "straight path across the middle.";
 			
 			//assign the backgroundImage for the level
-			/**
-			 * @ Max Justice Sun 10:50 added ceruleanGym
-			 */
-			backgroundImage = "src/images/Cerulean_Gym.png"; //TODO:Desone, make an image of this 5 row x 10 column map with path straight across middle
+			backgroundImage = "/images/map0.png"; //TODO:Desone, make an image of this 5 row x 10 column map with path straight across middle
 									//and place the image's location here <---
 			
 			//instantiate a LevelXMap object that extends Map class

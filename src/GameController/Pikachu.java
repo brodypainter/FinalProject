@@ -34,6 +34,7 @@ public class Pikachu extends Enemy{
 	 */
 	
 	public Pikachu(Map currentMap) {
+<<<<<<< HEAD
 		super(100, 10, 12, 2.0, "Pikachu", 25, "src/images/pikachuStatic.png", currentMap);
 	}
 
@@ -50,6 +51,9 @@ public class Pikachu extends Enemy{
 									"Ability: Pikachu's ");
 		
 		return stats;
+=======
+		super(20, 10, 12, 1.0, "Pikachu", 25, "src/images/pikachuStatic.png", currentMap);
+>>>>>>> 0701fb2a866002b549b0a020c6a526c57189de3e
 	}
 
 	

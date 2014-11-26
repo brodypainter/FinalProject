@@ -88,6 +88,7 @@ public class GameServer implements Serializable{
 			} catch(IOException e){
 				// will be thrown if client does not safely disconnect, then we will remove the client
 				e.printStackTrace();
+				currentLevel = null;
 				GameServer.this.outputs.remove(name);
 				System.out.println("\t\t This client did not safely disconnect");
 			}catch(Exception e){
@@ -346,7 +347,7 @@ public class GameServer implements Serializable{
 	//These methods below will be called by Command objects passed from client to server
 	//call level.getMap.appropriateMethod() in each case
 	
-	//TODO: Brody call this method with a command object from client when the level is selected
+	//call this method with a command object from client when the level is selected
 	public void createLevel(int levelCode){
 		this.currentLevel = LevelFactory.generateLevel(this.player, thisServer, levelCode);
 	}
@@ -354,13 +355,13 @@ public class GameServer implements Serializable{
 	
 	
 	public void addTower(towerType type, Point loc) {
-		System.out.println(loc.toString());
+		System.out.println("GameServer attempting to add tower to row: " + loc.x + " col: " + loc.y);
 		Tower towerToAdd = TowerFactory.generateTower(type, player);		
 		System.out.println("addTower command received, adding tower to current level");
 		if(currentLevel.getMap().addTower(towerToAdd, loc)){
 			System.out.println("successfully added tower");
 		}else{
-			System.out.println("Adding tower failed!");
+			System.out.println("Adding tower failed due to position/lack of $!");
 		}
 	}
 	

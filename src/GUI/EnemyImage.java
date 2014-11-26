@@ -27,5 +27,24 @@ public class EnemyImage implements Serializable {
 		this.progress = enemy.getProgress();
 		this.healthPercentage = enemy.getHealthPercentage();
 	}
+	
+	public String getImageURL(){
+		return imageURL;
+	}
 
+	public Point getLocation(){
+		return location;
+	}
+	
+	public directionFacing getOrientation(){
+		return orientation;
+	}
+	
+	public int getProgress(){
+		return progress;
+	}
+	
+	public int getHealthPercentage(){
+		return healthPercentage;
+	}
 }

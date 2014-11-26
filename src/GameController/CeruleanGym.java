@@ -30,7 +30,7 @@ public class CeruleanGym extends Tower{
 	private static final long serialVersionUID = -264213046314837558L;
 	
 	// the Cerulean Gym cost 300 but can be changed if desired
-	public static final int Cost = 300;
+	public static final int Cost = 200;
 	//String Name, int Attack, int Radius, int FireRateSec, String PlayersName
 	/**
 	 * The default settings for the cerulean gym a attack power of 25, a radius range of 3 tiles,
@@ -38,7 +38,7 @@ public class CeruleanGym extends Tower{
 	 * @param PlayersName is the only value the gym 
 	 */
 	public CeruleanGym(String PlayersName){
-		super("Cerulean Gym", 25, 3, 3.0, PlayersName,"src/images/cuboneStatic.png", Cost);
+		super("Cerulean Gym", 25, 4, 3.0, PlayersName,"src/images/cuboneStatic.png", Cost);
 		 setTowerType(towerType.NORMAL);
 		// TODO Auto-generated constructor stub
 	}

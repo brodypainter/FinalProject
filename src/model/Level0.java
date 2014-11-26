@@ -104,12 +104,12 @@ public class Level0 extends Level implements Serializable{
 
 	@Override
 	public void setWaveDelayIntervals() {
-		setWaveIntervals(30000L); //30 seconds between the last and first enemy of 2 successive waves
+		setWaveIntervals(10000L); //10 seconds between the last and first enemy of 2 successive waves
 	}
 
 	@Override
 	public void setEnemySpawnDelayIntervals() {
-		setEnemySpawnIntervals(1000L); //1 second between each enemy spawning in a wave
+		setEnemySpawnIntervals(500L); //0.5 second between each enemy spawning in a wave
 	}
 
 	@Override
