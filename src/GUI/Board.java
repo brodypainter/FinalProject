@@ -61,24 +61,30 @@ public class Board extends JPanel
 	
 	public void removeEnemies()
 	{
-		enemies = new ArrayList<JLabel>();
+		//timesUpdated++;
+		//if(timesUpdated >= 20)
+		//{
+		//	timesUpdated = 0;
+		//	
+		//	repaint();
+		//}
 	}
 	
 	public void addEnemies(List<JLabel> enemies)
 	{
-		timesUpdated++;
-		if(timesUpdated >= 2)
-		{
+		
 			timesUpdated = 0;
+			//enemies = new ArrayList<JLabel>();
 			this.enemies = (ArrayList<JLabel>) enemies;
-			System.out.println("Updating enemies");
-		}
+			//repaint();
+			
+			//System.out.println("Updating enemies");
 	}
 	
 	public void paintComponent(Graphics g)
 	{
 		super.paintComponent(g);
-		g.drawImage(new ImageIcon("/images/cuboneStatic.png").getImage(), 0, 0, this);
+		//g.drawImage(new ImageIcon("/images/cuboneStatic.png").getImage(), 0, 0, this);
 		g.drawImage((((ImageIcon) background.getIcon()).getImage()), 0, 0, this);
 		//g.drawImage(((ImageIcon) enemies.get(0).getIcon()).getImage(), enemies.get(0).getX(), enemies.get(0).getY(), this);
 		for(JLabel label : enemies)
