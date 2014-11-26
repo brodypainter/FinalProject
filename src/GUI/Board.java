@@ -81,6 +81,10 @@ public class Board extends JPanel
 		g.drawImage(new ImageIcon("/images/cuboneStatic.png").getImage(), 0, 0, this);
 		g.drawImage((((ImageIcon) background.getIcon()).getImage()), 0, 0, this);
 		//g.drawImage(((ImageIcon) enemies.get(0).getIcon()).getImage(), enemies.get(0).getX(), enemies.get(0).getY(), this);
+		for(JLabel label : enemies)
+		{
+			g.drawImage(((ImageIcon) label.getIcon()).getImage(), label.getX(), label.getY(), this);
+		}
 		for(JLabel label : enemyTiles)
 		{
 			g.drawImage(((ImageIcon) label.getIcon()).getImage(), label.getX(), label.getY(), this);
@@ -89,9 +93,6 @@ public class Board extends JPanel
 		{
 			g.drawImage(((ImageIcon) label.getIcon()).getImage(), label.getX(), label.getY(), this);
 		}
-		for(JLabel label : enemies)
-		{
-			g.drawImage(((ImageIcon) label.getIcon()).getImage(), label.getX(), label.getY(), this);
-		}
+	
 	}
 }
