@@ -33,7 +33,7 @@ public class CeruleanGym extends Tower{
 	 * @param PlayersName is the only value the gym 
 	 */
 	public CeruleanGym(String PlayersName){
-		super("Cerulean Gym", 25, 4, 3.0, PlayersName,"src/images/cuboneStatic.png", Cost);
+		super("Cerulean Gym", 25, 4, 2.0, PlayersName,"src/images/cuboneStatic.png", Cost);
 		 setTowerType(towerType.NORMAL);
 		// TODO Auto-generated constructor stub
 	}
