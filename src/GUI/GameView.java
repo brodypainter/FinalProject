@@ -966,8 +966,8 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 			//TODO:Pass me the Point (rowsdown, columnsacross) where player attempts to add tower -PH
 			//This isn't sending the right Point to the model on the addTower method, I tried to fix it below
 			
-			//Point loc = new Point((int) ((arg0.getX() - scrollLocation.x)/tileWidth),(int) ((arg0.getY() - scrollLocation.y)/tileHeight));
-			Point loc = new Point((int) ((arg0.getY() - scrollLocation.y)/tileHeight),(int) ((arg0.getX() - scrollLocation.x)/tileWidth));
+			Point loc = new Point((int) ((arg0.getX() - scrollLocation.x)/tileWidth),(int) ((arg0.getY() - scrollLocation.y)/tileHeight));
+			//Point loc = new Point((int) ((arg0.getY() - scrollLocation.y)/tileHeight),(int) ((arg0.getX() - scrollLocation.x)/tileWidth));
 			
 			switch(selectedTowerType)
 			{

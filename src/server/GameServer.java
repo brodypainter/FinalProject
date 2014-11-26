@@ -88,6 +88,7 @@ public class GameServer implements Serializable{
 			} catch(IOException e){
 				// will be thrown if client does not safely disconnect, then we will remove the client
 				e.printStackTrace();
+				currentLevel = null;
 				GameServer.this.outputs.remove(name);
 				System.out.println("\t\t This client did not safely disconnect");
 			}catch(Exception e){
