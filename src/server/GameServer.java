@@ -271,8 +271,6 @@ public class GameServer implements Serializable{
 	 * @param message The message to be sent to all clients
 	 */
 	public void newMessage(String message) {
-		// TODO Send this message to all of our clients
-		System.out.println("newMessage");
 		this.latestMessage = message;
 		updateClientMessages();
 	}
@@ -312,8 +310,9 @@ public class GameServer implements Serializable{
 	
 	/**
 	 * This method will be called by map every time a tick occurs
-	 * @param enemies
-	 * @param towers
+	 * 
+	 * @param enemies The Server's list of EnemyImages
+	 * @param towers The Server's list of TowerImages
 	 */
 	public void updateClients(ArrayList<EnemyImage> enemyImages, ArrayList<TowerImage> towerImages){
 		System.out.println(enemyImages.toString());
@@ -322,11 +321,10 @@ public class GameServer implements Serializable{
 	}
 	
 	/**
-	 * Brody changed Sun 2:18
+	 * Sends the given player health and money to clients
 	 * 
-	 * This method will be called every time player's info changes
-	 * @param playerHealth
-	 * @param playerMoney
+	 * @param playerHealth The player's current health
+	 * @param playerMoney The player's current money
 	 */
 	public void updateClients(int playerHealth, int playerMoney){
 		Command<GameClient> c = new SendClientHPandMoney(playerHealth, playerMoney);
@@ -334,25 +332,25 @@ public class GameServer implements Serializable{
 	}
 	
 	/**
-	 * Brody changed Sun 2:29
+	 * Notifies clients of an attack, giving the client the TowerType and Location of the attacking tower, and the enemy location
 	 * 
-	 * This method is called by the currentLevel's Map whenever a tower attacks
-	 * @param attackingTower
-	 * @param victim
+	 * @param type The tower's type
+	 * @param towerLocation The tower's location 
+	 * @param enemyLocation The enemy's location
 	 */
 	public void updateClientsOfAttack(towerType type, Point towerLocation, Point enemyLocation){
 		Command<GameClient> c = new SendClientTowerAttack(type, towerLocation, enemyLocation);
 		sendCommand(c);
 	}
 	
+	//TODO: Modify to work properly with different operating systems per Mike's instructions
 	/**
-	 * PH changed Sun 4:06
+	 * Send the clients the mapBackground path, the path list, and the number of rows and columns for the map
 	 * 
-	 * This method is called once when the currentLevel's Map is first instantiated
-	 * Client and GUI should hold on to this unchanging Map Background image url and its enemy path
-	 * as well as its number of rows and columns
-	 * @param mapBackgroundURL
-	 * @param path
+	 * @param mapBackgroundURL Path to the mapBackground image
+	 * @param path The list representing the path for the enemies to take
+	 * @param numOfRows Number of rows on map
+	 * @param numOfColumns Number of columns on map
 	 */
 	public void updateClientsOfMapBackground(String mapBackgroundURL, List<Point> path, int numOfRows, int numOfColumns){
 		Command<GameClient> c = new SendClientMapBackground(mapBackgroundURL, path, numOfRows, numOfColumns);
@@ -362,66 +360,74 @@ public class GameServer implements Serializable{
 	
 	
 	//These methods below will be called by Command objects passed from client to server
-	//call level.getMap.appropriateMethod() in each case
 	
-	//call this method with a command object from client when the level is selected
+	/**
+	 * Uses the LevelFactory to create a level with the specified difficulty and sets it as the current level
+	 * 
+	 * @param levelCode Int code identifying difficulty level which specifies which actual level to load
+	 */
 	public void createLevel(int levelCode){
 		this.currentLevel = LevelFactory.generateLevel(this.player, thisServer, levelCode);
 	}
 	
 	
-	
+	/**
+	 * Adds a tower to the map, using the TowerFactory validation with the level
+	 * 
+	 * @param type Which tower type is to be placed
+	 * @param loc The location at which to place the tower
+	 */
 	public void addTower(towerType type, Point loc) {
 		System.out.println("GameServer attempting to add tower to row: " + loc.x + " col: " + loc.y);
-		Tower towerToAdd = TowerFactory.generateTower(type, player);		
+		Tower towerToAdd = TowerFactory.generateTower(type, player); // Generate a tower	
 		System.out.println("addTower command received, adding tower to current level");
-		if(currentLevel.getMap().addTower(towerToAdd, loc)){
+		if(currentLevel.getMap().addTower(towerToAdd, loc)){ // Ask the level to add the tower
 			System.out.println("successfully added tower");
 		}else{
 			System.out.println("Adding tower failed due to position/lack of $!");
 		}
 	}
 	
-	
+	/**
+	 * Sell the tower
+	 * 
+	 * @param location The location that the tower to be sold is located
+	 */
 	public void sellTower(Point location) {
 		currentLevel.getMap().sellTower(location);
 	}
-
-	//May be useful method for multiplayer but would have to be Player specific
+	
+	/**
+	 * Add and enemy to the map. NOTE: not currently used
+	 * 
+	 * @param enemy The enemy that is to be spawned on the map
+	 */
 	public void addEnemy(Enemy enemy) {
 		currentLevel.getMap().spawnEnemy(enemy);
 	}
-
-	//Do not use this method it is already inside Map and does so by itself -PH
-	/*
-	public void removeEnemy(Enemy enemy) {
-		currentLevel.getMap().removeDeadEnemy(enemy.getLocation(), enemy);
-		//enemyList.remove(enemyList.indexOf(enemy));
-	}*/
-	
+	/**
+	 * @return The server's current time between ticks
+	 */
 	public long getTickLength(){
 		return timePerTick;
 	}
 	
+	/**
+	 * Stop the GameServer master Timer, create a GameOver Command object notifying client of 
+	 * game lost, that causes GUI to print out a game over pic and return to the main menu
+	 */
 	public void gameLost() {
-		
-		//Stop the GameServer master Timer, create a GameOver Command object that contains a
-		//boolean value gameWon set to false, that causes GUI to print out a game over pic
-		//and return to the main menu
-		
 		stopTimer();
 		removeLevel();
 		Command<GameClient> c = new SendClientGameLost();
 		sendCommand(c);
-		
 	}
 
+	/**
+	 * Stop the GameServer master Timer, create a GameOver Command object notifying client of 
+	 * game won, that causes GUI to print out a game won pic and return to the main menu
+	 */
 	public void gameWon() {
-		
-		//Stop the GameServer master Timer, create a GameOver Command object that contains a
-		//boolean value gameWon set to true, that causes GUI to print out a game won pic
-		//and return to the main menu
-		
 		stopTimer();
 		removeLevel();
 		Command<GameClient> c = new SendClientGameWon();
