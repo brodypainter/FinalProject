@@ -142,10 +142,12 @@ public enum directionFacing{NORTH, EAST, SOUTH, WEST};
 		return directionFacing.SOUTH;//By default, shouldn't ever get to this point
 	}
 	
+	// increase the number of steps taken each tick
 	public void takeStep(){
 		stepsTaken++;
 	}
 	
+	// return the number of steps taken
 	public int getStepsTaken(){
 		return stepsTaken;
 	}
@@ -264,15 +266,18 @@ public enum directionFacing{NORTH, EAST, SOUTH, WEST};
 		}
 		calculateProgress(); //Updates % of tile he is finished with
 	}
-
+	
+	// get the previous location of the pokemon
 	public Point getPreviousLocation() {
 		return previousLocation;
 	}
 
+	// set the previous location of the pokemon
 	public void setPreviousLocation(Point previousLocation) {
 		this.previousLocation = previousLocation;
 	}
 
+	// dunno
 	public Point getNextLocation() {
 		return nextLocation;
 	}
@@ -325,6 +330,7 @@ public enum directionFacing{NORTH, EAST, SOUTH, WEST};
 	public int getHealthPercentage() {
 		return healthPercentage;
 	}
+	
 	
 	public int getDefense (){
 		return this.Defense;

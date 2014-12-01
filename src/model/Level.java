@@ -117,6 +117,7 @@ public abstract class Level {
 	  }
  }
   
+  // gameover method checks if player health is less than 0 and calls you lose or you win methods to advance
   public boolean gameOver(){
 		if(this.player.getHealthPoints() <= 0){
 			youLose();
@@ -138,18 +139,19 @@ public abstract class Level {
 		return false;
 	}
 	
-	
+	// this updates the player info after a game is won or lost and saves it
 	public void notifyPlayerInfoUpdated(){
 		server.updateClients(player.getHealthPoints(), player.getMoney());
 	}
   
+	// gets the map of the current level
 	public Map getMap(){
 	  return map;
-  }
+	}
   
 	public void setMap(Map map){
 	  this.map = map;
-  }
+	}
 	
 	public GameServer getServer(){
 		return server;
@@ -180,9 +182,12 @@ public abstract class Level {
 	return playerIsAlive;
   }
 
+  //set the spawn intervals for the pokemon
   public void setEnemySpawnIntervals(long length){
 	  this.enemySpawnIntervals = length;
   }
+  
+  //sets the current player to being alive
   private void setPlayerIsAlive(boolean b) {
 	this.playerIsAlive = b;
 	

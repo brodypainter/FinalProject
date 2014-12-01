@@ -15,6 +15,12 @@ public class LevelFactory{
 		switch(levelCode){
 		case 0:
 			return new Level0(player, server);
+		case 1:
+			return new Level1(player, server);
+		case 2:
+			return new Level2(player, server);
+		case 3:
+			return new Level3(player, server);
 		default: 
 			return new Level0(player, server);
 		}
