@@ -15,6 +15,7 @@ public class Board extends JPanel
 	ArrayList<JLabel> towers;
 	ArrayList<JLabel> enemies;
 	ArrayList<JLabel> enemyTiles;
+	ArrayList<Line> lines;
 	JLabel background;
 	int tileHeight = 155;
 	int tileWidth = 102;
@@ -25,6 +26,7 @@ public class Board extends JPanel
 		towers = new ArrayList<JLabel>();
 		enemies = new ArrayList<JLabel>();
 		enemyTiles = new ArrayList<JLabel>();
+		lines = new ArrayList<Line>();
 		background = new JLabel("Waiting for image");
 		background.setIcon(new ImageIcon());
 	}
@@ -47,6 +49,18 @@ public class Board extends JPanel
 			enemyTiles.add((JLabel) c);
 		}
 		return c;
+	}
+	
+	public void add(Line line)
+	{
+		lines.add(line);
+		repaint();
+	}
+	
+	public void removeLine()
+	{
+		lines.remove(0);
+		repaint();
 	}
 	
 	public void removeTowers()
@@ -72,11 +86,33 @@ public class Board extends JPanel
 	
 	public void addEnemies(List<JLabel> enemies)
 	{
-		
-			timesUpdated = 0;
+			
 			//enemies = new ArrayList<JLabel>();
-			this.enemies = (ArrayList<JLabel>) enemies;
-			//repaint();
+			
+			//this.enemies = (ArrayList<JLabel>) enemies;
+			
+			//Temporary testing
+			while(this.enemies.size() > enemies.size())
+			{
+				this.enemies.remove(0);
+				
+			}
+			while(this.enemies.size() < enemies.size())
+			{
+				this.enemies.add(enemies.get(enemies.size()-1));
+				
+			}
+			int i = 0;
+			for(JLabel label : this.enemies)
+			{
+				label.setLocation(enemies.get(i).getLocation().x, 172);
+				if(label.getLocation().x > 1000)
+				{
+					this.enemies.remove(label);
+				}
+				i++;
+			}
+			repaint();
 			
 			//System.out.println("Updating enemies");
 	}
@@ -85,7 +121,9 @@ public class Board extends JPanel
 	{
 		super.paintComponent(g);
 		//g.drawImage(new ImageIcon("/images/cuboneStatic.png").getImage(), 0, 0, this);
+		
 		g.drawImage((((ImageIcon) background.getIcon()).getImage()), 0, 0, this);
+
 		//g.drawImage(((ImageIcon) enemies.get(0).getIcon()).getImage(), enemies.get(0).getX(), enemies.get(0).getY(), this);
 		for(JLabel label : enemies)
 		{
@@ -99,6 +137,11 @@ public class Board extends JPanel
 		{
 			g.drawImage(((ImageIcon) label.getIcon()).getImage(), label.getX(), label.getY(), this);
 		}
-	
+		
+		for(Line line : lines)
+		{
+			//System.out.println("Number of lines: " + lines.size());
+			g.drawLine(line.getStart().x, line.getStart().y, line.getEnd().x, line.getEnd().y);
+		}
 	}
 }

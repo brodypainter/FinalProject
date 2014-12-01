@@ -76,6 +76,7 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 	private ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
 	int tileWidth = 102;
 	int tileHeight = 155; 
+	ArrayList<Line> lines = new ArrayList<Line>();
 	
 	
 	
@@ -392,18 +393,19 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 		if(type == towerType.NORMAL)
 		{
 			System.out.println("Tower at row " + tower.x + " column " + tower.y + " attacks!");
-			JLabel proj = new JLabel(new ImageIcon(createImageIcon(pewterProjectile).getImage().getScaledInstance(this.getWidth()/(levelWidth*2), this.getHeight()/(levelHeight*2), Image.SCALE_FAST)));
-			proj.setLocation(tower.x, tower.y); 
+			//JLabel proj = new JLabel(new ImageIcon(createImageIcon(pewterProjectile).getImage().getScaledInstance(this.getWidth()/(levelWidth*2), this.getHeight()/(levelHeight*2), Image.SCALE_FAST)));
+			Line line = new Line(new Point(tower.y * tileWidth + (tileWidth/2), tower.x * tileHeight + (tileHeight/2)), new Point(enemy.y * tileWidth + (tileWidth/2), enemy.x * tileHeight + (tileHeight/2)));
 			//TODO:^Tower.x is the row of tower, tower.y is column, make sure to scale and keep
 			//track of which one you really want as first and second parameter
 						
-			Bone newProjectile = new Bone();
-			newProjectile.setLabel(proj);
+			//Bone newProjectile = new Bone();
+			//newProjectile.setLabel(proj);
 			//Also set newProjectile's destination point here based on Point enemy
 			//again make sure you know what is in point 
-			projectiles.add(newProjectile);
-			proj.setName("Projectile");
-			board.add(proj);
+			//projectiles.add(newProjectile);
+			//proj.setName("Projectile");
+			lines.add(line);
+			((Board) board).add(line);
 		}
 		return true;
 	}
@@ -412,6 +414,28 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 	{
 		public void actionPerformed(ActionEvent arg0)
 		{
+			int ticksToWait = 2;
+			for(int i = 0; i < lines.size(); i++)
+			{
+				if(lines.get(0).getIterations() > ticksToWait)
+				{
+					System.out.println("Removing a line. " + lines.size() + " lines left.");
+					lines.remove(0);
+					((Board) board).removeLine();
+				}
+				else
+				{
+					for(int j = i; i < lines.size(); i++)
+					{
+						//lines.get(j).iterate();
+						lines.add(j, lines.get(j).iterate());
+					}
+				}
+			}
+			
+			
+			
+			/*
 			for(int i = 0; i < projectiles.size(); i++)
 			{
 				if(projectiles.get(i).isValid())
@@ -424,6 +448,7 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 					projectiles.remove(i);
 				}
 			}
+			*/
 			
 		}
 		
@@ -467,7 +492,6 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 			tempTile.setName("EnemyPathTile");
 			pathTiles.add(tempTile);
 			board.add(tempTile);
-			//now call board to repaint
 		}
 	}
 
@@ -493,7 +517,7 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 	{
 		super.paint(g);
 		
-		board.repaint();
+		//board.repaint();
 		towerStorePanel.repaint();
 		selectedTowerFromStore.repaint();
 		//g.drawImage(pik,(int) ((path.getLocation(testSpriteProgress).x/20) * viewScale * board.getSize().width),(int) ((path.getLocation(testSpriteProgress).y/9) * viewScale * board.getSize().height) + 15, this);
@@ -808,11 +832,11 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 			if(orientation == directionFacing.SOUTH){
 				y = y + ((tileHeight * progress) / 100);
 			}
-			
 			tempEnemyLabel.setLocation(x, y);
 			tempEnemyLabel.setSize(tileWidth, tileHeight); //Idk how big we want each enemy, use this for now
 			enemies.add(tempEnemyLabel);
 		}
+		System.out.println("Progress of furthest enemy: " + newEnemies.get(0).getProgress());
 		((Board) board).addEnemies(enemies);
 		//board.repaint();
 		//for(JLabel j: enemies){
