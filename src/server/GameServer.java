@@ -56,26 +56,36 @@ public class GameServer implements Serializable{
 	
 	/**
 	 *	This thread reads and executes commands sent by a client
+	 * 
+	 * @author brodypainter
 	 */
 	private class ClientHandler implements Runnable{
 		private ObjectInputStream input; // the input stream from the client
 		private String name;
 		
+		/**
+		 * Constructor for ClientHandler
+		 * 
+		 * @param input The ObjectInputStream object for a specific client
+		 * @param name The String user name associated with the input
+		 */
 		public ClientHandler(ObjectInputStream input, String name){
 			this.input = input;
 			this.name = name;
 		}
 		
+		/**
+		 * 
+		 */
 		public void run() {
 			try{
 				while(true){
+					
 					// read a command from the client, execute on the server
 					Command<GameServer> command = (Command<GameServer>)input.readObject();
 					System.out.println("\t\t Command " + command + " received");
 					command.execute(thisServer);
 					
-					// When there is a command from a client, update all of the clients
-					//GameServer.this.updateClients();
 					// terminate if client is disconnecting
 					if (command instanceof DisconnectCommand){
 						input.close();
@@ -83,23 +93,23 @@ public class GameServer implements Serializable{
 					}
 				}
 			} catch(ArrayIndexOutOfBoundsException e){
-				System.out.println("Array index is still out of bounds");
 				e.printStackTrace();
 			} catch(IOException e){
-				// will be thrown if client does not safely disconnect, then we will remove the client
-				e.printStackTrace();
-				currentLevel = null;
-				GameServer.this.outputs.remove(name);
+				e.printStackTrace(); // Will be thrown if client does not safely disconnect, then we will remove the client
+				currentLevel = null; // Remove the current level
+				GameServer.this.outputs.remove(name); // Remove this client from the outputs list
 				System.out.println("\t\t This client did not safely disconnect");
 			}catch(Exception e){
-				System.out.println("Something egiot lse is still wrong!");
+				System.out.println("Something else is still wrong!");
 				e.printStackTrace();
 			}
 		}
 	}
 	
 	/**
-	 *	This thread listens for and sets up connections to new clients
+	 * This thread listens for and sets up connections to new clients
+	 * @author brodypainter
+	 *
 	 */
 	private class ClientAccepter implements Runnable{
 		public void run() {
@@ -127,7 +137,6 @@ public class GameServer implements Serializable{
 					outputs.put(clientName, output);
 					
 					//send the client the level and player, only once per player
-
 					
 					// spawn a thread to handle communication with this client
 					new Thread(new ClientHandler(input, clientName)).start();
@@ -144,6 +153,9 @@ public class GameServer implements Serializable{
 		}
 	}
 	
+	/**
+	 * 
+	 */
 	public GameServer(){
 		this.outputs = new HashMap<String, ObjectOutputStream>(); // setup the map
 		
@@ -164,8 +176,8 @@ public class GameServer implements Serializable{
 	 * Writes an UpdateClientCommand to every connected user.
 	 */
 	public void updateClientMessages() {
-		// make an UpdateClientCommmand, write to all connected users
 		System.out.println("updateClients");
+		// make an UpdateClientCommmand, try to write to all connected users
 		SendClientMessageCommand update = new SendClientMessageCommand(latestMessage);
 		try{
 			for (ObjectOutputStream out : outputs.values())
@@ -177,10 +189,10 @@ public class GameServer implements Serializable{
 	}
 	
 	/**
-	 * Starts the master Timer, every 20 ms it will call this GameServer to
+	 * Starts the master Timer, every timePerTick it will call this GameServer to
 	 * call the tickClients() command
 	 * 
-	 * SLOWED TO 500ms TO DEBUG
+	 * Set GameServer timePerTick as needed
 	 */
 	public void startTimer(){
 		TimerTaskUpdate task = new TimerTaskUpdate(thisServer);
@@ -225,33 +237,39 @@ public class GameServer implements Serializable{
 		timer.cancel();
 	}
 	
-	//call when level is finished
+	/**
+	 * Removes the current level
+	 */
 	public void removeLevel(){
 		currentLevel = null;
 	}
 	
-	//run this class to create a GameServer.
+	/**
+	 * Start this GameServer
+	 * @param args Command Line args
+	 */
 	public static void main(String[] args){
 		new GameServer();
 	}
 
 	/**
 	 * Disconnects a given user from the server gracefully
-	 * @param clientName	user to disconnect
+	 * @param clientName	User name to disconnect
 	 */
 	public void disconnect(String clientName) {
 		try{
 			outputs.get(clientName).close(); // close output stream
 			outputs.remove(clientName); // remove from map
-			
-			// add notification message
-			// dont send a message for now
-			// newMessage(clientName + " disconnected");
 		} catch(Exception e){
 			e.printStackTrace();
 		}
 	}
 	
+	/**
+	 * Sets the servers latest message and calls the method to send it to all clients
+	 * 
+	 * @param message The message to be sent to all clients
+	 */
 	public void newMessage(String message) {
 		// TODO Send this message to all of our clients
 		System.out.println("newMessage");
@@ -259,27 +277,25 @@ public class GameServer implements Serializable{
 		updateClientMessages();
 	}
 	
+	/**
+	 * Executes the appropriate method on the server as dictated by the command argument
+	 * 
+	 * @param command The command that was received
+	 */
 	public void execute(Command<GameServer> command){
 		command.execute(this);
 	}
 	
-	//These 2 methods won't be necessary except until multi-player possibly
-	//public void addEnemy() {
-		
-	//}
-	
-	//public void removeEnemy() {
-		
-	//}
-	
-	// Implement this in a few
+	/**
+	 * Sends a command to the clients
+	 * 
+	 * @param c The command that is to be sent to all of the clients
+	 */
 	public void sendCommand(Command<GameClient> c){
 		if(!outputs.isEmpty()){
 			for (ObjectOutputStream out : outputs.values()){
 				try{
-					//System.out.println("Send command try on " + out);
-					out.writeObject(c);
-					//System.out.println("command sent");
+					out.writeObject(c); // Write the command out
 				}catch(Exception e){
 					e.printStackTrace();
 				}
