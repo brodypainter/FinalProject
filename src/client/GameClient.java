@@ -10,14 +10,12 @@ import java.util.List;
 
 import javax.swing.JOptionPane;
 
-import model.Level0Map;
 import server.GameServer;
 import GUI.EnemyImage;
 import GUI.GameView.towerType;
 import GUI.MainMenu;
 import GUI.TowerImage;
-import GameController.Enemy;
-import GameController.Tower;
+
 import commands.Command;
 import commands.DisconnectCommand;
 import commands.SendServerCreateLevelCommand;
@@ -37,8 +35,13 @@ public class GameClient{
 	private MainMenu mainMenu;
 	private Player player;
 	
+	//TODO: Implement
+	/**
+	 * 
+	 * 
+	 * @param message
+	 */
 	public void newMessage(String message) {
-		// TODO Display a new message to our text/chat panel. May need to add a local list of messages	
 		System.out.println(message);
 	}
 
