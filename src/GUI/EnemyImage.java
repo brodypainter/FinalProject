@@ -20,12 +20,17 @@ public class EnemyImage implements Serializable {
 						  //Use this to offset the enemy from its top left corner of grid location
 	private int healthPercentage; //For future use to display HP bar of enemies, 0 to 100
 
+	// max 12/14 made transient to keep from interfering with serializable
+	private transient Enemy enemy;
+
 	public EnemyImage(Enemy enemy){
 		this.imageURL = enemy.getImageURL();
 		this.location = enemy.getLocation();
 		this.orientation = enemy.getOrientation();
 		this.progress = enemy.getProgress();
 		this.healthPercentage = enemy.getHealthPercentage();
+		// Max 12/1 stored the enemy in here that is transient so it won't mess up the serializable
+		this.enemy= enemy;
 	}
 	
 	public String getImageURL(){
@@ -35,8 +40,9 @@ public class EnemyImage implements Serializable {
 	public Point getLocation(){
 		return location;
 	}
-	
+	// Max 12/1 trying to get the image direction to show
 	public directionFacing getOrientation(){
+		//System.out.println(this.enemy.getImageURL());
 		return orientation;
 	}
 	

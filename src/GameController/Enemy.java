@@ -54,8 +54,12 @@ public abstract class Enemy implements Serializable{
 	private Point previousLocation; //The immediately previous location of the enemy
 	private Point location; //The current location of the enemy
 	private Point nextLocation; //The location the enemy will go to next when it is ready
-	private String imageURL; //The current url of the image of the enemy to paint based on orientation/state
-	private String[] allImageURLs; //The list of all URLs of all images associated with the enemy
+	//private String[] allImageURLs; //The list of all URLs of all images associated with the enemy
+	private String imageURL;
+	private String leftURL;
+	private String rightURL;
+	private String upURL;
+	private String downURL;
 	private Map map;
 	private int timePerTile; //The time in ms the enemy will spend on each tile before moving to the next
 	private int timeSinceLastMovement; //The time in ms since the enemy has last moved a tile
@@ -76,7 +80,7 @@ public abstract class Enemy implements Serializable{
 	 * @param worth the worth of the monster as it is created
 	 * @param Image
 	 */
-	public Enemy (int health, int attackPower, int defense, double speed, String name, int worth, String Image, Map mapRef){
+	public Enemy (int health, int attackPower, int defense, double speed, String name, int worth, Map mapRef, String south, String north, String west, String east){
 		this.Health = health;
 		this.maxHealth = health;
 		this.AttackPower = attackPower;
@@ -85,7 +89,12 @@ public abstract class Enemy implements Serializable{
 		calculateTimePerTile();
 		this.Pokemon = name;
 		this.Worth = worth;
-		this.imageURL = Image;
+		//Max 12/14 to get the images to appear
+		this.imageURL = south;
+		this.downURL = south;
+		this.upURL = north;
+		this.leftURL = west;
+		this.rightURL = east;
 		orientation = directionFacing.SOUTH; //By default
 		timeSinceLastMovement = 0;
 		stepsTaken = 0;
@@ -123,20 +132,25 @@ public enum directionFacing{NORTH, EAST, SOUTH, WEST};
 	
 	public directionFacing direction(Enemy enemy)
 	{
+		// right, left, up, down
 		if(enemy.getLocation().x - enemy.getNextLocation().x > 0)
 		{
+			this.imageURL = this.upURL;
 			return directionFacing.NORTH;
 		}
 		else if(enemy.getLocation().x - enemy.getNextLocation().x < 0)
 		{
+			this.imageURL = this.downURL;
 			return directionFacing.SOUTH;
 		}
 		else if(enemy.getLocation().y - enemy.getNextLocation().y < 0)
 		{
+			this.imageURL = this.rightURL;
 			return directionFacing.EAST;
 		}
 		else if(enemy.getLocation().y - enemy.getNextLocation().y < 0)
 		{
+			this.imageURL = this.leftURL;
 			return directionFacing.WEST;
 		}
 		return directionFacing.SOUTH;//By default, shouldn't ever get to this point
@@ -225,6 +239,7 @@ public enum directionFacing{NORTH, EAST, SOUTH, WEST};
 	public String getImageURL(){
 		return this.imageURL;
 	}
+	
 	
 	/**
 	 * Increase the defense of the pokemon.  If the defense gets below 0, defense is set to default

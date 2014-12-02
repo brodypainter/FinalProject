@@ -36,15 +36,15 @@ public class Pikachu extends Enemy{
 	public Pikachu(Map currentMap) {
 		
 		
-		super(200, 2, 12, 1, "Pikachu", 25, "src/images/pikachuStatic.png", currentMap);
+		super(200, 2, 12, 1, "Pikachu", 25, currentMap, "src/images/pikachuDown.gif", "src/images/pikachuUp.gif","src/images/pikachuLeft.gif", "src/images/pikachuRight.gif");
 		/* src/images/pikachuRight.gif
 		 * src/images/pikachuLeft.gif
 		 * src/images/pikachuRight.gif
 		 * src/images/pikachuDown.gif
 		 */
 		
-		String[] allURLImages = new String[] {"src/images/pikachuRight.gif","src/images/pikachuLeft.gif", "src/images/pikachuRight.gif", "src/images/pikachuDown.gif" };
-
+		//String[] allURLImages = new String[] {"src/images/pikachuRight.gif","src/images/pikachuLeft.gif", "src/images/pikachuUp.gif", "src/images/pikachuDown.gif" };
+		//super.setAllImageURL(allURLImages);
 	}
 
 	@Override

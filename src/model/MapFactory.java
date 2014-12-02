@@ -45,8 +45,8 @@ public class MapFactory {
 		case 0: //The beta test level
 			
 			//Set the size of the map
-			horizontalSize = 10;
-			verticalSize = 5;
+			horizontalSize = 15;
+			verticalSize = 10;
 			grid = new Tile[verticalSize][horizontalSize];
 			
 			//Populate the Tile[][] with appropriate amount of tiles
@@ -60,9 +60,17 @@ public class MapFactory {
 			path = new LinkedList<Point>();
 			path.add(new Point(2,0));
 			path.add(new Point(2,1));
-			path.add(new Point(2,2));
-			path.add(new Point(2,3));
-			path.add(new Point(2,4));
+			path.add(new Point(3,1));
+			path.add(new Point(4,1));
+			path.add(new Point(5,1));
+			path.add(new Point(6,1));
+			path.add(new Point(6,2));
+			path.add(new Point(6,3));
+			path.add(new Point(6,4));
+			path.add(new Point(6,5));
+			path.add(new Point(5,5));
+			path.add(new Point(4,5));
+			path.add(new Point(3,5));
 			path.add(new Point(2,5));
 			path.add(new Point(2,6));
 			path.add(new Point(2,7));
@@ -76,7 +84,7 @@ public class MapFactory {
 					+ "straight path across the middle.";
 			
 			//assign the backgroundImage for the level
-			backgroundImage = "/images/map0.png"; //TODO:Desone, make an image of this 5 row x 10 column map with path straight across middle
+			backgroundImage = "/images/Cerulean_Gym.png"; //TODO:Desone, make an image of this 5 row x 10 column map with path straight across middle
 									//and place the image's location here <---
 			
 			//instantiate a LevelXMap object that extends Map class
