@@ -68,14 +68,19 @@ public class MapFactory {
 			path.add(new Point(6,3));
 			path.add(new Point(6,4));
 			path.add(new Point(6,5));
-			path.add(new Point(5,5));
+			/*path.add(new Point(5,5));
 			path.add(new Point(4,5));
 			path.add(new Point(3,5));
-			path.add(new Point(2,5));
-			path.add(new Point(2,6));
-			path.add(new Point(2,7));
-			path.add(new Point(2,8));
-			path.add(new Point(2,9));
+			path.add(new Point(2,5));*/
+			path.add(new Point(6,6));
+			path.add(new Point(6,7));
+			path.add(new Point(6,8));
+			path.add(new Point(6,9));
+			path.add(new Point(6,10));
+			path.add(new Point(6,11));
+			path.add(new Point(6,12));
+			path.add(new Point(6,13));
+			path.add(new Point(6,14));
 
 			//created a straight line along y = 2, x = 0 -> 4
 			
