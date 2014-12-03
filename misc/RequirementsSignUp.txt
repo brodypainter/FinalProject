@@ -1,3 +1,7 @@
+These are the requirements, I went through them and commented what we have already done, what we have left, who is
+working on each part currently, and any recommendations/ideas I had off the top of my head on how to implement them. 
+Its by no means 100% complete or final but this will give us a good idea of what we should be focusing on now
+
 Requirements 
 
 Maps 
