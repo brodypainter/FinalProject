@@ -32,6 +32,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
+import javax.swing.JTextArea;
+import javax.swing.JTextPane;
 import javax.swing.Timer;
 import javax.swing.UIManager;
 
@@ -68,6 +70,8 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 	private JLabel playerMoneyLabel;
 	private JPanel playerHealthPanel;
 	private JProgressBar playerHealthLabel;
+	private JPanel towerInfo;
+	private JTextPane towerInfoText;
 	double viewScale = 1;
 	boolean repaintGUI = true;
 	boolean clickedTowerStore = false;
@@ -185,21 +189,47 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 		selectedTowerFromStore.setVisible(false);
 		this.add(selectedTowerFromStore);
 		
+		towerInfo = new JPanel();
+		towerInfo.setBounds(0,0,getSize().width/4, getSize().height/4);
+		towerInfo.setLayout(null);
+		towerInfoText = new JTextPane();
+		towerInfoText.setText("Text about tower\nStats will be updated\nOr constant, either way.");
+		towerInfoText.setEditable(false);
+		towerInfoText.setOpaque(false);
+		towerInfoText.setForeground(Color.WHITE);
+		towerInfoText.setBounds(10, 10, towerInfo.getWidth()-20, towerInfo.getHeight()-20);
+		towerInfo.add(towerInfoText);
+		JLabel tempBG = new JLabel(new ImageIcon(createImageIcon("/images/towerInfoPanel.png").getImage().getScaledInstance(towerInfo.getWidth(), towerInfo.getHeight()-10, Image.SCALE_SMOOTH)));
+		tempBG.setBounds(0, 0, towerInfo.getWidth(), towerInfo.getHeight());
+		towerInfo.add(tempBG);
+		towerInfo.setOpaque(false);
+		towerInfo.setVisible(false);
+		this.add(towerInfo);
+	
 		playerMoneyPanel = new JPanel();
 		playerMoneyPanel.setBounds(0,0, 100, 25);
+		playerMoneyPanel.setLayout(null);
 		playerMoneyLabel = new JLabel("$0");
+		playerMoneyLabel.setBounds(0,0,100,25);
+		playerMoneyLabel.setHorizontalAlignment(JLabel.CENTER);
+		playerMoneyLabel.setForeground(Color.WHITE);
 		playerMoneyPanel.add(playerMoneyLabel);
+		tempBG = new JLabel(new ImageIcon(createImageIcon("/images/towerInfoPanel.png").getImage().getScaledInstance(playerMoneyPanel.getWidth(), playerMoneyPanel.getHeight(), Image.SCALE_SMOOTH)));
+		tempBG.setBounds(0, 0, playerMoneyPanel.getWidth(), playerMoneyPanel.getHeight());
+		playerMoneyPanel.add(tempBG);
+		playerMoneyPanel.setOpaque(false);
 		this.add(playerMoneyPanel);
 		
 		playerHealthPanel = new JPanel();
 		playerHealthPanel.setBounds(getWidth()-200, 0, 200, 25);
+		playerHealthPanel.setOpaque(false);
 		playerHealthLabel = new JProgressBar();
 		playerHealthLabel.setValue(100);
 		playerHealthLabel.setBackground(Color.RED);
 		playerHealthLabel.setForeground(Color.GREEN);
+		playerHealthLabel.setStringPainted(false);
 		playerHealthLabel.setMaximum(100);
 		playerHealthLabel.setMinimum(0);
-		playerHealthLabel.setStringPainted(true);
 		Font tempFont = new Font("Comic Sans MS", Font.PLAIN, 10);
 		playerHealthLabel.setFont(tempFont);
 		playerHealthPanel.add(playerHealthLabel);
@@ -208,13 +238,13 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 		//Create and size the towerStore background image
 		towerStoreBG = createImageIcon("/images/towerStore.png");
 		towerStoreBGOrig = towerStoreBG.getImage();
-		towerStoreBG.setImage(towerStoreBGOrig.getScaledInstance(getSize().width, getSize().height/4, Image.SCALE_SMOOTH));
+		towerStoreBG.setImage(towerStoreBGOrig.getScaledInstance(getSize().width, getSize().height/4 - 20, Image.SCALE_SMOOTH));
 		JLabel temp = new JLabel(towerStoreBG);
 		temp.setBounds(0, 0, getSize().width, getSize().height/4);
 		towerStorePanel = new JPanel();
 		towerStorePanel.setLayout(null);
-		towerStorePanel.setBounds(0, (int) (3*(getSize().height)/4)-20, getSize().width, getSize().height/4 );
-		towerStorePanel.setBackground(null);
+		towerStorePanel.setBounds(0, (int) (3*(getSize().height)/4) - 10, getSize().width, getSize().height/4 - 20 );
+		towerStorePanel.setOpaque(false);
 		towerStorePanel.add(temp);
 		this.add(towerStorePanel); //Added this line -PH
 		
@@ -333,6 +363,7 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 		levelHeight = size.y;
 		this.updateTileSize();
 		((Board) board).setTileSize(tileWidth, tileHeight);
+		System.out.println("Updated grid size");
 	}
 	
 	public void setMapBackgroundImageURL(String url){
@@ -407,12 +438,6 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 	 *
 	 */
 	public enum towerType{NORMAL,WATER,ELECTRIC,GRASS,POISON,PSYCHIC,FIRE,MEWTWO}
-	
-	public void setLevelSize(int levelWidth, int levelHeight)
-	{
-		this.levelWidth = levelWidth;
-		this.levelHeight = levelHeight;
-	}
 	
 	//called every tick, passes new tower/enemy locations and images
 	public void update(List<TowerImage> newTowers, List<EnemyImage> newEnemies)
@@ -510,7 +535,7 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 
 	
 	/**
-	 * serves to initialize there the mouse starts from in mouseDragged
+	 * serves to initialize where the mouse starts from in mouseDragged
 	 */
 	public void mousePressed(MouseEvent arg0)
 	{
@@ -660,6 +685,64 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 	public void mouseMoved(MouseEvent arg0)
 	{
 		mouseLoc = arg0.getPoint();
+		towerInfo.setLocation(mouseLoc.x + 10, mouseLoc.y - towerInfo.getHeight() - 10);
+		Rectangle tower1 = new Rectangle(getSize().width/15 + 10,(int) ((3*getSize().height)/3.8) + 30, (int) (getSize().width / 9.5), getSize().height / 8);
+		Rectangle tower2 = new Rectangle((int)(2.6*getSize().width)/15 + 10,(int) ((3*getSize().height)/3.8) + 30, (int) (getSize().width / 9.5), getSize().height / 8);
+		Rectangle tower3 = new Rectangle((int)(4.25*getSize().width)/15 + 10,(int) ((3*getSize().height)/3.8) + 30, (int) (getSize().width / 9.5), getSize().height / 8);
+		Rectangle tower4 = new Rectangle((int)(5.85*getSize().width)/15 + 10,(int) ((3*getSize().height)/3.8) + 30, (int) (getSize().width / 9.5), getSize().height / 8);
+		Rectangle tower5 = new Rectangle((int)(7.45*getSize().width)/15 + 10,(int) ((3*getSize().height)/3.8) + 30, (int) (getSize().width / 9.5), getSize().height / 8);
+		Rectangle tower6 = new Rectangle((int)(9.05*getSize().width)/15 + 10,(int) ((3*getSize().height)/3.8) + 30, (int) (getSize().width / 9.5), getSize().height / 8);
+		Rectangle tower7 = new Rectangle((int)(10.67*getSize().width)/15 + 10,(int) ((3*getSize().height)/3.8) + 30, (int) (getSize().width / 9.5), getSize().height / 8);
+		Rectangle tower8 = new Rectangle((int)(12.3*getSize().width)/15 + 10,(int) ((3*getSize().height)/3.8) + 30, (int) (getSize().width / 9.5), getSize().height / 8);
+		
+		if(tower1.contains(arg0.getPoint()))
+		{
+			towerInfo.setVisible(true);
+			towerInfoText.setText("Cubone Tower info");
+		}
+		else if(tower2.contains(arg0.getPoint()))
+		{
+			towerInfo.setVisible(true);
+			towerInfoText.setText("Poliwhirl Tower info");
+		}
+		else if(tower3.contains(arg0.getPoint()))
+		{
+			towerInfo.setVisible(true);
+			towerInfoText.setText("Magenemite Tower info");
+		}
+		else if(tower4.contains(arg0.getPoint()))
+		{
+			towerInfo.setVisible(true);
+			towerInfoText.setText("Oddish Tower info");
+		}
+		else if(tower5.contains(arg0.getPoint()))
+		{
+			towerInfo.setVisible(true);
+			towerInfoText.setText("Ghastly Tower info");
+		}
+		else if(tower6.contains(arg0.getPoint()))
+		{
+			towerInfo.setVisible(true);
+			towerInfoText.setText("Abra Tower info");
+		}
+		else if(tower7.contains(arg0.getPoint()))
+		{
+			towerInfo.setLocation(mouseLoc.x - towerInfo.getWidth(), mouseLoc.y - towerInfo.getHeight() - 10);
+			towerInfo.setVisible(true);
+			towerInfoText.setText("Charmander Tower info");
+		}
+
+		else if(tower8.contains(arg0.getPoint()))
+		{
+			towerInfo.setLocation(mouseLoc.x - towerInfo.getWidth(), mouseLoc.y - towerInfo.getHeight() - 10);
+			towerInfo.setVisible(true);
+			towerInfoText.setText("Mewtwo Tower info");
+		}
+		else
+		{
+			towerInfoText.setText("No Tower selected");
+			towerInfo.setVisible(false);
+		}
 	}
 	
 	
@@ -669,11 +752,6 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 		{
 			clickedTowerStore = false;
 			selectedTowerFromStore.setVisible(false);
-
-			//Toolkit kit = Toolkit.getDefaultToolkit();
-			//Cursor cursor = kit.createCustomCursor(createImageIcon("/images/cursor.png").getImage(), new Point(0,0), "Cursor");
-			//setCursor(cursor);
-			
 			Point loc = new Point((int) ((arg0.getY() - scrollLocation.y)/tileHeight),(int) ((arg0.getX() - scrollLocation.x)/tileWidth));
 			client.addTower(selectedTowerType, loc);
 		}
