@@ -28,26 +28,32 @@ import GameController.Tower;
  * long serialVersionUID		- For Serializable interface
  * Tile[][] grid				- A 2-D array of Tile objects to model the game map as a grid	
  * Image img					- The background image of the map, determined by mapType
- * LinkedList<Point> enemyPath	- A list of all of the path coordinates enemies will pass through
- * Point firstPathTile			- The path tile on which enemies spawn
- * Point lastPathTile			- The path tile on which enemies stop and do damage to health
+ * LinkedList<LinkedList<Point> enemyPath>	- A 2D list of every path, each of which contains coordinates enemies will pass through
+ * LinkedList<Point> firstPathTiles	- The path tiles on which enemies spawn
+ * LinkedList<Point> lastPathTiles	- The path tiles on which enemies stop and do damage to health
  * int currentEnemies			- The current total amount of enemies on the map
  * String mapType				- A description of the map level, can be used for theme differentiation
  * int mapTypeCode				- A code # to differentiate each level
  * Player player				- The associated Player object playing this map
  * ArrayList<Enemy> enemies		- A list of all the enemies currently on the map
  * ArrayList<Tower> towers		- A list of all the towers currently placed on the map
- * 
+ * GameServer server			- The GameServer that the player is on, map will send it notify update calls
  * 
  * Methods:
- * Map(Tile[][] gridDimensions, LinkedList<Point> path, String mapType, Image background, int mapTypeCode, Player player)
+ * Map(Tile[][] gridDimensions, LinkedList<LinkedList<Point>> paths, String mapType, Image background, int mapTypeCode, Player player)
  * boolean spawnEnemy(Enemy enemy)
  * boolean updateEnemyPosition(Enemy enemy)
  * void removeDeadEnemy(Point location, Enemy enemy)
  * void lostHealth(int hpLost)
  * void gainedGold(int goldGained)
  * boolean addTower(Tower gym, Point location)
- * void removeTower(Tower gym)
+ * void sellTower(Point l)
+ * ArrayList<Tower> getTowers()
+ * ArrayList<Enemy> getEnemies()
+ * void tick(int timePerTick, GameServer gameServer)
+ * void setServer(GameServer server)
+ * public void notifyOfAttack(towerType type, Point towerLocation, Point enemyLocation)
+ * public String getImageURL()
  * 
  * @author Peter Hanson
  * @version 1.0
@@ -60,10 +66,10 @@ public abstract class Map implements Serializable{
 	private int numOfRows;
 	private int numOfColumns;
 	private String imageURL; //The background image of the map
-	private LinkedList<Point> enemyPath; //A list of all of the tile coordinates that the
+	private LinkedList<LinkedList<Point>> enemyPaths; //A 2D list of all the lists of the tile coordinates that the
 	                                     //enemies will attempt to pass through
-	private Point firstPathTile; //The path tile on which enemies spawn
-	private Point lastPathTile; //The path tile on which enemies stop and do damage to health
+	private LinkedList<Point> firstPathTiles; //The path tiles on which enemies spawn
+	private LinkedList<Point> lastPathTiles; //The path tiles on which enemies stop and do damage to health
 	private int currentEnemies; //The current total amount of enemies on the map (necessary?)
 	private String mapType; //A description of the map level, can be used for theme differentiation
 	private int mapTypeCode; //A code # to differentiate each level
@@ -76,28 +82,31 @@ public abstract class Map implements Serializable{
 	/**
 	 * Constructs the Map object and initializes and populates some instance variables.
 	 * @param gridDimensions A 2D Tile array with the desired dimensions for the map grid
-	 * @param path A list of the coordinates along the grid through which enemies will pass
+	 * @param path A 2D list of paths that each contain all the coordinates along the grid through which enemies will pass on that path
 	 * @param mapType A description of the map's level
 	 * @param background The background image of the map to be displayed in the GUI
 	 * @param mapTypeCode The level number of this map, can be used to differentiate map events according to level
 	 * @param player The Player object associated with who is playing this map
 	 */
-	public Map(Tile[][] gridDimensions, LinkedList<Point> path, String mapType, String backgroundImageURL, int mapTypeCode, Player player){
+	public Map(Tile[][] gridDimensions, LinkedList<LinkedList<Point>> paths, String mapType, String backgroundImageURL, int mapTypeCode, Player player){
 		grid = gridDimensions;
 		numOfRows = grid.length;
 		numOfColumns = grid[0].length;
-		enemyPath = path;
+		enemyPaths = paths;
 		this.mapType = mapType;
 		imageURL = backgroundImageURL;
 		
 		this.mapTypeCode = mapTypeCode;
 		this.player = player;
 		currentEnemies = 0;
-		setPath();
-		setTilesMap();
+		
 		//player.setMap(this); //may not be necessary -PH
 		enemies = new ArrayList<Enemy>();
 		towers = new ArrayList<Tower>();
+		firstPathTiles = new LinkedList<Point>();
+		lastPathTiles = new LinkedList<Point>();
+		setPath();
+		setTilesMap();
 	}
 	
 
@@ -114,75 +123,74 @@ public abstract class Map implements Serializable{
 	}
 	
 	/**
-	 * Sets the tiles in grid whose coordinates are part of the enemy path as path tiles.
-	 * Also stores the first and last coordinates of the enemy path as Points for convenience.
+	 * Sets the tiles in grid whose coordinates are part of an enemy path as path tiles.
+	 * Also stores the first and last coordinates of each enemy path as Points in LinkedLists for convenience.
 	 */
 	private void setPath(){
 		
 		Point tempCoords;
-		for(int i = 0; i < enemyPath.size(); i++){
-			tempCoords = enemyPath.get(i);
-			grid[tempCoords.x][tempCoords.y].setAsPath();
-			if(i == 0){
-				grid[tempCoords.x][tempCoords.y].setFirstPathTile();
-				firstPathTile = tempCoords;
-			}
-			if(i == enemyPath.size() - 1){
-				grid[tempCoords.x][tempCoords.y].setLastPathTile();
-				lastPathTile = tempCoords;
-			}
+		for(int p = 0; p < enemyPaths.size(); p++){
+			for(int i = 0; i < enemyPaths.get(p).size(); i++){
+				tempCoords = enemyPaths.get(p).get(i);
+				grid[tempCoords.x][tempCoords.y].setAsPath();
+				if(i == 0){
+					grid[tempCoords.x][tempCoords.y].setFirstPathTile();
+					firstPathTiles.add(tempCoords);
+				}
+				if(i == enemyPaths.get(p).size() - 1){
+					grid[tempCoords.x][tempCoords.y].setLastPathTile();
+					lastPathTiles.add(tempCoords);
+				}
 			
+			}
 		}
 	}
 	
 	/**
 	 * Adds an enemy Pokemon to this map, sets its location to the first tile in 
-	 * the enemy path, and adds it to the map's enemies list.
+	 * the appropriate enemy path, and adds it to the map's enemies list.
 	 * @param enemy The pokemon to be spawned
-	 * @return boolean, true if successful, false if not
 	 */
 	public void spawnEnemy(Enemy enemy){
 		enemy.setMap(this);
-		grid[firstPathTile.x][firstPathTile.y].addPokemon(enemy);
-		enemy.setLocation(firstPathTile);
+		int pathNumber = enemy.getPathTravelingCode();
+		grid[firstPathTiles.get(pathNumber).x][firstPathTiles.get(pathNumber).y].addPokemon(enemy);
+		enemy.setLocation(firstPathTiles.get(pathNumber));
 		enemies.add(enemy);
 		currentEnemies++;
-		
-		
-		
-		//Also may need to do other things here to notify GUI ...
 	}
 	
 	
 	/**
 	 * Updates an enemy pokemon's position from the current path tile to the next one.
-	 * To be called by the Pokemon in its own thread every x seconds/movement.
-	 * Currently enemies can only move 1 discrete square along the grid at a time in this model.
-	 * @param enemy The Pokemon whose position is to be updated
-	 * @return true if the movement was successful, false if not.
+	 * To be called by the Enemy every timePerTile milliseconds/movement.
+	 * Enemies can only move 1 discrete square along the grid at a time in this model.
+	 * @param enemy The Enemy whose position is to be updated
+	 * 
 	 */
-	public boolean updateEnemyPosition(Enemy enemy){
+	public void updateEnemyPosition(Enemy enemy){
 		
-		//Each Pokemon will call this method when it is ready to move, passing a reference
+		//Each Enemy will call this method when it is ready to move, passing a reference
 		//to itself, to make Map update its position when appropriate. Can only move in
-		//1 square discrete amounts along the path currently.
+		//1 square discrete amounts along the path.
 		
 		//get enemy's current coordinates, determine what his next coordinates will be
 		Point enemyCoords = enemy.getLocation();
-		int i = enemyPath.indexOf(enemyCoords);
+		int pathNumber = enemy.getPathTravelingCode();
+		int i = enemyPaths.get(pathNumber).indexOf(enemyCoords);
 		int iLess = i - 1;
 		if(iLess == -1){
 			iLess = 0;
 		}
 		int iMore = i + 2;
-		if(iMore >= enemyPath.size()){
-			iMore = enemyPath.size() - 1;
+		if(iMore >= enemyPaths.get(pathNumber).size()){
+			iMore = enemyPaths.get(pathNumber).size() - 1; //The last tile in that path
 		}
 		Point nextCoords;
-		if(i < enemyPath.size() - 1){
-			nextCoords = enemyPath.get(++i);
+		if(i < enemyPaths.get(pathNumber).size() - 1){
+			nextCoords = enemyPaths.get(pathNumber).get(++i);
 		}else{
-			nextCoords = this.lastPathTile;
+			nextCoords = this.lastPathTiles.get(pathNumber);
 		}
 		
 		//remove enemy from current tile, update his position, and add him to the next one
@@ -190,11 +198,8 @@ public abstract class Map implements Serializable{
 		enemy.setPreviousLocation(enemyCoords);
 		enemy.setLocation(nextCoords);
 		grid[nextCoords.x][nextCoords.y].addPokemon(enemy);
-		enemy.setNextLocation(enemyPath.get(iMore));
-		enemy.takeStep();//Increments step counter to see how many tiles it has gone total
-		
-		return true;
-		
+		enemy.setNextLocation(enemyPaths.get(pathNumber).get(iMore));
+		enemy.takeStep();//Increments step counter to see how many tiles it has gone total		
 	}
 	
 	/**
@@ -233,15 +238,17 @@ public abstract class Map implements Serializable{
 	}
 	
 	/**
-	 * Attempts to add a Gym tower to a given location on the map.
-	 * @param tower The Gym tower to be added.
-	 * @param location The location to add the Gym tower to.
-	 * @return true if successful (no preexisting tower there and not part of path)
-	 * or false if tower cannot be placed.
+	 * Attempts to add a Tower to a given location on the map.
+	 * (no pre-existing tower may be there, location is not part of path,
+	 * player has enough money to buy tower, location is on the map)
+	 * @param tower The Tower to be added.
+	 * @param location The location to add the Tower to in (Rows, Columns).
+	 * @return true if successful or false if tower cannot be placed.
+	 * 
 	 */
 	public boolean addTower(Tower tower, Point location){
-		if(location.x >= numOfRows || location.y >= numOfColumns){
-			return false;
+		if(location.x >= numOfRows || location.x < 0 || location.y >= numOfColumns || location.y < 0){
+			return false; //Prevent index out of bounds exceptions
 		}
 		if(!grid[location.x][location.y].containsGym() && !grid[location.x][location.y].isPartOfPath()){
 			if(tower.checkBuy(player.getMoney())){
@@ -260,13 +267,12 @@ public abstract class Map implements Serializable{
 	}
 	
 	/**
-	 * Removes a Gym tower from the Map. Sells for half the initial cost.
-	 * @param tower The Gym tower to be removed. 
+	 * Removes a Tower from the Map. Sells for half the initial cost.
+	 * @param l the Point containing the location (row, column) of tower to be removed. 
 	 */
 	
-	//could pass just the point where the desired tower to remove is instead
 	public void sellTower(Point l){
-		if(l.x >= numOfRows || l.y >= numOfColumns){
+		if(l.x >= numOfRows || l.y >= numOfColumns || l.x < 0 || l.y < 0){
 			return;
 		}
 		if(grid[l.x][l.y].containsGym()){
@@ -279,14 +285,29 @@ public abstract class Map implements Serializable{
 		}
 	}
 	
+	/**
+	 * Returns all the enemies on the map
+	 * @return enemies an ArrayList of all the Enemies on the map
+	 */
 	public ArrayList<Enemy> getEnemies(){
 		return enemies;
 	}
 	
+	/**
+	 * Returns all the towers on the map
+	 * @return towers an ArrayList of all the towers on the map
+	 */
 	public ArrayList<Tower> getTowers(){
 		return towers;
 	}
 	
+	/**
+	 * This method is called by the master Timer on the Server every timePerTick,
+	 * it updates the internal state of every tower and enemy on the map, then
+	 * generates their respective "Image" objects and sends them to the Clients
+	 * @param timePerTick the time in ms between ticks
+	 * @param gameServer the GameServer that the map belongs to responsible for notifying clients of this update
+	 */
 	public void tick(int timePerTick, GameServer gameServer){
 		//call all enemies and towers to call their tick() method, which will increment their
 		//cool down timers, causing them to move/shoot if they are ready
@@ -304,38 +325,35 @@ public abstract class Map implements Serializable{
 		
 	}
 
+	/**
+	 * Sets the Map's Server and in doing so sends the Server information about the
+	 * Map required to paint it on the Clients GUI
+	 * @param server the GameServer to set this Map to
+	 */
 	public void setServer(GameServer server) {
 		this.server = server;
-		this.server.updateClientsOfMapBackground(this.imageURL, this.enemyPath, this.numOfRows, this.numOfColumns);
+		this.server.updateClientsOfMapBackground(this.imageURL, this.enemyPaths, this.numOfRows, this.numOfColumns);
 		
 	}
 	
-	/** @ Max Justice
+	/** 
 	 * This method is to notify the server an attack happened.  It is then supposed to be passed to client and updated
-	 * inside the GUI.  It takes the tower that is attacking and the current pokemon that is being attacked.
-	 * it then returns true.
-	 * @param gym
-	 * @param pokemon
-	 * @return
+	 * inside the GUI.  It takes the towerType that is attacking and the current Enemy that is being attacked.
+	 * @param type the towerType of the attacking Tower
+	 * @param towerLocation the Point containing coordinates (row, column) of tower
+	 * @param enemyLocation the Point containing coordinates (row, column) of enemy
 	 */
 	public void notifyOfAttack(towerType type, Point towerLocation, Point enemyLocation) {
 		this.server.updateClientsOfAttack(type, towerLocation, enemyLocation);
 		
 	}
 	
+	/**
+	 * Returns the String URL to this map's background image to be painted
+	 * @return imageURL the String of the URL for this Map's background image
+	 */
 	public String getImageURL() {
 		return imageURL;
 	}
-	
-	/**
-	 * @ Max Justice
-	 * This is for the attack algorithm and finding the cloesets enemy and one nearest the wall
-	 */
-	public int lengthOfPath(){
-		return enemyPath.size();
-		//System.out.println("the size of the path is: " + enemyPath.size());
-	}
 
-
-	
 }

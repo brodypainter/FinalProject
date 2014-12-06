@@ -308,12 +308,9 @@ public abstract class Tower implements Serializable{
 		
 	}
 	
-	//TODO:
-	//We may also want a method that finds the farthest (not necessarily closest) enemy within its range
-	//or farthest along the path..., use the new method I made called Enemy.getStepsTaken() -PH
-	
+	//May want to rename method to findPriorityEnemy or something -PWH
 	/**
-	 * This takes the list of enemies and in that list find a single enemy that is the closest
+	 * This takes the list of enemies and in that list find a single enemy that is both in range and farthest along path
 	 * @param enemies
 	 * @return
 	 */

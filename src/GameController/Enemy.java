@@ -69,6 +69,7 @@ public abstract class Enemy implements Serializable{
 	private int distanceLeftOnPath;
 	private int maxHealth; //The initial, maximum health of Enemy
 	private int healthPercentage; //The percentage of current Health / maxHealth
+	private int pathTravelingCode; //The path # that the enemy is traveling on, starting at 0. Set when Level spawns enemies
 
 	/**
 	 * The constructor for Pokemon it takes the following variables
@@ -314,17 +315,18 @@ public enum directionFacing{NORTH, EAST, SOUTH, WEST};
 	//The percentage that the enemy is across the tile is progress
 	//this method is called on each enemy every tick.
 	public void calculateProgress(){
-		setProgress(timeSinceLastMovement/timePerTile);
+		setProgress((double)timeSinceLastMovement/(double)timePerTile);
 	}
 	
-	// for desonne and the GUI
-	public void setProgress(int prog){
-		if (prog < 0)
+	// for Desone and the GUI
+	public void setProgress(double prog){
+		if (prog < 0){
 			this.progress = 0;
-		else if (prog > 100)
+		}
+		if(prog > 1)
 			this.progress = 100;
 		else
-			this.progress = prog;
+			this.progress = (int)(prog*100);
 	}
 	
 	public directionFacing getOrientation(){
@@ -366,4 +368,21 @@ public enum directionFacing{NORTH, EAST, SOUTH, WEST};
 		
 		return stats;
 	}*/
+
+	/**
+	 * Returns the pathTravelingCode for telling which path the enemy is traveling
+	 * @return pathTravelingCode that identifies which path, starting at 0, that the enemy travels
+	 */
+	public int getPathTravelingCode() {
+		return pathTravelingCode;
+	}
+
+	/**
+	 * Level classes will call this method when creating enemies to spawn to separate
+	 * enemies into traveling along 1 of possibly many paths.
+	 * @param pathTravelingCode the path # you want the enemy to travel, starting at 0
+	 */
+	public void setPathTravelingCode(int pathTravelingCode) {
+		this.pathTravelingCode = pathTravelingCode;
+	}
 }

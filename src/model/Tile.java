@@ -6,7 +6,7 @@ import GameController.Tower;
 import GameController.Enemy;
 
 /**
- * This class creates Tile objects which represent single squares in the gameboard grid
+ * This class creates Tile objects which represent single squares in the model grid
  * modeled by the Map class. Tiles can be updated and can tell which Map they belong to,
  * if they are part of the enemy path, and if so if they are the first or last tile, and
  * also know if they contain a Gym tower or a Pokemon enemy on them.
@@ -19,20 +19,20 @@ import GameController.Enemy;
  * boolean containsEnemy		- True if at least 1 enemy Pokemon occupies the tile
  * boolean firstPathTile		- True if the tile is the first along the enemy path
  * boolean lastPathTile			- True if the tile is the last along the enemy path
- * Gym gymTower					- The Gym tower on this tile if there is one
- * ArrayList<Pokemon> enemies	- A list of all enemy Pokemon present on the tile if any
+ * Tower gymTower				- The Tower on this tile if there is one
+ * ArrayList<Enemy> enemies		- A list of all enemy Pokemon present on the tile if any
  * 
  * Methods:
  * public Tile()
  * void setAsPath()
  * boolean isPartOfPath()
  * boolean containsGym()
- * boolean setGym(Gym tower
- * Gym getGym()
+ * boolean setGym(Tower tower)
+ * Tower getGym()
  * boolean containsPokemon()
- * void addPokemon(Pokemon enemyPoke)
- * void removePokemon(Pokemon enemyPoke)
- * ArrayList<Pokemon> getPokemon()
+ * void addPokemon(Enemy enemyPoke)
+ * void removePokemon(Enemy enemyPoke)
+ * ArrayList<Enemy> getPokemon()
  * boolean isFirstPathTile()
  * void setFirstPathTile()
  * boolean isLastPathTile()
@@ -57,105 +57,169 @@ public class Tile implements Serializable{
 	private Tower gymTower;
 	private ArrayList<Enemy> enemies;
 	
-	
-		public Tile(){
-			partOfPath = false;
-			containsGym = false;
-			containsEnemy = false;
-			firstPathTile = false;
-			lastPathTile = false;
-			gymTower = null;
-			enemies = new ArrayList<Enemy>();
-		}
+	/**
+	 * Constructor
+	 */
+	public Tile(){
+		partOfPath = false;
+		containsGym = false;
+		containsEnemy = false;
+		firstPathTile = false;
+		lastPathTile = false;
+		gymTower = null;
+		enemies = new ArrayList<Enemy>();
+	}
 
-		public void setAsPath(){
-			partOfPath = true;
-		}
+	/**
+	 * Sets tile as a part of the path
+	 */
+	public void setAsPath(){
+		partOfPath = true;
+	}
+	
+	/**
+	 * Checks if tile is a part of path
+	 * @return partOfPath, true if it is
+	 */
+	public boolean isPartOfPath(){
+		return partOfPath;
+	}
 		
-		public boolean isPartOfPath(){
-			return partOfPath;
-		}
-		
-		public boolean containsGym(){
-			return containsGym;
-		}
-		
-		public boolean setGym(Tower tower){
-			if(!containsGym && !partOfPath){
+	/**
+	 * Checks if tile already contains a Tower
+	 * @return containsGym, true if it does
+	 */
+	public boolean containsGym(){
+		return containsGym;
+	}
+	
+	/**
+	 * Places a Tower at tile if possible
+	 * @param tower the Tower to be placed
+	 * @return true if placement was successful, false if not
+	 */
+	public boolean setGym(Tower tower){
+		if(!containsGym && !partOfPath){
 			containsGym = true;
 			this.gymTower = tower;
 			return true;
-			}else{
-				return false;
-			}
+		}else{
+			return false;
 		}
-		
-		public Tower getGym(){
-			if(containsGym){
+	}
+	
+	/**
+	 * returns the Tower at the tile location
+	 * @return gymTower, the Tower at location else null if there is none
+	 */
+	public Tower getGym(){
+		if(containsGym){
 			return gymTower;
-			}else{
+		}else{
 				return null;
-			}
 		}
-		
-		public boolean containsPokemon(){
-			return containsEnemy;
-		}
-		
-		public void addPokemon(Enemy enemyPoke){
-			enemies.add(enemyPoke);
-			containsEnemy = true;
+	}
+	
+	/**
+	 * Checks if there are any enemies at this location
+	 * @return true if there are, else false
+	 */
+	public boolean containsPokemon(){
+		return containsEnemy;
+	}
+	
+	/**
+	 * Adds an enemy pokemon to this tile. If this tile is the
+	 * last tile in the enemy path and an enemy is added to it
+	 * this tile will alert its map that it has lost health
+	 * equal to the breaching enemy's attack power. It will
+	 * then remove that enemy
+	 * @param enemyPoke the Enemy to be added
+	 */
+	public void addPokemon(Enemy enemyPoke){
+		enemies.add(enemyPoke);
+		containsEnemy = true;
 			
-			//If an enemy makes it to the last tile in the path alert the tile's Map
-			//so that it can cause player to lose health equal to the enemy's attack power
-			if(lastPathTile){
-				map.lostHealth(enemyPoke.getAttackPower());
-				
-				//TODO:then delete the enemy and everything that does with it here (not finished)
-				
-				this.removePokemon(enemyPoke);
-			}
+		//If an enemy makes it to the last tile in the path alert the tile's Map
+		//so that it can cause player to lose health equal to the enemy's attack power
+		if(lastPathTile){
+			map.lostHealth(enemyPoke.getAttackPower());
+			map.removeDeadEnemy(enemyPoke.getLocation(), enemyPoke);
 		}
+	}
 		
-		public void removePokemon(Enemy enemyPoke){
-			if(containsEnemy){
-			enemies.remove(enemyPoke);
-			}
-			if(enemies.size() == 0){
-				containsEnemy = false;
-			}
+	/**
+	 * Removes an Enemy from this tile location
+	 * @param enemyPoke the Enemy to remove
+	 */
+	public void removePokemon(Enemy enemyPoke){
+		if(containsEnemy){
+		enemies.remove(enemyPoke);
 		}
+		if(enemies.size() == 0){
+			containsEnemy = false;
+		}
+	}
 		
-		public ArrayList<Enemy> getPokemon(){
-			return enemies;
-		}
+	/**
+	 * Returns all Enemies at location
+	 * @return enemies an ArrayList<Enemy> of all enemies here
+	 */
+	public ArrayList<Enemy> getPokemon(){
+		return enemies;
+	}
 
-		public boolean isFirstPathTile(){
-			return firstPathTile;
-		}
+	/**
+	 * Check if this tile is the first in its path
+	 * @return true if it is
+	 */
+	public boolean isFirstPathTile(){
+		return firstPathTile;
+	}
 
-		public void setFirstPathTile(){
-			firstPathTile = true;
-		}
+	/**
+	 * Set this tile as the first in its path
+	 */
+	public void setFirstPathTile(){
+		firstPathTile = true;
+	}
 
-		public boolean isLastPathTile(){
-			return lastPathTile;
-		}
+	/**
+	 * Check if this tile is the last in its path
+	 * @return true if it is
+	 */
+	public boolean isLastPathTile(){
+		return lastPathTile;
+	}
 
-		public void setLastPathTile(){
-			lastPathTile = true;
-		}
+	/**
+	 * Set this tile as the last in its path
+	 */
+	public void setLastPathTile(){
+		lastPathTile = true;
+	}
 
-		public Map getMap(){
-			return map;
-		}
+	/**
+	 * Returns the Map that this tile belongs on
+	 * @return map this Tile's Map
+	 */
+	public Map getMap(){
+		return map;
+	}
+	
+	/**
+	 * Sets this Tile's Map
+	 * @param map the Map to set to
+	 */
+	public void setMap(Map map){
+		this.map = map;
+	}
 
-		public void setMap(Map map){
-			this.map = map;
-		}
-
-		public void removeGym(){
-			gymTower = null;
-			containsGym = false;
-		}
+	/**
+	 * Removes any Tower at this tile location
+	 */
+	public void removeGym(){
+		gymTower = null;
+		containsGym = false;
+	}
 }

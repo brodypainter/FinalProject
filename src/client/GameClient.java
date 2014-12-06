@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.JOptionPane;
@@ -15,7 +16,6 @@ import GUI.EnemyImage;
 import GUI.GameView.towerType;
 import GUI.MainMenu;
 import GUI.TowerImage;
-
 import commands.Command;
 import commands.DisconnectCommand;
 import commands.SendServerCreateLevelCommand;
@@ -238,9 +238,9 @@ public class GameClient{
 	}
 
 	//Called from server via command when a Map is first instantiated on Server
-	public void mapBackgroundUpdate(String backgroundImageURL, List<Point> enemyPathCoords, int rowsInMap, int columnsInMap) {
+	public void mapBackgroundUpdate(String backgroundImageURL, LinkedList<LinkedList<Point>> l, int rowsInMap, int columnsInMap) {
 		mainMenu.getView().setMapBackgroundImageURL(backgroundImageURL);
-		mainMenu.getView().setEnemyPathCoords(enemyPathCoords);
+		mainMenu.getView().setEnemyPathCoords(l);
 		Point mapSize = new Point(columnsInMap,rowsInMap);
 		mainMenu.getView().setGridSize(mapSize);
 	}

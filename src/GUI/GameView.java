@@ -25,6 +25,7 @@ import java.awt.geom.Point2D;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.ImageIcon;
@@ -106,7 +107,7 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 	
 	private String mapBackgroundImageURL;
 	
-	private List<Point> enemyPathCoords; //The list of points containing the coordinates
+	private LinkedList<LinkedList<Point>> enemyPathCoords; //The list of paths of points containing the coordinates
 	private int playerHP; //The player's current HP, display in corner. it is updated
 	private int playerMoney; //The player's current $, display in corner. it is updated
 	//updated by model at every tick
@@ -372,7 +373,7 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 	}
 	
 	
-	public void setEnemyPathCoords(List<Point> l){
+	public void setEnemyPathCoords(LinkedList<LinkedList<Point>> l){
 		this.enemyPathCoords = l;
 		this.createEnemyPathJLabels();
 	}
@@ -380,15 +381,17 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 	private void createEnemyPathJLabels() {
 		JLabel tempTile;
 		ImageIcon enemyTileTemp = new ImageIcon(createImageIcon(enemyPathTileImage).getImage().getScaledInstance(tileWidth, tileHeight, Image.SCALE_FAST));
-		for(Point p: enemyPathCoords){
-			tempTile = new JLabel(enemyTileTemp);
-			tempTile.setSize(tileWidth, tileHeight);
-			int x = p.y * tileWidth; //Reverses are due to how p is (rowsdown, columns) in model -PH
-			int y = p.x * tileHeight;
-			tempTile.setLocation(x, y);
-			tempTile.setName("EnemyPathTile");
-			pathTiles.add(tempTile);
-			board.add(tempTile);
+		for(LinkedList<Point> path: enemyPathCoords){
+			for(Point p: path){
+				tempTile = new JLabel(enemyTileTemp);
+				tempTile.setSize(tileWidth, tileHeight);
+				int x = p.y * tileWidth; //Reverses are due to how p is (rowsdown, columns) in model -PH
+				int y = p.x * tileHeight;
+				tempTile.setLocation(x, y);
+				tempTile.setName("EnemyPathTile");
+				pathTiles.add(tempTile);
+				board.add(tempTile);
+			}
 		}
 	}
 

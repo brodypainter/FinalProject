@@ -1,7 +1,6 @@
 package model;
 
 
-import java.awt.Image;
 import java.awt.Point;
 import java.util.LinkedList;
 
@@ -33,7 +32,7 @@ public class MapFactory {
 		int horizontalSize;		//The amount of columns to be in the Map's grid size
 		int verticalSize;		//The amount of rows to be in the Map's grid size
 		Tile[][] grid;			//A 2D array of Tile objects whose size is set and then is populated
-		LinkedList<Point> path;	//The sequence of Points representing coordinates that enemies will follow
+		LinkedList<LinkedList<Point>> paths;	//The sequence of Points representing coordinates that enemies will follow
 		String levelDescription;//A short description of the Map of the given level
 		String backgroundImage;	//The URL of the background image of the map
 		
@@ -56,8 +55,8 @@ public class MapFactory {
 				}
 			}
 			
-			//Initialize and populate path
-			path = new LinkedList<Point>();
+			//Initialize and populate paths
+			LinkedList<Point> path = new LinkedList<Point>();
 			path.add(new Point(2,0));
 			path.add(new Point(2,1));
 			path.add(new Point(3,1));
@@ -81,8 +80,10 @@ public class MapFactory {
 			path.add(new Point(6,12));
 			path.add(new Point(6,13));
 			path.add(new Point(6,14));
-
-			//created a straight line along y = 2, x = 0 -> 4
+			
+			//add (all) newly created enemy paths to the paths 2D list
+			paths = new LinkedList<LinkedList<Point>>();
+			paths.add(path);
 			
 			//assign the levelDesciption String
 			levelDescription = "This is the beta testing level. It is a 5x10 tile map with a "
@@ -93,7 +94,7 @@ public class MapFactory {
 									//and place the image's location here <---
 			
 			//instantiate a LevelXMap object that extends Map class
-			map = new Level0Map(grid, path, levelDescription, backgroundImage, mapCode, player);
+			map = new Level0Map(grid, paths, levelDescription, backgroundImage, mapCode, player);
 			break;
 		/*case 1:
 			
@@ -139,7 +140,9 @@ public class MapFactory {
 			path.add(new Point(,));
 			path.add(new Point(,));
 			
-			//created a straight line along y = 2, x = 0 -> 4
+			//add (all) newly created enemy paths to the paths 2D list
+			paths = new LinkedList<LinkedList<Point>>();
+			paths.add(path);
 			
 			//assign the levelDesciption String
 			levelDescription = "This is the beta testing level. It is a 5x10 tile map with a "

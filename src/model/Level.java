@@ -82,7 +82,8 @@ public abstract class Level {
    * either another enemy is spawned or another wave is started. Once the last
    * enemy of a wave has been spawned, it checks if there are any more waves
    * and sets waveInProgress to false, and enemiesLeftToSpawn to false
-   * if there are no more waves.
+   * if there are no more waves. The game ends when there are no more enemies
+   * to spawn and no more enemies alive on the board, or when the players HP falls to 0.
    */
   public void tick(){
 	  if(!gameOver()){
@@ -114,7 +115,7 @@ public abstract class Level {
 			  }
 		  }
 	  }
-	  }
+	  } //if Game is not over...
  }
   
   // gameover method checks if player health is less than 0 and calls you lose or you win methods to advance
@@ -139,6 +140,7 @@ public abstract class Level {
 		return false;
 	}
 	
+	//I think this method is being bypassed, Map just calls GameServer directly -PWH
 	// this updates the player info after a game is won or lost and saves it
 	public void notifyPlayerInfoUpdated(){
 		server.updateClients(player.getHealthPoints(), player.getMoney());

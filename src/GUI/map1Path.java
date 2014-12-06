@@ -3,6 +3,7 @@ package GUI;
 import java.awt.Point;
 import java.awt.geom.Point2D;
 
+//Desone's test Hardcoded class do not use for anything else-PH
 public class map1Path
 {
 	public Point2D.Double getLocation(double progress)
