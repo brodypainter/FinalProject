@@ -113,7 +113,7 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 	//updated by model at every tick
 	//private List<TowerImage> towersLast; //A list of all the TowerImages
 	//private List<EnemyImage> enemiesLast; //A list of all the EnemyImages
-	private List<JLabel> towers = new ArrayList<JLabel>(); //A list of all the JLabels on board based on sent TowerImages
+	private List<TowerTile> towers = new ArrayList<TowerTile>(); //A list of all the JLabels on board based on sent TowerImages
 	private List<JLabel> enemies = new ArrayList<JLabel>(); //A list of all the JLabels on board based on sent EnemyImages
 	private List<JLabel> pathTiles = new ArrayList<JLabel>(); //A list of all the JLabels on board based on enemyPathCoords
 	
@@ -122,8 +122,12 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 	private ImageIcon tower3Image;
 	private ImageIcon tower4Image;
 	
-	private Image pik;
-	private JLabel pikLabel;
+	private ImageIcon enemy1ImageN = new ImageIcon();
+	private ImageIcon enemy1ImageE = new ImageIcon();
+	private ImageIcon enemy1ImageS = new ImageIcon();
+	private ImageIcon enemy1ImageW = new ImageIcon();
+	private ImageIcon enemy2Image;
+	private ImageIcon enemy3Image;
 	
 	int qualitySetting;
 	
@@ -157,7 +161,8 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 		setDefaultCloseOperation(this.EXIT_ON_CLOSE);
 		setBackground(Color.BLUE);
 		setLayout(null);
-		setTitle("Pokemon Tower Defense - " + user);
+		setTitle("Pokemon Tower Defense");
+		this.setIconImage(createImageIcon("/images/icon.png").getImage());
 		addMouseListener(this);
 		//addMouseWheelListener(this);  //Temporarily disabled to stop scaling
 		//addComponentListener(new resizeListener());  //Temporarily disabled to stop scaling
@@ -275,7 +280,7 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 				JLabel labelTemp = new JLabel(mapTemp);
 				labelTemp.setName("Background");
 				labelTemp.setBounds(0, 0, getSize().width, (3*getSize().height)/4);
-				board.add(labelTemp); //Added this line -PH
+				((Board) board).addBackground(labelTemp); //Added this line -PH
 	}
 	
 	/**
@@ -289,7 +294,7 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 	{
 		if(type == towerType.NORMAL)
 		{
-			System.out.println("Tower at row " + tower.x + " column " + tower.y + " attacks!");
+			//System.out.println("Tower at row " + tower.x + " column " + tower.y + " attacks!");
 			//JLabel proj = new JLabel(new ImageIcon(createImageIcon(pewterProjectile).getImage().getScaledInstance(this.getWidth()/(levelWidth*2), this.getHeight()/(levelHeight*2), Image.SCALE_FAST)));
 			Line line = new Line(new Point(tower.y * tileWidth + (tileWidth/2), tower.x * tileHeight + (tileHeight/2)), new Point(enemy.y * tileWidth + (tileWidth/2), enemy.x * tileHeight + (tileHeight/2)));
 			//TODO:^Tower.x is the row of tower, tower.y is column, make sure to scale and keep
@@ -381,6 +386,7 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 	private void createEnemyPathJLabels() {
 		JLabel tempTile;
 		ImageIcon enemyTileTemp = new ImageIcon(createImageIcon(enemyPathTileImage).getImage().getScaledInstance(tileWidth, tileHeight, Image.SCALE_FAST));
+<<<<<<< HEAD
 		for(LinkedList<Point> path: enemyPathCoords){
 			for(Point p: path){
 				tempTile = new JLabel(enemyTileTemp);
@@ -392,6 +398,17 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 				pathTiles.add(tempTile);
 				board.add(tempTile);
 			}
+=======
+		for(Point p: enemyPathCoords){
+			tempTile = new JLabel(enemyTileTemp);
+			tempTile.setSize(tileWidth, tileHeight);
+			int x = p.y * tileWidth; //Reverses are due to how p is (rowsdown, columns) in model -PH
+			int y = p.x * tileHeight;
+			tempTile.setLocation(x, y);
+			tempTile.setName("EnemyPathTile");
+			//pathTiles.add(tempTile);
+			//board.add(tempTile);
+>>>>>>> 64d96f7475f00c5b0f73bd5e1783457b4be89894
 		}
 	}
 
@@ -454,14 +471,15 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 			//	board.remove(tower);
 			//}
 			((Board) board).removeTowers();
-			towers = new ArrayList<JLabel>();
+			towers = new ArrayList<TowerTile>();
 			
-			JLabel tempTowerLabel;
+			TowerTile tempTowerLabel;
 			for(TowerImage ti: newTowers){
-				tempTowerLabel = new JLabel(new ImageIcon(ti.getImageURL()));
+				tempTowerLabel = new TowerTile();
 				if(ti.getImageURL().endsWith("cuboneStatic.png"));
 				{
-					tempTowerLabel = new JLabel(tower1Image);
+					tempTowerLabel = new TowerTile();
+					tempTowerLabel.setIcon(tower1Image);
 				}
 				Point tiLocation = ti.getLocation();//this point contains the rowsdown in x and the columnsacross in y
 				int y = tiLocation.x * tileHeight;
@@ -473,18 +491,19 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 			}
 			((Board) board).addTowers(towers);
 			repaint();
-			System.out.println("Updating board");
+			System.out.println("Updating board towers");
 		}
 		
 		enemies = new ArrayList<JLabel>();
 		
-		JLabel tempEnemyLabel;
+		EnemyTile tempEnemyLabel;
 		for(EnemyImage ei: newEnemies){
-			tempEnemyLabel = new JLabel(new ImageIcon(ei.getImageURL()));
+			//tempEnemyLabel = new JLabel(new ImageIcon(ei.getImageURL()));
+			tempEnemyLabel = new EnemyTile();
 			Point eiLocation = ei.getLocation();//this point contains the rowsdown in x and the columnsacross in y
 			directionFacing orientation = ei.getOrientation();
 			int progress = ei.getProgress();
-			
+			//System.out.println(orientation);
 			//get eiLocation and offset
 			//it by progress fraction of tilewidth/height in direction of orientation
 			//to put the image in the right place
@@ -493,21 +512,27 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 			
 			if(orientation == directionFacing.WEST){
 				x = x - ((tileWidth * progress) / 100);
+				tempEnemyLabel.setIcon(enemy1ImageW);
 			}
 			if(orientation == directionFacing.EAST){
 				x = x + ((tileWidth * progress) / 100);
+				tempEnemyLabel.setIcon(enemy1ImageE);
 			}
 			
 			int y = eiLocation.x * tileHeight;
 			
 			if(orientation == directionFacing.NORTH){
 				y = y - ((tileHeight * progress) / 100);
+				tempEnemyLabel.setIcon(enemy1ImageN);
 			}
 			if(orientation == directionFacing.SOUTH){
 				y = y + ((tileHeight * progress) / 100);
+				tempEnemyLabel.setIcon(enemy1ImageS);
 			}
+			tempEnemyLabel.setHealth(ei.getHealthPercentage());
 			tempEnemyLabel.setLocation(x, y);
 			tempEnemyLabel.setSize(tileWidth, tileHeight); //Idk how big we want each enemy, use this for now
+			
 			enemies.add(tempEnemyLabel);
 		}
 		//System.out.println("Progress of furthest enemy: " + newEnemies.get(0).getProgress());
@@ -517,9 +542,13 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 	void updateTileSize()
 	{
 		tileWidth = (int) ((board.getWidth()/levelWidth));
-		System.out.println("Level height" + levelHeight);
+		System.out.println("Level height " + levelHeight);
 		tileHeight = (int) ((board.getHeight()/levelHeight));
 		tower1Image = new ImageIcon(createImageIcon("/images/tower1Level1.png").getImage().getScaledInstance(tileWidth, tileHeight,Image.SCALE_SMOOTH));
+		enemy1ImageN = new ImageIcon(createImageIcon("/images/enemy1Up.gif").getImage().getScaledInstance(tileWidth, tileHeight,Image.SCALE_DEFAULT));
+		enemy1ImageE = new ImageIcon(createImageIcon("/images/enemy1Right.gif").getImage().getScaledInstance(tileWidth, tileHeight,Image.SCALE_DEFAULT));
+		enemy1ImageS = new ImageIcon(createImageIcon("/images/enemy1Down.gif").getImage().getScaledInstance(tileWidth, tileHeight,Image.SCALE_DEFAULT));
+		enemy1ImageW = new ImageIcon(createImageIcon("/images/enemy1Left.gif").getImage().getScaledInstance(tileWidth, tileHeight,Image.SCALE_DEFAULT));
 		createScaledBackgroundImage();
 		board.setBounds(board.getX(), board.getY(), (int) (getSize().width * viewScale), (int) ((3*getSize().height)/4 * viewScale));
 		((Board) board).setTileSize(tileWidth, tileHeight);
@@ -682,7 +711,7 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 		scrollLocation.x += arg0.getX() - scrollLast.x;
 		scrollLocation.y += arg0.getY() - scrollLast.y;
 		scrollLast = arg0.getPoint();
-		board.setBounds(scrollLocation.x, scrollLocation.y,(int) (frame.getSize().width * viewScale),(int) ((3*frame.getSize().height)/4 * viewScale));
+		board.setLocation(scrollLocation.x, scrollLocation.y);
 	}
 	
 	public void mouseMoved(MouseEvent arg0)
