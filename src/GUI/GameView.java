@@ -386,7 +386,7 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 	private void createEnemyPathJLabels() {
 		JLabel tempTile;
 		ImageIcon enemyTileTemp = new ImageIcon(createImageIcon(enemyPathTileImage).getImage().getScaledInstance(tileWidth, tileHeight, Image.SCALE_FAST));
-<<<<<<< HEAD
+
 		for(LinkedList<Point> path: enemyPathCoords){
 			for(Point p: path){
 				tempTile = new JLabel(enemyTileTemp);
@@ -398,17 +398,6 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 				pathTiles.add(tempTile);
 				board.add(tempTile);
 			}
-=======
-		for(Point p: enemyPathCoords){
-			tempTile = new JLabel(enemyTileTemp);
-			tempTile.setSize(tileWidth, tileHeight);
-			int x = p.y * tileWidth; //Reverses are due to how p is (rowsdown, columns) in model -PH
-			int y = p.x * tileHeight;
-			tempTile.setLocation(x, y);
-			tempTile.setName("EnemyPathTile");
-			//pathTiles.add(tempTile);
-			//board.add(tempTile);
->>>>>>> 64d96f7475f00c5b0f73bd5e1783457b4be89894
 		}
 	}
 

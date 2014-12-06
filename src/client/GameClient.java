@@ -167,12 +167,20 @@ public class GameClient{
 		}
 	}
 	
+	/**
+	 * This method is called by the GUI to tell the GameServer which Level to create
+	 * @param i the levelCode
+	 */
 	public void createLevel(int i){
 		// Hardcoded as level 0 for now
 		SendServerCreateLevelCommand c = new SendServerCreateLevelCommand(0);
 		sendCommand(c);
 	}
 	
+	/**
+	 * Sends Command objects from this GameClient to its GameServer
+	 * @param command the Command object to send to GameServer
+	 */
 	public void sendCommand(Command<GameServer> command){
 		try {
 			out.writeObject(command);
@@ -197,27 +205,37 @@ public class GameClient{
 	}
 
 	
-
-	
-
-	
-	
-	//Called by GUI when player attempts to add a tower
-	//The point loc should be (rowdown, columnacross) to attempt to add tower to
-	public void addTower(towerType normal, Point loc){
+	/**
+	 * Called by GUI when player attempts to add a tower
+	 * 
+	 * @param type the towerType enum of the tower to be created
+	 * @param loc the Point (rowdown, columnacross) to attempt to add tower to
+	 */
+	public void addTower(towerType type, Point loc){
 		//System.out.println("Constructing SendServerTowerCommand");
-		SendServerTowerCommand c = new SendServerTowerCommand(normal, loc);
+		SendServerTowerCommand c = new SendServerTowerCommand(type, loc);
 		//System.out.println("Sending SendServerTowerCommand");
 		this.sendCommand(c);
 		//System.out.println("Command Sent");
 	}
 	
 	
-	//called by the GUI, sends command to server to attempt to sell any Tower at a point
-	//The point should contain coordinates (rowsdown, columnsacross) in the grid model
-	public void removeTower(Point p){
+	/**
+	 * called by the GUI, sends command to server to attempt to sell any Tower at a point
+	 * 
+	 * @param p The point should contain coordinates (rowsdown, columnsacross) in the grid model
+	 */
+	public void sellTower(Point p){
 		SendServerTowerRemoveCommand c = new SendServerTowerRemoveCommand(p);
 		this.sendCommand(c);
+	}
+	
+	/**
+	 * Called by the GUI, sends command to GameServer to attempt to upgrade a Tower at Point p
+	 * @param p the location coordinates (rows, columns) of tower to be upgraded
+	 */
+	public void upgradeTower(Point p){
+		//TODO:
 	}
 	
 	/*//Unnecessary method for now unless we make a player click remove enemy in area type thing
@@ -237,7 +255,15 @@ public class GameClient{
 		}
 	}
 
-	//Called from server via command when a Map is first instantiated on Server
+	//
+	/**
+	 * To be called by a Command from server when a Map is first instantiated on Server.
+	 * Passes info about the Map to print to the GUI
+	 * @param backgroundImageURL
+	 * @param l
+	 * @param rowsInMap
+	 * @param columnsInMap
+	 */
 	public void mapBackgroundUpdate(String backgroundImageURL, LinkedList<LinkedList<Point>> l, int rowsInMap, int columnsInMap) {
 		mainMenu.getView().setMapBackgroundImageURL(backgroundImageURL);
 		mainMenu.getView().setEnemyPathCoords(l);
@@ -245,9 +271,9 @@ public class GameClient{
 		mainMenu.getView().setGridSize(mapSize);
 	}
 
-	//Called from server via command every tick to pass updated enemy/tower image locations/states
+	//Called by server via command every tick to pass updated enemy/tower image locations/states
 	/**
-	 * Receives a tower and enemy list and sends it on to the GUI's model.
+	 * Receives a tower and enemy images list and sends it on to the GUI's model.
 	 * @param enemyImages
 	 * @param towerImages
 	 */
@@ -257,13 +283,19 @@ public class GameClient{
 		//GUI shouldn't hold enemies or towers, instead hold their image classes
 	}
 	
-	//Called from server via command whenever any of these variables change in model
+	
+	/**
+	 * Called by GameServer via command when either of these variables change in model
+	 * Send new values to the GUI
+	 * @param hp the Player's new HP
+	 * @param money the Player's new Money
+	 */
 	public void updateHPandMoney(int hp, int money) {
 		mainMenu.getView().setPlayerHP(hp);
 		mainMenu.getView().setPlayerMoney(money);
 	}
 
-	//Called from Server via command whenever a tower attacks an enemy
+	//Called by Server via command whenever a tower attacks an enemy
 	//The points pass (rowsdown, columnsacross) in the model grid of tower and enemy
 	public void towerAttack(towerType t, Point towerLoc, Point enemyLoc) {
 		mainMenu.getView().animateAttack(towerLoc, enemyLoc, t);
@@ -280,4 +312,56 @@ public class GameClient{
 		JOptionPane.showMessageDialog(mainMenu, "You lose");
 		mainMenu = new MainMenu(this);
 	}
+	
+	/**
+	 * To be called by the GUI when user wishes to pause the game.
+	 * creates and sends a Command to GameServer to pause the model.
+	 */
+	public void pauseGame(){
+		//TODO:
+	}
+	
+	/**
+	 * To be called by the GUI when user wishes to resume the game.
+	 * Creates and sends a Command to GameServer to resume the model ticking.
+	 */
+	public void resumeGame(){
+		//TODO:
+	}
+	
+	/**
+	 * To be called by the GUI when user wishes to save the game.
+	 * Creates and sends a Command to GameServer to save the game.
+	 */
+	public void saveGame(){
+		//TODO:
+	}
+	
+	/**
+	 * To be called by the GUI from MainMenu when user wishes to load last saved game.
+	 * Creates and sends a Command to GameServer to reconstruct model based on loaded data
+	 * and resume gameplay in a paused state.
+	 */
+	public void loadGame(){
+		//TODO:
+	}
+	
+	/**
+	 * To be called by the GUI when user wishes to speed up the game.
+	 * Creates and sends a Command to GameServer to speed up the game.
+	 */
+	public void speedUpGame(){
+		//TODO:
+	}
+	
+	/**
+	 * To be called by the GUI when user wishes to return to normal speed in the game.
+	 * Creates and sends a Command to GameServer to do so.
+	 */
+	public void normalSpeedGame(){
+		//TODO:
+	}
+	
+	
+	
 }
