@@ -12,7 +12,8 @@ Maps
 enemies to travel on (so it presents a more difficult gameplay).
 •	A player can select and play on at least three maps.  The path the enemies travel must be different – you cannot just change a background image and call it a new map). These 3 maps should be built-in and selectable at game startup.
 
-TODO: Max is making the 3 concrete maps based on the Map abstract class, and using the MapFactory class to create standardized Map1, Map2, Map3 As well as making Level1, Level2, Level3 (feel free to add easy/hard mode versions if you have time/desire) based on Level abstract class. As far as making a map with 2 or more paths my recommendation would be to make Map hold a 2D list of paths instead of just the 1 it currently does, where paths are just the lists of Point coordinates. Then give Enemy an instance variable that could hold which enemy path it is on (0, 1, 2, etc.) When Level# spawns enemies it would set this instance variable on the enemies that it spawns and spawn them at the appropriate place (the starting tile in the chosen path). Then when enemies are moved we can call getPathNumber or something on them and advance them along the appropriate path in the Map#'s list of paths.
+TODO: Max is making the 3 concrete maps based on the Map abstract class, and using the MapFactory class to create standardized Map1, Map2, Map3 As well as making Level1, Level2, Level3 (feel free to add easy/hard mode versions if you have time/desire) based on Level abstract class. 
+As far as making a map with 2 or more paths use the new 2D paths list I made. 
 Desone work on making the GUI show a screen that will let player select which level # they want after clicking single player instead of always redirecting to Level0.
 
 Enemies
@@ -25,10 +26,12 @@ each type of enemy.
 •	A player can view information about a enemy by clicking one that has been placed. Information should include the characteristics of that enemy (speed, defense, armor, ... your choice).
 •	The game should have at least three different types of enemies.
 
-TODO: Peter fix enemy model progress and movement, Desone make sure enemy repainting is working. Max design 3+ concrete enemies based on Enemy abstract class with all the differences in characteristics, etc.. Desone find a way to have GUI click on a tile and tell client to call a comand asking for info about enemys at a Point coordinate location (maybe click pokedex button drag and drop cursor) and also add a pane to display the info and add HP bars
+TODO: Max design 3+ concrete enemies based on Enemy abstract class with all the differences in characteristics, etc.. 
+Desone find a way to have GUI click on a tile and tell client to call a comand asking for info about enemys at a Point coordinate location (maybe click pokedex button drag and drop cursor) 
+and also add a pane to display the info and add HP bars
 
 Towers
-•	Towers will attack enemies that pass by (in its range of attack). Some examples of this in existing tower defense games are: Gemcraft uses towers powered by gems and the combination of gems determine damage, range, etc. Kingdom Rush uses a medieval setting with archery towers and warrior towers. Be creative! You can decide how towers should attack enemies. For example whether they should attack one enemy until it moves out of the tower's range or whether it attacks enemies at the edge of its range before attacking enemies close to it … whatever makes sense for the game.
+•	Towers will attack enemies that pass by (in its range of attack). For example whether they should attack one enemy until it moves out of the tower's range or whether it attacks enemies at the edge of its range before attacking enemies close to it … whatever makes sense for the game.
 
 •	Each tower has a different damage amount, range of attack, and rate of attack. 
 ^Max
@@ -38,7 +41,7 @@ o	teleport enemies,
 o	slow enemies, 
 o	poison  enemies, 
 o	confusing enemies so that they either walk back towards their start or maybe they spin in a circle for a few seconds, etc.
-^Max + help from Peter
+^Max + help from Peter if needed
 •	A player can view information about a tower before purchasing it and/or
 by clicking one that has been placed.
 ^Max make a toString/getInfo() for towers, Desone let GUI ask for it/display it
@@ -53,7 +56,8 @@ this information should also be updated.
 ^Desone
 •	Towers cannot be built such that they block the path of the enemies.
 ^Already done
-•	The player can build at least three different towers. These three towers must be inherently different. You cannot just change the initial damage and range of a tower, for example, for a tower to qualify as different. A different tower might involve a different type of attack or a different animation. (e.g. a lightning tower that attacks 3 enemies at the same time)
+•	The player can build at least three different towers. These three towers must be inherently different. You cannot just change the initial damage and range of a tower, for example, for a tower to qualify as different. 
+A different tower might involve a different type of attack or a different animation. (e.g. a lightning tower that attacks 3 enemies at the same time)
 ^Max
 
 Single-player Gameplay
@@ -73,7 +77,9 @@ defenses and reach the destination. Again, you can exercise your creativity here
 
 Multi-player Co-op (over the Network)  
 TODO: Brody will do most of this part
-Ideas: We can create special Level classes that contain arraylists of Players and spawn different enemy waves (and/or at different times) on Player1 or player 2, give the Player class an instance variable to hold on to its Partner Player (set by Server or Level) and have them call methods on each other for the shared money/health needs. Desone will make the GUI display a chat log and a minimap tabs/panes for the multi player game view.
+Ideas: We can create special Level classes that contain arraylists of Players and spawn different enemy waves (and/or at different times) on Player1 or player 2,
+give the Player class an instance variable to hold on to its Partner Player (set by Server or Level) and have them call methods on each other for the shared money/health needs. 
+Desone will make the GUI display a chat log and a minimap tabs/panes for the multi player game view.
 
 •	Players must have the option of playing a game with another human player over the network. (2-player only, no need to program for an arbitrary number of players)
 •	Both players' maps have the same path for enemies.
@@ -83,7 +89,8 @@ o	Both players share the same health. In other words, when an enemy reaches the 
 o	Players may send any (positive) amount of currency to the other player
 o	Players may communicate over a chat system that is displayed in the GUI.
 o	Waves may not be exactly the same for both players
-•	Each player will see a mini-map of the other player’s field that also displays some helpful information about them. The mini-map should include at least the towers that the other player has created and where the enemies are located. You could also include statistics such as the number of units the opponent has defeated, the number of units the opponent sends, etc. near the mini-map. Choose what is appropriate and consult with the project manager with any questions or concerns.
+•	Each player will see a mini-map of the other player’s field that also displays some helpful information about them. The mini-map should include at least the towers that the other player has created and where the enemies are located.
+You could also include statistics such as the number of units the opponent has defeated, the number of units the opponent sends, etc. near the mini-map. Choose what is appropriate and consult with the project manager with any questions or concerns.
 •	The win conditions should be implemented the same as the single player mode.
 
 General Game Characteristics & Rules 
