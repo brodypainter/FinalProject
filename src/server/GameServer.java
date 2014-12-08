@@ -9,6 +9,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Timer;
 
@@ -22,7 +23,6 @@ import GameController.Enemy;
 import GameController.Tower;
 import client.GameClient;
 import client.Player;
-
 import commands.Command;
 import commands.DisconnectCommand;
 import commands.SendClientGameLost;
@@ -210,31 +210,6 @@ public class GameServer implements Serializable{
 		currentLevel.getMap().tick(this.timePerTick, this); //towers fire and enemies move when ready, modified with a reference to the server
 	}
 	
-	
-	//tickClients may no longer be necessary since the model is stored
-	//entirely on the server and updated with tickModel. We do not want to hold on to
-	//2 models and try to update them both. Instead use updateClients(enemies,towers) method
-	/**
-	 * Writes a TimeCommand to every connected user, to be called by a
-	 * master Timer every 20 ms.
-	 */
-	/*public void tickClients() {
-		// make an TimeCommmand, write to all connected users
-		TimeCommand update = new TimeCommand();
-		if(!outputs.isEmpty()){
-			
-			for (ObjectOutputStream out : outputs.values()){
-				try{
-					//System.out.println("Tick try on " + out);
-					//out.writeObject(update);
-					//System.out.println("Tick sent");
-				}catch(Exception e){
-					e.printStackTrace();
-				}
-			}
-		}
-	}
-	*/
 	/**
 	 * Stops the GameServer's Timer
 	 */
@@ -320,7 +295,7 @@ public class GameServer implements Serializable{
 	 * @param towers The Server's list of TowerImages
 	 */
 	public void updateClients(ArrayList<EnemyImage> enemyImages, ArrayList<TowerImage> towerImages){
-		System.out.println(enemyImages.toString());
+		//System.out.println(enemyImages.toString());
 		SendClientUpdate c = new SendClientUpdate(enemyImages, towerImages);
 		sendCommand(c);
 	}
@@ -357,8 +332,8 @@ public class GameServer implements Serializable{
 	 * @param numOfRows Number of rows on map
 	 * @param numOfColumns Number of columns on map
 	 */
-	public void updateClientsOfMapBackground(String mapBackgroundURL, List<Point> path, int numOfRows, int numOfColumns){
-		Command<GameClient> c = new SendClientMapBackground(mapBackgroundURL, path, numOfRows, numOfColumns);
+	public void updateClientsOfMapBackground(String mapBackgroundURL, LinkedList<LinkedList<Point>> paths, int numOfRows, int numOfColumns){
+		Command<GameClient> c = new SendClientMapBackground(mapBackgroundURL, paths, numOfRows, numOfColumns);
 		sendCommand(c);
 	}
 	
@@ -383,13 +358,13 @@ public class GameServer implements Serializable{
 	 * @param loc The location at which to place the tower
 	 */
 	public void addTower(towerType type, Point loc) {
-		System.out.println("GameServer attempting to add tower to row: " + loc.x + " col: " + loc.y);
+		//System.out.println("GameServer attempting to add tower to row: " + loc.x + " col: " + loc.y);
 		Tower towerToAdd = TowerFactory.generateTower(type, player); // Generate a tower	
-		System.out.println("addTower command received, adding tower to current level");
+		//System.out.println("addTower command received, adding tower to current level");
 		if(currentLevel.getMap().addTower(towerToAdd, loc)){ // Ask the level to add the tower
-			System.out.println("successfully added tower");
+			//System.out.println("successfully added tower");
 		}else{
-			System.out.println("Adding tower failed due to position/lack of $!");
+			//System.out.println("Adding tower failed due to position/lack of $!");
 		}
 	}
 	

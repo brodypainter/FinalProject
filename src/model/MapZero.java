@@ -22,7 +22,7 @@ public class MapZero extends Map{
 	
 	private static final long serialVersionUID = 8007542926289934852L;
 
-	public MapZero(Tile[][] gridDimensions, LinkedList<Point> path, String mapType, String background, int mapTypeCode, Player player){
-		super(gridDimensions, path, mapType, background, mapTypeCode, player);	
+	public MapZero(Tile[][] gridDimensions, LinkedList<LinkedList<Point>> paths, String mapType, String background, int mapTypeCode, Player player){
+		super(gridDimensions, paths, mapType, background, mapTypeCode, player);	
 	}
 }

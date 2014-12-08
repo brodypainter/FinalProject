@@ -12,13 +12,10 @@ public class Level2 extends Level implements Serializable{
 	
 	private static final int numbOfWaves = 5;
 
-
 	public Level2(Player player, GameServer server) {
 		super(player, server);
 		// TODO Auto-generated constructor stub
 	} 
-
-
 
 	@Override
 	public void createWaves() {
@@ -52,11 +49,13 @@ public class Level2 extends Level implements Serializable{
 	@Override
 	public void setWaveDelayIntervals() {
 		setWaveIntervals(15000L); //15 seconds between the last and first enemy of 2 successive waves
+		// TODO Auto-generated method stub
 	}
 
 	@Override
 	public void setEnemySpawnDelayIntervals() {
 		setEnemySpawnIntervals(2000L); //2 second between each enemy spawning in a wave
+		// TODO Auto-generated method stub
 	}
 
 	@Override
@@ -66,4 +65,7 @@ public class Level2 extends Level implements Serializable{
 		levelsMap.setServer(this.getServer()); //Must set the map's server so it knows to send first update
 		this.setMap(levelsMap);							//and where to send updates thereafter
 	}
+
+		// TODO Auto-generated method stub
 }
+

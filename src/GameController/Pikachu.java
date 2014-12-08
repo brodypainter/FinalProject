@@ -33,6 +33,10 @@ public class Pikachu extends Enemy{
 	 *public Pokemon (int health, int attackPower, int defense, int speed, String name, int worth, String Image, Map map)
 	 */
 	
+	//You could just do enemy.setMap(Map currentMap) instead of doing that in the constructor and
+	//with the UDLR images I would just make a method you call in the constructor to populate
+	//a String Array of all possible images the enemy will use with them -PWH
+	
 	public Pikachu(Map currentMap) {
 		
 		
