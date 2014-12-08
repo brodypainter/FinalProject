@@ -2,6 +2,9 @@ package model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Random;
+
+import GameController.Bulbasaur;
 import GameController.Enemy;
 import GameController.Pikachu;
 import server.GameServer;
@@ -17,15 +20,25 @@ public class Level0 extends Level implements Serializable{
 	public Level0(Player player, GameServer server) {
 		super(player, server);	
 	}
-
+	
+	// enemies for the first level is a 50/50 chance of being bulbasaur or pikachu
 	public void createWaves(){
+		Random r = new Random();
 		ArrayList<ArrayList<Enemy>> waveList = new ArrayList<ArrayList<Enemy>>(); //A temporary 2D array list of Enemy
 		for (int i = 0; i < 10; i++){
 			ArrayList<Enemy> wave = new ArrayList<Enemy>();
-			for (int j = 0; j < 3; j++){
-				Pikachu pika = new Pikachu(getMap());
-				pika.setPathTravelingCode(0); //Will walk along path 0
-				wave.add(pika);
+			for (int j = 0; j < numbOfWaves; j++){
+				int enemyGenerator = r.nextInt(10);
+				if (enemyGenerator <= 4){
+					Pikachu pika = new Pikachu(getMap());
+					pika.setPathTravelingCode(0); //Will walk along path 0
+					wave.add(pika);
+				}
+				else if (enemyGenerator >=5){
+					Bulbasaur bulb = new Bulbasaur(getMap());
+					bulb.setPathTravelingCode(0); //Will walk along path 0
+					wave.add(bulb);
+				}
 			}
 			waveList.add(wave);
 		}

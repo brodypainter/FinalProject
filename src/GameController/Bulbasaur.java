@@ -12,10 +12,10 @@ public class Bulbasaur extends Enemy{
 	private int health;
 	private static final long serialVersionUID = 9072421647945278536L;
 
-	public Bulbasaur(int health, int attackPower, int defense, double speed,
-			String name, int worth, String Image, Map mapRef) {
+	public Bulbasaur(Map mapRef) {
 		//health, attackPower, defense, speed, name, worth, Image, mapRef
-		super(worth, worth, worth, speed, Image, worth, mapRef, Image, Image, Image, Image);
+		// images are down, up, left, right in the constructor
+		super(100, 15, 15, 1.5, "Bulbasaur", 75, mapRef, "Image", "Image", "Image", "Image");
 		// TODO Auto-generated constructor stub
 	}
 
