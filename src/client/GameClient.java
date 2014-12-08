@@ -21,6 +21,7 @@ import commands.DisconnectCommand;
 import commands.SendServerCreateLevelCommand;
 import commands.SendServerTowerCommand;
 import commands.SendServerTowerRemoveCommand;
+import commands.playPauseCommand;
 
 public class GameClient{
 	private String clientName = "Tester"; // user name of the client
@@ -312,21 +313,12 @@ public class GameClient{
 		JOptionPane.showMessageDialog(mainMenu, "You lose");
 		mainMenu = new MainMenu(this);
 	}
-	
 	/**
-	 * To be called by the GUI when user wishes to pause the game.
-	 * creates and sends a Command to GameServer to pause the model.
+	 * To be called by GUI when the user wants to either play or pause the game. Server will handle what to do.
 	 */
-	public void pauseGame(){
-		//TODO:
-	}
-	
-	/**
-	 * To be called by the GUI when user wishes to resume the game.
-	 * Creates and sends a Command to GameServer to resume the model ticking.
-	 */
-	public void resumeGame(){
-		//TODO:
+	public void playPauseGame(){
+		Command<GameServer> c = new playPauseCommand();
+		this.sendCommand(c);
 	}
 	
 	/**

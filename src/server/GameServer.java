@@ -413,4 +413,12 @@ public class GameServer implements Serializable{
 		Command<GameClient> c = new SendClientGameWon();
 		sendCommand(c);
 	}
+
+	/**
+	 * Toggle whether the game is playing normally or is paused, as well as starting the game
+	 */
+	public void playPauseGame() {
+		//TODO: play or pause the game,
+		// @PETER, method to call to do this?
+	}
 }
