@@ -28,7 +28,7 @@ public class EnemyTest {
 	 */
 	@Test
 	public void testGetters(){
-		Pikachu pika = new Pikachu();
+		PikachuEnemy pika = new PikachuEnemy();
 		assertTrue(pika.setLocation( new Point(5,5)));
 		assertEquals( pika.getLocation().x, 5);
 		assertEquals(pika.getLocation().y, 5);
@@ -41,7 +41,7 @@ public class EnemyTest {
 	 */
 	@Test
 	public void testSetters(){
-		Pikachu pika = new Pikachu();
+		PikachuEnemy pika = new PikachuEnemy();
 		assertTrue(pika.setLocation( new Point(5,5)));
 		assertTrue(pika.setSpeed(5));
 		assertEquals(pika.getSpeed(), 5);
@@ -52,7 +52,7 @@ public class EnemyTest {
 	 */
 	@Test
 	public void testAttackAndDefense(){
-		Pikachu pika = new Pikachu();
+		PikachuEnemy pika = new PikachuEnemy();
 		assertTrue(pika.setLocation( new Point(5,5)));
 		assertTrue(pika.incomingAttack(25) );
 		assertEquals(pika.getHealth(), 87);
@@ -61,7 +61,7 @@ public class EnemyTest {
 	
 	@Test
 	public void testDeath(){
-		Pikachu pika = new Pikachu();
+		PikachuEnemy pika = new PikachuEnemy();
 		assertTrue(pika.setLocation( new Point(5,5)));
 		
 		assertTrue(pika.incomingAttack(25) ); //25 - 12 = 13  , 100-13 = 87
@@ -83,14 +83,14 @@ public class EnemyTest {
 	
 	@Test 
 	public void testGetMoney(){
-		Pikachu pika = new Pikachu();
+		PikachuEnemy pika = new PikachuEnemy();
 		assertTrue(pika.setLocation( new Point(5,5)));
 		assertEquals(pika.getMoney(), 25);
 	}
 	
 	@Test
 	public void testImage(){
-		Pikachu pika = new Pikachu();
+		PikachuEnemy pika = new PikachuEnemy();
 		assertTrue(pika.setLocation( new Point(5,5)));
 		assertEquals(pika.getImageURL(), "Image URL");
 	}

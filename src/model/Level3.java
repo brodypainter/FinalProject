@@ -4,16 +4,19 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 
-import GameController.Bulbasaur;
+import GameController.MewEnemy;
+import GameController.BulbasaurEnemy;
+import GameController.CharmanderEnemy;
 import GameController.Enemy;
-import GameController.Pikachu;
+import GameController.PikachuEnemy;
+import GameController.SquirtleEnemy;
 import server.GameServer;
 import client.Player;
 
 public class Level3 extends Level implements Serializable{
 	
 	private static final int numbOfWaves = 8;
-
+	
 	public Level3(Player player, GameServer server) {
 		super(player, server);
 		// TODO Auto-generated constructor stub
@@ -24,20 +27,36 @@ public class Level3 extends Level implements Serializable{
 		Random r = new Random();
 		// TODO Auto-generated method stub
 		ArrayList<ArrayList<Enemy>> waveList = new ArrayList<ArrayList<Enemy>>(); //A temporary 2D array list of Enemy
-		for (int i = 0; i < 10; i++){
+		for (int i = 0; i < numbOfWaves; i++){
 			ArrayList<Enemy> wave = new ArrayList<Enemy>();
-			for (int j = 0; j < numbOfWaves; j++){
+			for (int j = 0; j < 5; j++){
 				int enemyGenerator = r.nextInt(10);
-				if (enemyGenerator <= 4){
-					Pikachu pika = new Pikachu(getMap());
+				if (enemyGenerator <= 0){
+					PikachuEnemy pika = new PikachuEnemy(getMap());
 					pika.setPathTravelingCode(0); //Will walk along path 0
 					wave.add(pika);
 				}
-				else if (enemyGenerator >=5){
-					Bulbasaur bulb = new Bulbasaur(getMap());
+				else if (enemyGenerator >= 1 && enemyGenerator <= 2){
+					BulbasaurEnemy bulb = new BulbasaurEnemy(getMap());
 					bulb.setPathTravelingCode(0); //Will walk along path 0
 					wave.add(bulb);
 				}
+				else if (enemyGenerator >= 3 && enemyGenerator <= 4){
+					SquirtleEnemy squirt = new SquirtleEnemy(getMap());
+					squirt.setPathTravelingCode(0);
+					wave.add(squirt);
+				}
+				else if (enemyGenerator >= 5 && enemyGenerator <= 7){
+					CharmanderEnemy charm = new CharmanderEnemy(getMap());
+					charm.setPathTravelingCode(0);
+					wave.add(charm);
+				}
+				else if (enemyGenerator >= 8 && enemyGenerator <= 9){
+					MewEnemy abra = new MewEnemy(getMap());
+					abra.setPathTravelingCode(0);
+					wave.add(abra);
+				}
+					
 			}
 			waveList.add(wave);
 		}

@@ -72,6 +72,8 @@ public abstract class Enemy implements Serializable{
 	private int healthPercentage; //The percentage of current Health / maxHealth
 	private int pathTravelingCode; //The path # that the enemy is traveling on, starting at 0. Set when Level spawns enemies
 
+	
+	public enum enemyType {NORMAL,WATER,ELECTRIC,GRASS,POISON,PSYCHIC,FIRE,MCCANN}
 	/**
 	 * The constructor for Pokemon it takes the following variables
 	 * @param health for the initial state of the pokemons health

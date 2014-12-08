@@ -158,7 +158,12 @@ public class MapFactory {
 			map = new Level0Map(grid, path, levelDescription, backgroundImage, mapCode, player);
 			break;*/
 			//case other levels...
-		
+		/* case 2:
+		 * this will have a second path to traverse
+		 *
+		 * 
+		 * break;
+		 */
 		default:
 			map = null; //A non-existent level for mapCode was passed, should never happen
 		}

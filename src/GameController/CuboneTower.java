@@ -22,7 +22,7 @@ import GameController.Tower;
  *  boolean checkBuy(int PlayerCurrency)
  *  boolean levelUp()
  */
-public class TowerOne extends Tower{
+public class CuboneTower extends Tower{
 
 	/**
 	 * 
@@ -37,7 +37,7 @@ public class TowerOne extends Tower{
 	 * 3 shots per a second and the Image URL to the gym
 	 * @param PlayersName is the only value the gym 
 	 */
-	public TowerOne(String PlayersName){
+	public CuboneTower(String PlayersName){
 		/* String Name, int Attack, int Radius, double FireRateSec, String PlayersName,
 					String Image, int cost */
 		super("Cerulean Gym", 15, 1, 1.5, PlayersName,"src/images/cuboneStatic.png", Cost);	

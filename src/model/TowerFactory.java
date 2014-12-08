@@ -2,7 +2,13 @@ package model;
 
 import client.Player;
 import GUI.GameView.towerType;
-import GameController.TowerOne;
+import GameController.AbraTower;
+import GameController.CuboneTower;
+import GameController.GhostlyTower;
+import GameController.MagnimiteTower;
+import GameController.MewtwoTower;
+import GameController.OddishTower;
+import GameController.PoliwagTower;
 import GameController.Tower;
 
 /**
@@ -16,7 +22,7 @@ import GameController.Tower;
 
 public class TowerFactory {
 
-	
+	//NORMAL,WATER,ELECTRIC,GRASS,POISON,PSYCHIC,FIRE,MEWTWO
 	/**
 	 * A static Tower Factory method.
 	 * @param type the towerType enum of the tower to be created
@@ -27,9 +33,29 @@ public class TowerFactory {
 		Tower tower;
 		switch(type){
 		case NORMAL:
-			tower = new TowerOne(player.getName());
+			tower = new CuboneTower(player.getName());
+			break;
+		case WATER:
+			tower = new PoliwagTower(player.getName());
+			break;
+		case ELECTRIC:
+			tower = new MagnimiteTower(player.getName());
+			break;
+		case GRASS:
+			tower = new OddishTower(player.getName());
+			break;
+		case PSYCHIC:
+			tower = new GhostlyTower(player.getName());
+			break;
+		case FIRE:
+			tower = new AbraTower(player.getName());
+			break;
+		case MEWTWO:
+			tower = new MewtwoTower(player.getName());
+			break;
 		default:
-			tower = new TowerOne(player.getName());
+			tower = new CuboneTower(player.getName());
+			break;
 		}
 		return tower;
 	}

@@ -13,7 +13,7 @@ import model.Map;
  * @author Max Justice
  *
  */
-public class Pikachu extends Enemy{
+public class PikachuEnemy extends Enemy{
 
 	/**
 	 * 
@@ -37,7 +37,7 @@ public class Pikachu extends Enemy{
 	//with the UDLR images I would just make a method you call in the constructor to populate
 	//a String Array of all possible images the enemy will use with them -PWH
 	
-	public Pikachu(Map currentMap) {
+	public PikachuEnemy(Map currentMap) {
 		
 		//health, attackPower, defense, speed, name, worth, Image, mapRef
 

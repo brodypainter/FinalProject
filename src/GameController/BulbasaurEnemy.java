@@ -4,7 +4,7 @@ import java.util.Random;
 
 import model.Map;
 
-public class Bulbasaur extends Enemy{
+public class BulbasaurEnemy extends Enemy{
 
 	/**
 	 * 
@@ -12,7 +12,7 @@ public class Bulbasaur extends Enemy{
 	private int health;
 	private static final long serialVersionUID = 9072421647945278536L;
 
-	public Bulbasaur(Map mapRef) {
+	public BulbasaurEnemy(Map mapRef) {
 		//health, attackPower, defense, speed, name, worth, Image, mapRef
 		// images are down, up, left, right in the constructor
 		super(100, 15, 15, 1.5, "Bulbasaur", 75, mapRef, "Image", "Image", "Image", "Image");

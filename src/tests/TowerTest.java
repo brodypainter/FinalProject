@@ -21,7 +21,7 @@ public class TowerTest {
 		//super("Cerulean Gym", 25, 150, 3, PlayersName,"ImageURL Here");
 		//String Name, int Attack, int Radius, int FireRateSec, String PlayersName
 
-		TowerOne gym = new TowerOne("Max Justice");
+		CuboneTower gym = new CuboneTower("Max Justice");
 		
 		gym.setPlaceOnBoard(new Point (25,25));
 		
@@ -46,18 +46,18 @@ public class TowerTest {
 	public void testAttacks(){
 		
 		
-		TowerOne gym = new TowerOne("Max Justice");
+		CuboneTower gym = new CuboneTower("Max Justice");
 		
 		gym.setPlaceOnBoard(new Point (25,25));
 		
 		ArrayList<Enemy> badguys = new ArrayList<Enemy>();
-		Pikachu pika1 = new Pikachu();
+		PikachuEnemy pika1 = new PikachuEnemy();
 		pika1.setLocation( new Point(5,5));
-		Pikachu pika2 = new Pikachu();
+		PikachuEnemy pika2 = new PikachuEnemy();
 		pika2.setLocation( new Point(50,50));
-		Pikachu pika3 = new Pikachu();
+		PikachuEnemy pika3 = new PikachuEnemy();
 		pika3.setLocation( new Point(100,100));
-		Pikachu pika4 = new Pikachu();
+		PikachuEnemy pika4 = new PikachuEnemy();
 		pika4.setLocation( new Point(300,300));	
 		badguys.add(pika1);
 		badguys.add(pika2);
@@ -74,15 +74,15 @@ public class TowerTest {
 	
 	@Test
 	public void testBuy(){
-		TowerOne gym = new TowerOne("Max Justice");
+		CuboneTower gym = new CuboneTower("Max Justice");
 
-		assertEquals(TowerOne.Cost, 300);
+		assertEquals(CuboneTower.Cost, 300);
 		assertTrue(gym.checkBuy(3000));
 	}
 
 	@Test
 	public void testIncreasesToAtt(){
-		TowerOne gym = new TowerOne("Max Justice");
+		CuboneTower gym = new CuboneTower("Max Justice");
 		
 		assertTrue(gym.increaseFireRate(5));
 		assertEquals(gym.getFireRate(),8);
