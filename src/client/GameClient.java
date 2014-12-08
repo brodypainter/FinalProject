@@ -21,7 +21,11 @@ import commands.DisconnectCommand;
 import commands.ServerCreateLevelCommand;
 import commands.ServerTowerCommand;
 import commands.ServerTowerRemoveCommand;
+import commands.loadGameCommand;
+import commands.normalSpeedCommand;
 import commands.playPauseCommand;
+import commands.saveGameCommand;
+import commands.speedUpCommand;
 
 public class GameClient{
 	private String clientName = "Tester"; // user name of the client
@@ -62,6 +66,7 @@ public class GameClient{
 					 * 
 					 */
 					//System.out.println("Read Object");
+					@SuppressWarnings("unchecked")
 					Command<GameClient> c = (Command<GameClient>)in.readObject();
 					c.execute(GameClient.this);
 					//System.out.println(in.readObject());

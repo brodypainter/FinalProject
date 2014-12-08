@@ -10,7 +10,6 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Timer;
 
 import model.Level;
@@ -23,8 +22,7 @@ import GameController.Enemy;
 import GameController.Tower;
 import client.GameClient;
 import client.Player;
-import commands.Command;
-import commands.DisconnectCommand;
+
 import commands.ClientGameLost;
 import commands.ClientGameWon;
 import commands.ClientHPandMoney;
@@ -32,6 +30,8 @@ import commands.ClientMapBackground;
 import commands.ClientMessageCommand;
 import commands.ClientTowerAttack;
 import commands.ClientUpdate;
+import commands.Command;
+import commands.DisconnectCommand;
 
 /**
  * This class is the server side of the tower defense game. The server keeps track of all client outputs, and manages
@@ -87,12 +87,13 @@ public class GameServer implements Serializable{
 				while(true){
 					
 					// read a command from the client, execute on the server
-					Command<GameServer> command = (Command<GameServer>)input.readObject();
-					System.out.println("\t\t Command " + command + " received");
-					command.execute(thisServer);
+					@SuppressWarnings("unchecked")
+					Command<GameServer> c = (Command<GameServer>)input.readObject();
+					System.out.println("\t\t Command " + c + " received");
+					c.execute(thisServer);
 					
 					// terminate if client is disconnecting
-					if (command instanceof DisconnectCommand){
+					if (c instanceof DisconnectCommand){
 						input.close();
 						return;
 					}
@@ -421,4 +422,36 @@ public class GameServer implements Serializable{
 		//TODO: play or pause the game,
 		// @PETER, method to call to do this?
 	}
+
+	/**
+	 * Save the state of the current game to the server
+	 */
+	public void saveGame() {
+		// TODO: Notify model to save the game	
+	}
+
+	/**
+	 * Attempts to load a saved game.
+	 * 
+	 * TODO: if there isnt a game available, what should we do?
+	 */
+	public void loadGame() {
+		// TODO LOGIC: attempt to load the game using a file name that wont be changing, if it exists, set that game as the current one
+		//		and continue as normal, if there isnt a game, what exactly should we do?
+	}
+
+	/**
+	 * Changes game behavior to play at a faster rate
+	 */
+	public void speedUp() {
+		// TODO what to call
+	}
+
+	/**
+	 * Changes game behavior to play at the default rate
+	 */
+	public void normalSpeed() {
+		// TODO what to call
+	}
+
 }
