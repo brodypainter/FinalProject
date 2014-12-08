@@ -1,5 +1,7 @@
 package GameController;
 
+import java.util.Random;
+
 import model.Map;
 
 public class Bulbasaur extends Enemy{
@@ -7,6 +9,7 @@ public class Bulbasaur extends Enemy{
 	/**
 	 * 
 	 */
+	private int health;
 	private static final long serialVersionUID = 9072421647945278536L;
 
 	public Bulbasaur(int health, int attackPower, int defense, double speed,
@@ -35,7 +38,15 @@ public class Bulbasaur extends Enemy{
 	 */
 	@Override
 	boolean specialPower() {
-		
+		Random r = new Random();
+		int value = r.nextInt(3);
+		if (value == 0 || value == 1){
+			int newHealth = super.getHealth() + 5;
+			if (newHealth > this.health)
+				newHealth = this.health;
+			super.setHealth(newHealth);
+			return true;
+		}
 		return false;
 	}
 }

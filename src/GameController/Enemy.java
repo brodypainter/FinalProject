@@ -263,6 +263,13 @@ public enum directionFacing{NORTH, EAST, SOUTH, WEST};
 		return this.Health;
 	}
 	
+	public void setHealth(int newHealth){
+		this.Health = newHealth;
+	}
+	
+	public void setAttackPower(int newAttack){
+		this.AttackPower = newAttack;
+	}
 	/**
 	 * Sets the pokemon's map instance variable, method to be called by the Map that it is spawned on
 	 * 
@@ -282,6 +289,7 @@ public enum directionFacing{NORTH, EAST, SOUTH, WEST};
 			map.updateEnemyPosition(this);
 			orientation = this.direction(this);//Enemy has just moved, update it's orientation
 			timeSinceLastMovement = 0;
+			specialPower();
 		}
 		calculateProgress(); //Updates % of tile he is finished with
 	}

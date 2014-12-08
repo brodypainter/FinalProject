@@ -1,13 +1,19 @@
 package GameController;
 
+import java.awt.Point;
+
 import model.Map;
 
 public class Charmander extends Enemy{
 
+	
+	private int attackPower;
 	public Charmander(Map currentMap) {
+		
 		//  health, attack, defense, speed, name, worth, image and map
 		super(120, 15, 7, 1.5, "Charmander", 35, currentMap, "","","","");
 		// TODO Auto-generated constructor stub
+		this.attackPower=15;
 	}
 
 	@Override
@@ -31,7 +37,16 @@ public class Charmander extends Enemy{
 	
 	@Override
 	boolean specialPower() {
-		// TODO Auto-generated method stub
+		// TODO Auto-generated metod stub
+		Point current = super.getLocation();
+		Point previous = super.getPreviousLocation();
+		if (current.x == previous.x && current.y == previous.y){
+			if (super.getHealthPercentage() >= 50){
+				super.setAttackPower(this.attackPower*2);
+				return true;
+			}
+		}
+		
 		return false;
 	}
 }
