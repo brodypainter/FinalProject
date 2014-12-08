@@ -12,7 +12,7 @@ public class Squirtle extends Enemy{
 					
 	public Squirtle(Map mapRef) {
 		//health, attackPower, defense, speed, name, worth, Image, mapRef
-		super(95, 8, 25, 0.5, "Squirtle", 30, " ", mapRef);
+		super(95, 8, 25, 0.5, "Squirtle", 30, mapRef, "","","","");
 		// TODO Auto-generated constructor stub
 	}
 
@@ -28,6 +28,12 @@ public class Squirtle extends Enemy{
 									"Special: Squirtle has a very high\n" +
 									"defense\n");
 		return stats;
+	}
+
+	@Override
+	boolean specialPower() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 	
 	/**

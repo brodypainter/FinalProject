@@ -93,7 +93,7 @@ public class MapFactory {
 									//and place the image's location here <---
 			
 			//instantiate a LevelXMap object that extends Map class
-			map = new Level0Map(grid, path, levelDescription, backgroundImage, mapCode, player);
+			map = new MapZero(grid, path, levelDescription, backgroundImage, mapCode, player);
 			break;
 		/*case 1:
 			

@@ -103,6 +103,9 @@ public abstract class Enemy implements Serializable{
 		//distanceLeftOnPath = mapRef.lengthOfPath();
 	} // end constructor
 	
+	// Max 12/2 this is for the pokemon's unique abilities
+	abstract boolean specialPower();
+	
 	/**
 	 * This is just a getter returning the current location
 	 * @return the point of the current location on the screen

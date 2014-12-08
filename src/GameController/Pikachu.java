@@ -62,5 +62,11 @@ public class Pikachu extends Enemy{
 		return stats;
 	}
 
+	@Override
+	boolean specialPower() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 	
 }

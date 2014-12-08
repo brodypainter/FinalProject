@@ -6,7 +6,7 @@ public class Charmander extends Enemy{
 
 	public Charmander(Map currentMap) {
 		//  health, attack, defense, speed, name, worth, image and map
-		super(120, 15, 7, 1.5, "Charmander", 35, "no-image", currentMap);
+		super(120, 15, 7, 1.5, "Charmander", 35, currentMap, "","","","");
 		// TODO Auto-generated constructor stub
 	}
 
@@ -29,5 +29,9 @@ public class Charmander extends Enemy{
 	 * end of the map its attack increases to 2x
 	 */
 	
-	
+	@Override
+	boolean specialPower() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

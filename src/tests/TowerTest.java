@@ -29,7 +29,7 @@ public class TowerTest {
 		assertEquals(gym.getCurrentLevel(), 1);
 		assertEquals(gym.getFireRate(), 3);
 		assertEquals(gym.getGymName(), "Cerulean Gym");
-		assertEquals(gym.getAttackRadius(), 150);
+		assertEquals(gym.getRange(), 150);
 		assertEquals(gym.getGymOwner(), "Max Justice");
 		assertEquals(gym.getImageURL(), "ImageURL Here");
 		assertEquals(gym.getPosition().x, 25);
@@ -96,7 +96,7 @@ public class TowerTest {
 		
 		assertEquals(gym.getCurrentLevel(),2);
 		assertEquals(gym.getAttackPower(), 30);		
-		assertEquals(gym.getAttackRadius(), 175);
+		assertEquals(gym.getRange(), 175);
 		assertEquals(gym.getFireRate(), 9);
 	}
 }

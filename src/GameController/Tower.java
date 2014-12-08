@@ -256,7 +256,7 @@ public abstract class Tower implements Serializable{
 	}
 	
 	// returns the attack radius of the tower
-	public int getAttackRadius(){
+	public int getRange(){
 		return this.RadiusPxls;
 	}
 	

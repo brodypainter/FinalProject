@@ -11,7 +11,7 @@ public class Abra extends Enemy{
 
 	public Abra(Map mapRef) {
 		//health, attackPower, defense, speed, name, worth, Image, mapRef
-		super(50, 5, 5, 3.0, "Abra", 20, " ", mapRef);
+		super(50, 5, 5, 3.0, "Abra", 20, mapRef, "","","","");
 		// TODO Auto-generated constructor stub
 	}
 
@@ -28,10 +28,14 @@ public class Abra extends Enemy{
 									"teleport to dodge attacks\n");
 		return stats;
 	}
-	
-	
+		
 	/**
 	 * Abra's special ability is it can teleport to either a new location on the board
 	 * or teleport that the towers attack misses it and its fast
 	 */
+	@Override
+	boolean specialPower() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

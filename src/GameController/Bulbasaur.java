@@ -12,7 +12,7 @@ public class Bulbasaur extends Enemy{
 	public Bulbasaur(int health, int attackPower, int defense, double speed,
 			String name, int worth, String Image, Map mapRef) {
 		//health, attackPower, defense, speed, name, worth, Image, mapRef
-		super(health, attackPower, defense, speed, name, worth, Image, mapRef);
+		super(worth, worth, worth, speed, Image, worth, mapRef, Image, Image, Image, Image);
 		// TODO Auto-generated constructor stub
 	}
 
@@ -33,4 +33,9 @@ public class Bulbasaur extends Enemy{
 	/**
 	 * Bulbasaur's special ability is can regain health slowly as it progresses
 	 */
+	@Override
+	boolean specialPower() {
+		
+		return false;
+	}
 }
