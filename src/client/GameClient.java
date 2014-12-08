@@ -362,6 +362,15 @@ public class GameClient{
 		Command<GameServer> c = new normalSpeedCommand();
 		this.sendCommand(c);
 	}
+
+	/**
+	 * Notifies the GUI of the proper state of speed and paused buttons. 
+	 * @param paused True = paused, False = playing
+	 * @param fast True = faster speed, False = normal speed
+	 */
+	public void changedSpeedState(Boolean paused, Boolean fast) {
+		// TODO Desone, where to send these values to you?
+	}
 	
 	
 	
