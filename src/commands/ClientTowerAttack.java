@@ -5,7 +5,7 @@ import java.awt.Point;
 import GUI.GameView.towerType;
 import client.GameClient;
 
-public class SendClientTowerAttack extends Command<GameClient>{
+public class ClientTowerAttack extends Command<GameClient>{
 	/**
 	 * 
 	 */
@@ -14,7 +14,7 @@ public class SendClientTowerAttack extends Command<GameClient>{
 	Point towerLoc;
 	Point enemyLoc;
 		
-	public SendClientTowerAttack(towerType type, Point towerLocation, Point enemyLocation){
+	public ClientTowerAttack(towerType type, Point towerLocation, Point enemyLocation){
 		this.t = type;
 		this.towerLoc = towerLocation;
 		this.enemyLoc = enemyLocation;

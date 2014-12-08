@@ -7,7 +7,7 @@ import org.junit.*;
 
 import commands.Command;
 import commands.DisconnectCommand;
-import commands.SendServerMessageCommand;
+import commands.ServerMessageCommand;
 
 /**
  * *MUST RUN A SERVER SEPARATELY*
@@ -25,10 +25,10 @@ public class ClientServerCommunicationTest {
 		GameClient client1 = new GameClient("Tester1");
 		GameClient client2 = new GameClient("Tester2");
 		
-		Command<GameServer> command1 = new SendServerMessageCommand("Tester1: Test Message 1");
+		Command<GameServer> command1 = new ServerMessageCommand("Tester1: Test Message 1");
 		client1.sendCommand(command1);
 		
-		Command<GameServer> command2 = new SendServerMessageCommand("Tester2: Test Message 2");
+		Command<GameServer> command2 = new ServerMessageCommand("Tester2: Test Message 2");
 		client2.sendCommand(command2);
 	
 		// Safely disconnect from server

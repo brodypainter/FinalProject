@@ -14,7 +14,7 @@ import GUI.TowerImage;
  * @author brodypainter
  *
  */
-public class SendClientUpdate extends Command<GameClient>{
+public class ClientUpdate extends Command<GameClient>{
 
 	private static final long serialVersionUID = 4504506147509198509L;
 	
@@ -27,7 +27,7 @@ public class SendClientUpdate extends Command<GameClient>{
 	 * @param message A message to be sent to the server for chat purposes
 	 */
 
-	public SendClientUpdate(ArrayList<EnemyImage> enemyImages, ArrayList<TowerImage> towerImages){
+	public ClientUpdate(ArrayList<EnemyImage> enemyImages, ArrayList<TowerImage> towerImages){
 		this.enemyImages = enemyImages;
 		this.towerImages = towerImages;
 	}

@@ -5,7 +5,7 @@ import GameController.Enemy;
 
 
 //Do not use this class at least for now -PH
-public class SendServerEnemyRemoveCommand extends Command<GameServer>{
+public class ServerEnemyRemoveCommand extends Command<GameServer>{
 	
 	/**
 	 * 
@@ -13,7 +13,7 @@ public class SendServerEnemyRemoveCommand extends Command<GameServer>{
 	private static final long serialVersionUID = 5421561357860369854L;
 	private Enemy enemy;
 
-	public SendServerEnemyRemoveCommand(Enemy e){
+	public ServerEnemyRemoveCommand(Enemy e){
 		this.enemy = e;
 	}
 	

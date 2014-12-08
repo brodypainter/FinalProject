@@ -10,22 +10,22 @@ import GameController.Enemy;
  * @author brodypainter
  *
  */
-public class SendServerCreateLevelCommand extends Command<GameServer>{
+public class ServerEnemyCommand extends Command<GameServer>{
 
 	private static final long serialVersionUID = 4504506147509198509L;
-	private int levelCode;
+	private Enemy enemy;
 	
 	/**
 	 * 
 	 * @param message A message to be sent to the server for chat purposes
 	 */
-	public SendServerCreateLevelCommand(int i){
-		this.levelCode = i;
+	public ServerEnemyCommand(Enemy enemy){
+		this.enemy = enemy;
 	}
 
 	@Override
 	public void execute(GameServer executeOn) {
 		// TODO addEnemy in Server
-		executeOn.createLevel(this.levelCode);
+		executeOn.addEnemy(this.enemy);
 	}
 }

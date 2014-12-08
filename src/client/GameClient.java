@@ -18,9 +18,9 @@ import GUI.MainMenu;
 import GUI.TowerImage;
 import commands.Command;
 import commands.DisconnectCommand;
-import commands.SendServerCreateLevelCommand;
-import commands.SendServerTowerCommand;
-import commands.SendServerTowerRemoveCommand;
+import commands.ServerCreateLevelCommand;
+import commands.ServerTowerCommand;
+import commands.ServerTowerRemoveCommand;
 import commands.playPauseCommand;
 
 public class GameClient{
@@ -174,7 +174,7 @@ public class GameClient{
 	 */
 	public void createLevel(int i){
 		// Hardcoded as level 0 for now
-		SendServerCreateLevelCommand c = new SendServerCreateLevelCommand(0);
+		ServerCreateLevelCommand c = new ServerCreateLevelCommand(0);
 		sendCommand(c);
 	}
 	
@@ -214,7 +214,7 @@ public class GameClient{
 	 */
 	public void addTower(towerType type, Point loc){
 		//System.out.println("Constructing SendServerTowerCommand");
-		SendServerTowerCommand c = new SendServerTowerCommand(type, loc);
+		ServerTowerCommand c = new ServerTowerCommand(type, loc);
 		//System.out.println("Sending SendServerTowerCommand");
 		this.sendCommand(c);
 		//System.out.println("Command Sent");
@@ -227,7 +227,7 @@ public class GameClient{
 	 * @param p The point should contain coordinates (rowsdown, columnsacross) in the grid model
 	 */
 	public void sellTower(Point p){
-		SendServerTowerRemoveCommand c = new SendServerTowerRemoveCommand(p);
+		ServerTowerRemoveCommand c = new ServerTowerRemoveCommand(p);
 		this.sendCommand(c);
 	}
 	
@@ -326,7 +326,8 @@ public class GameClient{
 	 * Creates and sends a Command to GameServer to save the game.
 	 */
 	public void saveGame(){
-		//TODO:
+		Command<GameServer> c = new saveGameCommand();
+		this.sendCommand(c);
 	}
 	
 	/**
@@ -335,7 +336,8 @@ public class GameClient{
 	 * and resume gameplay in a paused state.
 	 */
 	public void loadGame(){
-		//TODO:
+		Command<GameServer> c = new loadGameCommand();
+		this.sendCommand(c);
 	}
 	
 	/**
@@ -343,7 +345,8 @@ public class GameClient{
 	 * Creates and sends a Command to GameServer to speed up the game.
 	 */
 	public void speedUpGame(){
-		//TODO:
+		Command<GameServer> c = new speedUpCommand();
+		this.sendCommand(c);
 	}
 	
 	/**
@@ -351,7 +354,8 @@ public class GameClient{
 	 * Creates and sends a Command to GameServer to do so.
 	 */
 	public void normalSpeedGame(){
-		//TODO:
+		Command<GameServer> c = new normalSpeedCommand();
+		this.sendCommand(c);
 	}
 	
 	

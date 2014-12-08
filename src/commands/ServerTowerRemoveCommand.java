@@ -4,14 +4,14 @@ import java.awt.Point;
 
 import server.GameServer;
 
-public class SendServerTowerRemoveCommand extends Command<GameServer>{
+public class ServerTowerRemoveCommand extends Command<GameServer>{
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1163276526057672705L;
 	private Point p;
 	
-	public SendServerTowerRemoveCommand(Point p){
+	public ServerTowerRemoveCommand(Point p){
 		this.p = p;
 	}
 	

@@ -10,7 +10,7 @@ import client.GameClient;
  * @author brodypainter
  *
  */
-public class SendClientMessageCommand extends Command<GameClient>{
+public class ClientMessageCommand extends Command<GameClient>{
 
 	private static final long serialVersionUID = 4413135669815516633L;
 	private String message;
@@ -19,7 +19,7 @@ public class SendClientMessageCommand extends Command<GameClient>{
 	 * 
 	 * @param message A message to be sent to the server for 
 	 */
-	public SendClientMessageCommand(String message){
+	public ClientMessageCommand(String message){
 		this.message = message;
 	}
 

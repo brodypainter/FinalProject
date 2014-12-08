@@ -9,7 +9,7 @@ import server.GameServer;
  * @author brodypainter
  *
  */
-public class SendServerMessageCommand extends Command<GameServer>{
+public class ServerMessageCommand extends Command<GameServer>{
 
 	private static final long serialVersionUID = 4504506147509198509L;
 	private String message;
@@ -18,7 +18,7 @@ public class SendServerMessageCommand extends Command<GameServer>{
 	 * 
 	 * @param message A message to be sent to the server for chat purposes
 	 */
-	public SendServerMessageCommand(String message){
+	public ServerMessageCommand(String message){
 		this.message = message;
 	}
 

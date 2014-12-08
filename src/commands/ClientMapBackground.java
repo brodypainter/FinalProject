@@ -6,7 +6,7 @@ import java.util.List;
 
 import client.GameClient;
 
-public class SendClientMapBackground extends Command<GameClient>{
+public class ClientMapBackground extends Command<GameClient>{
 	/**
 	 * 
 	 */
@@ -16,7 +16,7 @@ public class SendClientMapBackground extends Command<GameClient>{
 	int r;
 	int c;
 		
-	public SendClientMapBackground(String s, LinkedList<LinkedList<Point>> paths, int r, int c){
+	public ClientMapBackground(String s, LinkedList<LinkedList<Point>> paths, int r, int c){
 		this.s = s;
 		this.l = paths;
 		this.r = r;

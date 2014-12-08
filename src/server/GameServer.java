@@ -25,13 +25,13 @@ import client.GameClient;
 import client.Player;
 import commands.Command;
 import commands.DisconnectCommand;
-import commands.SendClientGameLost;
-import commands.SendClientGameWon;
-import commands.SendClientHPandMoney;
-import commands.SendClientMapBackground;
-import commands.SendClientMessageCommand;
-import commands.SendClientTowerAttack;
-import commands.SendClientUpdate;
+import commands.ClientGameLost;
+import commands.ClientGameWon;
+import commands.ClientHPandMoney;
+import commands.ClientMapBackground;
+import commands.ClientMessageCommand;
+import commands.ClientTowerAttack;
+import commands.ClientUpdate;
 
 /**
  * This class is the server side of the tower defense game. The server keeps track of all client outputs, and manages
@@ -183,7 +183,7 @@ public class GameServer implements Serializable{
 	public void updateClientMessages() {
 		System.out.println("updateClients");
 		// make an UpdateClientCommmand, try to write to all connected users
-		SendClientMessageCommand update = new SendClientMessageCommand(latestMessage);
+		ClientMessageCommand update = new ClientMessageCommand(latestMessage);
 		try{
 			for (ObjectOutputStream out : outputs.values())
 				out.writeObject(update);
@@ -296,7 +296,7 @@ public class GameServer implements Serializable{
 	 */
 	public void updateClients(ArrayList<EnemyImage> enemyImages, ArrayList<TowerImage> towerImages){
 		//System.out.println(enemyImages.toString());
-		SendClientUpdate c = new SendClientUpdate(enemyImages, towerImages);
+		ClientUpdate c = new ClientUpdate(enemyImages, towerImages);
 		sendCommand(c);
 	}
 	
@@ -307,7 +307,7 @@ public class GameServer implements Serializable{
 	 * @param playerMoney The player's current money
 	 */
 	public void updateClients(int playerHealth, int playerMoney){
-		Command<GameClient> c = new SendClientHPandMoney(playerHealth, playerMoney);
+		Command<GameClient> c = new ClientHPandMoney(playerHealth, playerMoney);
 		sendCommand(c);
 	}
 	
@@ -319,7 +319,7 @@ public class GameServer implements Serializable{
 	 * @param enemyLocation The enemy's location
 	 */
 	public void updateClientsOfAttack(towerType type, Point towerLocation, Point enemyLocation){
-		Command<GameClient> c = new SendClientTowerAttack(type, towerLocation, enemyLocation);
+		Command<GameClient> c = new ClientTowerAttack(type, towerLocation, enemyLocation);
 		sendCommand(c);
 	}
 	
@@ -333,7 +333,7 @@ public class GameServer implements Serializable{
 	 * @param numOfColumns Number of columns on map
 	 */
 	public void updateClientsOfMapBackground(String mapBackgroundURL, LinkedList<LinkedList<Point>> paths, int numOfRows, int numOfColumns){
-		Command<GameClient> c = new SendClientMapBackground(mapBackgroundURL, paths, numOfRows, numOfColumns);
+		Command<GameClient> c = new ClientMapBackground(mapBackgroundURL, paths, numOfRows, numOfColumns);
 		sendCommand(c);
 	}
 	
@@ -399,7 +399,7 @@ public class GameServer implements Serializable{
 	public void gameLost() {
 		stopTimer();
 		removeLevel();
-		Command<GameClient> c = new SendClientGameLost();
+		Command<GameClient> c = new ClientGameLost();
 		sendCommand(c);
 	}
 
@@ -410,7 +410,7 @@ public class GameServer implements Serializable{
 	public void gameWon() {
 		stopTimer();
 		removeLevel();
-		Command<GameClient> c = new SendClientGameWon();
+		Command<GameClient> c = new ClientGameWon();
 		sendCommand(c);
 	}
 

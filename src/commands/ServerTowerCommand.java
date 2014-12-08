@@ -12,13 +12,13 @@ import server.GameServer;
  * @author brodypainter
  *
  */
-public class SendServerTowerCommand extends Command<GameServer>{
+public class ServerTowerCommand extends Command<GameServer>{
 
 	private static final long serialVersionUID = 4504506147509198509L;
 	private towerType tower;
 	private Point loc;
 	
-	public SendServerTowerCommand(towerType normal, Point loc){
+	public ServerTowerCommand(towerType normal, Point loc){
 		this.tower = normal;
 		this.loc = loc;
 	}
