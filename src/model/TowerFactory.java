@@ -2,7 +2,7 @@ package model;
 
 import client.Player;
 import GUI.GameView.towerType;
-import GameController.CeruleanGym;
+import GameController.TowerOne;
 import GameController.Tower;
 
 /**
@@ -27,9 +27,9 @@ public class TowerFactory {
 		Tower tower;
 		switch(type){
 		case NORMAL:
-			tower = new CeruleanGym(player.getName());
+			tower = new TowerOne(player.getName());
 		default:
-			tower = new CeruleanGym(player.getName());
+			tower = new TowerOne(player.getName());
 		}
 		return tower;
 	}

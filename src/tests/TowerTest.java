@@ -21,7 +21,7 @@ public class TowerTest {
 		//super("Cerulean Gym", 25, 150, 3, PlayersName,"ImageURL Here");
 		//String Name, int Attack, int Radius, int FireRateSec, String PlayersName
 
-		CeruleanGym gym = new CeruleanGym("Max Justice");
+		TowerOne gym = new TowerOne("Max Justice");
 		
 		gym.setPlaceOnBoard(new Point (25,25));
 		
@@ -46,7 +46,7 @@ public class TowerTest {
 	public void testAttacks(){
 		
 		
-		CeruleanGym gym = new CeruleanGym("Max Justice");
+		TowerOne gym = new TowerOne("Max Justice");
 		
 		gym.setPlaceOnBoard(new Point (25,25));
 		
@@ -74,15 +74,15 @@ public class TowerTest {
 	
 	@Test
 	public void testBuy(){
-		CeruleanGym gym = new CeruleanGym("Max Justice");
+		TowerOne gym = new TowerOne("Max Justice");
 
-		assertEquals(CeruleanGym.Cost, 300);
+		assertEquals(TowerOne.Cost, 300);
 		assertTrue(gym.checkBuy(3000));
 	}
 
 	@Test
 	public void testIncreasesToAtt(){
-		CeruleanGym gym = new CeruleanGym("Max Justice");
+		TowerOne gym = new TowerOne("Max Justice");
 		
 		assertTrue(gym.increaseFireRate(5));
 		assertEquals(gym.getFireRate(),8);

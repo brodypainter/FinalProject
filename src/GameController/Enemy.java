@@ -45,6 +45,7 @@ import model.Map;
  * void setProgress()
  */
 public abstract class Enemy implements Serializable{
+	private boolean canBeAttacked = true; // this is for Abra s
 	private int Health;
 	private int AttackPower;
 	private int Defense;

@@ -18,11 +18,11 @@ import client.Player;
  * @version 1.0
  */
 
-public class MapZero extends Map{
+public class CeruleanGym extends Map{
 	
 	private static final long serialVersionUID = 8007542926289934852L;
 
-	public MapZero(Tile[][] gridDimensions, LinkedList<LinkedList<Point>> paths, String mapType, String background, int mapTypeCode, Player player){
+	public CeruleanGym(Tile[][] gridDimensions, LinkedList<LinkedList<Point>> paths, String mapType, String background, int mapTypeCode, Player player){
 		super(gridDimensions, paths, mapType, background, mapTypeCode, player);	
 	}
 }

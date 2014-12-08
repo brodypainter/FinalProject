@@ -94,7 +94,7 @@ public class MapFactory {
 									//and place the image's location here <---
 			
 			//instantiate a LevelXMap object that extends Map class
-			map = new MapZero(grid, paths, levelDescription, backgroundImage, mapCode, player);
+			map = new CeruleanGym(grid, paths, levelDescription, backgroundImage, mapCode, player);
 			break;
 		/*case 1:
 			
