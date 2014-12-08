@@ -22,7 +22,6 @@ import GameController.Enemy;
 import GameController.Tower;
 import client.GameClient;
 import client.Player;
-
 import commands.ClientGameLost;
 import commands.ClientGameWon;
 import commands.ClientHPandMoney;
@@ -32,6 +31,7 @@ import commands.ClientTowerAttack;
 import commands.ClientUpdate;
 import commands.Command;
 import commands.DisconnectCommand;
+import commands.changeStateCommand;
 
 /**
  * This class is the server side of the tower defense game. The server keeps track of all client outputs, and manages
@@ -58,6 +58,8 @@ public class GameServer implements Serializable{
 	private Level currentLevel; //to be set by a command object from server
 	private GameServer thisServer = this; //A reference to itself, the server
 	private int timePerTick = 20; //The time in ms per tick, will be set to 20 ms (50 fps) after debugging
+	private Boolean paused = false;
+	private Boolean fast = false;
 	
 	/**
 	 *	This thread reads and executes commands sent by a client
@@ -288,7 +290,6 @@ public class GameServer implements Serializable{
 	//tower being created, removed, upgraded, or removed.
 	//When Player is called to notify it will tell its GameServer to 
 	
-	
 	/**
 	 * This method will be called by map every time a tick occurs
 	 * 
@@ -419,8 +420,8 @@ public class GameServer implements Serializable{
 	 * Toggle whether the game is playing normally or is paused, as well as starting the game
 	 */
 	public void playPauseGame() {
-		//TODO: play or pause the game,
-		// @PETER, method to call to do this?
+		this.paused = !this.paused;
+		changeState(this.paused, this.fast);
 	}
 
 	/**
@@ -444,14 +445,27 @@ public class GameServer implements Serializable{
 	 * Changes game behavior to play at a faster rate
 	 */
 	public void speedUp() {
-		// TODO what to call
+		this.fast = true;
+		changeState(this.paused, this.fast);
 	}
 
 	/**
 	 * Changes game behavior to play at the default rate
 	 */
 	public void normalSpeed() {
-		// TODO what to call
+		this.fast = false;
+		changeState(this.paused, this.fast);
+	}
+	
+	/**
+	 * Server will notify the client that the state has changed based on a message received from the client
+	 * 
+	 * @param paused
+	 * @param fast
+	 */
+	public void changeState(Boolean paused, Boolean fast){
+		Command<GameClient> c = new changeStateCommand(paused, fast);
+		this.sendCommand(c);
 	}
 
 }
