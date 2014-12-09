@@ -15,7 +15,10 @@ public class PoliwagTower extends Tower{
 	private String level3= "src/images/tower2level2.png";
 	
 	// the Cerulean Gym cost 300 but can be changed if desired
-	public static final int Cost = 300;
+	public static final int Cost = 150;
+	private final int costOfUpgrade1 = 50;
+	private final int costOfUpgrade2 = 100;
+	private final int maxLevelAttainable = 3;
 	//String Name, int Attack, int Radius, int FireRateSec, String PlayersName
 	/**
 	 * The default settings for the cerulean gym a attack power of 25, a radius range of 3 tiles,
@@ -25,7 +28,7 @@ public class PoliwagTower extends Tower{
 	public PoliwagTower(String PlayersName){
 		/* String Name, int Attack, int Radius, double FireRateSec, String PlayersName,
 					String Image, int cost */
-		super("Poliwag Tower", 15, 1, 1.5, PlayersName,"src/images/tower2Level1.png", Cost);	
+		super("Poliwag", 10, 4, 2, PlayersName,"src/images/tower2Level1.png", Cost);	
 		 setTowerType(towerType.WATER);
 		// TODO Auto-generated constructor stub
 	}
@@ -130,9 +133,15 @@ public class PoliwagTower extends Tower{
 	public boolean levelUp() {
 		this.levelIncrease(); 		// increases the leve by one
 		this.setAttackPower(5); 	// increase attack power by 5 poins
-		this.modifyAttackRadius(25);// increase attack radius to 25 pixels
+		this.modifyAttackRadius(2);// increase attack radius to 25 pixels
 		this.increaseFireRate(1); 	// increase the fire rate by one
-		
+		if (super.getCurrentLevel() == 2){
+			super.setImageURL(level2);
+			super.setPokemonName("Poliwhirl");
+		}else if (super.getCurrentLevel() == 3){
+			super.setImageURL(level3);
+			super.setPokemonName("Poliwrath");
+		}
 		return true;
 	}
 
@@ -147,6 +156,22 @@ public class PoliwagTower extends Tower{
 									"Modifier: " + getModifer() + "\n"
 									);
 		return stats;
+	}
+
+	@Override
+	public int getCostOfLevelingUp() {
+		if (super.getCurrentLevel() == 1)
+			return this.costOfUpgrade1;
+		return this.costOfUpgrade2;
+	}
+
+	@Override
+	public boolean upgradeCurrentTower(int playersCoins) {
+		if ( getCostOfLevelingUp() <= playersCoins){
+			levelUp();
+			return true;
+		}
+		return false;
 	}
 }
 

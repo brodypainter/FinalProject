@@ -4,31 +4,32 @@ import java.util.ArrayList;
 
 import GUI.GameView.towerType;
 
-public class MagnimiteTower extends Tower{
+public class GhastlyTower extends Tower {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 3064458220943780948L;
-	
-	
-	private String level1= "src/images/tower3Level1.png";
-	private String level2= "src/images/tower3Level2.png";
-	
-	
+	private static final long serialVersionUID = 1056434548730766900L;
+	private String level1= "src/images/tower5Level1.png";
+	private String level2= "src/images/tower5Level2.png";
+	private String level3= "src/images/tower5level2.png";
+
 	// the Cerulean Gym cost 300 but can be changed if desired
-	public static final int Cost = 300;
+	public static final int Cost = 200;
+	private final int costOfUpgrade1 = 50;
+	private final int costOfUpgrade2 = 100;
+	private final int maxLevelAttainable = 3;
 	//String Name, int Attack, int Radius, int FireRateSec, String PlayersName
 	/**
 	 * The default settings for the cerulean gym a attack power of 25, a radius range of 3 tiles,
 	 * 3 shots per a second and the Image URL to the gym
 	 * @param PlayersName is the only value the gym 
 	 */
-	public MagnimiteTower(String PlayersName){
+	public GhastlyTower(String PlayersName){
 		/* String Name, int Attack, int Radius, double FireRateSec, String PlayersName,
 					String Image, int cost */
-		super("Magnimite Tower", 15, 1, 1.5, PlayersName,"src/images/tower3Level1.png", Cost);	
-		 setTowerType(towerType.ELECTRIC);
+		super("Ghastly", 20, 2, 1, PlayersName,"src/images/tower5Level1.png", Cost);	
+		 setTowerType(towerType.PSYCHIC);
 		// TODO Auto-generated constructor stub
 	}
 
@@ -132,8 +133,17 @@ public class MagnimiteTower extends Tower{
 	public boolean levelUp() {
 		this.levelIncrease(); 		// increases the leve by one
 		this.setAttackPower(5); 	// increase attack power by 5 poins
-		this.modifyAttackRadius(25);// increase attack radius to 25 pixels
-		this.increaseFireRate(1); 	// increase the fire rate by one
+		this.modifyAttackRadius(2);// increase attack radius to 25 pixels
+		this.increaseFireRate(0.5); 	// increase the fire rate by one
+		
+		if (super.getCurrentLevel() == 2){
+			super.setImageURL(level2);
+			super.setPokemonName("Haunter");
+		}
+		else if (super.getCurrentLevel() == 3){
+			super.setImageURL(level3);
+			super.setPokemonName("Gengar");
+		}
 		return true;
 	}
 
@@ -148,5 +158,21 @@ public class MagnimiteTower extends Tower{
 									"Modifier: " + getModifer() + "\n"
 									);
 		return stats;
+	}
+
+	@Override
+	public int getCostOfLevelingUp() {
+		if (this.getCurrentLevel() == 1)
+			return this.costOfUpgrade1;
+		return this.costOfUpgrade2;
+	}
+
+	@Override
+	public boolean upgradeCurrentTower(int playersCoins) {
+		if (getCostOfLevelingUp() <= playersCoins && super.getCurrentLevel() < 3){
+			levelUp();
+			return true;
+		}
+		return false;
 	}
 }

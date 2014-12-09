@@ -23,6 +23,9 @@ public class AbraTower extends Tower{
 	
 	// the Charmander Gym cost 300 but can be changed if desired
 	public static final int Cost = 300;
+	private final int costOfUpgrade1 = 50;
+	private final int costOfUpgrade2 = 100;
+	private final int maxLevelAttainable = 3;
 	//String Name, int Attack, int Radius, int FireRateSec, String PlayersName
 	/**
 	 * The default settings for the charmander gym a attack power of 25, a radius range of 3 tiles,
@@ -32,7 +35,7 @@ public class AbraTower extends Tower{
 	public AbraTower(String PlayersName){
 		/* String Name, int Attack, int Radius, double FireRateSec, String PlayersName,
 					String Image, int cost */
-		super("Abra", 15, 1, 1.5, PlayersName,"src/images/tower6Level1.png", Cost);	
+		super("Abra", 8, 2, 1.5, PlayersName,"src/images/tower6Level1.png", Cost);	
 		 setTowerType(towerType.PSYCHIC);
 		// TODO Auto-generated constructor stub
 	}
@@ -137,8 +140,15 @@ public class AbraTower extends Tower{
 	public boolean levelUp() {
 		this.levelIncrease(); 		// increases the leve by one
 		this.setAttackPower(5); 	// increase attack power by 5 poins
-		this.modifyAttackRadius(3);// increase attack radius to 25 pixels
+		this.modifyAttackRadius(2);// increase attack radius to 25 pixels
 		this.increaseFireRate(1); 	// increase the fire rate by one
+		if (super.getCurrentLevel() == 2){
+			super.setImageURL(level2);
+			super.setPokemonName("Kadabra");
+		}else if (super.getCurrentLevel() == 3){
+			super.setImageURL(level3);
+			super.setPokemonName("Alakazam");
+		}
 		return true;
 	}
 
@@ -153,6 +163,22 @@ public class AbraTower extends Tower{
 									"Modifier: " + getModifer() + "\n"
 									);
 		return stats;
+	}
+
+	@Override
+	public int getCostOfLevelingUp() {
+		if (super.getCurrentLevel() == 1)
+			return this.costOfUpgrade1;
+		return this.costOfUpgrade2;
+	}
+
+	@Override
+	public boolean upgradeCurrentTower(int playersCoins) {
+		if ( getCostOfLevelingUp() <= playersCoins){
+			levelUp();
+			return true;
+		}
+		return false;
 	}
 
 }

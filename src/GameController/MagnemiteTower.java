@@ -4,25 +4,34 @@ import java.util.ArrayList;
 
 import GUI.GameView.towerType;
 
-public class GhostlyTower extends Tower {
+public class MagnemiteTower extends Tower{
 
-	private String level1= "src/images/tower5Level1.png";
-	private String level2= "src/images/tower5Level2.png";
-	private String level3= "src/images/tower5level2.png";
-
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3064458220943780948L;
+	
+	
+	private String level1= "src/images/tower3Level1.png";
+	private String level2= "src/images/tower3Level2.png";
+	
+	
 	// the Cerulean Gym cost 300 but can be changed if desired
-	public static final int Cost = 300;
+	public static final int Cost = 180;
+	private final int costOfUpgrade1 = 50;
+	private final int costOfUpgrade2 = 100;
+	private final int maxLevelAttainable = 2;
 	//String Name, int Attack, int Radius, int FireRateSec, String PlayersName
 	/**
 	 * The default settings for the cerulean gym a attack power of 25, a radius range of 3 tiles,
 	 * 3 shots per a second and the Image URL to the gym
 	 * @param PlayersName is the only value the gym 
 	 */
-	public GhostlyTower(String PlayersName){
+	public MagnemiteTower(String PlayersName){
 		/* String Name, int Attack, int Radius, double FireRateSec, String PlayersName,
 					String Image, int cost */
-		super("Ghostly Tower", 15, 1, 1.5, PlayersName,"src/images/tower5Level1.png", Cost);	
-		 setTowerType(towerType.PSYCHIC);
+		super("Magnemite", 12, 3, 1.5, PlayersName,"src/images/tower3Level1.png", Cost);	
+		 setTowerType(towerType.ELECTRIC);
 		// TODO Auto-generated constructor stub
 	}
 
@@ -126,8 +135,12 @@ public class GhostlyTower extends Tower {
 	public boolean levelUp() {
 		this.levelIncrease(); 		// increases the leve by one
 		this.setAttackPower(5); 	// increase attack power by 5 poins
-		this.modifyAttackRadius(25);// increase attack radius to 25 pixels
+		this.modifyAttackRadius(2);// increase attack radius to 25 pixels
 		this.increaseFireRate(1); 	// increase the fire rate by one
+		if (super.getCurrentLevel() == 2){
+			super.setImageURL(level2);
+			super.setPokemonName("Magnetite");
+		}
 		return true;
 	}
 
@@ -142,5 +155,19 @@ public class GhostlyTower extends Tower {
 									"Modifier: " + getModifer() + "\n"
 									);
 		return stats;
+	}
+
+	@Override
+	public int getCostOfLevelingUp() {
+		return costOfUpgrade1;
+	}
+
+	@Override
+	public boolean upgradeCurrentTower(int playersCoins) {
+		if ( getCostOfLevelingUp() <= playersCoins){
+			levelUp();
+			return true;
+		}
+		return false;
 	}
 }

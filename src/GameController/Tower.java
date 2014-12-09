@@ -149,9 +149,6 @@ public abstract class Tower implements Serializable{
 		return true;
 	}*/
 	
-	public int getCurrentLevel(){
-		return this.Level;
-	}
 	
 	/**@ Max justice 11/25 for displaying stats required
 	 * Print st
@@ -159,6 +156,9 @@ public abstract class Tower implements Serializable{
 	 */
 	public abstract String printTowerStats();
 	
+	public abstract int getCostOfLevelingUp();
+	
+	public abstract boolean upgradeCurrentTower(int playersCoins);
 	/**
 	 * Sets the location of the gym on the board. Point.x = the -y coordinate, Point.y = the x coordinate
 	 * from a Euclidian coordinate view.
@@ -221,6 +221,10 @@ public abstract class Tower implements Serializable{
 	// Getter to return the current owner of the gym
 	public String getGymOwner(){
 		return this.GymOwner;
+	}
+	
+	public void setPokemonName(String evolvedName){
+		this.TowerName=evolvedName;
 	}
 	
 	// returns the current firerate

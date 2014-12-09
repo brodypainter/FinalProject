@@ -42,7 +42,7 @@ public class CharmanderEnemy extends Enemy{
 		Point previous = super.getPreviousLocation();
 		if (current.x == previous.x && current.y == previous.y){
 			if (super.getHealthPercentage() >= 50){
-				super.setAttackPower(this.attackPower*2);
+				super.levelUpAttackPower(this.attackPower*2);
 				return true;
 			}
 		}

@@ -178,6 +178,10 @@ public enum directionFacing{NORTH, EAST, SOUTH, WEST};
 		return this.Worth;
 	}
 	
+	public void setPokemonName(String pokemon){
+		this.Pokemon=pokemon;
+	}
+	
 	// returns the name of the pokemon
 	public String getPokemon(){
 		return this.Pokemon;
@@ -273,8 +277,8 @@ public enum directionFacing{NORTH, EAST, SOUTH, WEST};
 		this.Health = newHealth;
 	}
 	
-	public void setAttackPower(int newAttack){
-		this.AttackPower = newAttack;
+	public void levelUpAttackPower(int newAttack){
+		this.AttackPower += newAttack;
 	}
 	/**
 	 * Sets the pokemon's map instance variable, method to be called by the Map that it is spawned on

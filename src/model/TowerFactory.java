@@ -4,8 +4,8 @@ import client.Player;
 import GUI.GameView.towerType;
 import GameController.AbraTower;
 import GameController.CuboneTower;
-import GameController.GhostlyTower;
-import GameController.MagnimiteTower;
+import GameController.GhastlyTower;
+import GameController.MagnemiteTower;
 import GameController.MewtwoTower;
 import GameController.OddishTower;
 import GameController.PoliwagTower;
@@ -39,13 +39,13 @@ public class TowerFactory {
 			tower = new PoliwagTower(player.getName());
 			break;
 		case ELECTRIC:
-			tower = new MagnimiteTower(player.getName());
+			tower = new MagnemiteTower(player.getName());
 			break;
 		case GRASS:
 			tower = new OddishTower(player.getName());
 			break;
 		case PSYCHIC:
-			tower = new GhostlyTower(player.getName());
+			tower = new GhastlyTower(player.getName());
 			break;
 		case FIRE:
 			tower = new AbraTower(player.getName());
