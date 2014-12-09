@@ -304,7 +304,7 @@ public abstract class Tower implements Serializable{
 	 */
 	public void tick(int timePerTick) {
 		if(!readyToFire){
-			timeSinceLastFire = timeSinceLastFire + timePerTick; //20 because the Timer ticks every 20 ms
+			timeSinceLastFire = timeSinceLastFire + timePerTick; //20*tickDiluter because the Timer ticks every 20 ms
 		}
 		if(timeSinceLastFire >= coolDownTime || readyToFire){
 			if(AttackEnemy(map.getEnemies())){

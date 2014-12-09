@@ -501,7 +501,7 @@ public class GameServer implements Serializable{
 	 * @param p
 	 */
 	public void upgradeTower(Point p) {
-		// TODO Auto-generated method stub
+		currentLevel.getMap().upgradeTower(p);
 	}
 
 }

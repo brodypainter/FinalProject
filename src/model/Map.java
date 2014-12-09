@@ -356,4 +356,14 @@ public abstract class Map implements Serializable{
 		return imageURL;
 	}
 
+
+	public void upgradeTower(Point p) {
+		Tower towerToUpgrade = grid[p.x][p.y].getGym();
+		int costOfUpgrade = towerToUpgrade.getCostOfLevelingUp();
+		if(costOfUpgrade <= player.getMoney()){
+			towerToUpgrade.upgradeCurrentTower(player.getMoney());
+			player.spendMoney(costOfUpgrade);
+		}
+	}
+
 }
