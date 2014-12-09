@@ -327,7 +327,6 @@ public class GameServer implements Serializable{
 		sendCommand(c);
 	}
 	
-	//TODO: Modify to work properly with different operating systems per Mike's instructions
 	/**
 	 * Send the clients the mapBackground path, the path list, and the number of rows and columns for the map
 	 * 
@@ -430,7 +429,6 @@ public class GameServer implements Serializable{
 	 * Save the state of the current game to the server
 	 */
 	public void saveGame() {
-		// TODO: write the object out to the file system
 		try{
 			FileOutputStream f_out = new FileOutputStream("currentLevel.data");
 			ObjectOutputStream obj_out = new ObjectOutputStream(f_out);
@@ -443,17 +441,15 @@ public class GameServer implements Serializable{
 
 	/**
 	 * Attempts to load a saved game.
-	 * 
-	 * TODO: if there isnt a game available, what should we do?
 	 */
 	public void loadGame() {
-		// TODO LOGIC: attempt to load the game using a file name that wont be changing, if it exists, set that game as the current one
+		// LOGIC: attempt to load the game using a file name that wont be changing, if it exists, set that game as the current one
 		//		and continue as normal, if there isnt a game, what exactly should we do?
-		// TODO Ensure that we re-set any transient variables!
 		try{
 			FileInputStream f_in = new FileInputStream("currentLevel.data");
 			ObjectInputStream obj_in = new ObjectInputStream(f_in);
 			currentLevel = (Level) obj_in.readObject();
+			// TODO reset currentLevel transient variables
 		}catch(Exception e){
 			// TODO Probably start a new game here, let the player know that there was
 			//	not a saved game present?
@@ -486,6 +482,14 @@ public class GameServer implements Serializable{
 	public void changeState(Boolean paused, Boolean fast){
 		Command<GameClient> c = new changeStateCommand(paused, fast);
 		this.sendCommand(c);
+	}
+
+	/**
+	 * Attempts to upgrade the tower at point p
+	 * @param p
+	 */
+	public void upgradeTower(Point p) {
+		// TODO Auto-generated method stub
 	}
 
 }
