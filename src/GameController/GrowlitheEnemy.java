@@ -11,7 +11,7 @@ public class GrowlitheEnemy extends Enemy{
 	public GrowlitheEnemy(Map currentMap) {
 		
 		//  health, attack, defense, speed, name, worth, image and map
-		super(120, 15, 7, 1.5, "Charmander", 35, currentMap, "","","","");
+		super(120, 15, 7, 1.5, "Charmander", 35, currentMap, "src/images/enemy7Down.gif","src/images/enemy7Up.gif","src/images/enemy7Left.gif","src/images/enemy7Right.gif");
 		// TODO Auto-generated constructor stub
 		this.attackPower=15;
 	}

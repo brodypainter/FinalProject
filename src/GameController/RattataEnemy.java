@@ -30,7 +30,7 @@ public class RattataEnemy extends Enemy{
 		
 		//health, attackPower, defense, speed, name, worth, Image, mapRef
 
-		super(200, 2, 12, 1, "Rattata", 25, currentMap, "src/images/pikachuDown.gif", "src/images/pikachuUp.gif","src/images/pikachuLeft.gif", "src/images/pikachuRight.gif");
+		super(200, 2, 12, 1, "Rattata", 25, currentMap, "src/images/enemy6Down.gif", "src/images/enemy6Up.gif","src/images/enemy6Left.gif", "src/images/enemy6Right.gif");
 		/* src/images/pikachuRight.gif
 		 * src/images/pikachuLeft.gif
 		 * src/images/pikachuRight.gif

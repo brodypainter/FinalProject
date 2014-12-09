@@ -30,7 +30,7 @@ public class MewEnemy extends Enemy{
 			
 			//health, attackPower, defense, speed, name, worth, Image, mapRef
 
-			super(200, 2, 12, 1, "Mew", 25, currentMap, "src/images/pikachuDown.gif", "src/images/pikachuUp.gif","src/images/pikachuLeft.gif", "src/images/pikachuRight.gif");
+			super(200, 2, 12, 1, "Mew", 25, currentMap, "src/images/enemy4Down.gif", "src/images/enemy4Up.gif","src/images/enemy4Left.gif", "src/images/enemy4Right.gif");
 			/* src/images/pikachuRight.gif
 			 * src/images/pikachuLeft.gif
 			 * src/images/pikachuRight.gif
@@ -51,7 +51,7 @@ public class MewEnemy extends Enemy{
 										"Speed: "+ getSpeed() + "\n" +
 										"Value: " + getMoney() + "\n"+
 										"Modifier: " + /*getModifier() +*/ "\n"+
-										"Ability: Pikachu's ");
+										"Ability: Mew's ");
 			
 			return stats;
 		}
