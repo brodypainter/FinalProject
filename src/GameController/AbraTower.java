@@ -3,48 +3,37 @@ package GameController;
 import java.util.ArrayList;
 
 import GUI.GameView.towerType;
-import GameController.Enemy;
-import GameController.Tower;
 
 /**
- * This is a concrete gym type that extends Gym and Implements serializable
- * @author Max Justice
  * 
- * instance variables
- * final int Cost = 300; 		- these establishes the Gym as a cost of 300
- * 
- * methods
- * Constructor declares a the name of the player and a few other
- * ArrayList<Pokemon> AttackEnemy(ArrayList<Pokemon> enemies)
- * setModifier
- * getModifer
- * boolean increaseFireRate(int amountToIncrease)
- *  boolean checkBuy(int PlayerCurrency)
- *  boolean levelUp()
+ * @author Max
+ *
  */
-public class CuboneTower extends Tower{
+
+public class AbraTower extends Tower{
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -264213046314837558L;
+	private static final long serialVersionUID = -4124433768315956201L;
 	
-	private String level1= "src/images/tower1Level1.png";
-	private String level2= "src/images/tower1Level2.png";
+	private String level1= "src/images/tower6Level1.png";
+	private String level2= "src/images/tower6Level2.png";
+	private String level3= "src/images/tower6level2.png";
 	
-	// the Cerulean Gym cost 300 but can be changed if desired
+	// the Charmander Gym cost 300 but can be changed if desired
 	public static final int Cost = 300;
 	//String Name, int Attack, int Radius, int FireRateSec, String PlayersName
 	/**
-	 * The default settings for the cerulean gym a attack power of 25, a radius range of 3 tiles,
+	 * The default settings for the charmander gym a attack power of 25, a radius range of 3 tiles,
 	 * 3 shots per a second and the Image URL to the gym
 	 * @param PlayersName is the only value the gym 
 	 */
-	public CuboneTower(String PlayersName){
+	public AbraTower(String PlayersName){
 		/* String Name, int Attack, int Radius, double FireRateSec, String PlayersName,
 					String Image, int cost */
-		super("Cubone", 15, 1, 1.5, PlayersName,"src/images/tower1Level1.png", Cost);	
-		 setTowerType(towerType.NORMAL);
+		super("Abra", 15, 1, 1.5, PlayersName,"src/images/tower6Level1.png", Cost);	
+		 setTowerType(towerType.PSYCHIC);
 		// TODO Auto-generated constructor stub
 	}
 
@@ -146,12 +135,10 @@ public class CuboneTower extends Tower{
 
 	@Override
 	public boolean levelUp() {
-		
 		this.levelIncrease(); 		// increases the leve by one
 		this.setAttackPower(5); 	// increase attack power by 5 poins
-		this.modifyAttackRadius(25);// increase attack radius to 25 pixels
+		this.modifyAttackRadius(3);// increase attack radius to 25 pixels
 		this.increaseFireRate(1); 	// increase the fire rate by one
-		this.setImageURL(level2);
 		return true;
 	}
 
@@ -167,5 +154,5 @@ public class CuboneTower extends Tower{
 									);
 		return stats;
 	}
-	
+
 }

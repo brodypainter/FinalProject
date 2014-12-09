@@ -149,6 +149,10 @@ public abstract class Tower implements Serializable{
 		return true;
 	}*/
 	
+	public int getCurrentLevel(){
+		return this.Level;
+	}
+	
 	/**@ Max justice 11/25 for displaying stats required
 	 * Print st
 	 * @return

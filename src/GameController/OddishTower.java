@@ -3,34 +3,17 @@ package GameController;
 import java.util.ArrayList;
 
 import GUI.GameView.towerType;
-import GameController.Enemy;
-import GameController.Tower;
 
-/**
- * This is a concrete gym type that extends Gym and Implements serializable
- * @author Max Justice
- * 
- * instance variables
- * final int Cost = 300; 		- these establishes the Gym as a cost of 300
- * 
- * methods
- * Constructor declares a the name of the player and a few other
- * ArrayList<Pokemon> AttackEnemy(ArrayList<Pokemon> enemies)
- * setModifier
- * getModifer
- * boolean increaseFireRate(int amountToIncrease)
- *  boolean checkBuy(int PlayerCurrency)
- *  boolean levelUp()
- */
-public class CuboneTower extends Tower{
-
+public class OddishTower extends Tower{
+	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -264213046314837558L;
+	private static final long serialVersionUID = -8363667321503405956L;
 	
-	private String level1= "src/images/tower1Level1.png";
-	private String level2= "src/images/tower1Level2.png";
+	private String level1= "src/images/tower4Level1.png";
+	private String level2= "src/images/tower4Level2.png";
+	private String level3= "src/images/tower4level2.png";
 	
 	// the Cerulean Gym cost 300 but can be changed if desired
 	public static final int Cost = 300;
@@ -40,11 +23,11 @@ public class CuboneTower extends Tower{
 	 * 3 shots per a second and the Image URL to the gym
 	 * @param PlayersName is the only value the gym 
 	 */
-	public CuboneTower(String PlayersName){
+	public OddishTower(String PlayersName){
 		/* String Name, int Attack, int Radius, double FireRateSec, String PlayersName,
 					String Image, int cost */
-		super("Cubone", 15, 1, 1.5, PlayersName,"src/images/tower1Level1.png", Cost);	
-		 setTowerType(towerType.NORMAL);
+		super("Oddish Tower", 15, 1, 1.5, PlayersName,"src/images/tower4Level1.png", Cost);	
+		 setTowerType(towerType.GRASS);
 		// TODO Auto-generated constructor stub
 	}
 
@@ -146,12 +129,10 @@ public class CuboneTower extends Tower{
 
 	@Override
 	public boolean levelUp() {
-		
 		this.levelIncrease(); 		// increases the leve by one
 		this.setAttackPower(5); 	// increase attack power by 5 poins
 		this.modifyAttackRadius(25);// increase attack radius to 25 pixels
 		this.increaseFireRate(1); 	// increase the fire rate by one
-		this.setImageURL(level2);
 		return true;
 	}
 
@@ -167,5 +148,4 @@ public class CuboneTower extends Tower{
 									);
 		return stats;
 	}
-	
 }
