@@ -174,7 +174,7 @@ public class AbraTower extends Tower{
 
 	@Override
 	public boolean upgradeCurrentTower(int playersCoins) {
-		if ( getCostOfLevelingUp() <= playersCoins){
+		if ( getCostOfLevelingUp() <= playersCoins && super.getCurrentLevel() < maxLevelAttainable){
 			levelUp();
 			return true;
 		}
