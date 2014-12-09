@@ -7,7 +7,7 @@ import GUI.GameView.towerType;
 public class MagnemiteTower extends Tower{
 
 	/**
-	 * 
+	 * magnemite will slow the enemy
 	 */
 	private static final long serialVersionUID = 3064458220943780948L;
 	

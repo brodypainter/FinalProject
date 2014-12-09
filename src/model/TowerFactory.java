@@ -3,6 +3,7 @@ package model;
 import client.Player;
 import GUI.GameView.towerType;
 import GameController.AbraTower;
+import GameController.CharmanderTower;
 import GameController.CuboneTower;
 import GameController.GhastlyTower;
 import GameController.MagnemiteTower;
@@ -16,6 +17,7 @@ import GameController.Tower;
  * that creates and returns a tower based on the given towerType passed.
  * @author Peter Hanson
  *
+ * Edits 12/8 by Max Justice the other types were added
  */
 
 //The Player and String Player Name seem unnecessary, Max any reason for this? -PWH
@@ -47,8 +49,11 @@ public class TowerFactory {
 		case PSYCHIC:
 			tower = new GhastlyTower(player.getName());
 			break;
-		case FIRE:
+		case POISON:
 			tower = new AbraTower(player.getName());
+			break;
+		case FIRE:
+			tower = new CharmanderTower(player.getName());
 			break;
 		case MEWTWO:
 			tower = new MewtwoTower(player.getName());

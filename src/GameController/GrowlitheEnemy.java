@@ -4,11 +4,11 @@ import java.awt.Point;
 
 import model.Map;
 
-public class CharmanderEnemy extends Enemy{
+public class GrowlitheEnemy extends Enemy{
 
 	
 	private int attackPower;
-	public CharmanderEnemy(Map currentMap) {
+	public GrowlitheEnemy(Map currentMap) {
 		
 		//  health, attack, defense, speed, name, worth, image and map
 		super(120, 15, 7, 1.5, "Charmander", 35, currentMap, "","","","");

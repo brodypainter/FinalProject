@@ -7,7 +7,7 @@ import GUI.GameView.towerType;
 public class OddishTower extends Tower{
 	
 	/**
-	 * 
+	 * Oddish puts enemies to sleep
 	 */
 	private static final long serialVersionUID = -8363667321503405956L;
 	

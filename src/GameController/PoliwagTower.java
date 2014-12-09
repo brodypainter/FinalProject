@@ -7,7 +7,7 @@ import GUI.GameView.towerType;
 public class PoliwagTower extends Tower{
 
 	/**
-	 * 
+	 * Poliwags ability is a high fire rate
 	 */
 	
 	private String level1= "src/images/tower2Level1.png";
