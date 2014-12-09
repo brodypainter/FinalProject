@@ -19,6 +19,7 @@ import GUI.TowerImage;
 import commands.Command;
 import commands.DisconnectCommand;
 import commands.ServerCreateLevelCommand;
+import commands.ServerMessageCommand;
 import commands.ServerTowerCommand;
 import commands.ServerTowerRemoveCommand;
 import commands.loadGameCommand;
@@ -41,14 +42,18 @@ public class GameClient{
 	private MainMenu mainMenu;
 	private Player player;
 	
-	//TODO: Implement
+	public static void main(String[] args){
+		new GameClient();
+	}
+	
 	/**
-	 * 
+	 * Sends a String message to the Server
 	 * 
 	 * @param message
 	 */
 	public void newMessage(String message) {
-		System.out.println(message);
+		Command<GameServer> c = new ServerMessageCommand(message);
+		this.sendCommand(c);
 	}
 
 	/**
@@ -103,11 +108,13 @@ public class GameClient{
 			// write out the name of this client
 			out.writeObject(clientName);
 			
+			// TODO send a disconnect command to the server to safely disconnect
+			// DOES THIS STILL BREAK EVERYTHING?
 			// add a listener that sends a disconnect command to when closing
 //			this.addWindowListener(new WindowAdapter(){
 //				public void windowClosing(WindowEvent arg0) {
 //					try {
-//						out.writeObject(null);// TODO send a disconnect command to the server to safely disconnect
+//						out.writeObject(null);
 //						out.close();
 //						in.close();
 //					} catch (IOException e) {
@@ -150,23 +157,7 @@ public class GameClient{
 			
 			// write out the name of this client
 			out.writeObject(clientName);
-			
-			// add a listener that sends a disconnect command to when closing
-//			this.addWindowListener(new WindowAdapter(){
-//				public void windowClosing(WindowEvent arg0) {
-//					try {
-//						out.writeObject(null);// TODO send a disconnect command to the server to safely disconnect
-//						out.close();
-//						in.close();
-//					} catch (IOException e) {
-//						e.printStackTrace();
-//					}
-//				}
-//			});
-			
-			// TODO set up the GUI
-			
-			// start a thread for handling server events
+
 			new Thread(new ServerHandler()).start();
 			
 		}catch(Exception e){
@@ -195,10 +186,6 @@ public class GameClient{
 			//System.out.println("sendCommand FAILED");
 			e.printStackTrace();
 		}
-	}
-
-	public static void main(String[] args){
-		new GameClient();
 	}
 
 	/**

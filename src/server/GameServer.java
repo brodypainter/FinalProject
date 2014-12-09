@@ -250,6 +250,7 @@ public class GameServer implements Serializable{
 	 * @param message The message to be sent to all clients
 	 */
 	public void newMessage(String message) {
+		// TODO Parse money transfers
 		this.messages.add(message);
 		updateClientMessages();
 	}
