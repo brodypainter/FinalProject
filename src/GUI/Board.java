@@ -83,7 +83,14 @@ public class Board extends JPanel implements MouseListener
 	
 	public void addTowers(List<TowerTile> towers)
 	{
-		this.towers = (ArrayList<TowerTile>) towers;
+		while(this.towers.size() > towers.size())
+		{
+			towers.remove(0);
+		}
+		while(this.towers.size() < towers.size())
+		{
+			this.towers.add(towers.get(this.towers.size()));
+		}
 	}
 	
 	public void addEnemies(List<JLabel> enemies)
@@ -97,7 +104,7 @@ public class Board extends JPanel implements MouseListener
 			}
 			while(this.enemies.size() < enemies.size())
 			{
-				this.enemies.add((EnemyTile) enemies.get(enemies.size()-1));
+				this.enemies.add((EnemyTile) enemies.get(this.enemies.size()));
 				this.enemyHealth.add(new JProgressBar(0,100));
 				enemyHealth.get(enemyHealth.size()-1).setBackground(Color.RED);
 				enemyHealth.get(enemyHealth.size()-1).setForeground(Color.GREEN);
@@ -149,12 +156,11 @@ public class Board extends JPanel implements MouseListener
 	public void mouseClicked(MouseEvent arg0)
 	{
 		System.out.println("Mouse clicked on board at (" + ((int) (arg0.getX()/tileWidth)) + " ," + ((int) (arg0.getY()/tileHeight)) + ")");
-		for(JLabel label : towers)
+		for(TowerTile label : towers)
 		{
-			if((label.getX()/tileWidth) == ((int) (arg0.getX()/tileWidth)) && (label.getY()/tileHeight) == ((int) (arg0.getY()/tileHeight)))
-				
+			if((label.getX()/tileWidth) == ((int) (arg0.getX()/tileWidth)) && (label.getY()/tileHeight) == ((int) (arg0.getY()/tileHeight)))	
 			{
-				System.out.println("Theres a tower here too :)");
+				System.out.println(label.getType() + ":" + label.getLevel());
 			}
 		}
 	}

@@ -4,11 +4,14 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 
+import GameController.KoffingEnemy;
+import GameController.McCannEnemy;
 import GameController.MewEnemy;
 import GameController.BulbasaurEnemy;
 import GameController.GrowlitheEnemy;
 import GameController.Enemy;
 import GameController.PikachuEnemy;
+import GameController.RattataEnemy;
 import GameController.SquirtleEnemy;
 import server.GameServer;
 import client.Player;
@@ -30,7 +33,7 @@ public class Level3 extends Level implements Serializable{
 		for (int i = 0; i < numbOfWaves; i++){
 			ArrayList<Enemy> wave = new ArrayList<Enemy>();
 			for (int j = 0; j < 5; j++){
-				int enemyGenerator = r.nextInt(10);
+				int enemyGenerator = r.nextInt(20);
 				if (enemyGenerator <= 0){
 					PikachuEnemy pika = new PikachuEnemy(getMap());
 					pika.setPathTravelingCode(0); //Will walk along path 0
@@ -52,9 +55,24 @@ public class Level3 extends Level implements Serializable{
 					wave.add(charm);
 				}
 				else if (enemyGenerator >= 8 && enemyGenerator <= 9){
-					MewEnemy abra = new MewEnemy(getMap());
-					abra.setPathTravelingCode(0);
-					wave.add(abra);
+					MewEnemy mew = new MewEnemy(getMap());
+					mew.setPathTravelingCode(0);
+					wave.add(mew);
+				}
+				else if (enemyGenerator >= 99 && enemyGenerator <= 100){
+					KoffingEnemy koff =new KoffingEnemy(getMap());
+					koff.setPathTravelingCode(0);
+					wave.add(koff);
+				}
+				else if (enemyGenerator >= 99 && enemyGenerator <= 100){
+					RattataEnemy ratt = new RattataEnemy(getMap());
+					ratt.setPathTravelingCode(0);
+					wave.add(ratt);
+				}
+				else if (enemyGenerator >= 99 && enemyGenerator <= 100){
+					McCannEnemy doctor = new McCannEnemy(getMap());
+					doctor.setPathTravelingCode(0);
+					wave.add(doctor);
 				}
 					
 			}

@@ -34,6 +34,7 @@ public class MainMenu extends JFrame implements WindowListener
 	JLabel bg;
 	Image orig;
 	JButton singlePlayer;
+	private JButton loadButton;
 	JButton multiPlayer;
 	JButton settings;
 	GameView view;
@@ -73,7 +74,9 @@ public class MainMenu extends JFrame implements WindowListener
 		this.setLayout(null);
 		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
 		
-		
+		loadButton = new JButton("Load");
+		loadButton.addActionListener(new LoadAction());
+		loadButton.setBounds(this.getWidth()/4, (this.getHeight()*3)/5, this.getWidth()/2, this.getHeight()/10);
 		
 		//line below sets frame to be half of width and height of screen, and puts it in the middle
 		setBounds((int) (screen.getWidth()/4), (int) (screen.getHeight()/4), (int) (screen.getWidth()/2), (int) (screen.getHeight()/2));
@@ -109,7 +112,8 @@ public class MainMenu extends JFrame implements WindowListener
 		
 		this.add(singlePlayer);
 		this.add(multiPlayer);
-		this.add(settings);
+		this.add(loadButton);
+		//this.add(settings);
 		this.add(bg);
 		
 		frame = this;
@@ -152,6 +156,7 @@ public class MainMenu extends JFrame implements WindowListener
 			singlePlayer.setBounds(frame.getWidth()/4, frame.getHeight()/5, frame.getWidth()/2, frame.getHeight()/10);
 			multiPlayer.setBounds(frame.getWidth()/4, (frame.getHeight()*2)/5, frame.getWidth()/2, frame.getHeight()/10);
 			settings.setBounds(frame.getWidth()/4, (frame.getHeight()*3)/5, frame.getWidth()/2, frame.getHeight()/10);
+			loadButton.setBounds(frame.getWidth()/4, (frame.getHeight()*3)/5, frame.getWidth()/2, frame.getHeight()/10);
 			repaint();
 		}
 		public void componentShown(ComponentEvent arg0){}
@@ -192,6 +197,16 @@ public class MainMenu extends JFrame implements WindowListener
 		this.player = player;
 	}
 	
+	class LoadAction implements ActionListener
+	{
+		public void actionPerformed(ActionEvent arg0)
+		{
+			frame.setVisible(false);
+			view = new GameView(GameView.gameType.SINGLE, username, client, player);
+			client.loadGame();
+		}
+	}
+	
 	public void windowActivated(WindowEvent arg0){}
 	public void windowClosed(WindowEvent arg0){}
 	public void windowClosing(WindowEvent arg0){}
@@ -206,6 +221,7 @@ public class MainMenu extends JFrame implements WindowListener
 		//g.drawImage(bg, 0, 30, this);
 		multiPlayer.repaint();
 		settings.repaint();
+		loadButton.repaint();
 		singlePlayer.repaint();
 		/*
 		title.setOpaque(true);

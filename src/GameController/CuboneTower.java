@@ -35,6 +35,7 @@ public class CuboneTower extends Tower{
 	// the Cerulean Gym cost 300 but can be changed if desired
 	public static final int Cost = 120;
 	private final int costOfUpgrade1 = 50;
+	private final int maxLevelAttainable = 2;
 	//String Name, int Attack, int Radius, int FireRateSec, String PlayersName
 	/**
 	 * The default settings for the cerulean gym a attack power of 25, a radius range of 3 tiles,
@@ -178,7 +179,7 @@ public class CuboneTower extends Tower{
 
 	@Override
 	public boolean upgradeCurrentTower(int playersCoins) {
-		if ( getCostOfLevelingUp() <= playersCoins){
+		if ( getCostOfLevelingUp() <= playersCoins && super.getCurrentLevel() < maxLevelAttainable){
 			levelUp();
 			return true;
 		}

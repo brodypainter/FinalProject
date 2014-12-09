@@ -8,6 +8,8 @@ public class TowerTile extends JLabel
 	int power;
 	int rate;
 	boolean upgradable;
+	int type;
+	int level;
 	
 	void setRange(int range)
 	{
@@ -29,6 +31,16 @@ public class TowerTile extends JLabel
 		this.upgradable = upgradable;
 	}
 	
+	void setType(int type)
+	{
+		this.type = type;
+	}
+	
+	void setLevel(int level)
+	{
+		this.level = level;
+	}
+	
 	int getRange()
 	{
 		return range;
@@ -47,5 +59,15 @@ public class TowerTile extends JLabel
 	boolean isUpgradable()
 	{
 		return upgradable;
+	}
+	
+	int getType()
+	{
+		return type;
+	}
+	
+	int getLevel()
+	{
+		return level;
 	}
 }

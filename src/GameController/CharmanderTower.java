@@ -158,14 +158,14 @@ public class CharmanderTower extends Tower{
 
 	@Override
 	public int getCostOfLevelingUp() {
-		if (super.getCurrentLevel() == 1)
+		if (super.getCurrentLevel() == 1 )
 			return this.costOfUpgrade1;
 		return this.costOfUpgrade2;
 	}
 
 	@Override
 	public boolean upgradeCurrentTower(int playersCoins) {
-		if ( getCostOfLevelingUp() <= playersCoins){
+		if ( getCostOfLevelingUp() <= playersCoins && super.getCurrentLevel() < maxLevelAttainable){
 			levelUp();
 			return true;
 		}

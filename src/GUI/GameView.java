@@ -75,6 +75,10 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 	private JLabel selectedTowerFromStore;
 	private JPanel board;
 	private JPanel towerStorePanel;
+	private JButton save;
+	private JButton load;
+	private JButton pause;
+	private boolean paused = false;
 	private Point scrollLocation;
 	private Point scrollLast;
 	private Point mouseLoc;
@@ -129,10 +133,15 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 	private List<JLabel> enemies = new ArrayList<JLabel>(); //A list of all the JLabels on board based on sent EnemyImages
 	private List<JLabel> pathTiles = new ArrayList<JLabel>(); //A list of all the JLabels on board based on enemyPathCoords
 	
+	private TowerTileData data;
 	private ImageIcon tower1Image;
 	private ImageIcon tower2Image;
 	private ImageIcon tower3Image;
 	private ImageIcon tower4Image;
+	private ImageIcon tower5Image;
+	private ImageIcon tower6Image;
+	private ImageIcon tower7Image;
+	private ImageIcon tower8Image;
 	
 	private ImageIcon enemy1ImageN = new ImageIcon();
 	private ImageIcon enemy1ImageE = new ImageIcon();
@@ -230,6 +239,17 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 		chat.setResizable(false);
 		chat.setVisible(true);
 		chat.repaint();
+		
+		save = new JButton("Save");
+		save.setBounds(this.getWidth()/2 - 110, 300, 200, 50);
+		save.addActionListener(new SaveAction());
+		save.setVisible(false);
+		this.add(save);
+		
+		pause = new JButton("Pause");
+		pause.setBounds((getWidth()/2 - 60), 5, 100, 30);
+		pause.addActionListener(new PauseAction());
+		this.add(pause);
 		
 		//Sets the draggable tower image and hides it
 		selectedTowerFromStore = new JLabel(new ImageIcon(createImageIcon("/images/tower1Level1.png").getImage().getScaledInstance(getSize().width/20, getSize().height/12, Image.SCALE_SMOOTH)));
@@ -488,12 +508,7 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 			
 			TowerTile tempTowerLabel;
 			for(TowerImage ti: newTowers){
-				tempTowerLabel = new TowerTile();
-				if(ti.getImageURL().endsWith("cuboneStatic.png"));
-				{
-					tempTowerLabel = new TowerTile();
-					tempTowerLabel.setIcon(tower1Image);
-				}
+				tempTowerLabel = data.getTile(ti.getImageURL());
 				Point tiLocation = ti.getLocation();//this point contains the rowsdown in x and the columnsacross in y
 				int y = tiLocation.x * tileHeight;
 				int x = tiLocation.y * tileWidth;
@@ -558,7 +573,16 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 		tileWidth = (int) ((board.getWidth()/levelWidth));
 		System.out.println("Level height " + levelHeight);
 		tileHeight = (int) ((board.getHeight()/levelHeight));
+		data = new TowerTileData(tileWidth, tileHeight);
 		tower1Image = new ImageIcon(createImageIcon("/images/tower1Level1.png").getImage().getScaledInstance(tileWidth, tileHeight,Image.SCALE_SMOOTH));
+		tower2Image = new ImageIcon(createImageIcon("/images/tower2Level1.png").getImage().getScaledInstance(tileWidth, tileHeight,Image.SCALE_SMOOTH));
+		tower3Image = new ImageIcon(createImageIcon("/images/tower3Level1.png").getImage().getScaledInstance(tileWidth, tileHeight,Image.SCALE_SMOOTH));
+		tower4Image = new ImageIcon(createImageIcon("/images/tower4Level1.png").getImage().getScaledInstance(tileWidth, tileHeight,Image.SCALE_SMOOTH));
+		tower5Image = new ImageIcon(createImageIcon("/images/tower5Level1.png").getImage().getScaledInstance(tileWidth, tileHeight,Image.SCALE_SMOOTH));
+		tower6Image = new ImageIcon(createImageIcon("/images/tower6Level1.png").getImage().getScaledInstance(tileWidth, tileHeight,Image.SCALE_SMOOTH));
+		tower7Image = new ImageIcon(createImageIcon("/images/tower7Level1.png").getImage().getScaledInstance(tileWidth, tileHeight,Image.SCALE_SMOOTH));
+		tower8Image = new ImageIcon(createImageIcon("/images/tower8Level1.png").getImage().getScaledInstance(tileWidth, tileHeight,Image.SCALE_SMOOTH));
+		
 		enemy1ImageN = new ImageIcon(createImageIcon("/images/enemy1Up.gif").getImage().getScaledInstance(tileWidth, tileHeight,Image.SCALE_DEFAULT));
 		enemy1ImageE = new ImageIcon(createImageIcon("/images/enemy1Right.gif").getImage().getScaledInstance(tileWidth, tileHeight,Image.SCALE_DEFAULT));
 		enemy1ImageS = new ImageIcon(createImageIcon("/images/enemy1Down.gif").getImage().getScaledInstance(tileWidth, tileHeight,Image.SCALE_DEFAULT));
@@ -611,6 +635,33 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 		}
 	}
 	
+	class SaveAction implements ActionListener
+	{
+		public void actionPerformed(ActionEvent arg0)
+		{
+			client.saveGame();
+		}
+	}
+	
+	class PauseAction implements ActionListener
+	{
+		public void actionPerformed(ActionEvent arg0)
+		{
+			client.playPauseGame();
+			if(paused)
+			{
+				paused = false;
+				save.setVisible(false);
+			}
+			else
+			{
+				paused = true;
+				save.setVisible(true);
+			}
+			
+		}
+	}
+	
 	/**
 	 * serves to initialize where the mouse starts from in mouseDragged
 	 */
@@ -634,42 +685,70 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 			if(tower2.contains(arg0.getPoint()))
 			{
 				System.out.println("Attempting to build second tower");
+				selectedTowerFromStore.setIcon(tower2Image);
+				selectedTowerFromStore.setBounds(arg0.getX()-(tileWidth/2), arg0.getY()-(tileHeight/2), tileWidth, tileHeight);
+				selectedTowerFromStore.setVisible(true);
+				selectedTowerType = towerType.WATER;
 				return;
 			}
 			Rectangle tower3 = new Rectangle((int)(4.25*getSize().width)/15 + 10,(int) ((3*getSize().height)/3.8) + 30, (int) (getSize().width / 9.5), getSize().height / 8);
 			if(tower3.contains(arg0.getPoint()))
 			{
 				System.out.println("Attempting to build third tower");
+				selectedTowerFromStore.setIcon(tower3Image);
+				selectedTowerFromStore.setBounds(arg0.getX()-(tileWidth/2), arg0.getY()-(tileHeight/2), tileWidth, tileHeight);
+				selectedTowerFromStore.setVisible(true);
+				selectedTowerType = towerType.ELECTRIC;
 				return;
 			}
 			Rectangle tower4 = new Rectangle((int)(5.85*getSize().width)/15 + 10,(int) ((3*getSize().height)/3.8) + 30, (int) (getSize().width / 9.5), getSize().height / 8);
 			if(tower4.contains(arg0.getPoint()))
 			{
 				System.out.println("Attempting to build fourth tower");
+				selectedTowerFromStore.setIcon(tower4Image);
+				selectedTowerFromStore.setBounds(arg0.getX()-(tileWidth/2), arg0.getY()-(tileHeight/2), tileWidth, tileHeight);
+				selectedTowerFromStore.setVisible(true);
+				selectedTowerType = towerType.GRASS;
 				return;
 			}
 			Rectangle tower5 = new Rectangle((int)(7.45*getSize().width)/15 + 10,(int) ((3*getSize().height)/3.8) + 30, (int) (getSize().width / 9.5), getSize().height / 8);
 			if(tower5.contains(arg0.getPoint()))
 			{
 				System.out.println("Attempting to build fifth tower");
+				selectedTowerFromStore.setIcon(tower5Image);
+				selectedTowerFromStore.setBounds(arg0.getX()-(tileWidth/2), arg0.getY()-(tileHeight/2), tileWidth, tileHeight);
+				selectedTowerFromStore.setVisible(true);
+				selectedTowerType = towerType.POISON;
 				return;
 			}
 			Rectangle tower6 = new Rectangle((int)(9.05*getSize().width)/15 + 10,(int) ((3*getSize().height)/3.8) + 30, (int) (getSize().width / 9.5), getSize().height / 8);
 			if(tower6.contains(arg0.getPoint()))
 			{
 				System.out.println("Attempting to build sixth tower");
+				selectedTowerFromStore.setIcon(tower6Image);
+				selectedTowerFromStore.setBounds(arg0.getX()-(tileWidth/2), arg0.getY()-(tileHeight/2), tileWidth, tileHeight);
+				selectedTowerFromStore.setVisible(true);
+				selectedTowerType = towerType.PSYCHIC;
 				return;
 			}
 			Rectangle tower7 = new Rectangle((int)(10.67*getSize().width)/15 + 10,(int) ((3*getSize().height)/3.8) + 30, (int) (getSize().width / 9.5), getSize().height / 8);
 			if(tower7.contains(arg0.getPoint()))
 			{
 				System.out.println("Attempting to build seventh tower");
+				selectedTowerFromStore.setIcon(tower7Image);
+				selectedTowerFromStore.setBounds(arg0.getX()-(tileWidth/2), arg0.getY()-(tileHeight/2), tileWidth, tileHeight);
+				selectedTowerFromStore.setVisible(true);
+				selectedTowerType = towerType.MEWTWO;
 				return;
 			}
 			Rectangle tower8 = new Rectangle((int)(12.3*getSize().width)/15 + 10,(int) ((3*getSize().height)/3.8) + 30, (int) (getSize().width / 9.5), getSize().height / 8);
 			if(tower8.contains(arg0.getPoint()))
 			{
 				System.out.println("Attempting to build eighth tower");
+				selectedTowerFromStore.setIcon(tower8Image);
+				selectedTowerFromStore.setBounds(arg0.getX()-(tileWidth/2), arg0.getY()-(tileHeight/2), tileWidth, tileHeight);
+				selectedTowerFromStore.setVisible(true);
+				selectedTowerType = towerType.NORMAL;
 				return;
 			}
 		}
