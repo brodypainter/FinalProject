@@ -51,7 +51,7 @@ public class GameServer implements Serializable{
 	private String latestMessage;	// the chat log
 	private HashMap<String, ObjectOutputStream> outputs; // map of all connected users' output streams
 	private Timer timer; //The master timer
-	private Player player;
+	private Player player1, player2;
 	//private Vector<Enemy> enemyList; //Use currentLevel.getMap().getEnemies() and similar for towers
 	//private Vector<Tower> towerList;
 	//private Map map = new Level0Map(); //If you need the map use currentLevel.getMap()
@@ -134,11 +134,11 @@ public class GameServer implements Serializable{
 					
 					// create the single player, will need to change this for multiplayer games
 					// for multiplayer, this will need to check if the player already exists
-					player = new Player(clientName, 100, 100);
+					player1 = new Player(clientName, 100, 100);
 										
 					System.out.println("Player Send Try");
-					System.out.println("Player is: " + player.toString());
-					output.writeObject(player);
+					System.out.println("Player is: " + player1.toString());
+					output.writeObject(player1);
 					System.out.println("Player Send Success");
 					
 					// map client name to output stream
@@ -349,7 +349,7 @@ public class GameServer implements Serializable{
 	 * @param levelCode Int code identifying difficulty level which specifies which actual level to load
 	 */
 	public void createLevel(int levelCode){
-		this.currentLevel = LevelFactory.generateLevel(this.player, thisServer, levelCode);
+		this.currentLevel = LevelFactory.generateLevel(this.player1, thisServer, levelCode);
 	}
 	
 	
@@ -361,7 +361,7 @@ public class GameServer implements Serializable{
 	 */
 	public void addTower(towerType type, Point loc) {
 		//System.out.println("GameServer attempting to add tower to row: " + loc.x + " col: " + loc.y);
-		Tower towerToAdd = TowerFactory.generateTower(type, player); // Generate a tower	
+		Tower towerToAdd = TowerFactory.generateTower(type, player1); // Generate a tower	
 		//System.out.println("addTower command received, adding tower to current level");
 		if(currentLevel.getMap().addTower(towerToAdd, loc)){ // Ask the level to add the tower
 			//System.out.println("successfully added tower");
@@ -428,7 +428,7 @@ public class GameServer implements Serializable{
 	 * Save the state of the current game to the server
 	 */
 	public void saveGame() {
-		// TODO: Notify model to save the game	
+		// TODO: write the object out to the file system
 	}
 
 	/**
