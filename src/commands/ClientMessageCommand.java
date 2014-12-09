@@ -1,5 +1,7 @@
 package commands;
 
+import java.util.LinkedList;
+
 import client.GameClient;
 
 
@@ -13,14 +15,14 @@ import client.GameClient;
 public class ClientMessageCommand extends Command<GameClient>{
 
 	private static final long serialVersionUID = 4413135669815516633L;
-	private String message;
+	private LinkedList<String> messages;
 	
 	/**
 	 * 
-	 * @param message A message to be sent to the server for 
+	 * @param messages A message to be sent to the server for 
 	 */
-	public ClientMessageCommand(String message){
-		this.message = message;
+	public ClientMessageCommand(LinkedList<String> messages){
+		this.messages = messages;
 	}
 
 	/**
@@ -29,6 +31,6 @@ public class ClientMessageCommand extends Command<GameClient>{
 	 */
 	@Override
 	public void execute(GameClient executeOn) {
-		executeOn.newMessage(this.message);
+		executeOn.updateMessages(this.messages);
 	}
 }

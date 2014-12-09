@@ -50,7 +50,7 @@ public class GameServer implements Serializable{
 
 	private ServerSocket socket; // the server socket
 	
-	private String latestMessage;	// the chat log
+	private LinkedList<String> messages;	// the chat log
 	private HashMap<String, ObjectOutputStream> outputs; // map of all connected users' output streams
 	private Timer timer; //The master timer
 	private Player player1, player2;
@@ -188,14 +188,8 @@ public class GameServer implements Serializable{
 	public void updateClientMessages() {
 		System.out.println("updateClients");
 		// make an UpdateClientCommmand, try to write to all connected users
-		ClientMessageCommand update = new ClientMessageCommand(latestMessage);
-		try{
-			for (ObjectOutputStream out : outputs.values())
-				out.writeObject(update);
-		}
-		catch(Exception e){
-			e.printStackTrace();
-		}
+		Command<GameClient> c = new ClientMessageCommand(messages);
+		this.sendCommand(c);
 	}
 	
 	/**
@@ -256,7 +250,7 @@ public class GameServer implements Serializable{
 	 * @param message The message to be sent to all clients
 	 */
 	public void newMessage(String message) {
-		this.latestMessage = message;
+		this.messages.add(message);
 		updateClientMessages();
 	}
 	

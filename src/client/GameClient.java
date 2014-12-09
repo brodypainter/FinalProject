@@ -206,7 +206,7 @@ public class GameClient{
 	 * 
 	 * @param messages	the log of messages to display
 	 */
-	public void update(List<String> messages) {
+	public void updateMessages(List<String> messages) {
 		// TODO update the gui when called
 		// GUI.update(messages);
 	}
