@@ -53,11 +53,8 @@ import model.Map;
  */
 
 public abstract class Tower implements Serializable{
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -7315638174112463208L;
 	
+	private static final long serialVersionUID = -7315638174112463208L;
 	private String TowerName;
 	private towerType type;
 	private int AttackPts;
