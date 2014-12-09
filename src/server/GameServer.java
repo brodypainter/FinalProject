@@ -60,8 +60,9 @@ public class GameServer implements Serializable{
 	private Level currentLevel; //to be set by a command object from server
 	private GameServer thisServer = this; //A reference to itself, the server
 	private int timePerTick = 20; //The time in ms per tick, will be set to 20 ms (50 fps) after debugging
-	private Boolean paused = false;
-	private Boolean fast = false;
+	private int tickDiluter = 1; //The multiplier of the timePerTick, 1 on normal speed, 2 on fast
+	private Boolean paused = false; //True if the game is paused, false if not
+	private Boolean fast = false; //True if the game is in fast mode, false if normal speed.
 	
 	/**
 	 *	This thread reads and executes commands sent by a client
@@ -205,8 +206,8 @@ public class GameServer implements Serializable{
 	}
 	
 	public void tickModel(){
-		currentLevel.tick(); //spawn enemies when ready
-		currentLevel.getMap().tick(this.timePerTick, this); //towers fire and enemies move when ready, modified with a reference to the server
+		currentLevel.tick(this.timePerTick*this.tickDiluter); //spawn enemies when ready
+		currentLevel.getMap().tick(this.timePerTick*this.tickDiluter); //towers fire and enemies move when ready, modified with a reference to the server
 	}
 	
 	/**
@@ -215,6 +216,7 @@ public class GameServer implements Serializable{
 	public void stopTimer(){
 		timer.cancel();
 	}
+	
 	
 	/**
 	 * Removes the current level
@@ -383,12 +385,15 @@ public class GameServer implements Serializable{
 	public void addEnemy(Enemy enemy) {
 		currentLevel.getMap().spawnEnemy(enemy);
 	}
+	
 	/**
 	 * @return The server's current time between ticks
 	 */
+	/*unnecessary now? -PWH
 	public long getTickLength(){
 		return timePerTick;
 	}
+	/*
 	
 	/**
 	 * Stop the GameServer master Timer, create a GameOver Command object notifying client of 
@@ -416,8 +421,13 @@ public class GameServer implements Serializable{
 	 * Toggle whether the game is playing normally or is paused, as well as starting the game
 	 */
 	public void playPauseGame() {
-		this.paused = !this.paused;
-		changeState(this.paused, this.fast);
+		this.paused = !this.paused; //If game is playing, flip to paused, and vice versa
+		if(paused){
+			this.stopTimer();
+		}else{
+			this.startTimer();
+		}
+		this.changeState(this.paused, this.fast);
 	}
 
 	/**
@@ -428,6 +438,7 @@ public class GameServer implements Serializable{
 			FileOutputStream f_out = new FileOutputStream("currentLevel.data");
 			ObjectOutputStream obj_out = new ObjectOutputStream(f_out);
 			obj_out.writeObject(currentLevel);
+			obj_out.close();
 		}catch(Exception e){
 			System.out.println("There was a problem when saving, here is some info:");
 			e.printStackTrace();
@@ -444,7 +455,11 @@ public class GameServer implements Serializable{
 			FileInputStream f_in = new FileInputStream("currentLevel.data");
 			ObjectInputStream obj_in = new ObjectInputStream(f_in);
 			currentLevel = (Level) obj_in.readObject();
-			// TODO reset currentLevel transient variables
+			obj_in.close();
+			//reset currentLevel and it's map's transient variables GameServer
+			currentLevel.setServer(thisServer);
+			currentLevel.getMap().setServer(thisServer);
+			
 		}catch(Exception e){
 			// TODO Probably start a new game here, let the player know that there was
 			//	not a saved game present?
@@ -457,6 +472,7 @@ public class GameServer implements Serializable{
 	 */
 	public void speedUp() {
 		this.fast = true;
+		this.tickDiluter = 2;
 		changeState(this.paused, this.fast);
 	}
 
@@ -465,6 +481,7 @@ public class GameServer implements Serializable{
 	 */
 	public void normalSpeed() {
 		this.fast = false;
+		this.tickDiluter = 1;
 		changeState(this.paused, this.fast);
 	}
 	

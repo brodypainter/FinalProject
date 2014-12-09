@@ -53,11 +53,8 @@ import model.Map;
  */
 
 public abstract class Tower implements Serializable{
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -7315638174112463208L;
 	
+	private static final long serialVersionUID = -7315638174112463208L;
 	private String TowerName;
 	private towerType type;
 	private int AttackPts;
@@ -149,7 +146,7 @@ public abstract class Tower implements Serializable{
 		return true;
 	}*/
 	
-	
+
 	/**@ Max justice 11/25 for displaying stats required
 	 * Print st
 	 * @return

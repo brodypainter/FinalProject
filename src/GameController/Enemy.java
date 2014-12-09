@@ -45,6 +45,7 @@ import model.Map;
  * void setProgress()
  */
 public abstract class Enemy implements Serializable{
+	private static final long serialVersionUID = -6737505326016172175L;
 	private boolean canBeAttacked = true; // this is for Abra s
 	private int Health;
 	private int AttackPower;

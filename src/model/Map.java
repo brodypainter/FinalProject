@@ -76,7 +76,7 @@ public abstract class Map implements Serializable{
 	private Player player; //The associated player object for this map
 	private ArrayList<Enemy> enemies; //A list of all the enemies currently on the map
 	private ArrayList<Tower> towers; //A list of all the towers currently placed on the map
-	private GameServer server; //The GameServer that the player is on, map will send it notify update calls
+	private transient GameServer server; //The GameServer that the player is on, map will send it notify update calls
 	
 	
 	/**
@@ -308,7 +308,7 @@ public abstract class Map implements Serializable{
 	 * @param timePerTick the time in ms between ticks
 	 * @param gameServer the GameServer that the map belongs to responsible for notifying clients of this update
 	 */
-	public void tick(int timePerTick, GameServer gameServer){
+	public void tick(int timePerTick){
 		//call all enemies and towers to call their tick() method, which will increment their
 		//cool down timers, causing them to move/shoot if they are ready
 		ArrayList<TowerImage> towerImages = new ArrayList<TowerImage>();
@@ -321,7 +321,7 @@ public abstract class Map implements Serializable{
 			enemy.tick(timePerTick);
 			enemyImages.add(new EnemyImage(enemy));
 		}
-		gameServer.updateClients(enemyImages, towerImages);
+		this.server.updateClients(enemyImages, towerImages);
 		
 	}
 
