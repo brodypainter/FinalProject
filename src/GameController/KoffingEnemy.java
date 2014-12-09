@@ -30,7 +30,7 @@ public class KoffingEnemy extends Enemy{
 		
 		//health, attackPower, defense, speed, name, worth, Image, mapRef
 
-		super(200, 2, 12, 1, "Koffing", 25, currentMap, "src/images/pikachuDown.gif", "src/images/pikachuUp.gif","src/images/pikachuLeft.gif", "src/images/pikachuRight.gif");
+		super(200, 2, 12, 1, "Koffing", 25, currentMap, "src/images/enemy5Down.gif", "src/images/enemy5Up.gif","src/images/enemy5Left.gif", "src/images/enemy5Right.gif");
 		/* src/images/pikachuRight.gif
 		 * src/images/pikachuLeft.gif
 		 * src/images/pikachuRight.gif
@@ -51,7 +51,7 @@ public class KoffingEnemy extends Enemy{
 									"Speed: "+ getSpeed() + "\n" +
 									"Value: " + getMoney() + "\n"+
 									"Modifier: " + /*getModifier() +*/ "\n"+
-									"Ability: Pikachu's ");
+									"Ability: "+ getPokemon() + " ");
 		
 		return stats;
 	}
