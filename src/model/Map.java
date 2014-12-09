@@ -357,12 +357,17 @@ public abstract class Map implements Serializable{
 	}
 
 
+	/**
+	 * Upgrades tower at point p if possible
+	 * @param p
+	 */
 	public void upgradeTower(Point p) {
 		Tower towerToUpgrade = grid[p.x][p.y].getGym();
 		int costOfUpgrade = towerToUpgrade.getCostOfLevelingUp();
 		if(costOfUpgrade <= player.getMoney()){
-			towerToUpgrade.upgradeCurrentTower(player.getMoney());
-			player.spendMoney(costOfUpgrade);
+			if(towerToUpgrade.upgradeCurrentTower(player.getMoney())){
+				player.spendMoney(costOfUpgrade);
+			}
 		}
 	}
 
