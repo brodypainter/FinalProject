@@ -1,6 +1,8 @@
 package server;
 
 import java.awt.Point;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -429,6 +431,14 @@ public class GameServer implements Serializable{
 	 */
 	public void saveGame() {
 		// TODO: write the object out to the file system
+		try{
+			FileOutputStream f_out = new FileOutputStream("currentLevel.data");
+			ObjectOutputStream obj_out = new ObjectOutputStream(f_out);
+			obj_out.writeObject(currentLevel);
+		}catch(Exception e){
+			System.out.println("There was a problem when saving, here is some info:");
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -439,6 +449,16 @@ public class GameServer implements Serializable{
 	public void loadGame() {
 		// TODO LOGIC: attempt to load the game using a file name that wont be changing, if it exists, set that game as the current one
 		//		and continue as normal, if there isnt a game, what exactly should we do?
+		// TODO Ensure that we re-set any transient variables!
+		try{
+			FileInputStream f_in = new FileInputStream("currentLevel.data");
+			ObjectInputStream obj_in = new ObjectInputStream(f_in);
+			currentLevel = (Level) obj_in.readObject();
+		}catch(Exception e){
+			// TODO Probably start a new game here, let the player know that there was
+			//	not a saved game present?
+			e.printStackTrace();
+		}
 	}
 
 	/**
