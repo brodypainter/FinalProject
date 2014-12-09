@@ -85,18 +85,18 @@ public abstract class Level {
    * if there are no more waves. The game ends when there are no more enemies
    * to spawn and no more enemies alive on the board, or when the players HP falls to 0.
    */
-  public void tick(){
+  public void tick(int timePerTick){
 	  if(!gameOver()){
 	  if(enemiesLeftToSpawn){
 		  if(!waveInProgress){
-			  timeSinceLastWave = timeSinceLastWave + server.getTickLength();
+			  timeSinceLastWave = timeSinceLastWave + timePerTick;
 			  if(timeSinceLastWave >= waveIntervals){
 				  waveInProgress = true;
 				  timeSinceLastWave = 0;
 			  }
 		  }	  
 		  if(waveInProgress){
-			  timeSinceLastEnemySpawned = timeSinceLastEnemySpawned + server.getTickLength();
+			  timeSinceLastEnemySpawned = timeSinceLastEnemySpawned + timePerTick;
 			  if(timeSinceLastEnemySpawned >= enemySpawnIntervals){
 				  if(enemyIndexCounter < wavesList.get(waveIndexCounter).size()){
 					  map.spawnEnemy(wavesList.get(waveIndexCounter).get(enemyIndexCounter));
