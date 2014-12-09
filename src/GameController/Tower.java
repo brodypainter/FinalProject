@@ -265,6 +265,10 @@ public abstract class Tower implements Serializable{
 		 return this.ImageURL;
 	 }
 	
+	public void setImageURL(String evolvedTower){
+		this.ImageURL = evolvedTower;
+	}
+	
 	public boolean levelIncrease(){
 		this.Level++;
 		return true;

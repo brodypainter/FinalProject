@@ -10,6 +10,10 @@ public class PoliwagTower extends Tower{
 	 * 
 	 */
 	
+	private String level1= "src/images/tower2Level1.png";
+	private String level2= "src/images/tower2Level2.png";
+	private String level3= "src/images/tower2level2.png";
+	
 	// the Cerulean Gym cost 300 but can be changed if desired
 	public static final int Cost = 300;
 	//String Name, int Attack, int Radius, int FireRateSec, String PlayersName
@@ -128,6 +132,7 @@ public class PoliwagTower extends Tower{
 		this.setAttackPower(5); 	// increase attack power by 5 poins
 		this.modifyAttackRadius(25);// increase attack radius to 25 pixels
 		this.increaseFireRate(1); 	// increase the fire rate by one
+		
 		return true;
 	}
 

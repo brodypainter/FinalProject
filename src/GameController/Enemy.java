@@ -247,6 +247,9 @@ public enum directionFacing{NORTH, EAST, SOUTH, WEST};
 		return this.imageURL;
 	}
 	
+	public void setImageURL(String evolvedEnemy){
+		this.imageURL = evolvedEnemy;
+	}
 	
 	/**
 	 * Increase the defense of the pokemon.  If the defense gets below 0, defense is set to default

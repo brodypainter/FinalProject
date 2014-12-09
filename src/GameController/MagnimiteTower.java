@@ -11,6 +11,11 @@ public class MagnimiteTower extends Tower{
 	 */
 	private static final long serialVersionUID = 3064458220943780948L;
 	
+	
+	private String level1= "src/images/tower3Level1.png";
+	private String level2= "src/images/tower3Level2.png";
+	
+	
 	// the Cerulean Gym cost 300 but can be changed if desired
 	public static final int Cost = 300;
 	//String Name, int Attack, int Radius, int FireRateSec, String PlayersName

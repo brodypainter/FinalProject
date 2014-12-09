@@ -29,6 +29,9 @@ public class CuboneTower extends Tower{
 	 */
 	private static final long serialVersionUID = -264213046314837558L;
 	
+	private String level1= "src/images/tower1Level1.png";
+	private String level2= "src/images/tower1Level2.png";
+	
 	// the Cerulean Gym cost 300 but can be changed if desired
 	public static final int Cost = 300;
 	//String Name, int Attack, int Radius, int FireRateSec, String PlayersName
@@ -40,7 +43,7 @@ public class CuboneTower extends Tower{
 	public CuboneTower(String PlayersName){
 		/* String Name, int Attack, int Radius, double FireRateSec, String PlayersName,
 					String Image, int cost */
-		super("Cerulean Gym", 15, 1, 1.5, PlayersName,"src/images/cuboneStatic.png", Cost);	
+		super("Cerulean Gym", 15, 1, 1.5, PlayersName,"src/images/tower1Level1.png", Cost);	
 		 setTowerType(towerType.NORMAL);
 		// TODO Auto-generated constructor stub
 	}
