@@ -342,14 +342,14 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 			//track of which one you really want as first and second parameter
 						
 			Bone newProjectile = new Bone();
-			newProjectile.setPath(tower.x, tower.y, enemy.x, enemy.y);
+			//newProjectile.setPath(tower.x, tower.y, enemy.x, enemy.y);
 			tower1Proj.setName("Projectile");
 			newProjectile.setLabel(tower1Proj);
 			//Also set newProjectile's destination point here based on Point enemy
 			//again make sure you know what is in point 
 			projectiles.add(newProjectile);
 			//lines.add(line);
-			((Board) board).updateProjectiles(projectiles);
+			//((Board) board).updateProjectiles(projectiles);
 		}
 		return true;
 	}
@@ -395,7 +395,7 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 					projectiles.remove(i);
 				}
 			}
-			((Board) board).updateProjectiles(projectiles);
+			//((Board) board).updateProjectiles(projectiles);
 		}	
 	}
 	
