@@ -3,6 +3,7 @@ package GUI;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -29,12 +30,16 @@ import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.JTextPane;
+import javax.swing.ScrollPaneLayout;
 import javax.swing.Timer;
 import javax.swing.UIManager;
 
@@ -57,6 +62,12 @@ import client.Player;
 public class GameView extends JFrame implements MouseListener, MouseMotionListener
 {
 	private JFrame frame;
+	private JFrame chat;
+	private JTextPane chatHistory;
+	private JTextField chatInput;
+	private JScrollPane chatWindow;
+	private String chatString;
+	private JButton chatSend;
 	private Image bg;
 	private Image origBG;
 	private ImageIcon towerStoreBG;
@@ -86,6 +97,7 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 	
 	
 	private String pewterProjectile = "/images/spinningBone.gif";
+	private JLabel tower1Proj;
 	
 	private String pewterTower = "/images/cuboneStatic.png";
 	
@@ -188,6 +200,36 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 		{
 			System.out.println("Unable to set operating system look and feel");
 		}
+		
+		chat = new JFrame("Pokemon Tower Defense - Chat");
+		chat.setSize(400, 300);
+		chat.setLocation(this.getX() + this.getWidth(), this.getY());
+		chatHistory = new JTextPane();
+		chatHistory.setSize(new Dimension(chat.getWidth()-60, chat.getHeight()));
+		chatString = "Welcome to Pokemon Tower Defense!";
+		chatHistory.setText(chatString);
+		chatHistory.setEditable(false);
+		chatWindow = new JScrollPane(chatHistory);
+		chatWindow.setSize(chat.getWidth(), chat.getHeight()-60);
+		chatWindow.setAutoscrolls(true);
+		chatWindow.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		chatInput = new JTextField();
+		chatInput.setSize(chat.getWidth() - 80, 40);
+		chatInput.setLocation(0, chat.getHeight()-60);
+		chatInput.addActionListener(new ChatSend());
+		chatSend = new JButton("Send");
+		chatSend.addActionListener(new ChatSend());
+		chatSend.setSize(80, 40);
+		chatSend.setLocation(chat.getWidth() - 80, chat.getHeight() - 60);
+		chat.setLayout(null);
+		
+		chat.add(chatInput);
+		chat.add(chatSend);
+		chat.add(chatWindow);
+		chat.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+		chat.setResizable(false);
+		chat.setVisible(true);
+		chat.repaint();
 		
 		//Sets the draggable tower image and hides it
 		selectedTowerFromStore = new JLabel(new ImageIcon(createImageIcon("/images/tower1Level1.png").getImage().getScaledInstance(getSize().width/20, getSize().height/12, Image.SCALE_SMOOTH)));
@@ -295,19 +337,19 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 		if(type == towerType.NORMAL)
 		{
 			//System.out.println("Tower at row " + tower.x + " column " + tower.y + " attacks!");
-			//JLabel proj = new JLabel(new ImageIcon(createImageIcon(pewterProjectile).getImage().getScaledInstance(this.getWidth()/(levelWidth*2), this.getHeight()/(levelHeight*2), Image.SCALE_FAST)));
-			Line line = new Line(new Point(tower.y * tileWidth + (tileWidth/2), tower.x * tileHeight + (tileHeight/2)), new Point(enemy.y * tileWidth + (tileWidth/2), enemy.x * tileHeight + (tileHeight/2)));
+			//Line line = new Line(new Point(tower.y * tileWidth + (tileWidth/2), tower.x * tileHeight + (tileHeight/2)), new Point(enemy.y * tileWidth + (tileWidth/2), enemy.x * tileHeight + (tileHeight/2)));
 			//TODO:^Tower.x is the row of tower, tower.y is column, make sure to scale and keep
 			//track of which one you really want as first and second parameter
 						
-			//Bone newProjectile = new Bone();
-			//newProjectile.setLabel(proj);
+			Bone newProjectile = new Bone();
+			newProjectile.setPath(tower.x, tower.y, enemy.x, enemy.y);
+			tower1Proj.setName("Projectile");
+			newProjectile.setLabel(tower1Proj);
 			//Also set newProjectile's destination point here based on Point enemy
 			//again make sure you know what is in point 
-			//projectiles.add(newProjectile);
-			//proj.setName("Projectile");
-			lines.add(line);
-			((Board) board).add(line);
+			projectiles.add(newProjectile);
+			//lines.add(line);
+			((Board) board).updateProjectiles(projectiles);
 		}
 		return true;
 	}
@@ -316,6 +358,7 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 	{
 		public void actionPerformed(ActionEvent arg0)
 		{
+			/*
 			int ticksToWait = 2;
 			for(int i = 0; i < lines.size(); i++)
 			{
@@ -334,26 +377,26 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 					}
 				}
 			}
+			*/
 			
 			
 			
-			/*
 			for(int i = 0; i < projectiles.size(); i++)
 			{
 				if(projectiles.get(i).isValid())
 				{
-					projectiles.get(i).setProgress(projectiles.get(i).getProgress() + 5);
+					
+					Projectile temp = projectiles.get(i);
+					temp.setProgress(temp.getProgress() + 5);
+					projectiles.set(i, temp);
 				}
 				else
 				{
-					board.remove(projectiles.get(i).getLabel());
 					projectiles.remove(i);
 				}
 			}
-			*/
-			
-		}
-		
+			((Board) board).updateProjectiles(projectiles);
+		}	
 	}
 	
 	//These 3 set methods are called by GameClient in its mapBackgroundUpdate method
@@ -380,25 +423,6 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 	
 	public void setEnemyPathCoords(LinkedList<LinkedList<Point>> l){
 		this.enemyPathCoords = l;
-		this.createEnemyPathJLabels();
-	}
-	
-	private void createEnemyPathJLabels() {
-		JLabel tempTile;
-		ImageIcon enemyTileTemp = new ImageIcon(createImageIcon(enemyPathTileImage).getImage().getScaledInstance(tileWidth, tileHeight, Image.SCALE_FAST));
-
-		for(LinkedList<Point> path: enemyPathCoords){
-			for(Point p: path){
-				tempTile = new JLabel(enemyTileTemp);
-				tempTile.setSize(tileWidth, tileHeight);
-				int x = p.y * tileWidth; //Reverses are due to how p is (rowsdown, columns) in model -PH
-				int y = p.x * tileHeight;
-				tempTile.setLocation(x, y);
-				tempTile.setName("EnemyPathTile");
-				pathTiles.add(tempTile);
-				board.add(tempTile);
-			}
-		}
 	}
 
 	//These 2 methods are called by GameClient in its updateHPandMoney method
@@ -479,9 +503,9 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 				towers.add(tempTowerLabel);
 			}
 			((Board) board).addTowers(towers);
-			repaint();
 			System.out.println("Updating board towers");
 		}
+		repaint();
 		
 		enemies = new ArrayList<JLabel>();
 		
@@ -526,6 +550,7 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 		}
 		//System.out.println("Progress of furthest enemy: " + newEnemies.get(0).getProgress());
 		((Board) board).addEnemies(enemies);
+		repaint();
 	}
 	
 	void updateTileSize()
@@ -538,6 +563,7 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 		enemy1ImageE = new ImageIcon(createImageIcon("/images/enemy1Right.gif").getImage().getScaledInstance(tileWidth, tileHeight,Image.SCALE_DEFAULT));
 		enemy1ImageS = new ImageIcon(createImageIcon("/images/enemy1Down.gif").getImage().getScaledInstance(tileWidth, tileHeight,Image.SCALE_DEFAULT));
 		enemy1ImageW = new ImageIcon(createImageIcon("/images/enemy1Left.gif").getImage().getScaledInstance(tileWidth, tileHeight,Image.SCALE_DEFAULT));
+		tower1Proj = new JLabel(new ImageIcon(createImageIcon(pewterProjectile).getImage().getScaledInstance(this.getWidth()/(levelWidth*2), this.getHeight()/(levelHeight*2), Image.SCALE_FAST)));
 		createScaledBackgroundImage();
 		board.setBounds(board.getX(), board.getY(), (int) (getSize().width * viewScale), (int) ((3*getSize().height)/4 * viewScale));
 		((Board) board).setTileSize(tileWidth, tileHeight);
@@ -553,7 +579,37 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 		//calculated coordinates the mouse was at in this method. -PH
 	}
 	
-
+	public void addToChat(String string)
+	{
+		chatString += "\n" + string;
+		chatHistory.setText(chatString);
+		int newlines = 0;
+		for(int i = 0; i < chatString.length(); i++)
+		{
+			if('\n' == chatString.charAt(i))
+			{
+				newlines++;
+			}
+		}
+		//if(newlines > 15)
+		//{
+			//chatHistory.setSize(chat.getWidth(), 400 + ((newlines-15) * 30));
+			//chatWindow.repaint();
+		//}
+	}
+	
+	class ChatSend implements ActionListener
+	{
+		public void actionPerformed(ActionEvent e) {
+			client.newMessage(chatInput.getText());
+			
+			//Temp below:
+			addToChat("Me:\t" + chatInput.getText());
+			//End temp
+			
+			chatInput.setText("");
+		}
+	}
 	
 	/**
 	 * serves to initialize where the mouse starts from in mouseDragged
