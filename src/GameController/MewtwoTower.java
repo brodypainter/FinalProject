@@ -7,7 +7,7 @@ import GUI.GameView.towerType;
 public class MewtwoTower extends Tower{
 	
 	// the Cerulean Gym cost 300 but can be changed if desired
-	public static final int Cost = 1000;
+	public static final int Cost = 1500;
 	
 	private String level1= "src/images/tower8Level1.png";
 	
@@ -20,7 +20,7 @@ public class MewtwoTower extends Tower{
 	public MewtwoTower(String PlayersName){
 		/* String Name, int Attack, int Radius, double FireRateSec, String PlayersName,
 					String Image, int cost */
-		super("Fuckin' Mewtwo", 100, 7, 3.5, PlayersName,"src/images/tower8Level1.png", Cost);	
+		super("Fuckin' Mewtwo", 50, 10, 5.0, PlayersName,"src/images/tower8Level1.png", Cost);	
 		 setTowerType(towerType.MEWTWO);
 		// TODO Auto-generated constructor stub
 	}
@@ -123,11 +123,13 @@ public class MewtwoTower extends Tower{
 
 	@Override
 	public boolean levelUp() {
-		this.levelIncrease(); 		// increases the leve by one
+		return false; //mewtwo cant be leveled up
+		
+		/*this.levelIncrease(); 		// increases the leve by one
 		this.setAttackPower(5); 	// increase attack power by 5 poins
 		this.modifyAttackRadius(25);// increase attack radius to 25 pixels
 		this.increaseFireRate(1); 	// increase the fire rate by one
-		return true;
+		return true;*/
 	}
 
 	@Override
@@ -141,5 +143,17 @@ public class MewtwoTower extends Tower{
 									"Modifier: " + getModifer() + "\n"
 									);
 		return stats;
+	}
+
+	@Override
+	public int getCostOfLevelingUp() {
+		// TODO Auto-generated method stub
+		return 10000000;
+	}
+
+	@Override
+	public boolean upgradeCurrentTower(int playersCoins) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

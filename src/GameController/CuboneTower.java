@@ -33,7 +33,8 @@ public class CuboneTower extends Tower{
 	private String level2= "src/images/tower1Level2.png";
 	
 	// the Cerulean Gym cost 300 but can be changed if desired
-	public static final int Cost = 300;
+	public static final int Cost = 120;
+	private final int costOfUpgrade1 = 50;
 	//String Name, int Attack, int Radius, int FireRateSec, String PlayersName
 	/**
 	 * The default settings for the cerulean gym a attack power of 25, a radius range of 3 tiles,
@@ -43,7 +44,7 @@ public class CuboneTower extends Tower{
 	public CuboneTower(String PlayersName){
 		/* String Name, int Attack, int Radius, double FireRateSec, String PlayersName,
 					String Image, int cost */
-		super("Cubone", 15, 1, 1.5, PlayersName,"src/images/tower1Level1.png", Cost);	
+		super("Cubone", 15, 3, 1.5, PlayersName,"src/images/tower1Level1.png", Cost);	
 		 setTowerType(towerType.NORMAL);
 		// TODO Auto-generated constructor stub
 	}
@@ -146,12 +147,14 @@ public class CuboneTower extends Tower{
 
 	@Override
 	public boolean levelUp() {
-		
 		this.levelIncrease(); 		// increases the leve by one
 		this.setAttackPower(5); 	// increase attack power by 5 poins
-		this.modifyAttackRadius(25);// increase attack radius to 25 pixels
+		this.modifyAttackRadius(2);// increase attack radius to 25 pixels
 		this.increaseFireRate(1); 	// increase the fire rate by one
-		this.setImageURL(level2);
+		if (super.getCurrentLevel() == 2){
+			super.setImageURL(level2);
+			super.setPokemonName("Marowok");
+		}
 		return true;
 	}
 
@@ -166,6 +169,20 @@ public class CuboneTower extends Tower{
 									"Modifier: " + getModifer() + "\n"
 									);
 		return stats;
+	}
+
+	@Override
+	public int getCostOfLevelingUp() {
+		return this.costOfUpgrade1;
+	}
+
+	@Override
+	public boolean upgradeCurrentTower(int playersCoins) {
+		if ( getCostOfLevelingUp() <= playersCoins){
+			levelUp();
+			return true;
+		}
+		return false;
 	}
 	
 }

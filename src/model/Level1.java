@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import GameController.BulbasaurEnemy;
-import GameController.CharmanderEnemy;
+import GameController.GrowlitheEnemy;
 import GameController.Enemy;
 import GameController.PikachuEnemy;
 import GameController.SquirtleEnemy;
@@ -46,7 +46,7 @@ public class Level1 extends Level implements Serializable{
 					wave.add(squirt);
 				}
 				else if (enemyGenerator >= 8 && enemyGenerator <= 9){
-					CharmanderEnemy charm = new CharmanderEnemy(getMap());
+					GrowlitheEnemy charm = new GrowlitheEnemy(getMap());
 					charm.setPathTravelingCode(0);
 					wave.add(charm);
 				}

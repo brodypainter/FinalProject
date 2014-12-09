@@ -19,6 +19,7 @@ import GUI.TowerImage;
 import commands.Command;
 import commands.DisconnectCommand;
 import commands.ServerCreateLevelCommand;
+import commands.ServerMessageCommand;
 import commands.ServerTowerCommand;
 import commands.ServerTowerRemoveCommand;
 import commands.loadGameCommand;
@@ -26,6 +27,7 @@ import commands.normalSpeedCommand;
 import commands.playPauseCommand;
 import commands.saveGameCommand;
 import commands.speedUpCommand;
+import commands.upgradeTowerCommand;
 
 public class GameClient{
 	private String clientName = "Tester"; // user name of the client
@@ -40,14 +42,18 @@ public class GameClient{
 	private MainMenu mainMenu;
 	private Player player;
 	
-	//TODO: Implement
+	public static void main(String[] args){
+		new GameClient();
+	}
+	
 	/**
-	 * 
+	 * Sends a String message to the Server
 	 * 
 	 * @param message
 	 */
 	public void newMessage(String message) {
-		System.out.println(message);
+		Command<GameServer> c = new ServerMessageCommand(message);
+		this.sendCommand(c);
 	}
 
 	/**
@@ -102,11 +108,13 @@ public class GameClient{
 			// write out the name of this client
 			out.writeObject(clientName);
 			
+			// TODO send a disconnect command to the server to safely disconnect
+			// DOES THIS STILL BREAK EVERYTHING?
 			// add a listener that sends a disconnect command to when closing
 //			this.addWindowListener(new WindowAdapter(){
 //				public void windowClosing(WindowEvent arg0) {
 //					try {
-//						out.writeObject(null);// TODO send a disconnect command to the server to safely disconnect
+//						out.writeObject(null);
 //						out.close();
 //						in.close();
 //					} catch (IOException e) {
@@ -149,23 +157,7 @@ public class GameClient{
 			
 			// write out the name of this client
 			out.writeObject(clientName);
-			
-			// add a listener that sends a disconnect command to when closing
-//			this.addWindowListener(new WindowAdapter(){
-//				public void windowClosing(WindowEvent arg0) {
-//					try {
-//						out.writeObject(null);// TODO send a disconnect command to the server to safely disconnect
-//						out.close();
-//						in.close();
-//					} catch (IOException e) {
-//						e.printStackTrace();
-//					}
-//				}
-//			});
-			
-			// TODO set up the GUI
-			
-			// start a thread for handling server events
+
 			new Thread(new ServerHandler()).start();
 			
 		}catch(Exception e){
@@ -196,16 +188,12 @@ public class GameClient{
 		}
 	}
 
-	public static void main(String[] args){
-		new GameClient();
-	}
-
 	/**
 	 * Updates the ChatPanel with the updated message log
 	 * 
 	 * @param messages	the log of messages to display
 	 */
-	public void update(List<String> messages) {
+	public void updateMessages(List<String> messages) {
 		// TODO update the gui when called
 		// GUI.update(messages);
 	}
@@ -241,7 +229,8 @@ public class GameClient{
 	 * @param p the location coordinates (rows, columns) of tower to be upgraded
 	 */
 	public void upgradeTower(Point p){
-		//TODO:
+		Command<GameServer> c = new upgradeTowerCommand(p);
+		this.sendCommand(c);
 	}
 	
 	/*//Unnecessary method for now unless we make a player click remove enemy in area type thing

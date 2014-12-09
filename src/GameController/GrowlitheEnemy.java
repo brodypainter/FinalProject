@@ -4,11 +4,11 @@ import java.awt.Point;
 
 import model.Map;
 
-public class CharmanderEnemy extends Enemy{
+public class GrowlitheEnemy extends Enemy{
 
 	
 	private int attackPower;
-	public CharmanderEnemy(Map currentMap) {
+	public GrowlitheEnemy(Map currentMap) {
 		
 		//  health, attack, defense, speed, name, worth, image and map
 		super(120, 15, 7, 1.5, "Charmander", 35, currentMap, "","","","");
@@ -42,7 +42,7 @@ public class CharmanderEnemy extends Enemy{
 		Point previous = super.getPreviousLocation();
 		if (current.x == previous.x && current.y == previous.y){
 			if (super.getHealthPercentage() >= 50){
-				super.setAttackPower(this.attackPower*2);
+				super.levelUpAttackPower(this.attackPower*2);
 				return true;
 			}
 		}

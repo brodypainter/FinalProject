@@ -1,6 +1,8 @@
 package server;
 
 import java.awt.Point;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -48,10 +50,10 @@ public class GameServer implements Serializable{
 
 	private ServerSocket socket; // the server socket
 	
-	private String latestMessage;	// the chat log
+	private LinkedList<String> messages;	// the chat log
 	private HashMap<String, ObjectOutputStream> outputs; // map of all connected users' output streams
 	private Timer timer; //The master timer
-	private Player player;
+	private Player player1, player2;
 	//private Vector<Enemy> enemyList; //Use currentLevel.getMap().getEnemies() and similar for towers
 	//private Vector<Tower> towerList;
 	//private Map map = new Level0Map(); //If you need the map use currentLevel.getMap()
@@ -134,11 +136,11 @@ public class GameServer implements Serializable{
 					
 					// create the single player, will need to change this for multiplayer games
 					// for multiplayer, this will need to check if the player already exists
-					player = new Player(clientName, 100, 100);
+					player1 = new Player(clientName, 100, 100);
 										
 					System.out.println("Player Send Try");
-					System.out.println("Player is: " + player.toString());
-					output.writeObject(player);
+					System.out.println("Player is: " + player1.toString());
+					output.writeObject(player1);
 					System.out.println("Player Send Success");
 					
 					// map client name to output stream
@@ -186,14 +188,8 @@ public class GameServer implements Serializable{
 	public void updateClientMessages() {
 		System.out.println("updateClients");
 		// make an UpdateClientCommmand, try to write to all connected users
-		ClientMessageCommand update = new ClientMessageCommand(latestMessage);
-		try{
-			for (ObjectOutputStream out : outputs.values())
-				out.writeObject(update);
-		}
-		catch(Exception e){
-			e.printStackTrace();
-		}
+		Command<GameClient> c = new ClientMessageCommand(messages);
+		this.sendCommand(c);
 	}
 	
 	/**
@@ -254,7 +250,8 @@ public class GameServer implements Serializable{
 	 * @param message The message to be sent to all clients
 	 */
 	public void newMessage(String message) {
-		this.latestMessage = message;
+		// TODO Parse money transfers
+		this.messages.add(message);
 		updateClientMessages();
 	}
 	
@@ -325,7 +322,6 @@ public class GameServer implements Serializable{
 		sendCommand(c);
 	}
 	
-	//TODO: Modify to work properly with different operating systems per Mike's instructions
 	/**
 	 * Send the clients the mapBackground path, the path list, and the number of rows and columns for the map
 	 * 
@@ -349,7 +345,7 @@ public class GameServer implements Serializable{
 	 * @param levelCode Int code identifying difficulty level which specifies which actual level to load
 	 */
 	public void createLevel(int levelCode){
-		this.currentLevel = LevelFactory.generateLevel(this.player, thisServer, levelCode);
+		this.currentLevel = LevelFactory.generateLevel(this.player1, thisServer, levelCode);
 	}
 	
 	
@@ -361,7 +357,7 @@ public class GameServer implements Serializable{
 	 */
 	public void addTower(towerType type, Point loc) {
 		//System.out.println("GameServer attempting to add tower to row: " + loc.x + " col: " + loc.y);
-		Tower towerToAdd = TowerFactory.generateTower(type, player); // Generate a tower	
+		Tower towerToAdd = TowerFactory.generateTower(type, player1); // Generate a tower	
 		//System.out.println("addTower command received, adding tower to current level");
 		if(currentLevel.getMap().addTower(towerToAdd, loc)){ // Ask the level to add the tower
 			//System.out.println("successfully added tower");
@@ -428,17 +424,32 @@ public class GameServer implements Serializable{
 	 * Save the state of the current game to the server
 	 */
 	public void saveGame() {
-		// TODO: Notify model to save the game	
+		try{
+			FileOutputStream f_out = new FileOutputStream("currentLevel.data");
+			ObjectOutputStream obj_out = new ObjectOutputStream(f_out);
+			obj_out.writeObject(currentLevel);
+		}catch(Exception e){
+			System.out.println("There was a problem when saving, here is some info:");
+			e.printStackTrace();
+		}
 	}
 
 	/**
 	 * Attempts to load a saved game.
-	 * 
-	 * TODO: if there isnt a game available, what should we do?
 	 */
 	public void loadGame() {
-		// TODO LOGIC: attempt to load the game using a file name that wont be changing, if it exists, set that game as the current one
+		// LOGIC: attempt to load the game using a file name that wont be changing, if it exists, set that game as the current one
 		//		and continue as normal, if there isnt a game, what exactly should we do?
+		try{
+			FileInputStream f_in = new FileInputStream("currentLevel.data");
+			ObjectInputStream obj_in = new ObjectInputStream(f_in);
+			currentLevel = (Level) obj_in.readObject();
+			// TODO reset currentLevel transient variables
+		}catch(Exception e){
+			// TODO Probably start a new game here, let the player know that there was
+			//	not a saved game present?
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -466,6 +477,14 @@ public class GameServer implements Serializable{
 	public void changeState(Boolean paused, Boolean fast){
 		Command<GameClient> c = new changeStateCommand(paused, fast);
 		this.sendCommand(c);
+	}
+
+	/**
+	 * Attempts to upgrade the tower at point p
+	 * @param p
+	 */
+	public void upgradeTower(Point p) {
+		// TODO Auto-generated method stub
 	}
 
 }
