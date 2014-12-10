@@ -36,10 +36,12 @@ public class Board extends JPanel implements MouseListener
 	JLabel towerStatPanel;
 	JTextArea towerStats;
 	TowerTile selectedTower;
+	EnemyTile selectedEnemy;
 	Image tower1Proj;
 	JProgressBar temp;
 	JLabel background;
 	boolean towerSelected;
+	boolean enemySelected = false;
 	int tileHeight = 155;
 	int tileWidth = 102;
 	int timesUpdated = 0;
@@ -152,19 +154,22 @@ public class Board extends JPanel implements MouseListener
 	{
 			while(this.enemies.size() > enemies.size())
 			{
-				this.enemies.remove(0);
+				this.remove(this.enemies.remove(0));
 				this.remove(this.enemyHealth.remove(0));
 				repaint();
 			}
 			while(this.enemies.size() < enemies.size())
 			{
-				this.enemies.add((EnemyTile) enemies.get(this.enemies.size()));
+				EnemyTile tempTile = (EnemyTile) enemies.get(this.enemies.size());
+				tempTile.addMouseListener(new EnemyClickListener());
+				this.enemies.add(tempTile);
 				this.enemyHealth.add(new JProgressBar(0,100));
 				enemyHealth.get(enemyHealth.size()-1).setBackground(Color.RED);
 				enemyHealth.get(enemyHealth.size()-1).setForeground(Color.GREEN);
 				enemyHealth.get(enemyHealth.size()-1).setSize(tileWidth, tileHeight/4);
 				enemyHealth.get(enemyHealth.size()-1).setVisible(true);
 				this.add(enemyHealth.get(enemyHealth.size()-1));
+				this.add(enemies.get(enemies.size()-1));
 			}
 			int i = 0;
 			for(JLabel label : this.enemies)
@@ -196,7 +201,7 @@ public class Board extends JPanel implements MouseListener
 		
 		for(JLabel label : enemies)
 		{
-			g.drawImage(((ImageIcon) label.getIcon()).getImage(), label.getX(), label.getY(), this);
+			label.repaint();
 		}
 		for(JLabel label : towers)
 		{
@@ -205,6 +210,10 @@ public class Board extends JPanel implements MouseListener
 		for(Line line : lines)
 		{
 			g.drawLine(line.getStart().x, line.getStart().y, line.getEnd().x, line.getEnd().y);
+		}
+		if(enemySelected)
+		{
+			towerStatPanel.setLocation(selectedEnemy.getX()-tileWidth, selectedEnemy.getY());
 		}
 		upgradePanel.repaint();
 		towerStatPanel.repaint();
@@ -238,6 +247,30 @@ public class Board extends JPanel implements MouseListener
 		{
 			view.upgrade(new Point(((int) (selectedTower.getX()/tileWidth)), ((int) (selectedTower.getY()/tileHeight))));
 		}
+	}
+	
+	class EnemyClickListener implements MouseListener
+	{
+		public void mouseClicked(MouseEvent e)
+		{
+			if(enemySelected)
+			{
+				enemySelected = false;
+				towerStatPanel.setVisible(false);
+			}
+			else
+			{
+				selectedEnemy = (EnemyTile) (e.getSource());
+				enemySelected = true;
+				towerStatPanel.setLocation(((EnemyTile) e.getSource()).getX()-tileWidth, ((EnemyTile) e.getSource()).getY());
+				towerStatPanel.setVisible(true);
+			}
+			System.out.println("Recieved click event at (" + ((EnemyTile) e.getSource()).getX());
+		}
+		public void mouseEntered(MouseEvent e){}
+		public void mouseExited(MouseEvent e){}
+		public void mousePressed(MouseEvent e){}
+		public void mouseReleased(MouseEvent e){}
 	}
 
 	public void mouseClicked(MouseEvent arg0)
@@ -286,7 +319,24 @@ public class Board extends JPanel implements MouseListener
 				upgrade.setVisible(false);
 				towerStats.setVisible(false);
 			}
-			repaint();
+		}
+		for(EnemyTile label : enemies)
+		{
+			if((label.getX()/tileWidth) == ((int) (arg0.getX()/tileWidth)) && (label.getY()/tileHeight) == ((int) (arg0.getY()/tileHeight)))	
+			{
+				upgradePanel.setVisible(false);
+				upgrade.setVisible(false);
+				towerStatPanel.setLocation(label.getX() - tileWidth, label.getY());
+				towerStatPanel.setVisible(true);
+			}
+			else
+			{
+				towerSelected = false;
+				towerStatPanel.setVisible(false);
+				upgradePanel.setVisible(false);
+				upgrade.setVisible(false);
+				towerStats.setVisible(false);
+			}
 		}
 	}
 	public void mouseEntered(MouseEvent arg0){}
