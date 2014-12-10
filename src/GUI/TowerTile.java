@@ -6,10 +6,12 @@ public class TowerTile extends JLabel
 {
 	int range;
 	int power;
-	int rate;
+	double rate;
 	boolean upgradable;
 	int type;
 	int level;
+	int cost;
+	String special = "";
 	
 	void setRange(int range)
 	{
@@ -21,7 +23,7 @@ public class TowerTile extends JLabel
 		this.power = power;
 	}
 	
-	void setRate(int rate)
+	void setRate(double rate)
 	{
 		this.rate = rate;
 	}
@@ -41,6 +43,16 @@ public class TowerTile extends JLabel
 		this.level = level;
 	}
 	
+	void setCost(int cost)
+	{
+		this.cost = cost;
+	}
+	
+	void setSpecial(String special)
+	{
+		this.special = special;
+	}
+	
 	int getRange()
 	{
 		return range;
@@ -51,7 +63,7 @@ public class TowerTile extends JLabel
 		return power;
 	}
 	
-	int getRate()
+	double getRate()
 	{
 		return rate;
 	}
@@ -69,5 +81,15 @@ public class TowerTile extends JLabel
 	int getLevel()
 	{
 		return level;
+	}
+	
+	int getCost()
+	{
+		return cost;
+	}
+
+	public String getSpecial()
+	{
+		return special;
 	}
 }

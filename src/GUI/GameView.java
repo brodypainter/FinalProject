@@ -172,6 +172,7 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 	 */
 	public GameView(gameType type, String user, GameClient client, Player player)
 	{
+		System.out.println("Initializing GameView");
 		//Setup for the JFrame, sets size, closeOperation, adds listeners, and so on
 		//Have setting in settings to choose between smooth and fast scaling
 		this.user = user;
@@ -209,7 +210,7 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 		{
 			System.out.println("Unable to set operating system look and feel");
 		}
-		
+
 		chat = new JFrame("Pokemon Tower Defense - Chat");
 		chat.setSize(400, 300);
 		chat.setLocation(this.getX() + this.getWidth(), this.getY());
@@ -317,12 +318,14 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 		this.add(towerStorePanel); //Added this line -PH
 		
 		//Create the panel for the game "board"
-		board = new Board();
+		board = new Board(this);
 		board.setBounds(0,0,getSize().width, (3*getSize().height)/4);
 		board.setLayout(null);
 		//board.add(labelTemp);
 		board.setBackground(Color.BLUE);
 		this.add(board); //moved this line here -PH
+		
+		System.out.println("Opening window");
 		
 		setResizable(false);
 		
@@ -509,6 +512,7 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 			TowerTile tempTowerLabel;
 			for(TowerImage ti: newTowers){
 				tempTowerLabel = data.getTile(ti.getImageURL());
+				System.out.println(ti.getImageURL());
 				Point tiLocation = ti.getLocation();//this point contains the rowsdown in x and the columnsacross in y
 				int y = tiLocation.x * tileHeight;
 				int x = tiLocation.y * tileWidth;
@@ -516,6 +520,7 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 				tempTowerLabel.setSize(tileWidth, tileHeight);
 				tempTowerLabel.setName("Tower");
 				towers.add(tempTowerLabel);
+				System.out.println(tempTowerLabel.getWidth());
 			}
 			((Board) board).addTowers(towers);
 			System.out.println("Updating board towers");
@@ -574,6 +579,7 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 		System.out.println("Level height " + levelHeight);
 		tileHeight = (int) ((board.getHeight()/levelHeight));
 		data = new TowerTileData(tileWidth, tileHeight);
+		
 		tower1Image = new ImageIcon(createImageIcon("/images/tower1Level1.png").getImage().getScaledInstance(tileWidth, tileHeight,Image.SCALE_SMOOTH));
 		tower2Image = new ImageIcon(createImageIcon("/images/tower2Level1.png").getImage().getScaledInstance(tileWidth, tileHeight,Image.SCALE_SMOOTH));
 		tower3Image = new ImageIcon(createImageIcon("/images/tower3Level1.png").getImage().getScaledInstance(tileWidth, tileHeight,Image.SCALE_SMOOTH));
@@ -660,6 +666,11 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 			}
 			
 		}
+	}
+	
+	public void upgrade(Point p)
+	{
+		client.upgradeTower(p);
 	}
 	
 	/**
@@ -854,45 +865,45 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 		if(tower1.contains(arg0.getPoint()))
 		{
 			towerInfo.setVisible(true);
-			towerInfoText.setText("Cubone Tower info");
+			towerInfoText.setText("Cubone Tower\t\tCost: 120\nRange:\t3\nPower:\t15\nRate:\t1.5\nSpecial Ability:\tNone");
 		}
 		else if(tower2.contains(arg0.getPoint()))
 		{
 			towerInfo.setVisible(true);
-			towerInfoText.setText("Poliwhirl Tower info");
+			towerInfoText.setText("Poliwag Tower\t\tCost: 150\nRange:\t2\nPower:\t10\nRate:\t4\nSpecial Ability:\tNone");
 		}
 		else if(tower3.contains(arg0.getPoint()))
 		{
 			towerInfo.setVisible(true);
-			towerInfoText.setText("Magenemite Tower info");
+			towerInfoText.setText("Magnemite Tower\t\tCost: 180\nRange:\t3\nPower:\t12\nRate:\t1.5\nSpecial Ability:\tNone");
 		}
 		else if(tower4.contains(arg0.getPoint()))
 		{
 			towerInfo.setVisible(true);
-			towerInfoText.setText("Oddish Tower info");
+			towerInfoText.setText("Oddish Tower\t\tCost: 120\nRange:\t2\nPower:\t8\nRate:\t1\nSpecial Ability:\tNone");
 		}
 		else if(tower5.contains(arg0.getPoint()))
 		{
 			towerInfo.setVisible(true);
-			towerInfoText.setText("Ghastly Tower info");
+			towerInfoText.setText("Ghastly Tower\t\tCost: 200\nRange:\t2\nPower:\t20\nRate:\t1\nSpecial Ability:\tNone");
 		}
 		else if(tower6.contains(arg0.getPoint()))
 		{
 			towerInfo.setVisible(true);
-			towerInfoText.setText("Abra Tower info");
+			towerInfoText.setText("Abra Tower\t\tCost: 150\nRange:\t2\nPower:\t8\nRate:\t1.5\nSpecial Ability:\tNone");
 		}
 		else if(tower7.contains(arg0.getPoint()))
 		{
 			towerInfo.setLocation(mouseLoc.x - towerInfo.getWidth(), mouseLoc.y - towerInfo.getHeight() - 10);
 			towerInfo.setVisible(true);
-			towerInfoText.setText("Charmander Tower info");
+			towerInfoText.setText("Charmander Tower\t\tCost: 200\nRange:\t5\nPower:\t15\nRate:\t2\nSpecial Ability:\tNone");
 		}
 
 		else if(tower8.contains(arg0.getPoint()))
 		{
 			towerInfo.setLocation(mouseLoc.x - towerInfo.getWidth(), mouseLoc.y - towerInfo.getHeight() - 10);
 			towerInfo.setVisible(true);
-			towerInfoText.setText("Mewtwo Tower info");
+			towerInfoText.setText("Mewtwo Tower\t\tCost: 1500\nRange:\t10\nPower:\t50\nRate:\t5\nSpecial Ability:\tAll Powerful");
 		}
 		else
 		{

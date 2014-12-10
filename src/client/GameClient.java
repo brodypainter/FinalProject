@@ -27,7 +27,7 @@ import commands.normalSpeedCommand;
 import commands.playPauseCommand;
 import commands.saveGameCommand;
 import commands.speedUpCommand;
-import commands.upgradeTowerCommand;
+//import commands.upgradeTowerCommand;
 
 public class GameClient{
 	private String clientName = "Tester"; // user name of the client
@@ -229,8 +229,8 @@ public class GameClient{
 	 * @param p the location coordinates (rows, columns) of tower to be upgraded
 	 */
 	public void upgradeTower(Point p){
-		Command<GameServer> c = new upgradeTowerCommand(p);
-		this.sendCommand(c);
+		//Command<GameServer> c = new upgradeTowerCommand(p);
+		//this.sendCommand(c);
 	}
 	
 	/*//Unnecessary method for now unless we make a player click remove enemy in area type thing
