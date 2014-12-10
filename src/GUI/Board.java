@@ -261,7 +261,10 @@ public class Board extends JPanel implements MouseListener
 				}
 				else if(label.getX()-1 >= this.getWidth() - tileWidth - 10)
 				{
-					
+					upgrade.setLocation(label.getX() - tileWidth + 5, label.getY() + 5);
+					upgradePanel.setLocation(label.getX() - tileWidth, label.getY());
+					towerStatPanel.setLocation(label.getX() - (2*tileWidth), label.getY());
+					towerStats.setLocation(label.getX() - (2*tileWidth) + 5, label.getY() + 5);
 				}
 				else
 				{
