@@ -545,26 +545,30 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 			
 			if(orientation == directionFacing.WEST){
 				x = x - ((tileWidth * progress) / 100);
-				tempEnemyLabel.setIcon(enemy1ImageW);
+				//tempEnemyLabel.setIcon(enemy1ImageW);
 			}
 			if(orientation == directionFacing.EAST){
 				x = x + ((tileWidth * progress) / 100);
-				tempEnemyLabel.setIcon(enemy1ImageE);
+				//tempEnemyLabel.setIcon(enemy1ImageE);
 			}
 			
 			int y = eiLocation.x * tileHeight;
 			
 			if(orientation == directionFacing.NORTH){
 				y = y - ((tileHeight * progress) / 100);
-				tempEnemyLabel.setIcon(enemy1ImageN);
+				//tempEnemyLabel.setIcon(enemy1ImageN);
 			}
 			if(orientation == directionFacing.SOUTH){
 				y = y + ((tileHeight * progress) / 100);
-				tempEnemyLabel.setIcon(enemy1ImageS);
+				//tempEnemyLabel.setIcon(enemy1ImageS);
 			}
+			tempEnemyLabel.setIcon(this.createImageIcon(ei.getImageURL())); //Added by PH
+			//Each EnemyImage will only need to pass 1 String URL of its current image
+			//that is updated to reflect its direction by the model
 			tempEnemyLabel.setHealth(ei.getHealthPercentage());
 			tempEnemyLabel.setLocation(x, y);
 			tempEnemyLabel.setSize(tileWidth, tileHeight); //Idk how big we want each enemy, use this for now
+			
 			
 			enemies.add(tempEnemyLabel);
 		}

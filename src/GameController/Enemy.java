@@ -131,38 +131,56 @@ public abstract class Enemy implements Serializable{
 	}
 	
 	public void calculateHealthPercentage(){
-		this.healthPercentage = Health / maxHealth;
+		this.healthPercentage = (int) Math.ceil(100*((double)Health / (double) maxHealth));
 	}
 	
 	//I moved a copy of this and changed name slightly to the Enemy Class
 	//Remember Point.x = how many rows down, Point.y = how many columns right the location is in the model
 public enum directionFacing{NORTH, EAST, SOUTH, WEST};
 	
-	public directionFacing direction(Enemy enemy)
+	private directionFacing direction(Enemy enemy)
 	{
 		// right, left, up, down
 		if(enemy.getLocation().x - enemy.getNextLocation().x > 0)
 		{
-			this.imageURL = this.upURL;
+			//this.imageURL = this.upURL;
+			enemy.setImageNorth();
 			return directionFacing.NORTH;
 		}
 		else if(enemy.getLocation().x - enemy.getNextLocation().x < 0)
 		{
-			this.imageURL = this.downURL;
+			//this.imageURL = this.downURL;
+			enemy.setImageSouth();
 			return directionFacing.SOUTH;
 		}
 		else if(enemy.getLocation().y - enemy.getNextLocation().y < 0)
 		{
-			this.imageURL = this.rightURL;
+			//this.imageURL = this.rightURL;
+			enemy.setImageEast();
 			return directionFacing.EAST;
 		}
 		else if(enemy.getLocation().y - enemy.getNextLocation().y < 0)
 		{
-			this.imageURL = this.leftURL;
+			//this.imageURL = this.leftURL;
+			enemy.setImageWest();
 			return directionFacing.WEST;
 		}
 		return directionFacing.SOUTH;//By default, shouldn't ever get to this point
 	}
+	
+	private void setImageNorth(){
+		this.setImageURL(this.upURL);
+	}
+	private void setImageSouth(){
+		this.setImageURL(this.downURL);
+	}
+	private void setImageEast(){
+		this.setImageURL(this.rightURL);
+	}
+	private void setImageWest(){
+		this.setImageURL(this.leftURL);
+	}
+	
 	
 	// increase the number of steps taken each tick
 	public void takeStep(){
@@ -326,7 +344,7 @@ public enum directionFacing{NORTH, EAST, SOUTH, WEST};
 	 */
 	public void setNextLocation(Point nextLocation) {
 		this.nextLocation = nextLocation;
-		distanceLeftOnPath--;
+		//distanceLeftOnPath--;
 	}
 	
 	// for desonne and the GUI
