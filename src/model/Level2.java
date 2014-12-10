@@ -4,11 +4,14 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 
+import GameController.KoffingEnemy;
+import GameController.McCannEnemy;
 import GameController.MewEnemy;
 import GameController.BulbasaurEnemy;
 import GameController.GrowlitheEnemy;
 import GameController.Enemy;
 import GameController.PikachuEnemy;
+import GameController.RattataEnemy;
 import GameController.SquirtleEnemy;
 import server.GameServer;
 import client.Player;
@@ -30,31 +33,46 @@ public class Level2 extends Level implements Serializable{
 		for (int i = 0; i < numbOfWaves; i++){
 			ArrayList<Enemy> wave = new ArrayList<Enemy>();
 			for (int j = 0; j < 5; j++){
-				int enemyGenerator = r.nextInt(10);  // chooses a random between 0 and 9 
-				if (enemyGenerator <= 1){
+				int enemyGenerator = r.nextInt(20);  // chooses a random between 0 and 9 
+				if (enemyGenerator <= 0){
 					PikachuEnemy pika = new PikachuEnemy(getMap());
 					pika.setPathTravelingCode(0); //Will walk along path 0
 					wave.add(pika);
 				}
-				else if (enemyGenerator >= 2 && enemyGenerator <= 4){
+				else if (enemyGenerator >= 1 && enemyGenerator <= 2){
 					BulbasaurEnemy bulb = new BulbasaurEnemy(getMap());
 					bulb.setPathTravelingCode(0); //Will walk along path 0
 					wave.add(bulb);
 				}
-				else if (enemyGenerator >= 5 && enemyGenerator <= 6){
+				else if (enemyGenerator >= 3 && enemyGenerator <= 4){
 					SquirtleEnemy squirt = new SquirtleEnemy(getMap());
 					squirt.setPathTravelingCode(0);
 					wave.add(squirt);
 				}
-				else if (enemyGenerator >= 7 && enemyGenerator <= 8){
+				else if (enemyGenerator >= 5 && enemyGenerator <= 7){
 					GrowlitheEnemy charm = new GrowlitheEnemy(getMap());
 					charm.setPathTravelingCode(0);
 					wave.add(charm);
 				}
-				else if (enemyGenerator == 9){
-					MewEnemy abra = new MewEnemy(getMap());
-					abra.setPathTravelingCode(0);
-					wave.add(abra);
+				else if (enemyGenerator >= 8 && enemyGenerator <= 9){
+					MewEnemy mew = new MewEnemy(getMap());
+					mew.setPathTravelingCode(0);
+					wave.add(mew);
+				}
+				else if (enemyGenerator >= 99 && enemyGenerator <= 100){
+					KoffingEnemy koff =new KoffingEnemy(getMap());
+					koff.setPathTravelingCode(0);
+					wave.add(koff);
+				}
+				else if (enemyGenerator >= 99 && enemyGenerator <= 100){
+					RattataEnemy ratt = new RattataEnemy(getMap());
+					ratt.setPathTravelingCode(0);
+					wave.add(ratt);
+				}
+				else if (enemyGenerator >= 99 && enemyGenerator <= 100){
+					McCannEnemy doctor = new McCannEnemy(getMap());
+					doctor.setPathTravelingCode(0);
+					wave.add(doctor);
 				}
 			}
 			waveList.add(wave);

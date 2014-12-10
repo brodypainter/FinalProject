@@ -438,6 +438,7 @@ public class GameServer implements Serializable{
 			FileOutputStream f_out = new FileOutputStream("currentLevel.data");
 			ObjectOutputStream obj_out = new ObjectOutputStream(f_out);
 			obj_out.writeObject(currentLevel);
+			obj_out.close();
 		}catch(Exception e){
 			System.out.println("There was a problem when saving, here is some info:");
 			e.printStackTrace();
@@ -454,10 +455,18 @@ public class GameServer implements Serializable{
 			FileInputStream f_in = new FileInputStream("currentLevel.data");
 			ObjectInputStream obj_in = new ObjectInputStream(f_in);
 			currentLevel = (Level) obj_in.readObject();
-			// TODO reset currentLevel transient variables
+			obj_in.close();
+			//reset currentLevel and it's map's transient variables GameServer
+			currentLevel.setServer(thisServer);
+			currentLevel.getMap().setServer(thisServer);
+			//Start the game paused and at normal speed, notify GUI of this state.
+			this.paused = true;
+			this.normalSpeed();
+			
+			
 		}catch(Exception e){
-			// TODO Probably start a new game here, let the player know that there was
-			//	not a saved game present?
+			// TODO Probably start a default new game here or let the player know that there was
+			//	not a saved game present and redirect to main menu?
 			e.printStackTrace();
 		}
 	}
@@ -496,7 +505,7 @@ public class GameServer implements Serializable{
 	 * @param p
 	 */
 	public void upgradeTower(Point p) {
-		// TODO Auto-generated method stub
+		currentLevel.getMap().upgradeTower(p);
 	}
 
 }

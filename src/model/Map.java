@@ -76,7 +76,7 @@ public abstract class Map implements Serializable{
 	private Player player; //The associated player object for this map
 	private ArrayList<Enemy> enemies; //A list of all the enemies currently on the map
 	private ArrayList<Tower> towers; //A list of all the towers currently placed on the map
-	private GameServer server; //The GameServer that the player is on, map will send it notify update calls
+	private transient GameServer server; //The GameServer that the player is on, map will send it notify update calls
 	
 	
 	/**
@@ -354,6 +354,21 @@ public abstract class Map implements Serializable{
 	 */
 	public String getImageURL() {
 		return imageURL;
+	}
+
+
+	/**
+	 * Upgrades tower at point p if possible
+	 * @param p
+	 */
+	public void upgradeTower(Point p) {
+		Tower towerToUpgrade = grid[p.x][p.y].getGym();
+		int costOfUpgrade = towerToUpgrade.getCostOfLevelingUp();
+		if(costOfUpgrade <= player.getMoney()){
+			if(towerToUpgrade.upgradeCurrentTower(player.getMoney())){
+				player.spendMoney(costOfUpgrade);
+			}
+		}
 	}
 
 }
