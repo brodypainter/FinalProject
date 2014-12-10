@@ -50,7 +50,7 @@ public class GameServer implements Serializable{
 
 	private ServerSocket socket; // the server socket
 	
-	private LinkedList<String> messages;	// the chat log
+	private LinkedList<String> messages = new LinkedList<String>();	// the chat log
 	private HashMap<String, ObjectOutputStream> outputs; // map of all connected users' output streams
 	private Timer timer; //The master timer
 	private Player player1, player2;
