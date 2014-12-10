@@ -1,5 +1,6 @@
 package model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -16,9 +17,13 @@ import client.Player;
 * actually cause the game model to run. Should be selected by player in GUI level selection which level for Server to instantiate.
 */
 
-public abstract class Level {
+public abstract class Level implements Serializable{
 
-  private GameServer server; //Needs to know which server it is on so that it can call the server to start its global timer
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = -623636919171014876L;
+private GameServer server; //Needs to know which server it is on so that it can call the server to start its global timer
   private Player player; //The person playing this level, passed in constructor
   private Map map; //The map of the level to which enemy waves will be spawned, create with MapFactory class
   private ArrayList<ArrayList<Enemy>> wavesList; //A list of lists of enemies, each a wave. ex: wave1, wave2, etc...

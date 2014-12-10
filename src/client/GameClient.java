@@ -173,7 +173,7 @@ public class GameClient{
 		// Hardcoded as level 0 for now
 		ServerCreateLevelCommand c = new ServerCreateLevelCommand(0);
 		sendCommand(c);
-	}
+	}	
 	
 	/**
 	 * Sends Command objects from this GameClient to its GameServer
