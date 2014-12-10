@@ -187,7 +187,8 @@ public class GameServer implements Serializable{
 	 * Writes an UpdateClientCommand to every connected user.
 	 */
 	public void updateClientMessages() {
-		System.out.println("updateClients");
+		System.out.println(this.messages.toString() + "\nupdateClients");
+		System.out.println(this.outputs.toString());
 		// make an UpdateClientCommmand, try to write to all connected users
 		Command<GameClient> c = new ClientMessageCommand(messages);
 		this.sendCommand(c);
@@ -254,6 +255,7 @@ public class GameServer implements Serializable{
 	public void newMessage(String message) {
 		// TODO Parse money transfers
 		this.messages.add(message);
+		System.out.println(this.messages.toString());
 		updateClientMessages();
 	}
 	
@@ -275,6 +277,7 @@ public class GameServer implements Serializable{
 		if(!outputs.isEmpty()){
 			for (ObjectOutputStream out : outputs.values()){
 				try{
+					System.out.println(out.toString());
 					out.writeObject(c); // Write the command out
 				}catch(Exception e){
 					e.printStackTrace();

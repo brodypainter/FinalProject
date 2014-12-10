@@ -196,6 +196,8 @@ public class GameClient{
 	public void updateMessages(List<String> messages) {
 		// TODO update the gui when called
 		// GUI.update(messages);
+		System.out.println(messages.toString());
+		System.out.println("Messages Received Are:\n" + messages.toString());
 	}
 
 	

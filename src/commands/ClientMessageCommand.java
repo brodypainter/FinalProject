@@ -31,6 +31,7 @@ public class ClientMessageCommand extends Command<GameClient>{
 	 */
 	@Override
 	public void execute(GameClient executeOn) {
+		System.out.println("\tMessages from command are:\n"+this.messages.toString());
 		executeOn.updateMessages(this.messages);
 	}
 }
