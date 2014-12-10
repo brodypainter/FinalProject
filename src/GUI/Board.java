@@ -70,16 +70,17 @@ public class Board extends JPanel implements MouseListener
 		tileHeight = height;
 		tileWidth = width;
 		tower1Proj = new ImageIcon("/images/spinningBone.gif").getImage().getScaledInstance(tileWidth, tileHeight, Image.SCALE_DEFAULT);
-		upgrade.setSize(tileWidth, tileHeight/3);
 		upgradePanel.setSize(tileWidth, tileHeight);
 		upgradePanel.setIcon(new ImageIcon(createImageIcon("/images/towerInfoPanel.png").getImage().getScaledInstance(tileWidth, tileHeight, Image.SCALE_DEFAULT)));
 		upgradePanel.setLocation(0, 0);
 		upgradePanel.setVisible(false);
+		upgrade = new JButton(new ImageIcon(createImageIcon("/images/upgrade.png").getImage().getScaledInstance(tileWidth-10, tileHeight-10, Image.SCALE_DEFAULT)));
 		upgrade.setSize(tileWidth - 10, tileHeight - 10);
-		upgrade.setIcon(new ImageIcon(createImageIcon("/images/upgrade.png").getImage().getScaledInstance(tileWidth-10, tileHeight-10, Image.SCALE_DEFAULT)));
 		upgrade.setHorizontalAlignment(SwingConstants.CENTER);
 		upgrade.setLocation(0,0);
+		upgrade.setBorderPainted(false);
 		upgrade.setVisible(false);
+		upgrade.setOpaque(false);
 		upgrade.addActionListener(new UpgradeAction());
 		towerStatPanel.setSize(tileWidth,(int) (tileHeight * 1.5));
 		towerStatPanel.setIcon(new ImageIcon(createImageIcon("/images/towerInfoPanel.png").getImage().getScaledInstance(tileWidth,(int) (tileHeight * 1.5), Image.SCALE_DEFAULT)));
@@ -152,11 +153,20 @@ public class Board extends JPanel implements MouseListener
 	public void addEnemies(List<JLabel> enemies)
 	
 	{
-			while(this.enemies.size() > enemies.size())
+			//TODO: Identify what enemy is actually gone
+			for(int i = 0; this.enemies.size() > enemies.size() && i < enemies.size(); i++)
 			{
-				this.remove(this.enemies.remove(0));
-				this.remove(this.enemyHealth.remove(0));
-				repaint();
+				if(Math.abs(this.enemies.get(i).getX() - enemies.get(i).getX()) < 5)
+				{
+					if(Math.abs(this.enemies.get(i).getY() - enemies.get(i).getY()) < 5)
+					{
+						continue;
+					}
+				}
+				System.out.println("Removing enemy at (" + this.enemies.get(i).getX() + ", " + this.enemies.get(i).getY() + ")");
+				this.enemies.remove(i);
+				this.enemyHealth.remove(i);
+				i--;
 			}
 			while(this.enemies.size() < enemies.size())
 			{
