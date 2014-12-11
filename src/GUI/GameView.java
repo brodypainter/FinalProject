@@ -541,34 +541,32 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 			//it by progress fraction of tilewidth/height in direction of orientation
 			//to put the image in the right place
 			
-			int x = eiLocation.y * tileWidth;
+			//To use when IDs are set up
+			//tempEnemyLabel.setID(ei.getID());
 			
+			int x = eiLocation.y * tileWidth;
 			if(orientation == directionFacing.WEST){
 				x = x - ((tileWidth * progress) / 100);
-				//tempEnemyLabel.setIcon(enemy1ImageW);
+				tempEnemyLabel.setIcon(enemy1ImageW);
 			}
 			if(orientation == directionFacing.EAST){
 				x = x + ((tileWidth * progress) / 100);
-				//tempEnemyLabel.setIcon(enemy1ImageE);
+				tempEnemyLabel.setIcon(enemy1ImageE);
 			}
 			
 			int y = eiLocation.x * tileHeight;
 			
 			if(orientation == directionFacing.NORTH){
 				y = y - ((tileHeight * progress) / 100);
-				//tempEnemyLabel.setIcon(enemy1ImageN);
+				tempEnemyLabel.setIcon(enemy1ImageN);
 			}
 			if(orientation == directionFacing.SOUTH){
 				y = y + ((tileHeight * progress) / 100);
-				//tempEnemyLabel.setIcon(enemy1ImageS);
+				tempEnemyLabel.setIcon(enemy1ImageS);
 			}
-			tempEnemyLabel.setIcon(this.createImageIcon(ei.getImageURL())); //Added by PH
-			//Each EnemyImage will only need to pass 1 String URL of its current image
-			//that is updated to reflect its direction by the model
 			tempEnemyLabel.setHealth(ei.getHealthPercentage());
 			tempEnemyLabel.setLocation(x, y);
 			tempEnemyLabel.setSize(tileWidth, tileHeight); //Idk how big we want each enemy, use this for now
-			
 			
 			enemies.add(tempEnemyLabel);
 		}
@@ -613,34 +611,25 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 		//calculated coordinates the mouse was at in this method. -PH
 	}
 	
-	public void addToChat(String string)
+	public void hideTowerStats()
 	{
-		chatString += "\n" + string;
-		chatHistory.setText(chatString);
-		int newlines = 0;
-		for(int i = 0; i < chatString.length(); i++)
+		towerInfo.setVisible(false);
+	}
+	
+	public void addToChat(List<String> strings)
+	{
+		chatString = "";
+		for(String string : strings)
 		{
-			if('\n' == chatString.charAt(i))
-			{
-				newlines++;
-			}
+			chatString += string + "\n";
 		}
-		//if(newlines > 15)
-		//{
-			//chatHistory.setSize(chat.getWidth(), 400 + ((newlines-15) * 30));
-			//chatWindow.repaint();
-		//}
+		chatHistory.setText(chatString);
 	}
 	
 	class ChatSend implements ActionListener
 	{
 		public void actionPerformed(ActionEvent e) {
 			client.newMessage(chatInput.getText());
-			
-			//Temp below:
-			addToChat("Me:\t" + chatInput.getText());
-			//End temp
-			
 			chatInput.setText("");
 		}
 	}
