@@ -42,6 +42,8 @@ public class Player implements Serializable{
 	private String name;
 	private int money;
 	private int healthPoints;
+	private Player partner;
+	private boolean hasPartner;
 	//private Map currentMap;
 	
 	
@@ -57,6 +59,7 @@ public class Player implements Serializable{
 		this.name = name;
 		this.money = money;
 		this.healthPoints = healthPoints;
+		this.hasPartner = false;
 	}
 	
 	/**
@@ -116,6 +119,11 @@ public class Player implements Serializable{
 		if(healthPoints < 0){
 			healthPoints = 0;
 		}
+		if(hasPartner){
+			partner.setHealth(this.healthPoints);
+			//Players on multiplayer share the same health
+			//Do we have to notify Server of this somehow when it happens or will Map do this already? -PWH
+		}
 	}
 	
 	/**
@@ -139,6 +147,15 @@ public class Player implements Serializable{
 		}else{
 			return false;
 		}
+	}
+
+	public Player getPartner() {
+		return partner;
+	}
+
+	public void setPartner(Player partner) {
+		this.partner = partner;
+		this.hasPartner = true;
 	}
 	
 	/**

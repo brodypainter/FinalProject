@@ -61,8 +61,10 @@ public class GameServer implements Serializable{
 	private GameServer thisServer = this; //A reference to itself, the server
 	private int timePerTick = 20; //The time in ms per tick, will be set to 20 ms (50 fps) after debugging
 	private int tickDiluter = 1; //The multiplier of the timePerTick, 1 on normal speed, 2 on fast
-	private Boolean paused = false; //True if the game is paused, false if not
-	private Boolean fast = false; //True if the game is in fast mode, false if normal speed.
+	private boolean paused = false; //True if the game is paused, false if not
+	private boolean fast = false; //True if the game is in fast mode, false if normal speed.
+	private boolean multiplayer = false; //True if the game is in multiplayer mode
+	private boolean waitingFor2ndPlayer = false; //true if waiting for 2nd player
 	
 	/**
 	 *	This thread reads and executes commands sent by a client
@@ -137,7 +139,11 @@ public class GameServer implements Serializable{
 					
 					// create the single player, will need to change this for multiplayer games
 					// for multiplayer, this will need to check if the player already exists
-					player1 = new Player(clientName, 100, 100);
+					if(player1 == null){
+						player1 = new Player(clientName, 100, 100);
+					}else{
+						player2 = new Player(clientName, 100, 100);
+					}
 										
 					System.out.println("Player Send Try");
 					System.out.println("Player is: " + player1.toString());
@@ -393,7 +399,7 @@ public class GameServer implements Serializable{
 	public long getTickLength(){
 		return timePerTick;
 	}
-	/*
+	*/
 	
 	/**
 	 * Stop the GameServer master Timer, create a GameOver Command object notifying client of 
@@ -506,6 +512,17 @@ public class GameServer implements Serializable{
 	 */
 	public void upgradeTower(Point p) {
 		currentLevel.getMap().upgradeTower(p);
+	}
+	
+	public void joinMultiplayer(){
+		if(this.waitingFor2ndPlayer){
+			player1.setPartner(player2);
+			player2.setPartner(player1);
+			this.multiplayer = true;
+			this.createLevel(4);
+		}else{
+			this.waitingFor2ndPlayer = true;
+		}
 	}
 
 }

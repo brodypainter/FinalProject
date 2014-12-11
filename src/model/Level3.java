@@ -18,6 +18,7 @@ import client.Player;
 
 public class Level3 extends Level implements Serializable{
 	
+	private static final long serialVersionUID = -5331188673366986472L;
 	private static final int numbOfWaves = 8;
 	
 	public Level3(Player player, GameServer server) {
