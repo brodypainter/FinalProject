@@ -170,6 +170,7 @@ public class Board extends JPanel implements MouseListener
 	
 	{
 			//TODO: Identify what enemy is actually gone
+		/*
 			for(int i = 0; this.enemies.size() > enemies.size() && i < enemies.size(); i++)
 			{
 				if(Math.abs(this.enemies.get(i).getX() - enemies.get(i).getX()) < 5)
@@ -184,19 +185,19 @@ public class Board extends JPanel implements MouseListener
 				this.enemyHealth.remove(i);
 				i--;
 			}
+			*/
 			
-			/*
-			 * This is what will work when the labels are assigned an ID
-			 * for(int i = 0; i < enemies.size(); i++)
-			 * {
-			 * 		if((EnemyTile) (enemies.get(i)).getID().equals((EnemyTile) (this.enemies.get(i)).getID()))
-			 * 		{
-			 * 			this.enemies.remove(i);
-			 * 			i--;
-			 * 		}
-			 * }
-			 * 
-			 */
+			  for(int i = 0; i < enemies.size(); i++)
+			  {
+			  		if(!((EnemyTile) (enemies.get(i))).getID().equals(((EnemyTile) (this.enemies.get(i))).getID()))
+			  		{
+			  			this.enemies.remove(i);
+			  			this.enemyHealth.remove(i);
+			 			i--;
+			 		}
+			  }
+			  
+			 
 			
 			while(this.enemies.size() < enemies.size())
 			{

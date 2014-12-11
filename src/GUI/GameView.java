@@ -537,6 +537,7 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 			tempEnemyLabel = new EnemyTile();
 			Point eiLocation = ei.getLocation();//this point contains the rowsdown in x and the columnsacross in y
 			directionFacing orientation = ei.getOrientation();
+			tempEnemyLabel.setID(ei.getID());
 			int progress = ei.getProgress();
 			//System.out.println(orientation);
 			//get eiLocation and offset
