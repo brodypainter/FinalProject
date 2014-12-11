@@ -540,6 +540,10 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 			//get eiLocation and offset
 			//it by progress fraction of tilewidth/height in direction of orientation
 			//to put the image in the right place
+			
+			//To use when IDs are set up
+			//tempEnemyLabel.setID(ei.getID());
+			
 			int x = eiLocation.y * tileWidth;
 			if(orientation == directionFacing.WEST){
 				x = x - ((tileWidth * progress) / 100);
@@ -605,6 +609,11 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 		//appear like a hammer and set a boolean to "sellTower = true" or something
 		//and then on next click in mouselistener if sellTower == true then send the
 		//calculated coordinates the mouse was at in this method. -PH
+	}
+	
+	public void hideTowerStats()
+	{
+		towerInfo.setVisible(false);
 	}
 	
 	public void addToChat(List<String> strings)
