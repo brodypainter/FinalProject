@@ -1,12 +1,17 @@
 package GUI;
 
+import java.awt.Point;
+import java.awt.geom.Point2D;
+
 import javax.swing.JLabel;
 
-public interface Projectile
+public abstract class Projectile extends JLabel
 {	
-	int getProgress();
-	void setProgress(int progress);
-	JLabel getLabel();
-	void setLabel(JLabel label);
-	boolean isValid();
+	abstract double getProgress();
+	abstract Point2D.Double getLocationInGrid();
+	public abstract Point getLocation();
+	abstract void setProgress(int progress);
+	abstract JLabel getLabel();
+	abstract void setLabel(JLabel label);
+	public abstract boolean isValid();
 }
