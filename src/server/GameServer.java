@@ -43,13 +43,8 @@ import commands.changeStateCommand;
  */
 public class GameServer implements Serializable{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 2161825695191929679L;
-
 	private ServerSocket socket; // the server socket
-	
 	private LinkedList<String> messages = new LinkedList<String>();	// the chat log
 	private HashMap<String, ObjectOutputStream> outputs; // map of all connected users' output streams
 	private Timer timer; //The master timer
@@ -211,9 +206,12 @@ public class GameServer implements Serializable{
 		timer.scheduleAtFixedRate(task, 0, timePerTick);
 	}
 	
+	/**
+	 * Progresses the game logic model, runs game loop, spawn/moves enemies, towers fire, etc.
+	 */
 	public void tickModel(){
 		currentLevel.tick(this.timePerTick*this.tickDiluter); //spawn enemies when ready
-		currentLevel.getMap().tick(this.timePerTick*this.tickDiluter); //towers fire and enemies move when ready, modified with a reference to the server
+		currentLevel.getMap().tick(this.timePerTick*this.tickDiluter); //towers fire and enemies move when ready
 	}
 	
 	/**
@@ -392,10 +390,10 @@ public class GameServer implements Serializable{
 		currentLevel.getMap().spawnEnemy(enemy);
 	}
 	
-	/**
+	/*/**
 	 * @return The server's current time between ticks
 	 */
-	/*unnecessary now? -PWH
+	/*unnecessary now? just have GUI check if fastforward or not? -PWH
 	public long getTickLength(){
 		return timePerTick;
 	}
@@ -514,12 +512,19 @@ public class GameServer implements Serializable{
 		currentLevel.getMap().upgradeTower(p);
 	}
 	
+	/**
+	 * Attempting to do multiplayer, to be called by the Client. The first player
+	 * to call online will set the boolean waitingFor2ndPlayer to true, the
+	 * next player when they call online will link the partner players together and
+	 * create a multiplayer level.
+	 */
 	public void joinMultiplayer(){
 		if(this.waitingFor2ndPlayer){
 			player1.setPartner(player2);
 			player2.setPartner(player1);
 			this.multiplayer = true;
-			this.createLevel(4);
+			this.createLevel(4); //Here I am not sure if I want to make just 1 multiplayer
+			//level or make it so that all Levels in general have the option to be multiplayer. -PH
 		}else{
 			this.waitingFor2ndPlayer = true;
 		}

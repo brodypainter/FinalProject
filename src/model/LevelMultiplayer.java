@@ -15,12 +15,15 @@ import GameController.SquirtleEnemy;
 import server.GameServer;
 import client.Player;
 
+/**
+ * This Level object will be created when 
+ * @author Peter Hanson
+ *
+ */
 public class LevelMultiplayer extends Level {
 
 	
 	private static final long serialVersionUID = -4356179074259053436L;
-	
-
 	private static final int numbOfWaves = 3;
 	private Map map2;
 	private Player player2;
