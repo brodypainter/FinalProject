@@ -425,4 +425,27 @@ public enum directionFacing{NORTH, EAST, SOUTH, WEST};
 	public void setPathTravelingCode(int pathTravelingCode) {
 		this.pathTravelingCode = pathTravelingCode;
 	}
+	
+	/**
+	 * @Max the special abilites are what follows
+	 */
+	public boolean isAsleep(){
+		
+		return true;
+	}
+	
+	public boolean isStunned(){
+		
+		return true;
+	}
+	
+	public boolean isBurned(){
+		
+		return true;
+	}
+	
+	public boolean teleportToBeginning(){
+		
+		return true;
+	}
 }
