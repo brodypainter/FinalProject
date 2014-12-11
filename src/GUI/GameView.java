@@ -357,31 +357,31 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 	 */
 	public boolean animateAttack(Point tower, Point enemy, towerType type)
 	{
-		if(type == towerType.NORMAL)
-		{
+		//if(type == towerType.NORMAL)
+		//{
 			//System.out.println("Tower at row " + tower.x + " column " + tower.y + " attacks!");
 			//Line line = new Line(new Point(tower.y * tileWidth + (tileWidth/2), tower.x * tileHeight + (tileHeight/2)), new Point(enemy.y * tileWidth + (tileWidth/2), enemy.x * tileHeight + (tileHeight/2)));
 			//TODO:^Tower.x is the row of tower, tower.y is column, make sure to scale and keep
 			//track of which one you really want as first and second parameter
-						
-			Bone newProjectile = new Bone();
+		((Board) board).animateAttack(tower, enemy, type);		
+			//Bone newProjectile = new Bone();
 			//newProjectile.setPath(tower.x, tower.y, enemy.x, enemy.y);
-			tower1Proj.setName("Projectile");
-			newProjectile.setLabel(tower1Proj);
+			//tower1Proj.setName("Projectile");
+			//newProjectile.setLabel(tower1Proj);
 			//Also set newProjectile's destination point here based on Point enemy
 			//again make sure you know what is in point 
-			projectiles.add(newProjectile);
+			//projectiles.add(newProjectile);
 			//lines.add(line);
 			//((Board) board).updateProjectiles(projectiles);
-		}
+		//}
 		return true;
 	}
 	
+	/*
 	class attackAnimation implements ActionListener
 	{
 		public void actionPerformed(ActionEvent arg0)
 		{
-			/*
 			int ticksToWait = 2;
 			for(int i = 0; i < lines.size(); i++)
 			{
@@ -400,7 +400,7 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 					}
 				}
 			}
-			*/
+			
 			
 			
 			
@@ -421,6 +421,8 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 			//((Board) board).updateProjectiles(projectiles);
 		}	
 	}
+	
+	*/
 	
 	//These 3 set methods are called by GameClient in its mapBackgroundUpdate method
 	//which is called 1 time only when the map is created on the Server -PH

@@ -1,21 +1,36 @@
 package GUI;
 
+import java.awt.Point;
+import java.awt.geom.Point2D;
+
 import javax.swing.JLabel;
 
-public class Bone implements Projectile
+public class Bone extends JLabel
 {
-	int progress = 0;
+	double progress = 0;
 	JLabel label;
+	Path path;
 	
-	public int getProgress()
+	public double getProgress()
 	{
 		return progress;
 	}
 	
-	public void setProgress(int progress)
+	public void setProgress(double progress)
 	{
 		this.progress = progress;
 	}
+	
+	public void setPath(Path path)
+	{
+		this.path = path;
+	}
+	
+	public Point2D.Double getLocationInGrid()
+	{
+		return path.getLocation(progress);
+	}
+	
 	
 	public JLabel getLabel()
 	{
@@ -34,5 +49,10 @@ public class Bone implements Projectile
 			return false;
 		}
 		return true;
+	}
+
+	public void setProgress(int progress)
+	{
+		this.progress = progress;
 	}
 }
