@@ -163,7 +163,7 @@ public abstract class Level implements Serializable {
 	}
   
 	// gets the map of the current level
-	public Map getMap(){
+	public Map getMap1(){
 	  return map1;
 	}
 	

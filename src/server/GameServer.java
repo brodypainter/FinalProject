@@ -53,7 +53,7 @@ public class GameServer implements Serializable{
 	//private Vector<Enemy> enemyList; //Use currentLevel.getMap().getEnemies() and similar for towers
 	//private Vector<Tower> towerList;
 	//private Map map = new Level0Map(); //If you need the map use currentLevel.getMap()
-	private Level currentLevel; //to be set by a command object from server
+	private Level levelA; //to be set by a command object from server
 	private GameServer thisServer = this; //A reference to itself, the server
 	private int timePerTick = 20; //The time in ms per tick, will be set to 20 ms (50 fps) after debugging
 	private int tickDiluter = 1; //The multiplier of the timePerTick, 1 on normal speed, 2 on fast
@@ -106,7 +106,7 @@ public class GameServer implements Serializable{
 				e.printStackTrace();
 			} catch(IOException e){
 				e.printStackTrace(); // Will be thrown if client does not safely disconnect, then we will remove the client
-				currentLevel = null; // Remove the current level
+				levelA = null; // Remove the current level
 				GameServer.this.outputs.remove(name); // Remove this client from the outputs list
 				System.out.println("\t\t This client did not safely disconnect");
 			}catch(Exception e){
@@ -230,10 +230,10 @@ public class GameServer implements Serializable{
 	 * Progresses the game logic model, runs game loop, spawn/moves enemies, towers fire, etc.
 	 */
 	public void tickModel(){
-		currentLevel.tick(this.timePerTick*this.tickDiluter); //spawn enemies when ready
-		currentLevel.getMap().tick(this.timePerTick*this.tickDiluter); //towers fire and enemies move when ready
+		levelA.tick(this.timePerTick*this.tickDiluter); //spawn enemies when ready
+		levelA.getMap1().tick(this.timePerTick*this.tickDiluter); //towers fire and enemies move when ready
 		if(multiplayer){
-			currentLevel.getMap2().tick(this.timePerTick*this.tickDiluter);
+			levelA.getMap2().tick(this.timePerTick*this.tickDiluter);
 		}
 	}
 	
@@ -249,7 +249,8 @@ public class GameServer implements Serializable{
 	 * Removes the current level
 	 */
 	public void removeLevel(){
-		currentLevel = null;
+		//TODO let the server determine which level to remove
+		levelA = null;
 	}
 	
 	/**
@@ -409,7 +410,9 @@ public class GameServer implements Serializable{
 	 * @param levelCode Int code identifying difficulty level which specifies which actual level to load
 	 */
 	public void createLevel(String name, int levelCode){
-		this.currentLevel = LevelFactory.generateLevel(this.player1, thisServer, levelCode);
+		if(this.waitingFor2ndPlayer == false){
+			this.levelA = LevelFactory.generateLevel(this.player1, thisServer, levelCode);
+		}
 	}
 	
 	
@@ -499,7 +502,7 @@ public class GameServer implements Serializable{
 		try{
 			FileOutputStream f_out = new FileOutputStream("currentLevel.data");
 			ObjectOutputStream obj_out = new ObjectOutputStream(f_out);
-			obj_out.writeObject(currentLevel);
+			obj_out.writeObject(levelA);
 			obj_out.close();
 		}catch(Exception e){
 			System.out.println("There was a problem when saving, here is some info:");
@@ -516,11 +519,11 @@ public class GameServer implements Serializable{
 		try{
 			FileInputStream f_in = new FileInputStream("currentLevel.data");
 			ObjectInputStream obj_in = new ObjectInputStream(f_in);
-			currentLevel = (Level) obj_in.readObject();
+			levelA = (Level) obj_in.readObject();
 			obj_in.close();
 			//reset currentLevel and it's map's transient variables GameServer
-			currentLevel.setServer(thisServer);
-			currentLevel.getMap().setServer(thisServer);
+			levelA.setServer(thisServer);
+			levelA.getMap1().setServer(thisServer);
 			//Start the game paused and at normal speed, notify GUI of this state.
 			this.paused = true;
 			this.normalSpeed();

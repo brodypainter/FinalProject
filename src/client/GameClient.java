@@ -311,13 +311,17 @@ public class GameClient{
 	//called from Server via command when the game is won
 	public void notifyLevelWasWon(){
 		JOptionPane.showMessageDialog(mainMenu, "You win");
+		mainMenu.setVisible(false);
 		mainMenu = new MainMenu(this);
+		mainMenu.setVisible(true);
 	}
 	
 	//called from Server via command when the game is lost
 	public void notifyLevelWasLost(){
 		JOptionPane.showMessageDialog(mainMenu, "You lose");
+		mainMenu.setVisible(false);
 		mainMenu = new MainMenu(this);
+		mainMenu.setVisible(true);
 	}
 	/**
 	 * To be called by GUI when the user wants to either play or pause the game. Server will handle what to do.
