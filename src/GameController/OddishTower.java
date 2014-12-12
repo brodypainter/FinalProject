@@ -1,6 +1,7 @@
 package GameController;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import GUI.GameView.towerType;
 
@@ -20,6 +21,8 @@ public class OddishTower extends Tower{
 	private final int costOfUpgrade1 = 50;
 	private final int costOfUpgrade2 = 100;
 	private final int maxLevelAttainable = 3;
+	
+	private int durationOfSleep = 4;
 	//String Name, int Attack, int Radius, int FireRateSec, String PlayersName
 	/**
 	 * The default settings for the cerulean gym a attack power of 25, a radius range of 3 tiles,
@@ -64,9 +67,14 @@ public class OddishTower extends Tower{
 		
 		if ( canAttackEnemy(myClosestEnemy.getLocation())){
 			myClosestEnemy.incomingAttack(super.getAttackPower());
-			/*
-			 * GUI here
-			 */
+			
+			if ( super.getCurrentLevel() >= 2){
+				Random r = new Random();
+				int chanceOfEffect = r.nextInt(5);
+				if (chanceOfEffect == 0){
+					myClosestEnemy.setAsleep(durationOfSleep);
+				}
+			}
 			getMap().notifyOfAttack(this.getType(), this.getPosition(), myClosestEnemy.getLocation());
 				
 			

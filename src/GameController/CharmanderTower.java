@@ -1,6 +1,7 @@
 package GameController;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import GUI.GameView.towerType;
 
@@ -16,6 +17,9 @@ public class CharmanderTower extends Tower{
 	private final int costOfUpgrade1 = 50;
 	private final int costOfUpgrade2 = 100;
 	private final int maxLevelAttainable = 3;
+	
+	private int burnPower = 5;
+	private int durationOfBurnEffect = 3; // in seconds
 	//String Name, int Attack, int Radius, int FireRateSec, String PlayersName
 	/**
 	 * The default settings for the cerulean gym a attack power of 25, a radius range of 3 tiles,
@@ -60,9 +64,14 @@ public class CharmanderTower extends Tower{
 		
 		if ( canAttackEnemy(myClosestEnemy.getLocation())){
 			myClosestEnemy.incomingAttack(super.getAttackPower());
-			/*
-			 * GUI here
-			 */
+			if ( super.getCurrentLevel() >= 2){
+				Random r = new Random();
+				int chanceOfEffect = r.nextInt(3);
+				if (chanceOfEffect == 0){
+					myClosestEnemy.setBurnt(durationOfBurnEffect, burnPower);
+				}
+			}
+			
 			getMap().notifyOfAttack(this.getType(), this.getPosition(), myClosestEnemy.getLocation());
 				
 			
