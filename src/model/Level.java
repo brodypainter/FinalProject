@@ -158,13 +158,17 @@ public abstract class Level implements Serializable {
 	
 	//I think this method is being bypassed, Map just calls GameServer directly -PWH
 	// this updates the player info after a game is won or lost and saves it
-	public void notifyPlayerInfoUpdated(){
+	/*public void notifyPlayerInfoUpdated(){
 		server.updateClients(player1.getHealthPoints(), player1.getMoney());
-	}
+	}*/
   
 	// gets the map of the current level
 	public Map getMap(){
 	  return map1;
+	}
+	
+	public Map getMap2(){
+		return map2;
 	}
   
 	public void setMap(Map map){
@@ -224,6 +228,7 @@ public abstract class Level implements Serializable {
 		player2.setHealth(player1.getHealthPoints());
 		player2.setMoney(player1.getMoney());
 		map2 = MapFactory.generateMap(player2, map1.getMapTypeCode());
+		map2.setServer(server);
 		wavesList2 = new ArrayList<ArrayList<Enemy>>();
 		//wavesList2 = wavesList1 backwards to vary between players
 		for(int i = wavesList1.size() - 1; i > -1; i--){

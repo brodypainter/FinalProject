@@ -41,6 +41,7 @@ public class GameClient{
 	private ObjectInputStream in; // input stream
 	private MainMenu mainMenu;
 	private Player player;
+	private boolean isPlayer1Client; //In multiplayer, set to true if this client corresponds to player1 and its map
 	
 	public static void main(String[] args){
 		new GameClient();
@@ -258,8 +259,9 @@ public class GameClient{
 	 * @param l
 	 * @param rowsInMap
 	 * @param columnsInMap
+	 * @param fromPlayer1 
 	 */
-	public void mapBackgroundUpdate(String backgroundImageURL, LinkedList<LinkedList<Point>> l, int rowsInMap, int columnsInMap) {
+	public void mapBackgroundUpdate(String backgroundImageURL, LinkedList<LinkedList<Point>> l, int rowsInMap, int columnsInMap, boolean fromPlayer1) {
 		mainMenu.getView().setMapBackgroundImageURL(backgroundImageURL);
 		mainMenu.getView().setEnemyPathCoords(l);
 		Point mapSize = new Point(columnsInMap,rowsInMap);
@@ -271,8 +273,9 @@ public class GameClient{
 	 * Receives a tower and enemy images list and sends it on to the GUI's model.
 	 * @param enemyImages
 	 * @param towerImages
+	 * @param fromPlayer1 
 	 */
-	public void update(List<EnemyImage> enemyImages, List<TowerImage> towerImages){
+	public void update(List<EnemyImage> enemyImages, List<TowerImage> towerImages, boolean fromPlayer1){
 		//System.out.println("Client update being called"); //Testing purposes
 		mainMenu.getView().update(towerImages, enemyImages);
 		//GUI shouldn't hold enemies or towers, instead hold their image classes
@@ -284,15 +287,16 @@ public class GameClient{
 	 * Send new values to the GUI
 	 * @param hp the Player's new HP
 	 * @param money the Player's new Money
+	 * @param fromPlayer1 
 	 */
-	public void updateHPandMoney(int hp, int money) {
+	public void updateHPandMoney(int hp, int money, boolean fromPlayer1) {
 		mainMenu.getView().setPlayerHP(hp);
 		mainMenu.getView().setPlayerMoney(money);
 	}
 
 	//Called by Server via command whenever a tower attacks an enemy
 	//The points pass (rowsdown, columnsacross) in the model grid of tower and enemy
-	public void towerAttack(towerType t, Point towerLoc, Point enemyLoc) {
+	public void towerAttack(towerType t, Point towerLoc, Point enemyLoc, boolean fromPlayer1) {
 		mainMenu.getView().animateAttack(towerLoc, enemyLoc, t);
 	}
 	
