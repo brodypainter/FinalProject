@@ -53,7 +53,7 @@ public class GameClient{
 	 * @param message
 	 */
 	public void newMessage(String message) {
-		Command<GameServer> c = new ServerMessageCommand(clientName + ": " + message);
+		Command<GameServer> c = new ServerMessageCommand(clientName + ": " + message, this.clientName);
 		this.sendCommand(c);
 	}
 

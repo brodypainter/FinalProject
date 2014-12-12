@@ -270,11 +270,34 @@ public class GameServer implements Serializable{
 	 * 
 	 * @param message The message to be sent to all clients
 	 */
-	public void newMessage(String message) {
-		// TODO Parse money transfers
-		if(message.charAt(0) == '$'){
+	public void newMessage(String message, String clientName) {
+		//Parse for money transfers
+		if(message.contains(": $") && multiplayer){
 			// Send this amount of money to the other player
-			Integer.parseInt(message.substring(1));
+			int moneyToSend = Integer.parseInt(message.substring(clientName.length() + 2));
+			boolean p1Sending;
+			if(player1.getName().equals(clientName)){
+				p1Sending = true;
+			}else{
+				p1Sending = false;
+			}
+			if(p1Sending){
+				if(player1.getMoney() >= moneyToSend){
+					player1.spendMoney(moneyToSend);
+					player2.gainMoney(moneyToSend);
+					this.messages.add(player1.getName() + "Sent $" + moneyToSend + " to " + player2.getName());
+					this.updateClients(player1.getHealthPoints(), player1.getMoney(), true);
+					this.updateClients(player2.getHealthPoints(), player2.getMoney(), false);
+				}
+			}else{
+				if(player2.getMoney() >= moneyToSend){
+					player2.spendMoney(moneyToSend);
+					player1.gainMoney(moneyToSend);
+					this.messages.add(player2.getName() + "Sent $" + moneyToSend + " to " + player1.getName());
+					this.updateClients(player1.getHealthPoints(), player1.getMoney(), true);
+					this.updateClients(player2.getHealthPoints(), player2.getMoney(), false);
+				}
+			}
 		}
 		
 		this.messages.add(message);
