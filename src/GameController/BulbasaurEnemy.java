@@ -18,7 +18,7 @@ public class BulbasaurEnemy extends Enemy{
 		
 																				// down, up, left, right
 
-		super(100, 15, 15, 1.5, "Bulbasaur", 75, mapRef, "src/images/enemy2Down.gif", "src/images/enemy2Up.gif", "src/images/enemy2Left.gif", "src/images/enemy2Right.gif");
+		super(100, 15, 15, 1.5, "Bulbasaur", 100, mapRef, "src/images/enemy2Down.gif", "src/images/enemy2Up.gif", "src/images/enemy2Left.gif", "src/images/enemy2Right.gif");
 		// TODO Auto-generated constructor stub
 	}
 

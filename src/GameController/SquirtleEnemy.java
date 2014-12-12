@@ -14,7 +14,7 @@ public class SquirtleEnemy extends Enemy{
 		//health, attackPower, defense, speed, name, worth, Image, mapRef
 		// down, up, left, right
 
-		super(95, 8, 25, 0.5, "Squirtle", 30, mapRef, "src/images/enemy3Down.gif","src/images/enemy3Up.gif","src/images/enemy3Left.gif","src/images/enemy3Right.gif");
+		super(95, 8, 25, 1.0, "Squirtle", 95, mapRef, "src/images/enemy3Down.gif","src/images/enemy3Up.gif","src/images/enemy3Left.gif","src/images/enemy3Right.gif");
 		// TODO Auto-generated constructor stub
 	}
 
