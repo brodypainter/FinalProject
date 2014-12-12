@@ -16,7 +16,7 @@ import server.GameServer;
 import client.Player;
 
 /**
- * This Level object will be created when 
+ * May be unnecessary after changes i just made ignore for now
  * @author Peter Hanson
  *
  */
@@ -32,9 +32,9 @@ public class LevelMultiplayer extends Level {
 		super(player, server);
 		
 		//Multiplayer addition: add the 2nd player and give them a map as well
-		this.player2 = getPlayer().getPartner();
-		player2.setHealth(this.getPlayer().getHealthPoints());
-		player2.setMoney(this.getPlayer().getMoney());
+		this.player2 = getPlayer1().getPartner();
+		player2.setHealth(this.getPlayer1().getHealthPoints());
+		player2.setMoney(this.getPlayer1().getMoney());
 		this.map2 = MapFactory.generateMap(player2, 4);
 		map2.setServer(server);
 	}
@@ -98,13 +98,13 @@ public class LevelMultiplayer extends Level {
 	
 	@Override
 	public void setPlayerStartingHP() {
-		getPlayer().setHealth(100);
+		getPlayer1().setHealth(100);
 		notifyPlayerInfoUpdated();
 	}
 
 	@Override
 	public void setPlayerStartingMoney() {
-		getPlayer().setMoney(1000);
+		getPlayer1().setMoney(1000);
 		notifyPlayerInfoUpdated();
 	}
 
@@ -120,7 +120,7 @@ public class LevelMultiplayer extends Level {
 
 	@Override
 	public void setMap() {
-		Map levelsMap = MapFactory.generateMap(getPlayer(), 4);
+		Map levelsMap = MapFactory.generateMap(getPlayer1(), 4);
 		 //the int mapCode is 4 because this is multiplayerlevel and we want Map 4
 		levelsMap.setServer(this.getServer()); //Must set the map's server so it knows to send first update
 		this.setMap(levelsMap);							//and where to send updates thereafter
