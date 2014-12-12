@@ -129,6 +129,7 @@ public class GameClient{
 //			});
 			
 			player = (Player) in.readObject();
+			isPlayer1Client = (Boolean) in.readObject();
 			//System.out.println("Player Received");
 			
 			// start a thread for handling server events

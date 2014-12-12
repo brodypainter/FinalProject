@@ -101,12 +101,7 @@ public abstract class Map implements Serializable{
 		this.player = player;
 		currentEnemies = 0;
 		
-		server.putClientToMap(player.getName(), this);
-		if(server.getPlayer1() == player){
-			isPlayer1sMap = true;
-		}else{
-			isPlayer1sMap = false;
-		}
+		
 		//player.setMap(this); //may not be necessary -PH
 		enemies = new ArrayList<Enemy>();
 		towers = new ArrayList<Tower>();
@@ -339,6 +334,12 @@ public abstract class Map implements Serializable{
 	 */
 	public void setServer(GameServer server) {
 		this.server = server;
+		server.putClientToMap(player.getName(), this);
+		if(server.getPlayer1() == player){
+			isPlayer1sMap = true;
+		}else{
+			isPlayer1sMap = false;
+		}
 		this.server.updateClientsOfMapBackground(this.imageURL, this.enemyPaths, this.numOfRows, this.numOfColumns, isPlayer1sMap);
 		
 	}
