@@ -22,9 +22,13 @@ public abstract class Level implements Serializable {
  
   private static final long serialVersionUID = 4903194688398376628L;
   private transient GameServer server; //Needs to know which server it is on so that it can call the server to start its global timer
-  private Player player; //The person playing this level, passed in constructor
-  private Map map; //The map of the level to which enemy waves will be spawned, create with MapFactory class
-  private ArrayList<ArrayList<Enemy>> wavesList; //A list of lists of enemies, each a wave. ex: wave1, wave2, etc...
+  private Player player1; //The person playing this level, passed in constructor
+  private Player player2; //The partner Player if on multiplayer
+  private Map map1; //The map of the level to which enemy waves will be spawned, create with MapFactory class
+  private Map map2; //The map for player2, should be the same type as map1
+  private ArrayList<ArrayList<Enemy>> wavesList1; //A list of lists of enemies, each a wave. ex: wave1, wave2, etc...
+  private ArrayList<ArrayList<Enemy>> wavesList2; //The enemies to spawn for player2's map
+  private boolean multiplayer; //True if multiplayer, false if not
   private long waveIntervals; //Use this for consistent changeable intervals between waves.
                               //It is in milliseconds so it would have to be say 30000 for 30 secs between waves.
   private long enemySpawnIntervals; //The time in milliseconds between each spawning of an enemy within a wave
@@ -37,13 +41,18 @@ public abstract class Level implements Serializable {
   private boolean enemiesLeftToSpawn;//True if enemies left to spawn on the level, false if not
   
   public Level(Player player, GameServer server){
-	  this.player = player;
+	  this.player1 = player;
 	  this.server = server;
+	  multiplayer = server.isMultiplayer();
+	  if(multiplayer){
+		  this.player2 = player1.getPartner();
+	  }
 	  timeSinceLastWave = 0;
 	  waveInProgress = false;
 	  enemiesLeftToSpawn = true;
 	  setPlayerIsAlive(true);
 	  levelSpecificSetup();
+	  this.setPlayer2StartingValues();
 	  levelStart();
   }
   
@@ -101,8 +110,8 @@ public abstract class Level implements Serializable {
 		  if(waveInProgress){
 			  timeSinceLastEnemySpawned = timeSinceLastEnemySpawned + timePerTick;
 			  if(timeSinceLastEnemySpawned >= enemySpawnIntervals){
-				  if(enemyIndexCounter < wavesList.get(waveIndexCounter).size()){
-					  map.spawnEnemy(wavesList.get(waveIndexCounter).get(enemyIndexCounter));
+				  if(enemyIndexCounter < wavesList1.get(waveIndexCounter).size()){
+					  map1.spawnEnemy(wavesList1.get(waveIndexCounter).get(enemyIndexCounter));
 					  timeSinceLastEnemySpawned = 0; //reset time counter
 					  enemyIndexCounter++;
 				  }else{//All the enemies in the wave have been spawned
@@ -110,7 +119,7 @@ public abstract class Level implements Serializable {
 					  timeSinceLastEnemySpawned = 0;
 					  enemyIndexCounter = 0;
 					  waveIndexCounter++;
-					  if(waveIndexCounter == wavesList.size()){
+					  if(waveIndexCounter == wavesList1.size()){
 						  //All enemies in the level have been spawned
 						  enemiesLeftToSpawn = false;
 					  }
@@ -123,10 +132,10 @@ public abstract class Level implements Serializable {
   
   // gameover method checks if player health is less than 0 and calls you lose or you win methods to advance
   public boolean gameOver(){
-		if(this.player.getHealthPoints() <= 0){
+		if(this.player1.getHealthPoints() <= 0){
 			youLose();
 			return true;
-		}else if (!enemiesLeftToSpawn && map.getEnemies().isEmpty() && this.player.getHealthPoints() > 0){
+		}else if (!enemiesLeftToSpawn && map1.getEnemies().isEmpty() && this.player1.getHealthPoints() > 0){
 			youWin();
 			return true;
 		}
@@ -146,32 +155,32 @@ public abstract class Level implements Serializable {
 	//I think this method is being bypassed, Map just calls GameServer directly -PWH
 	// this updates the player info after a game is won or lost and saves it
 	public void notifyPlayerInfoUpdated(){
-		server.updateClients(player.getHealthPoints(), player.getMoney());
+		server.updateClients(player1.getHealthPoints(), player1.getMoney());
 	}
   
 	// gets the map of the current level
 	public Map getMap(){
-	  return map;
+	  return map1;
 	}
   
 	public void setMap(Map map){
-	  this.map = map;
+	  this.map1 = map;
 	}
 	
 	public GameServer getServer(){
 		return server;
 	}
 
-	public Player getPlayer(){
-	  return this.player;
+	public Player getPlayer1(){
+	  return this.player1;
   }
 
   public ArrayList<ArrayList<Enemy>> getWavesList() {
-	return wavesList;
+	return wavesList1;
   }
 
   public void setWavesList(ArrayList<ArrayList<Enemy>> wavesList) {
-	this.wavesList = wavesList;
+	this.wavesList1 = wavesList;
   }
 
   
@@ -206,4 +215,13 @@ public abstract class Level implements Serializable {
 	server = thisServer;
   }
 
+  private void setPlayer2StartingValues(){
+	  if(multiplayer){
+		player2.setHealth(player1.getHealthPoints());
+		player2.setMoney(player1.getMoney());
+		map2 = MapFactory.generateMap(player2, map1.getMapTypeCode());
+		wavesList2 = wavesList1; //If we can change this later we should try to make it player specific
+	  }
+  }
+  
 }

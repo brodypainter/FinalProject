@@ -532,5 +532,13 @@ public class GameServer implements Serializable{
 			this.waitingFor2ndPlayer = true;
 		}
 	}
+	
+	/**
+	 * Checks if multiplayer mode is in effect
+	 * @return multiplayer, a boolean
+	 */
+	public boolean isMultiplayer(){
+		return this.multiplayer;
+	}
 
 }

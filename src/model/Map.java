@@ -371,4 +371,7 @@ public abstract class Map implements Serializable{
 		}
 	}
 
+	public int getMapTypeCode(){
+		return this.mapTypeCode;
+	}
 }

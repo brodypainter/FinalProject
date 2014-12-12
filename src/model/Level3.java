@@ -85,14 +85,14 @@ public class Level3 extends Level implements Serializable{
 	@Override
 	public void setPlayerStartingHP() {
 		// TODO Auto-generated method stub
-		getPlayer().setHealth(100);
+		getPlayer1().setHealth(100);
 		notifyPlayerInfoUpdated();
 	}
 
 	@Override
 	public void setPlayerStartingMoney() {
 		// TODO Auto-generated method stub
-		getPlayer().setMoney(1000);
+		getPlayer1().setMoney(1000);
 		notifyPlayerInfoUpdated();
 	}
 
@@ -110,8 +110,8 @@ public class Level3 extends Level implements Serializable{
 
 	@Override
 	public void setMap() {
-		Map levelsMap = MapFactory.generateMap(getPlayer(), 0);
-		 //the int mapCode is 0 because this is level 0 and we want Map 0
+		Map levelsMap = MapFactory.generateMap(getPlayer1(), 3);
+		 //the int mapCode is 2 because this is level 3 and we want Map 3 (starts at 0)
 		levelsMap.setServer(this.getServer()); //Must set the map's server so it knows to send first update
 		this.setMap(levelsMap);							//and where to send updates thereafter
 		// TODO Auto-generated method stub

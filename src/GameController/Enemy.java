@@ -467,4 +467,8 @@ public enum directionFacing{NORTH, EAST, SOUTH, WEST};
 	public String getImageID() {
 		return this.imageID;
 	}
+
+	public int getMaxHealth() {
+		return this.maxHealth;
+	}
 }
