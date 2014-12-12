@@ -17,14 +17,16 @@ public class ServerTowerCommand extends Command<GameServer>{
 	private static final long serialVersionUID = 4504506147509198509L;
 	private towerType tower;
 	private Point loc;
+	private String name;
 	
-	public ServerTowerCommand(towerType normal, Point loc){
+	public ServerTowerCommand(String name, towerType normal, Point loc){
 		this.tower = normal;
 		this.loc = loc;
+		this.name = name;
 	}
 
 	@Override
 	public void execute(GameServer executeOn) {
-		executeOn.addTower(this.tower, this.loc);
+		executeOn.addTower(this.name, this.tower, this.loc);
 	}
 }

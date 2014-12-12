@@ -269,15 +269,17 @@ public class GameServer implements Serializable{
 	 * Sets the servers latest message and calls the method to send it to all clients
 	 * 
 	 * @param message The message to be sent to all clients
+	 * @param message2 
 	 */
-	public void newMessage(String message) {
+	public void newMessage(String name, String message) {
 		// TODO Parse money transfers
 		if(message.charAt(0) == '$'){
 			// Send this amount of money to the other player
-			Integer.parseInt(message.substring(1));
+			int amount = Integer.parseInt(message.substring(1));
+			
 		}
 		
-		this.messages.add(message);
+		this.messages.add(name + ": " + message);
 		System.out.println(this.messages.toString());
 		updateClientMessages();
 	}
@@ -371,10 +373,11 @@ public class GameServer implements Serializable{
 	
 	/**
 	 * Uses the LevelFactory to create a level with the specified difficulty and sets it as the current level
+	 * @param name 
 	 * 
 	 * @param levelCode Int code identifying difficulty level which specifies which actual level to load
 	 */
-	public void createLevel(int levelCode){
+	public void createLevel(String name, int levelCode){
 		this.currentLevel = LevelFactory.generateLevel(this.player1, thisServer, levelCode);
 	}
 	
@@ -385,7 +388,7 @@ public class GameServer implements Serializable{
 	 * @param type Which tower type is to be placed
 	 * @param loc The location at which to place the tower
 	 */
-	public void addTower(towerType type, Point loc, String clientName) {
+	public void addTower(String clientName, towerType type, Point loc) {
 		//System.out.println("GameServer attempting to add tower to row: " + loc.x + " col: " + loc.y);
 		Tower towerToAdd = TowerFactory.generateTower(type, client2Map.get(clientName).getPlayer()); // Generate a tower	
 		//System.out.println("addTower command received, adding tower to current level");
@@ -401,7 +404,7 @@ public class GameServer implements Serializable{
 	 * 
 	 * @param location The location that the tower to be sold is located
 	 */
-	public void sellTower(Point location, String clientName) {
+	public void sellTower(String clientName, Point location) {
 		client2Map.get(clientName).sellTower(location);
 	}
 	
@@ -493,8 +496,8 @@ public class GameServer implements Serializable{
 			
 			
 		}catch(Exception e){
-			// TODO Probably start a default new game here or let the player know that there was
-			//	not a saved game present and redirect to main menu?
+			// TODO tell the player that there was an issue
+			this.createLevel(player1.getName(), tickDiluter);
 			e.printStackTrace();
 		}
 	}
@@ -548,7 +551,7 @@ public class GameServer implements Serializable{
 			player2.setPartner(player1);
 			//TODO: Find a way to set the GameClient with player1's name's boolean isPlayer1Client to true and set it false on other client
 			this.multiplayer = true;
-			this.createLevel(0); //TODO: Hardcoded for now, see if there is a way to choose, or just make it a random level 0-3
+			this.createLevel("Tester", 0); //TODO: Hardcoded for now, see if there is a way to choose, or just make it a random level 0-3
 		}else{
 			this.waitingFor2ndPlayer = true;
 		}
