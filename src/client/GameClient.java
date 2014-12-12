@@ -52,7 +52,7 @@ public class GameClient{
 	 * @param message
 	 */
 	public void newMessage(String message) {
-		Command<GameServer> c = new ServerMessageCommand(message);
+		Command<GameServer> c = new ServerMessageCommand(clientName + ": " + message);
 		this.sendCommand(c);
 	}
 
@@ -74,6 +74,7 @@ public class GameClient{
 					//System.out.println("Read Object");
 					@SuppressWarnings("unchecked")
 					Command<GameClient> c = (Command<GameClient>)in.readObject();
+					System.out.println(c.toString());
 					c.execute(GameClient.this);
 					//System.out.println(in.readObject());
 				}
@@ -198,6 +199,7 @@ public class GameClient{
 		// GUI.update(messages);
 		System.out.println(messages.toString());
 		System.out.println("Messages Received Are:\n" + messages.toString());
+		mainMenu.getView().addToChat(messages);
 	}
 
 	
