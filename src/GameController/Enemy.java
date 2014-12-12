@@ -76,6 +76,12 @@ public abstract class Enemy implements Serializable{
 	private int pathTravelingCode; //The path # that the enemy is traveling on, starting at 0. Set when Level spawns enemies
 	private String imageID; //A randomized, constant ID code for each Enemy to pass to their Image requested by Desone
 	
+	private Point startingPosition; // @Max 12/11 this is for the teleport method
+	private boolean checkerForStartingPosition = true;
+	private boolean isAsleep = false, isBurnt = false, isSlowed = false;
+	private boolean activeEffectOn = false;
+	private int timeDuration = 0, secondsAlive = 0, burnDamage = 0;
+	
 	
 	public enum enemyType {NORMAL,WATER,ELECTRIC,GRASS,POISON,PSYCHIC,FIRE,MCCANN}
 	/**
@@ -142,6 +148,12 @@ public abstract class Enemy implements Serializable{
 	 */
 	public boolean setLocation(Point x){
 		this.location = x;
+		// @Max 12/11 this stores the first point on the board the pokemon was at for teleport
+		if (checkerForStartingPosition){
+			this.startingPosition = x;
+			checkerForStartingPosition = false;
+		}
+			
 		return true;
 	}
 	
@@ -333,14 +345,34 @@ public enum directionFacing{NORTH, EAST, SOUTH, WEST};
 			map.updateEnemyPosition(this);
 			orientation = this.direction(this);//Enemy has just moved, update it's orientation
 			timeSinceLastMovement = 0;
-			specialPower();
+			specialPower();	
 		}
+		if (timeSinceLastMovement%1000 == 0){
+		
+			if (isBurnt && timeDuration != 0){
+				this.Health -= burnDamage;
+				
+			}
+			else if(isAsleep && timeDuration != 0 ){
+				
+			}
+			else if(isSlowed && timeDuration != 0){
+				
+			}
+			if (timeDuration == 0){
+				isBurnt = false;
+				isAsleep = false;
+				isSlowed = false;
+			}
+			--timeDuration;
+		}
+		
 		calculateProgress(); //Updates % of tile he is finished with
 	}
 	
 	// get the previous location of the pokemon
 	public Point getPreviousLocation() {
-		return previousLocation;
+			return previousLocation;
 	}
 
 	// set the previous location of the pokemon
@@ -350,7 +382,7 @@ public enum directionFacing{NORTH, EAST, SOUTH, WEST};
 
 	// dunno
 	public Point getNextLocation() {
-		return nextLocation;
+			return nextLocation;
 	}
 	/**
 	 * In setNextLocation I set the countdown to remaining path left on the map by the enemy
@@ -444,23 +476,36 @@ public enum directionFacing{NORTH, EAST, SOUTH, WEST};
 	/**
 	 * @Max the special abilites are what follows
 	 */
-	public boolean isAsleep(){
-		
+	public boolean setAsleep(int amountOfSecsAsleep){
+		if (!activeEffectOn){
+			timeDuration = amountOfSecsAsleep;
+			isAsleep = true;
+			activeEffectOn = true;
+		}
 		return true;
 	}
 	
-	public boolean isStunned(){
-		
+	public boolean setSlowed(int amountOfSecsSlowed){
+		if (!activeEffectOn){
+			timeDuration = amountOfSecsSlowed;
+			isSlowed = true;
+			activeEffectOn = true;
+		}
 		return true;
 	}
 	
-	public boolean isBurned(){
-		
+	public boolean setBurnt(int numberOfSecsBurnt, int burningDamage){
+		if(!activeEffectOn){
+			timeDuration = amountOfSecsBurnt;
+			isBurnt = true;
+			activeEffectOn = true;
+			burnDamage = burningDamage;
+		}
 		return true;
 	}
 	
 	public boolean teleportToBeginning(){
-		
+		setLocation(startingPosition);
 		return true;
 	}
 
