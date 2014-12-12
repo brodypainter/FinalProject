@@ -23,6 +23,9 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
+import javax.swing.Timer;
+
+import GUI.GameView.towerType;
 
 public class Board extends JPanel implements MouseListener
 {
@@ -30,14 +33,16 @@ public class Board extends JPanel implements MouseListener
 	ArrayList<EnemyTile> enemies;
 	ArrayList<JLabel> enemyTiles;
 	ArrayList<JProgressBar> enemyHealth;
+	ArrayList<Projectile> projectiles;
 	volatile ArrayList<Line> lines;
 	JButton upgrade;
 	JLabel upgradePanel;
 	JLabel towerStatPanel;
+	JLabel towerRange;
 	JTextArea towerStats;
 	TowerTile selectedTower;
 	EnemyTile selectedEnemy;
-	Image tower1Proj;
+	ImageIcon tower1Proj;
 	JProgressBar temp;
 	JLabel background;
 	boolean towerSelected;
@@ -46,15 +51,18 @@ public class Board extends JPanel implements MouseListener
 	int tileWidth = 102;
 	int timesUpdated = 0;
 	GameView view;
+	Board board;
 	
 	public Board(GameView view)
 	{
+		System.out.println("Creating board");
+		board = this;
 		this.view = view;
 		towers = new ArrayList<TowerTile>();
 		enemies = new ArrayList<EnemyTile>();
 		enemyTiles = new ArrayList<JLabel>();
 		lines = new ArrayList<Line>();
-		tower1Proj = new BufferedImage(tileWidth, tileHeight, BufferedImage.TYPE_INT_ARGB);
+		tower1Proj = new ImageIcon();
 		enemyHealth = new ArrayList<JProgressBar>();
 		background = new JLabel("Waiting for image");
 		background.setIcon(new ImageIcon());
@@ -62,14 +70,19 @@ public class Board extends JPanel implements MouseListener
 		upgradePanel = new JLabel();
 		towerStatPanel = new JLabel();
 		towerStats = new JTextArea();
+		towerRange = new JLabel();
+		projectiles = new ArrayList<Projectile>();
 		addMouseListener(this);
+		Timer animationTimer = new Timer(50, new AnimationTimer());
+		animationTimer.start();
+		System.out.println("Board initialization complete");
 	}
 	
 	public void setTileSize(int width, int height)
 	{
 		tileHeight = height;
 		tileWidth = width;
-		tower1Proj = new ImageIcon("/images/spinningBone.gif").getImage().getScaledInstance(tileWidth, tileHeight, Image.SCALE_DEFAULT);
+		tower1Proj = new ImageIcon(createImageIcon("/images/spinningBone.gif").getImage().getScaledInstance(tileWidth/2, tileHeight/2, Image.SCALE_DEFAULT));
 		upgradePanel.setSize(tileWidth, tileHeight);
 		upgradePanel.setIcon(new ImageIcon(createImageIcon("/images/towerInfoPanel.png").getImage().getScaledInstance(tileWidth, tileHeight, Image.SCALE_DEFAULT)));
 		upgradePanel.setLocation(0, 0);
@@ -94,11 +107,14 @@ public class Board extends JPanel implements MouseListener
 		towerStats.setFont(tempFont);
 		towerStats.setOpaque(false);
 		towerStats.setForeground(Color.WHITE);
+		towerRange.setVisible(false);
 		towerSelected = false;
+		
 		this.add(upgrade);
 		this.add(towerStats);
 		this.add(upgradePanel);
 		this.add(towerStatPanel);
+		this.add(towerRange);
 		System.out.println("Setting tile size in board");
 	}
 
@@ -154,6 +170,7 @@ public class Board extends JPanel implements MouseListener
 	
 	{
 			//TODO: Identify what enemy is actually gone
+		/*
 			for(int i = 0; this.enemies.size() > enemies.size() && i < enemies.size(); i++)
 			{
 				if(Math.abs(this.enemies.get(i).getX() - enemies.get(i).getX()) < 5)
@@ -168,6 +185,20 @@ public class Board extends JPanel implements MouseListener
 				this.enemyHealth.remove(i);
 				i--;
 			}
+			*/
+			
+			  for(int i = 0; i < enemies.size(); i++)
+			  {
+			  		if(!((EnemyTile) (enemies.get(i))).getID().equals(((EnemyTile) (this.enemies.get(i))).getID()))
+			  		{
+			  			this.enemies.remove(i);
+			  			this.enemyHealth.remove(i);
+			 			i--;
+			 		}
+			  }
+			  
+			 
+			
 			while(this.enemies.size() < enemies.size())
 			{
 				EnemyTile tempTile = (EnemyTile) enemies.get(this.enemies.size());
@@ -202,6 +233,37 @@ public class Board extends JPanel implements MouseListener
 			repaint();
 	}
 	
+	public void animateAttack(Point start, Point end, towerType type)
+	{
+		switch(type)
+		{
+		case NORMAL:
+			Bone temp = new Bone();
+			temp.setIcon(tower1Proj);
+			temp.setPath(new Path(start.x, start.y, end.x, end.y));
+			//projectiles.add(temp);
+			this.add(temp);
+			break;
+		case ELECTRIC:
+			break;
+		case FIRE:
+			break;
+		case GRASS:
+			break;
+		case MEWTWO:
+			break;
+		case POISON:
+			break;
+		case PSYCHIC:
+			break;
+		case WATER:
+			break;
+		default:
+			break;
+			
+		}
+	}
+	
 	public void paintComponent(Graphics g)
 	{
 		super.paintComponent(g);
@@ -213,6 +275,7 @@ public class Board extends JPanel implements MouseListener
 		{
 			label.repaint();
 		}
+		towerRange.repaint();
 		for(JLabel label : towers)
 		{
 			g.drawImage(((ImageIcon) label.getIcon()).getImage(), label.getX(), label.getY(), this);
@@ -221,10 +284,18 @@ public class Board extends JPanel implements MouseListener
 		{
 			g.drawLine(line.getStart().x, line.getStart().y, line.getEnd().x, line.getEnd().y);
 		}
+		for(Projectile proj : projectiles)
+		{
+			proj.repaint();
+		}
+		
 		if(enemySelected)
 		{
 			towerStatPanel.setLocation(selectedEnemy.getX()-tileWidth, selectedEnemy.getY());
+			towerStats.setLocation(selectedEnemy.getX()-tileWidth + 5, selectedEnemy.getY() + 5);
+			towerStats.setText("Health: " + selectedEnemy.getHealth() + "\nNeed getSpeed()" + "\nNeed getAttack()" + "\nNeed getMaxHealth()");
 		}
+		
 		upgradePanel.repaint();
 		towerStatPanel.repaint();
 		upgrade.repaint();
@@ -259,14 +330,35 @@ public class Board extends JPanel implements MouseListener
 		}
 	}
 	
+	class AnimationTimer implements ActionListener
+	{
+		public void actionPerformed(ActionEvent arg0)
+		{
+			for(Projectile proj : projectiles)
+			{
+				proj.setProgress((int) (proj.getProgress() + 5));
+				proj.setLocation((int)  proj.getLocationInGrid().x * tileWidth, (int) proj.getLocationInGrid().y * tileHeight); 
+				if(!proj.isValid())
+				{
+					projectiles.remove(proj);
+					board.remove((JLabel) proj);
+				}	
+			}
+		}
+	}
+	
 	class EnemyClickListener implements MouseListener
 	{
 		public void mouseClicked(MouseEvent e)
 		{
 			if(enemySelected)
 			{
-				enemySelected = false;
-				towerStatPanel.setVisible(false);
+				selectedEnemy = (EnemyTile) (e.getSource());
+				towerStatPanel.setLocation(((EnemyTile) e.getSource()).getX()-tileWidth, ((EnemyTile) e.getSource()).getY());
+				towerStats.setText("Health: " + selectedEnemy.getHealth() + "\nNeed getSpeed()" + "\nNeed getAttack()" + "\nNeed getMaxHealth()");
+				upgradePanel.setVisible(false);
+				upgrade.setVisible(false);
+				towerRange.setVisible(false);
 			}
 			else
 			{
@@ -274,6 +366,11 @@ public class Board extends JPanel implements MouseListener
 				enemySelected = true;
 				towerStatPanel.setLocation(((EnemyTile) e.getSource()).getX()-tileWidth, ((EnemyTile) e.getSource()).getY());
 				towerStatPanel.setVisible(true);
+				towerStats.setVisible(true);
+				towerStats.setText("Health: " + selectedEnemy.getHealth() + "\nNeed getSpeed()" + "\nNeed getAttack()" + "\nNeed getMaxHealth()");
+				upgradePanel.setVisible(false);
+				upgrade.setVisible(false);
+				towerRange.setVisible(false);
 			}
 			System.out.println("Recieved click event at (" + ((EnemyTile) e.getSource()).getX());
 		}
@@ -291,6 +388,12 @@ public class Board extends JPanel implements MouseListener
 			selectedTower = label;
 			if((label.getX()/tileWidth) == ((int) (arg0.getX()/tileWidth)) && (label.getY()/tileHeight) == ((int) (arg0.getY()/tileHeight)))	
 			{
+				enemySelected = false;
+				towerSelected = true;
+				towerRange.setIcon(new ImageIcon(createImageIcon("/images/towerRange.png").getImage().getScaledInstance((int) (2 * label.getRange()  * tileWidth) + tileWidth,(int) (2 * label.getRange()  * tileHeight) + tileHeight, Image.SCALE_SMOOTH)));
+				towerRange.setSize((int) (2 * label.getRange()  * tileWidth) + tileWidth,(int) (2 * label.getRange()  * tileHeight) + tileHeight);
+				towerRange.setLocation(label.getX() - (label.getRange() * tileWidth), label.getY() - (label.getRange() * tileHeight));
+				towerRange.setVisible(true);
 				towerStatPanel.setVisible(true);
 				upgradePanel.setVisible(true);
 				upgrade.setVisible(true);
@@ -328,28 +431,38 @@ public class Board extends JPanel implements MouseListener
 				upgradePanel.setVisible(false);
 				upgrade.setVisible(false);
 				towerStats.setVisible(false);
+				towerRange.setVisible(false);
 			}
 		}
 		for(EnemyTile label : enemies)
 		{
 			if((label.getX()/tileWidth) == ((int) (arg0.getX()/tileWidth)) && (label.getY()/tileHeight) == ((int) (arg0.getY()/tileHeight)))	
 			{
+				enemySelected = true;
+				selectedEnemy = label;
 				upgradePanel.setVisible(false);
 				upgrade.setVisible(false);
+				towerRange.setVisible(false);
 				towerStatPanel.setLocation(label.getX() - tileWidth, label.getY());
 				towerStatPanel.setVisible(true);
+				towerStats.setVisible(true);
+				towerStats.setText("Health: " + label.getHealth() + "\nNeed getSpeed()" + "\nNeed getAttack()" + "\nNeed getMaxHealth()");
+				return;
 			}
 			else
 			{
-				towerSelected = false;
+				enemySelected = false;
 				towerStatPanel.setVisible(false);
+				towerRange.setVisible(false);
 				upgradePanel.setVisible(false);
 				upgrade.setVisible(false);
 				towerStats.setVisible(false);
 			}
 		}
 	}
-	public void mouseEntered(MouseEvent arg0){}
+	public void mouseEntered(MouseEvent arg0){
+		view.hideTowerStats();
+	}
 	public void mouseExited(MouseEvent arg0){}
 	public void mousePressed(MouseEvent arg0){}
 	public void mouseReleased(MouseEvent arg0){}

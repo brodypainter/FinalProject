@@ -2,19 +2,19 @@ package model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
-
 import server.GameServer;
 import GameController.Enemy;
 import client.Player;
 
 /**
-* An abstract class that will hold a concrete extension of Map, and an arraylist of arraylists of enemies as waves
+* An abstract class that will hold a concrete extension of Map, and a 2D arraylist of enemies as waves
 * to spawn on the map. Each extending Level class will have
 * their own unique waves/times/starting gold amount and follow the naming template: "Level<#><Difficulty>" for instance
 * Level0. Use MapFactory to create the appropriate Map object. Creating and running an extension of this class will
 * actually cause the game model to run. Should be selected by player in GUI level selection which level for Server to instantiate.
+* 
+* @author Peter Hanson
+* @version 1.0
 */
 
 

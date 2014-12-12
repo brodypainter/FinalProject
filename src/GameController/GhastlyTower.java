@@ -29,7 +29,7 @@ public class GhastlyTower extends Tower {
 		/* String Name, int Attack, int Radius, double FireRateSec, String PlayersName,
 					String Image, int cost */
 		super("Ghastly", 20, 2, 1, PlayersName,"src/images/tower5Level1.png", Cost);	
-		 setTowerType(towerType.PSYCHIC);
+		 setTowerType(towerType.POISON);
 		// TODO Auto-generated constructor stub
 	}
 

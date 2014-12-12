@@ -12,6 +12,7 @@ public class TowerTile extends JLabel
 	int level;
 	int cost;
 	String special = "";
+	String ID = "";
 	
 	void setRange(int range)
 	{
@@ -53,6 +54,11 @@ public class TowerTile extends JLabel
 		this.special = special;
 	}
 	
+	void setID(String ID)
+	{
+		this.ID = ID;
+	}
+	
 	int getRange()
 	{
 		return range;
@@ -91,5 +97,10 @@ public class TowerTile extends JLabel
 	public String getSpecial()
 	{
 		return special;
+	}
+	
+	public String getID()
+	{
+		return ID;
 	}
 }

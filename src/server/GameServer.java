@@ -43,13 +43,8 @@ import commands.changeStateCommand;
  */
 public class GameServer implements Serializable{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 2161825695191929679L;
-
 	private ServerSocket socket; // the server socket
-	
 	private LinkedList<String> messages = new LinkedList<String>();	// the chat log
 	private HashMap<String, ObjectOutputStream> outputs; // map of all connected users' output streams
 	private Timer timer; //The master timer
@@ -61,8 +56,10 @@ public class GameServer implements Serializable{
 	private GameServer thisServer = this; //A reference to itself, the server
 	private int timePerTick = 20; //The time in ms per tick, will be set to 20 ms (50 fps) after debugging
 	private int tickDiluter = 1; //The multiplier of the timePerTick, 1 on normal speed, 2 on fast
-	private Boolean paused = false; //True if the game is paused, false if not
-	private Boolean fast = false; //True if the game is in fast mode, false if normal speed.
+	private boolean paused = false; //True if the game is paused, false if not
+	private boolean fast = false; //True if the game is in fast mode, false if normal speed.
+	private boolean multiplayer = false; //True if the game is in multiplayer mode
+	private boolean waitingFor2ndPlayer = false; //true if waiting for 2nd player
 	
 	/**
 	 *	This thread reads and executes commands sent by a client
@@ -137,7 +134,11 @@ public class GameServer implements Serializable{
 					
 					// create the single player, will need to change this for multiplayer games
 					// for multiplayer, this will need to check if the player already exists
-					player1 = new Player(clientName, 100, 100);
+					if(player1 == null){
+						player1 = new Player(clientName, 100, 100);
+					}else{
+						player2 = new Player(clientName, 100, 100);
+					}
 										
 					System.out.println("Player Send Try");
 					System.out.println("Player is: " + player1.toString());
@@ -206,9 +207,12 @@ public class GameServer implements Serializable{
 		timer.scheduleAtFixedRate(task, 0, timePerTick);
 	}
 	
+	/**
+	 * Progresses the game logic model, runs game loop, spawn/moves enemies, towers fire, etc.
+	 */
 	public void tickModel(){
 		currentLevel.tick(this.timePerTick*this.tickDiluter); //spawn enemies when ready
-		currentLevel.getMap().tick(this.timePerTick*this.tickDiluter); //towers fire and enemies move when ready, modified with a reference to the server
+		currentLevel.getMap().tick(this.timePerTick*this.tickDiluter); //towers fire and enemies move when ready
 	}
 	
 	/**
@@ -389,14 +393,14 @@ public class GameServer implements Serializable{
 		currentLevel.getMap().spawnEnemy(enemy);
 	}
 	
-	/**
+	/*/**
 	 * @return The server's current time between ticks
 	 */
-	/*unnecessary now? -PWH
+	/*unnecessary now? just have GUI check if fastforward or not? -PWH
 	public long getTickLength(){
 		return timePerTick;
 	}
-	/*
+	*/
 	
 	/**
 	 * Stop the GameServer master Timer, create a GameOver Command object notifying client of 
@@ -509,6 +513,24 @@ public class GameServer implements Serializable{
 	 */
 	public void upgradeTower(Point p) {
 		currentLevel.getMap().upgradeTower(p);
+	}
+	
+	/**
+	 * Attempting to do multiplayer, to be called by the Client. The first player
+	 * to call online will set the boolean waitingFor2ndPlayer to true, the
+	 * next player when they call online will link the partner players together and
+	 * create a multiplayer level.
+	 */
+	public void joinMultiplayer(){
+		if(this.waitingFor2ndPlayer){
+			player1.setPartner(player2);
+			player2.setPartner(player1);
+			this.multiplayer = true;
+			this.createLevel(4); //Here I am not sure if I want to make just 1 multiplayer
+			//level or make it so that all Levels in general have the option to be multiplayer. -PH
+		}else{
+			this.waitingFor2ndPlayer = true;
+		}
 	}
 
 }

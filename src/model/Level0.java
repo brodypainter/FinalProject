@@ -21,6 +21,7 @@ import client.Player;
 
 public class Level0 extends Level implements Serializable{
 	
+	private static final long serialVersionUID = -2776248289168724657L;
 	private static final int numbOfWaves = 3;
 	
 	public Level0(Player player, GameServer server) {
@@ -95,12 +96,12 @@ public class Level0 extends Level implements Serializable{
 
 	@Override
 	public void setWaveDelayIntervals() {
-		setWaveIntervals(15000L); //15 seconds between the last and first enemy of 2 successive waves
+		setWaveIntervals(10000L); //10 seconds between the last and first enemy of 2 successive waves
 	}
 
 	@Override
 	public void setEnemySpawnDelayIntervals() {
-		setEnemySpawnIntervals(2000L); //2 second between each enemy spawning in a wave
+		setEnemySpawnIntervals(1500L); //1.5 second between each enemy spawning in a wave
 	}
 
 	@Override

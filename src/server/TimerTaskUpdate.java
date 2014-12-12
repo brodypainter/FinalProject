@@ -2,6 +2,12 @@ package server;
 
 import java.util.TimerTask;
 
+/**
+ * The TimerTask given to the GameServer's Timer, calls the server to tick the Model
+ * which causes the game logic to run.
+ * @author Peter Hanson
+ *
+ */
 public class TimerTaskUpdate extends TimerTask{
 
 	GameServer server; //The server
@@ -13,7 +19,6 @@ public class TimerTaskUpdate extends TimerTask{
 	@Override
 	public void run() {
 		server.tickModel();
-		//server.tickClients(); //probably no longer necessary since model is on server
 	}
 
 }

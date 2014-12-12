@@ -32,7 +32,7 @@ public class MapFactory {
 		int horizontalSize;		//The amount of columns to be in the Map's grid size
 		int verticalSize;		//The amount of rows to be in the Map's grid size
 		Tile[][] grid;			//A 2D array of Tile objects whose size is set and then is populated
-		LinkedList<LinkedList<Point>> paths;	//The sequence of Points representing coordinates that enemies will follow
+		LinkedList<LinkedList<Point>> paths;	//The sequence of Points representing coordinates that enemies will follow, holds possibly multiple paths
 		String levelDescription;//A short description of the Map of the given level
 		String backgroundImage;	//The URL of the background image of the map
 		
@@ -41,7 +41,7 @@ public class MapFactory {
 		//I know this is "backwards" but that is how 2D arrays are set up so I went with this system.
 		
 		switch(mapCode){
-		case 0: //The beta test level
+		case 0: //The EarthMap
 			
 			//Set the size of the map
 			horizontalSize = 15;
@@ -86,16 +86,15 @@ public class MapFactory {
 			paths.add(path);
 			
 			//assign the levelDesciption String
-			levelDescription = "This is the beta testing level. It is a 5x10 tile map with a "
-					+ "straight path across the middle.";
+			levelDescription = "This is the EarthMap. It is a 10x15 tile map";
 			
 			//assign the backgroundImage for the level
-			backgroundImage = "/images/Cerulean_Gym.png"; //TODO:Desone, make an image of this 5 row x 10 column map with path straight across middle
-									//and place the image's location here <---
+			backgroundImage = "/images/Cerulean_Gym.png"; //TODO:Rename this image file to EarthMap and make sure the path graphics match path coords
 			
-			//instantiate a LevelXMap object that extends Map class
+			//instantiate a XMap object that extends Map class
 			map = new EarthMap(grid, paths, levelDescription, backgroundImage, mapCode, player);
 			break;
+			//TODO: Max finish making case 1 and 2 for WaterMap and LavaMap, give one multiple paths
 		/*case 1:
 			
 			//Set the size of the map
@@ -160,7 +159,60 @@ public class MapFactory {
 			//case other levels...
 		/* case 2:
 		 * this will have a second path to traverse
-		 *
+		 *			
+			Set the size of the map
+			horizontalSize = 15;
+			verticalSize = 10;
+			grid = new Tile[verticalSize][horizontalSize];
+			
+			Populate the Tile[][] with appropriate amount of tiles
+			for(int r = 0; r < verticalSize; r++){
+				for(int c = 0; c < horizontalSize; c++){
+					grid[r][c] = new Tile();
+				}
+			}
+			
+			//Initialize and populate paths
+			LinkedList<Point> path = new LinkedList<Point>();
+			path.add(new Point(2,0));
+			path.add(new Point(2,1));
+			path.add(new Point(3,1));
+			path.add(new Point(4,1));
+			path.add(new Point(5,1));
+			path.add(new Point(6,1));
+			path.add(new Point(6,2));
+			path.add(new Point(6,3));
+			path.add(new Point(6,4));
+			path.add(new Point(6,5));
+			/*path.add(new Point(5,5));
+			path.add(new Point(4,5));
+			path.add(new Point(3,5));
+			path.add(new Point(2,5));
+			path.add(new Point(6,6));
+			path.add(new Point(6,7));
+			path.add(new Point(6,8));
+			path.add(new Point(6,9));
+			path.add(new Point(6,10));
+			path.add(new Point(6,11));
+			path.add(new Point(6,12));
+			path.add(new Point(6,13));
+			path.add(new Point(6,14));
+			
+			//add (all) newly created enemy paths to the paths 2D list
+			paths = new LinkedList<LinkedList<Point>>();
+			paths.add(path);
+			
+			//assign the levelDesciption String
+			levelDescription = "This is the beta testing level. It is a 5x10 tile map with a "
+					+ "straight path across the middle.";
+			
+			//assign the backgroundImage for the level
+			backgroundImage = "/images/Cerulean_Gym.png"; //
+									
+			
+			//instantiate a LevelXMap object that extends Map class
+			map = new EarthMap(grid, paths, levelDescription, backgroundImage, mapCode, player);
+			break;
 		 * 
 		 * break;
 		 */

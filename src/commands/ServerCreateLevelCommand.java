@@ -24,7 +24,6 @@ public class ServerCreateLevelCommand extends Command<GameServer>{
 
 	@Override
 	public void execute(GameServer executeOn) {
-		// TODO addEnemy in Server
 		executeOn.createLevel(this.levelCode);
 	}
 }

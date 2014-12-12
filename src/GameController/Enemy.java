@@ -2,6 +2,8 @@ package GameController;
 
 import java.awt.Point;
 import java.io.Serializable;
+import java.util.Random;
+
 import model.Map;
 
 /**
@@ -72,7 +74,8 @@ public abstract class Enemy implements Serializable{
 	private int maxHealth; //The initial, maximum health of Enemy
 	private int healthPercentage; //The percentage of current Health / maxHealth
 	private int pathTravelingCode; //The path # that the enemy is traveling on, starting at 0. Set when Level spawns enemies
-
+	private String imageID; //A randomized, constant ID code for each Enemy to pass to their Image requested by Desone
+	
 	
 	public enum enemyType {NORMAL,WATER,ELECTRIC,GRASS,POISON,PSYCHIC,FIRE,MCCANN}
 	/**
@@ -105,9 +108,21 @@ public abstract class Enemy implements Serializable{
 		stepsTaken = 0;
 		healthPercentage = 100;
 		this.map = mapRef;
+		this.generateImageID();
 		//distanceLeftOnPath = mapRef.lengthOfPath();
 	} // end constructor
 	
+	private void generateImageID() {
+		this.imageID = "";
+		Random r = new Random();
+		Integer a;
+		for(int i = 0; i < 4; i++){
+			a = r.nextInt(10);
+			imageID = imageID + a.toString();
+		}
+		
+	}
+
 	// Max 12/2 this is for the pokemon's unique abilities
 	abstract boolean specialPower();
 	
@@ -424,5 +439,32 @@ public enum directionFacing{NORTH, EAST, SOUTH, WEST};
 	 */
 	public void setPathTravelingCode(int pathTravelingCode) {
 		this.pathTravelingCode = pathTravelingCode;
+	}
+	
+	/**
+	 * @Max the special abilites are what follows
+	 */
+	public boolean isAsleep(){
+		
+		return true;
+	}
+	
+	public boolean isStunned(){
+		
+		return true;
+	}
+	
+	public boolean isBurned(){
+		
+		return true;
+	}
+	
+	public boolean teleportToBeginning(){
+		
+		return true;
+	}
+
+	public String getImageID() {
+		return this.imageID;
 	}
 }
