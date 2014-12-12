@@ -342,27 +342,34 @@ public enum directionFacing{NORTH, EAST, SOUTH, WEST};
 	public void tick(int timePerTick) {
 		timeSinceLastMovement = timeSinceLastMovement + timePerTick; //20 because master Timer ticks every 20 ms, make sure it is equal
 		if(timeSinceLastMovement >= timePerTile){
-			map.updateEnemyPosition(this);
-			orientation = this.direction(this);//Enemy has just moved, update it's orientation
-			timeSinceLastMovement = 0;
-			specialPower();	
+			
+			if (!isAsleep){
+				map.updateEnemyPosition(this);
+				orientation = this.direction(this);//Enemy has just moved, update it's orientation
+				timeSinceLastMovement = 0;
+				specialPower();	
+			}
 		}
 		if (timeSinceLastMovement%1000 == 0){
 		
-			if (isBurnt && timeDuration != 0){
+			if (isBurnt){
+				
 				this.Health -= burnDamage;
 				
-			}
-			else if(isAsleep && timeDuration != 0 ){
-				
-			}
-			else if(isSlowed && timeDuration != 0){
+				if(isDead()){
+					this.map.removeDeadEnemy(this.location, this);
+				}
+				this.calculateHealthPercentage();
 				
 			}
 			if (timeDuration == 0){
+				if (isSlowed)
+					this.Speed *= 2;
+				
 				isBurnt = false;
 				isAsleep = false;
 				isSlowed = false;
+				activeEffectOn = false;
 			}
 			--timeDuration;
 		}
@@ -488,13 +495,14 @@ public enum directionFacing{NORTH, EAST, SOUTH, WEST};
 	public boolean setSlowed(int amountOfSecsSlowed){
 		if (!activeEffectOn){
 			timeDuration = amountOfSecsSlowed;
+			
 			isSlowed = true;
 			activeEffectOn = true;
 		}
 		return true;
 	}
 	
-	public boolean setBurnt(int numberOfSecsBurnt, int burningDamage){
+	public boolean setBurnt(int amountOfSecsBurnt, int burningDamage){
 		if(!activeEffectOn){
 			timeDuration = amountOfSecsBurnt;
 			isBurnt = true;

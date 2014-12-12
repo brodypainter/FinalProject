@@ -1,6 +1,7 @@
 package GameController;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import GUI.GameView.towerType;
 
@@ -25,6 +26,12 @@ public class GhastlyTower extends Tower {
 	 * 3 shots per a second and the Image URL to the gym
 	 * @param PlayersName is the only value the gym 
 	 */
+	
+	// @ Max for the special ability
+	int durationOfBurnEffect = 3;
+	int burnPower = 3;
+	
+	
 	public GhastlyTower(String PlayersName){
 		/* String Name, int Attack, int Radius, double FireRateSec, String PlayersName,
 					String Image, int cost */
@@ -63,9 +70,14 @@ public class GhastlyTower extends Tower {
 		
 		if ( canAttackEnemy(myClosestEnemy.getLocation())){
 			myClosestEnemy.incomingAttack(super.getAttackPower());
-			/*
-			 * GUI here
-			 */
+			
+			if ( super.getCurrentLevel() >= 2){
+				Random r = new Random();
+				int chanceOfEffect = r.nextInt(3);
+				if (chanceOfEffect == 0){
+					myClosestEnemy.setBurnt(durationOfBurnEffect, burnPower);
+				}
+			}
 			getMap().notifyOfAttack(this.getType(), this.getPosition(), myClosestEnemy.getLocation());
 				
 			
