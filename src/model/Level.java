@@ -112,6 +112,10 @@ public abstract class Level implements Serializable {
 			  if(timeSinceLastEnemySpawned >= enemySpawnIntervals){
 				  if(enemyIndexCounter < wavesList1.get(waveIndexCounter).size()){
 					  map1.spawnEnemy(wavesList1.get(waveIndexCounter).get(enemyIndexCounter));
+					  if(multiplayer){
+						  map2.spawnEnemy(wavesList2.get(waveIndexCounter).get(enemyIndexCounter)); 
+					  //I hope this works, each wave must be same size for it do work otherwise index out of bounds errors may occur
+					  }
 					  timeSinceLastEnemySpawned = 0; //reset time counter
 					  enemyIndexCounter++;
 				  }else{//All the enemies in the wave have been spawned
@@ -154,13 +158,17 @@ public abstract class Level implements Serializable {
 	
 	//I think this method is being bypassed, Map just calls GameServer directly -PWH
 	// this updates the player info after a game is won or lost and saves it
-	public void notifyPlayerInfoUpdated(){
-		server.updateClients(player1.getHealthPoints(), player1.getMoney());
+	public void notifyPlayerInfoUpdated(int hp, int m, boolean b){
+		server.updateClients(hp, m, b);
 	}
   
 	// gets the map of the current level
 	public Map getMap(){
 	  return map1;
+	}
+	
+	public Map getMap2(){
+		return map2;
 	}
   
 	public void setMap(Map map){
@@ -219,8 +227,19 @@ public abstract class Level implements Serializable {
 	  if(multiplayer){
 		player2.setHealth(player1.getHealthPoints());
 		player2.setMoney(player1.getMoney());
+		notifyPlayerInfoUpdated(player2.getHealthPoints(), player2.getMoney(), false);
 		map2 = MapFactory.generateMap(player2, map1.getMapTypeCode());
-		wavesList2 = wavesList1; //If we can change this later we should try to make it player specific
+		map2.setServer(server);
+		wavesList2 = new ArrayList<ArrayList<Enemy>>();
+		//wavesList2 = wavesList1 backwards to vary between players
+		for(int i = wavesList1.size() - 1; i > -1; i--){
+			ArrayList<Enemy> tempList = new ArrayList<Enemy>();
+			for(int j = wavesList1.get(i).size() - 1; j > -1; j-- ){
+				Enemy e = wavesList1.get(i).get(j);
+				tempList.add(e);
+			}
+			wavesList2.add(tempList);
+		}
 	  }
   }
   

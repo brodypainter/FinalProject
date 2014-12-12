@@ -85,13 +85,13 @@ public class Level0 extends Level implements Serializable{
 	@Override
 	public void setPlayerStartingHP() {
 		getPlayer1().setHealth(100);
-		notifyPlayerInfoUpdated();
+		notifyPlayerInfoUpdated(getPlayer1().getHealthPoints(), getPlayer1().getMoney(), true);
 	}
 
 	@Override
 	public void setPlayerStartingMoney() {
 		getPlayer1().setMoney(1000);
-		notifyPlayerInfoUpdated();
+		notifyPlayerInfoUpdated(getPlayer1().getHealthPoints(), getPlayer1().getMoney(), true);;
 	}
 
 	@Override

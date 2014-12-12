@@ -33,4 +33,13 @@ public class ClientMessageCommand extends Command<GameClient>{
 	public void execute(GameClient executeOn) {
 		executeOn.updateMessages(this.messages);
 	}
+	
+	public String toString(){
+		String string = "";
+		for(String s : messages){
+			string += s + "\n";
+		}
+		return string;
+		
+	}
 }

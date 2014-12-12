@@ -12,19 +12,20 @@ import server.GameServer;
 public class ServerMessageCommand extends Command<GameServer>{
 
 	private static final long serialVersionUID = 4504506147509198509L;
-	private String message;
+	private String name, message;
 	
 	/**
 	 * 
 	 * @param message A message to be sent to the server for chat purposes
+	 * @param message2 
 	 */
-	public ServerMessageCommand(String message){
+	public ServerMessageCommand(String name, String message){
+		this.name = name;
 		this.message = message;
 	}
 
 	@Override
 	public void execute(GameServer executeOn) {
-		// TODO Auto-generated method stub
-		executeOn.newMessage(this.message);
+		executeOn.newMessage(this.message, this.name);
 	}
 }
