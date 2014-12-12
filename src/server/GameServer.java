@@ -148,14 +148,18 @@ public class GameServer implements Serializable{
 					//and set it false on other client
 					if(player1 == null){
 						player1 = new Player(clientName, 100, 100);
+						output.writeObject(player1);
+						output.writeObject(true);
 					}else{
 						player2 = new Player(clientName, 100, 100);
+						output.writeObject(player2);
+						output.writeObject(false);
 					}
 										
-					System.out.println("Player Send Try");
-					System.out.println("Player is: " + player1.toString());
-					output.writeObject(player1);
-					System.out.println("Player Send Success");
+//					System.out.println("Player Send Try");
+//					System.out.println("Player is: " + player1.toString());
+//					output.writeObject(player1);
+//					System.out.println("Player Send Success");
 					
 					// map client name to output stream
 					outputs.put(clientName, output);
