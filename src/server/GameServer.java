@@ -544,8 +544,9 @@ public class GameServer implements Serializable{
 	 * to call online will set the boolean waitingFor2ndPlayer to true, the
 	 * next player when they call online will link the partner players together and
 	 * create a multiplayer level.
+	 * @param name 
 	 */
-	public void joinMultiplayer(){
+	public void joinMultiplayer(String name){
 		if(this.waitingFor2ndPlayer){
 			player1.setPartner(player2);
 			player2.setPartner(player1);

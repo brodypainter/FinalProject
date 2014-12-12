@@ -18,6 +18,7 @@ import GUI.MainMenu;
 import GUI.TowerImage;
 import commands.Command;
 import commands.DisconnectCommand;
+import commands.JoinMultiplayerCommand;
 import commands.ServerCreateLevelCommand;
 import commands.ServerMessageCommand;
 import commands.ServerTowerCommand;
@@ -369,6 +370,9 @@ public class GameClient{
 		// TODO Desone, where to send these values to you?
 	}
 	
-	
+	public void joinMultiplayer(){
+		Command<GameServer> c = new JoinMultiplayerCommand(clientName);
+		this.sendCommand(c);
+	}
 	
 }
