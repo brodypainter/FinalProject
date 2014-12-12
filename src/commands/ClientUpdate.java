@@ -20,21 +20,24 @@ public class ClientUpdate extends Command<GameClient>{
 	
 	private List<EnemyImage> enemyImages;
 	private List<TowerImage> towerImages;
+	private boolean fromPlayer1;
 
 	
 	/**
 	 * 
+	 * @param fromPlayer1 
 	 * @param message A message to be sent to the server for chat purposes
 	 */
 
-	public ClientUpdate(ArrayList<EnemyImage> enemyImages, ArrayList<TowerImage> towerImages){
+	public ClientUpdate(ArrayList<EnemyImage> enemyImages, ArrayList<TowerImage> towerImages, boolean fromPlayer1){
 		this.enemyImages = enemyImages;
 		this.towerImages = towerImages;
+		this.fromPlayer1 = fromPlayer1;
 	}
 
 	@Override
 	public void execute(GameClient executeOn) {
 		// TODO Auto-generated method stub
-		executeOn.update(enemyImages, towerImages);
+		executeOn.update(enemyImages, towerImages, fromPlayer1);
 	}
 }

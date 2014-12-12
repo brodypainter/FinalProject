@@ -77,6 +77,7 @@ public abstract class Map implements Serializable{
 	private ArrayList<Enemy> enemies; //A list of all the enemies currently on the map
 	private ArrayList<Tower> towers; //A list of all the towers currently placed on the map
 	private transient GameServer server; //The GameServer that the player is on, map will send it notify update calls
+	private boolean isPlayer1sMap; //true if this is player 1's map, false if player 2s
 	
 	
 	/**
@@ -100,6 +101,12 @@ public abstract class Map implements Serializable{
 		this.player = player;
 		currentEnemies = 0;
 		
+		server.putClientToMap(player.getName(), this);
+		if(server.getPlayer1() == player){
+			isPlayer1sMap = true;
+		}else{
+			isPlayer1sMap = false;
+		}
 		//player.setMap(this); //may not be necessary -PH
 		enemies = new ArrayList<Enemy>();
 		towers = new ArrayList<Tower>();
@@ -224,7 +231,7 @@ public abstract class Map implements Serializable{
 		//called by the last tile in the path every time an enemy gets to it
 		//Map just passes on this information to the Player object.
 		player.loseHealth(hpLost);
-		server.updateClients(player.getHealthPoints(), player.getMoney());
+		server.updateClients(player.getHealthPoints(), player.getMoney(), isPlayer1sMap);
 	}
 	
 	/**
@@ -234,7 +241,7 @@ public abstract class Map implements Serializable{
 	 */
 	public void gainedGold(int goldGained){
 		player.gainMoney(goldGained);
-		server.updateClients(player.getHealthPoints(), player.getMoney());
+		server.updateClients(player.getHealthPoints(), player.getMoney(), isPlayer1sMap);
 	}
 	
 	/**
@@ -256,7 +263,7 @@ public abstract class Map implements Serializable{
 				towers.add(tower);
 				tower.setMap(this);
 				player.spendMoney(tower.getCost());
-				server.updateClients(player.getHealthPoints(), player.getMoney());
+				server.updateClients(player.getHealthPoints(), player.getMoney(), isPlayer1sMap);
 				return grid[location.x][location.y].setGym(tower);
 			}else{
 				return false;
@@ -281,7 +288,7 @@ public abstract class Map implements Serializable{
 		towers.remove(towerToRemove);
 		int reclaimedGold = towerToRemove.getCost()/2;
 		player.gainMoney(reclaimedGold);
-		server.updateClients(player.getHealthPoints(), player.getMoney());
+		server.updateClients(player.getHealthPoints(), player.getMoney(), isPlayer1sMap);
 		}
 	}
 	
@@ -321,7 +328,7 @@ public abstract class Map implements Serializable{
 			enemy.tick(timePerTick);
 			enemyImages.add(new EnemyImage(enemy));
 		}
-		this.server.updateClients(enemyImages, towerImages);
+		this.server.updateClients(enemyImages, towerImages, isPlayer1sMap);
 		
 	}
 
@@ -332,7 +339,7 @@ public abstract class Map implements Serializable{
 	 */
 	public void setServer(GameServer server) {
 		this.server = server;
-		this.server.updateClientsOfMapBackground(this.imageURL, this.enemyPaths, this.numOfRows, this.numOfColumns);
+		this.server.updateClientsOfMapBackground(this.imageURL, this.enemyPaths, this.numOfRows, this.numOfColumns, isPlayer1sMap);
 		
 	}
 	
@@ -344,7 +351,7 @@ public abstract class Map implements Serializable{
 	 * @param enemyLocation the Point containing coordinates (row, column) of enemy
 	 */
 	public void notifyOfAttack(towerType type, Point towerLocation, Point enemyLocation) {
-		this.server.updateClientsOfAttack(type, towerLocation, enemyLocation);
+		this.server.updateClientsOfAttack(type, towerLocation, enemyLocation, isPlayer1sMap);
 		
 	}
 	
@@ -367,11 +374,16 @@ public abstract class Map implements Serializable{
 		if(costOfUpgrade <= player.getMoney()){
 			if(towerToUpgrade.upgradeCurrentTower(player.getMoney())){
 				player.spendMoney(costOfUpgrade);
+				server.updateClients(player.getHealthPoints(), player.getMoney(), isPlayer1sMap);
 			}
 		}
 	}
 
 	public int getMapTypeCode(){
 		return this.mapTypeCode;
+	}
+	
+	public Player getPlayer(){
+		return player;
 	}
 }

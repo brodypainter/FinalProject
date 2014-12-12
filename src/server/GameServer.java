@@ -16,6 +16,7 @@ import java.util.Timer;
 
 import model.Level;
 import model.LevelFactory;
+import model.Map;
 import model.TowerFactory;
 import GUI.EnemyImage;
 import GUI.GameView.towerType;
@@ -60,6 +61,7 @@ public class GameServer implements Serializable{
 	private boolean fast = false; //True if the game is in fast mode, false if normal speed.
 	private boolean multiplayer = false; //True if the game is in multiplayer mode
 	private boolean waitingFor2ndPlayer = false; //true if waiting for 2nd player
+	private HashMap<String, Map> client2Map; //Allows the appropriate map to be updated by a call from a given GameClient
 	
 	/**
 	 *	This thread reads and executes commands sent by a client
@@ -123,6 +125,12 @@ public class GameServer implements Serializable{
 		public void run() {
 			while(true){
 				try{
+					//check if GameServer is full, if so do not accept client
+					if(player2 != null){
+						//TODO:reject client, will this do it?
+						break;
+					}
+					
 					// accept a new client, get output & input streams
 					System.out.println("\t socket accepter");
 					Socket s = socket.accept();
@@ -131,6 +139,7 @@ public class GameServer implements Serializable{
 					
 					// read the client's name
 					String clientName = (String)input.readObject();
+					
 					
 					// create the single player, will need to change this for multiplayer games
 					// for multiplayer, this will need to check if the player already exists
@@ -148,7 +157,6 @@ public class GameServer implements Serializable{
 					// map client name to output stream
 					outputs.put(clientName, output);
 					
-					//send the client the level and player, only once per player
 					
 					// spawn a thread to handle communication with this client
 					new Thread(new ClientHandler(input, clientName)).start();
@@ -169,7 +177,7 @@ public class GameServer implements Serializable{
 	 * 
 	 */
 	public GameServer(){
-		this.outputs = new HashMap<String, ObjectOutputStream>(); // setup the map
+		this.outputs = new HashMap<String, ObjectOutputStream>(); // setup this hashmap
 		
 		try{
 			// start a new server on port 9001
@@ -190,6 +198,8 @@ public class GameServer implements Serializable{
 	public void updateClientMessages() {
 		System.out.println(this.messages.toString() + "\nupdateClients");
 		System.out.println(this.outputs.toString());
+		System.out.println("updateClientsMessages");
+		
 		// make an UpdateClientCommmand, try to write to all connected users
 		LinkedList<String> temp = new LinkedList<String>(messages);
 		Command<GameClient> c = new ClientMessageCommand(temp);
@@ -214,6 +224,9 @@ public class GameServer implements Serializable{
 	public void tickModel(){
 		currentLevel.tick(this.timePerTick*this.tickDiluter); //spawn enemies when ready
 		currentLevel.getMap().tick(this.timePerTick*this.tickDiluter); //towers fire and enemies move when ready
+		if(multiplayer){
+			currentLevel.getMap2().tick(this.timePerTick*this.tickDiluter);
+		}
 	}
 	
 	/**
@@ -308,10 +321,11 @@ public class GameServer implements Serializable{
 	 * 
 	 * @param enemies The Server's list of EnemyImages
 	 * @param towers The Server's list of TowerImages
+	 * @param fromPlayer1 true if this update is from the map of Player1, false if from Player2
 	 */
-	public void updateClients(ArrayList<EnemyImage> enemyImages, ArrayList<TowerImage> towerImages){
+	public void updateClients(ArrayList<EnemyImage> enemyImages, ArrayList<TowerImage> towerImages, boolean fromPlayer1){
 		//System.out.println(enemyImages.toString());
-		ClientUpdate c = new ClientUpdate(enemyImages, towerImages);
+		ClientUpdate c = new ClientUpdate(enemyImages, towerImages, fromPlayer1);
 		sendCommand(c);
 	}
 	
@@ -321,8 +335,8 @@ public class GameServer implements Serializable{
 	 * @param playerHealth The player's current health
 	 * @param playerMoney The player's current money
 	 */
-	public void updateClients(int playerHealth, int playerMoney){
-		Command<GameClient> c = new ClientHPandMoney(playerHealth, playerMoney);
+	public void updateClients(int playerHealth, int playerMoney, boolean fromPlayer1){
+		Command<GameClient> c = new ClientHPandMoney(playerHealth, playerMoney, fromPlayer1);
 		sendCommand(c);
 	}
 	
@@ -333,8 +347,8 @@ public class GameServer implements Serializable{
 	 * @param towerLocation The tower's location 
 	 * @param enemyLocation The enemy's location
 	 */
-	public void updateClientsOfAttack(towerType type, Point towerLocation, Point enemyLocation){
-		Command<GameClient> c = new ClientTowerAttack(type, towerLocation, enemyLocation);
+	public void updateClientsOfAttack(towerType type, Point towerLocation, Point enemyLocation, boolean fromPlayer1){
+		Command<GameClient> c = new ClientTowerAttack(type, towerLocation, enemyLocation, fromPlayer1);
 		sendCommand(c);
 	}
 	
@@ -346,8 +360,8 @@ public class GameServer implements Serializable{
 	 * @param numOfRows Number of rows on map
 	 * @param numOfColumns Number of columns on map
 	 */
-	public void updateClientsOfMapBackground(String mapBackgroundURL, LinkedList<LinkedList<Point>> paths, int numOfRows, int numOfColumns){
-		Command<GameClient> c = new ClientMapBackground(mapBackgroundURL, paths, numOfRows, numOfColumns);
+	public void updateClientsOfMapBackground(String mapBackgroundURL, LinkedList<LinkedList<Point>> paths, int numOfRows, int numOfColumns, boolean fromPlayer1){
+		Command<GameClient> c = new ClientMapBackground(mapBackgroundURL, paths, numOfRows, numOfColumns, fromPlayer1);
 		sendCommand(c);
 	}
 	
@@ -371,11 +385,11 @@ public class GameServer implements Serializable{
 	 * @param type Which tower type is to be placed
 	 * @param loc The location at which to place the tower
 	 */
-	public void addTower(towerType type, Point loc) {
+	public void addTower(towerType type, Point loc, String clientName) {
 		//System.out.println("GameServer attempting to add tower to row: " + loc.x + " col: " + loc.y);
-		Tower towerToAdd = TowerFactory.generateTower(type, player1); // Generate a tower	
+		Tower towerToAdd = TowerFactory.generateTower(type, client2Map.get(clientName).getPlayer()); // Generate a tower	
 		//System.out.println("addTower command received, adding tower to current level");
-		if(currentLevel.getMap().addTower(towerToAdd, loc)){ // Ask the level to add the tower
+		if(client2Map.get(clientName).addTower(towerToAdd, loc)){ // Ask the map to add the tower
 			//System.out.println("successfully added tower");
 		}else{
 			//System.out.println("Adding tower failed due to position/lack of $!");
@@ -387,8 +401,8 @@ public class GameServer implements Serializable{
 	 * 
 	 * @param location The location that the tower to be sold is located
 	 */
-	public void sellTower(Point location) {
-		currentLevel.getMap().sellTower(location);
+	public void sellTower(Point location, String clientName) {
+		client2Map.get(clientName).sellTower(location);
 	}
 	
 	/**
@@ -396,8 +410,8 @@ public class GameServer implements Serializable{
 	 * 
 	 * @param enemy The enemy that is to be spawned on the map
 	 */
-	public void addEnemy(Enemy enemy) {
-		currentLevel.getMap().spawnEnemy(enemy);
+	public void addEnemy(Enemy enemy, String clientName) {
+		client2Map.get(clientName).spawnEnemy(enemy);
 	}
 	
 	/*/**
@@ -518,8 +532,8 @@ public class GameServer implements Serializable{
 	 * Attempts to upgrade the tower at point p
 	 * @param p
 	 */
-	public void upgradeTower(Point p) {
-		currentLevel.getMap().upgradeTower(p);
+	public void upgradeTower(Point p, String clientName) {
+		client2Map.get(clientName).upgradeTower(p);
 	}
 	
 	/**
@@ -532,9 +546,9 @@ public class GameServer implements Serializable{
 		if(this.waitingFor2ndPlayer){
 			player1.setPartner(player2);
 			player2.setPartner(player1);
+			//TODO: Find a way to set the GameClient with player1's name's boolean isPlayer1Client to true and set it false on other client
 			this.multiplayer = true;
-			this.createLevel(4); //Here I am not sure if I want to make just 1 multiplayer
-			//level or make it so that all Levels in general have the option to be multiplayer. -PH
+			this.createLevel(0); //TODO: Hardcoded for now, see if there is a way to choose, or just make it a random level 0-3
 		}else{
 			this.waitingFor2ndPlayer = true;
 		}
@@ -548,4 +562,20 @@ public class GameServer implements Serializable{
 		return this.multiplayer;
 	}
 
+	/**
+	 * Called by Map every time it is instantiated
+	 * @param s the String of GameClient's name
+	 * @param m the Map
+	 */
+	public void putClientToMap(String s, Map m){
+		this.client2Map.put(s, m);
+	}
+
+	/**
+	 * Return's player1, useful for Map to check if it is Map1 or not
+	 * @return player1
+	 */
+	public Player getPlayer1() {
+		return player1;
+	}
 }
