@@ -112,6 +112,10 @@ public abstract class Level implements Serializable {
 			  if(timeSinceLastEnemySpawned >= enemySpawnIntervals){
 				  if(enemyIndexCounter < wavesList1.get(waveIndexCounter).size()){
 					  map1.spawnEnemy(wavesList1.get(waveIndexCounter).get(enemyIndexCounter));
+					  if(multiplayer){
+						  map2.spawnEnemy(wavesList2.get(waveIndexCounter).get(enemyIndexCounter)); 
+					  //I hope this works, each wave must be same size for it do work otherwise index out of bounds errors may occur
+					  }
 					  timeSinceLastEnemySpawned = 0; //reset time counter
 					  enemyIndexCounter++;
 				  }else{//All the enemies in the wave have been spawned
@@ -220,7 +224,16 @@ public abstract class Level implements Serializable {
 		player2.setHealth(player1.getHealthPoints());
 		player2.setMoney(player1.getMoney());
 		map2 = MapFactory.generateMap(player2, map1.getMapTypeCode());
-		wavesList2 = wavesList1; //If we can change this later we should try to make it player specific
+		wavesList2 = new ArrayList<ArrayList<Enemy>>();
+		//wavesList2 = wavesList1 backwards to vary between players
+		for(int i = wavesList1.size() - 1; i > -1; i--){
+			ArrayList<Enemy> tempList = new ArrayList<Enemy>();
+			for(int j = wavesList1.get(i).size() - 1; j > -1; j-- ){
+				Enemy e = wavesList1.get(i).get(j);
+				tempList.add(e);
+			}
+			wavesList2.add(tempList);
+		}
 	  }
   }
   

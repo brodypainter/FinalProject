@@ -523,8 +523,7 @@ public class GameServer implements Serializable{
 			player1.setPartner(player2);
 			player2.setPartner(player1);
 			this.multiplayer = true;
-			this.createLevel(4); //Here I am not sure if I want to make just 1 multiplayer
-			//level or make it so that all Levels in general have the option to be multiplayer. -PH
+			this.createLevel(0); //Hardcoded for now, see if there is a way to choose, or just make it a random level 0-3
 		}else{
 			this.waitingFor2ndPlayer = true;
 		}

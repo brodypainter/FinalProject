@@ -3,7 +3,7 @@ package client;
 import java.io.Serializable;
 
 import server.GameServer;
-import model.Map;
+
 
 
 
