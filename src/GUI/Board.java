@@ -1,5 +1,6 @@
 package GUI;
 
+import java.awt.AWTEvent;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
@@ -195,6 +196,7 @@ public class Board extends JPanel implements MouseListener
 				if(enemy.getID().equals(selectedEnemyID))
 				{
 					selectedEnemy.setHealth(enemy.getHealth());
+					towerStats.setText("Health: " + selectedEnemy.getHealth() + "\nNeed getSpeed()" + "\nNeed getAttack()" + "\nNeed getMaxHealth()");
 					System.out.println("Setting enemy health");
 					break;
 				}
@@ -247,6 +249,10 @@ public class Board extends JPanel implements MouseListener
 						break;
 				if(j == enemies.size() - 1)
 				{
+					if(((EnemyTile) this.enemies.get(i)).getID().equals(""))
+					{
+						
+					}
 					this.remove(this.enemies.remove(i));
 					this.remove(enemyHealth.remove(i));
 					System.out.println("Removing enemy");
@@ -339,7 +345,6 @@ public class Board extends JPanel implements MouseListener
 		{
 			towerStatPanel.setLocation(selectedEnemy.getX()-tileWidth, selectedEnemy.getY());
 			towerStats.setLocation(selectedEnemy.getX()-tileWidth + 5, selectedEnemy.getY() + 5);
-			towerStats.setText("Health: " + selectedEnemy.getHealth() + "\nNeed getSpeed()" + "\nNeed getAttack()" + "\nNeed getMaxHealth()");
 		}
 		
 		upgradePanel.repaint();
@@ -397,6 +402,7 @@ public class Board extends JPanel implements MouseListener
 	{
 		public void mouseClicked(MouseEvent e)
 		{
+			selectedEnemyID = ((EnemyTile) e.getSource()).getID();
 			if(enemySelected)
 			{
 				selectedEnemy = (EnemyTile) (e.getSource());

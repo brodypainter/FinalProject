@@ -513,6 +513,7 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 			
 			TowerTile tempTowerLabel;
 			for(TowerImage ti: newTowers){
+				System.out.println(ti.getImageURL());
 				tempTowerLabel = data.getTile(ti.getImageURL());
 				System.out.println(ti.getImageURL());
 				Point tiLocation = ti.getLocation();//this point contains the rowsdown in x and the columnsacross in y
