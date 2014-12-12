@@ -184,7 +184,7 @@ public abstract class Tower implements Serializable{
 				Math.pow((EnemysLocation.getY() - this.BoardLocation.getY()), 2 ));
 		//System.out.println("Distance fromCanAttackEnemy is %.2f", Distance);
 		
-		//TODO:Currently we are only moving the enemies/towers in 1x1 discrete squares on model
+		//Currently we are only moving the enemies/towers in 1x1 discrete squares on model
 		//so RadiusPxls should be replaced by something like "squareRange" for now. -PWH
 		if(Distance <= this.RadiusPxls){
 			return true;
@@ -227,6 +227,7 @@ public abstract class Tower implements Serializable{
 	// returns the current firerate
 	public Boolean setFireRate (double fireRate){
 		this.FireRateSecs = fireRate;
+		this.calculateCoolDown();
 		return true;
 	}
 	
@@ -252,8 +253,8 @@ public abstract class Tower implements Serializable{
 	 */
 	public boolean modifyAttackRadius(int radius){
 		int newRadius = this.RadiusPxls + radius;
-		if (newRadius < 25){
-			newRadius = 25;
+		if (newRadius < 1){
+			newRadius = 1;
 		}
 		this.RadiusPxls = newRadius;
 		return true;

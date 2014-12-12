@@ -18,6 +18,7 @@ import GUI.MainMenu;
 import GUI.TowerImage;
 import commands.Command;
 import commands.DisconnectCommand;
+import commands.JoinMultiplayerCommand;
 import commands.ServerCreateLevelCommand;
 import commands.ServerMessageCommand;
 import commands.ServerTowerCommand;
@@ -53,7 +54,9 @@ public class GameClient{
 	 * @param message
 	 */
 	public void newMessage(String message) {
-		Command<GameServer> c = new ServerMessageCommand(clientName + ": " + message, this.clientName);
+
+		Command<GameServer> c = new ServerMessageCommand(clientName, message);
+
 		this.sendCommand(c);
 	}
 
@@ -173,7 +176,7 @@ public class GameClient{
 	 */
 	public void createLevel(int i){
 		// Hardcoded as level 0 for now
-		ServerCreateLevelCommand c = new ServerCreateLevelCommand(0);
+		ServerCreateLevelCommand c = new ServerCreateLevelCommand(clientName, 0);
 		sendCommand(c);
 	}	
 	
@@ -212,7 +215,7 @@ public class GameClient{
 	 */
 	public void addTower(towerType type, Point loc){
 		//System.out.println("Constructing SendServerTowerCommand");
-		ServerTowerCommand c = new ServerTowerCommand(type, loc);
+		ServerTowerCommand c = new ServerTowerCommand(clientName, type, loc);
 		//System.out.println("Sending SendServerTowerCommand");
 		this.sendCommand(c);
 		//System.out.println("Command Sent");
@@ -225,7 +228,7 @@ public class GameClient{
 	 * @param p The point should contain coordinates (rowsdown, columnsacross) in the grid model
 	 */
 	public void sellTower(Point p){
-		ServerTowerRemoveCommand c = new ServerTowerRemoveCommand(p);
+		ServerTowerRemoveCommand c = new ServerTowerRemoveCommand(clientName, p);
 		this.sendCommand(c);
 	}
 	
@@ -247,7 +250,7 @@ public class GameClient{
 	public int disconnect(){
 		try{
 			System.out.println("Disconnecting");
-			out.writeObject(new DisconnectCommand(player.getName()));
+			out.writeObject(new DisconnectCommand(clientName));
 			return 0;
 		}catch(Exception e){
 			e.printStackTrace();
@@ -369,6 +372,17 @@ public class GameClient{
 		// TODO Desone, where to send these values to you?
 	}
 	
-	
+	public void joinMultiplayer(){
+		Command<GameServer> c = new JoinMultiplayerCommand(clientName);
+		this.sendCommand(c);
+	}
+
+	public boolean isPlayer1Client() {
+		return isPlayer1Client;
+	}
+
+	public void setPlayer1Client(boolean isPlayer1Client) {
+		this.isPlayer1Client = isPlayer1Client;
+	}
 	
 }
