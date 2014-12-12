@@ -42,6 +42,7 @@ public class Board extends JPanel implements MouseListener
 	JTextArea towerStats;
 	TowerTile selectedTower;
 	EnemyTile selectedEnemy;
+	String selectedEnemyID = "";
 	ImageIcon tower1Proj;
 	JProgressBar temp;
 	JLabel background;
@@ -166,7 +167,7 @@ public class Board extends JPanel implements MouseListener
 		}
 	}
 	
-	public void addEnemies(List<JLabel> enemies)
+	public void addEnemies(List<EnemyTile> enemies)
 	
 	{
 			//TODO: Identify what enemy is actually gone
@@ -186,32 +187,76 @@ public class Board extends JPanel implements MouseListener
 				i--;
 			}
 			*/
-			
-			  for(int i = 0; i < enemies.size(); i++)
-			  {
-			  		if(!((EnemyTile) (enemies.get(i))).getID().equals(((EnemyTile) (this.enemies.get(i))).getID()))
-			  		{
-			  			this.enemies.remove(i);
-			  			this.enemyHealth.remove(i);
-			 			i--;
-			 		}
-			  }
+		
+		if(enemySelected)
+		{
+			for(EnemyTile enemy : enemies)
+			{
+				if(enemy.getID().equals(selectedEnemyID))
+				{
+					selectedEnemy.setHealth(enemy.getHealth());
+					System.out.println("Setting enemy health");
+					break;
+				}
+			}
+		}
+		
+		while(this.enemies.size() < enemies.size())
+		{
+			EnemyTile tempTile = (EnemyTile) enemies.get(this.enemies.size());
+			tempTile.addMouseListener(new EnemyClickListener());
+			this.enemies.add(tempTile);
+			this.enemyHealth.add(new JProgressBar(0,100));
+			enemyHealth.get(enemyHealth.size()-1).setBackground(Color.RED);
+			enemyHealth.get(enemyHealth.size()-1).setForeground(Color.GREEN);
+			enemyHealth.get(enemyHealth.size()-1).setSize(tileWidth, tileHeight/4);
+			enemyHealth.get(enemyHealth.size()-1).setVisible(true);
+			this.add(enemyHealth.get(enemyHealth.size()-1));
+			this.add(enemies.get(enemies.size()-1));
+		}
+		
+		
+		//for(int i = 0; i < enemies.size() && i < this.enemies.size(); i++)
+		//{
+		//	System.out.println("Enemy ID: " + ((EnemyTile) enemies.get(i)).getID());
+		//	if(!((EnemyTile) (enemies.get(i))).getID().equals(((EnemyTile) (this.enemies.get(i))).getID()))
+		//	{
+		//		this.enemies.remove(i);
+		//		this.enemyHealth.remove(i);
+		//		i--;
+		//		System.out.println("Removing enemy");
+		//	 }
+		//}
+		
+		for(int i = 0; i < this.enemies.size(); i++)
+		{
+			//System.out.println("Enemy ID (Exists): " + ((EnemyTile) this.enemies.get(i)).getID());
+			if(enemies.size() == 0)
+			{
+				for(EnemyTile tile : this.enemies)
+				{
+					this.remove(tile);
+					enemyHealth.remove(this.enemies.indexOf(tile));
+				}
+				this.enemies.clear();
+			}
+			for(int j = 0; j < enemies.size(); j++)
+			{
+				//System.out.println("Enemy ID (Adding): " + ((EnemyTile) enemies.get(j)).getID());
+				if(this.enemies.get(i).getID().equals(((EnemyTile) enemies.get(j)).getID()))
+						break;
+				if(j == enemies.size() - 1)
+				{
+					this.remove(this.enemies.remove(i));
+					this.remove(enemyHealth.remove(i));
+					System.out.println("Removing enemy");
+				}
+			}
+		}
 			  
 			 
 			
-			while(this.enemies.size() < enemies.size())
-			{
-				EnemyTile tempTile = (EnemyTile) enemies.get(this.enemies.size());
-				tempTile.addMouseListener(new EnemyClickListener());
-				this.enemies.add(tempTile);
-				this.enemyHealth.add(new JProgressBar(0,100));
-				enemyHealth.get(enemyHealth.size()-1).setBackground(Color.RED);
-				enemyHealth.get(enemyHealth.size()-1).setForeground(Color.GREEN);
-				enemyHealth.get(enemyHealth.size()-1).setSize(tileWidth, tileHeight/4);
-				enemyHealth.get(enemyHealth.size()-1).setVisible(true);
-				this.add(enemyHealth.get(enemyHealth.size()-1));
-				this.add(enemies.get(enemies.size()-1));
-			}
+		
 			int i = 0;
 			for(JLabel label : this.enemies)
 			{
@@ -235,6 +280,7 @@ public class Board extends JPanel implements MouseListener
 	
 	public void animateAttack(Point start, Point end, towerType type)
 	{
+		System.out.println("Animating attack");
 		switch(type)
 		{
 		case NORMAL:
@@ -433,6 +479,7 @@ public class Board extends JPanel implements MouseListener
 				towerStats.setVisible(false);
 				towerRange.setVisible(false);
 			}
+			enemySelected = false;
 		}
 		for(EnemyTile label : enemies)
 		{
@@ -447,6 +494,7 @@ public class Board extends JPanel implements MouseListener
 				towerStatPanel.setVisible(true);
 				towerStats.setVisible(true);
 				towerStats.setText("Health: " + label.getHealth() + "\nNeed getSpeed()" + "\nNeed getAttack()" + "\nNeed getMaxHealth()");
+				selectedEnemyID = label.getID();
 				return;
 			}
 			else

@@ -130,7 +130,7 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 	//private List<TowerImage> towersLast; //A list of all the TowerImages
 	//private List<EnemyImage> enemiesLast; //A list of all the EnemyImages
 	private List<TowerTile> towers = new ArrayList<TowerTile>(); //A list of all the JLabels on board based on sent TowerImages
-	private List<JLabel> enemies = new ArrayList<JLabel>(); //A list of all the JLabels on board based on sent EnemyImages
+	private List<EnemyTile> enemies = new ArrayList<EnemyTile>(); //A list of all the JLabels on board based on sent EnemyImages
 	private List<JLabel> pathTiles = new ArrayList<JLabel>(); //A list of all the JLabels on board based on enemyPathCoords
 	
 	private TowerTileData data;
@@ -529,7 +529,7 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 		}
 		repaint();
 		
-		enemies = new ArrayList<JLabel>();
+		enemies = new ArrayList<EnemyTile>();
 		
 		EnemyTile tempEnemyLabel;
 		for(EnemyImage ei: newEnemies){
