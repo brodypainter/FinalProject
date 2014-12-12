@@ -185,6 +185,7 @@ public class GameServer implements Serializable{
 	 */
 	public GameServer(){
 		this.outputs = new HashMap<String, ObjectOutputStream>(); // setup this hashmap
+		this.client2Map = new HashMap<String, Map>();
 		
 		try{
 			// start a new server on port 9001
