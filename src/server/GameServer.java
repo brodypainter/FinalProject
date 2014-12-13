@@ -35,6 +35,7 @@ import commands.ClientUpdate;
 import commands.Command;
 import commands.DisconnectCommand;
 import commands.PromptMultiplayerLevelCommand;
+import commands.YouArePlayer1Command;
 import commands.changeStateCommand;
 
 /**
@@ -413,7 +414,13 @@ public class GameServer implements Serializable{
 	public void createLevel(String name, int levelCode){
 		if(this.levelA == null){
 			this.levelA = LevelFactory.generateLevel(this.player1, thisServer, levelCode);
+			Command<GameClient> c = new YouArePlayer1Command(true);
+			sendCommand(c);
+		}else{
+			Command<GameClient> c = new YouArePlayer1Command(false);
+			sendCommand(c);
 		}
+		
 	}
 	
 	

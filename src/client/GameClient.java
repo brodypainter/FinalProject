@@ -90,7 +90,8 @@ public class GameClient{
 					return; // "gracefully" terminate
 				}
 				catch(Exception e){
-					e.printStackTrace();
+					return;
+					//e.printStackTrace();
 				}
 			}
 		}
@@ -418,5 +419,9 @@ public class GameClient{
 		if(this.isPlayer1Client){
 			this.createLevel(this.mainMenu.promptLevel());
 		}
+	}
+
+	public void setIsPlayer1(boolean p1) {
+		this.isPlayer1Client = p1;
 	}
 }
