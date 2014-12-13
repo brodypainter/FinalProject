@@ -26,6 +26,7 @@ import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 import javax.swing.Timer;
 
+import server.GameServer;
 import client.GameClient;
 import GUI.GameView.towerType;
 
@@ -37,6 +38,7 @@ public class Board extends JPanel implements MouseListener
 	ArrayList<JProgressBar> enemyHealth;
 	ArrayList<Projectile> projectiles;
 	volatile ArrayList<Line> lines;
+	boolean upgrading;
 	JButton upgrade;
 	JLabel upgradePanel;
 	JLabel towerStatPanel;
@@ -65,6 +67,7 @@ public class Board extends JPanel implements MouseListener
 	
 	public static void main(String[] args)
 	{
+		new GameServer();
 		new GameClient();
 	}
 	
@@ -180,10 +183,29 @@ public class Board extends JPanel implements MouseListener
 		{
 			this.towers.add(towers.get(this.towers.size()));
 		}
+		
+		if(upgrading)
+		{
+			upgrading = false;
+			System.out.println("This upgrade option works as well");
+		}
+		
 		int i = 0;
 		for(TowerTile tile : towers)
 		{
 			tile = towers.get(i);
+			if(tile.getLevel() != this.towers.get(i).getLevel())
+			{
+				System.out.println("Upgrade detected");
+				this.towers.get(i).setUpgradable(tile.upgradable);
+				this.towers.get(i).setSpecial(tile.getSpecial());
+				this.towers.get(i).setRate(tile.getRate());
+				this.towers.get(i).setRange(tile.getRange());
+				this.towers.get(i).setPower(tile.getPower());
+				this.towers.get(i).setCost(tile.getCost());
+				this.towers.get(i).setLevel(tile.getLevel());
+				//this.towers.get(i).setIcon(towerData.);
+			}
 			i++;
 		}
 	}
@@ -199,7 +221,7 @@ public class Board extends JPanel implements MouseListener
 				{
 					selectedEnemy.setHealth(enemy.getHealth());
 					towerStats.setText("Health: " + selectedEnemy.getHealthLeft() + "/" + selectedEnemy.getMaxHealth() + "\nSpeed: " + selectedEnemy.getSpeed() + "\nAttack: " + selectedEnemy.getAttack() + "\nDefense: " + selectedEnemy.getAttack() + "\nWorth: " + selectedEnemy.getWorth());
-					System.out.println("Setting enemy health");
+					//System.out.println("Setting enemy health");
 					break;
 				}
 			}
@@ -216,7 +238,7 @@ public class Board extends JPanel implements MouseListener
 			enemyHealth.get(enemyHealth.size()-1).setSize(tileWidth, tileHeight/4);
 			enemyHealth.get(enemyHealth.size()-1).setVisible(true);
 			this.add(enemyHealth.get(enemyHealth.size()-1));
-			this.add(enemies.get(enemies.size()-1));
+			this.add(this.enemies.get(this.enemies.size()-1));
 		}
 		
 		
@@ -231,26 +253,33 @@ public class Board extends JPanel implements MouseListener
 		//		System.out.println("Removing enemy");
 		//	 }
 		//}
+		if(enemies.size() == 0)
+		{
+			for(EnemyTile tile : this.enemies)
+			{
+				this.remove(tile);
+				this.remove(enemyHealth.get(this.enemies.indexOf(tile)));
+			}
+			System.out.println("Removing all enemies from view and list");
+			enemyHealth.clear();
+			this.enemies.clear();
+		}
 		
+		if(this.enemies.size() != enemies.size())
+		{
+			System.out.println("Invalid array size, " + this.enemies.size() + ", " + enemies.size());
+		}
+	
 		for(int i = 0; i < this.enemies.size(); i++)
 		{
 			//System.out.println("Enemy ID (Exists): " + ((EnemyTile) this.enemies.get(i)).getID());
-			if(enemies.size() == 0)
-			{
-				for(EnemyTile tile : this.enemies)
-				{
-					this.remove(tile);
-					this.remove(enemyHealth.get(this.enemies.indexOf(tile)));
-				}
-				enemyHealth.clear();
-				this.enemies.clear();
-			}
+			
 			for(int j = 0; j < enemies.size(); j++)
 			{
 				//System.out.println("Enemy ID (Adding): " + ((EnemyTile) enemies.get(j)).getID());
 				if(this.enemies.get(i).getID().equals(((EnemyTile) enemies.get(j)).getID()))
-						break;
-				if(j == enemies.size() - 1)
+					break;
+				if(j <= enemies.size())
 				{
 					if(((EnemyTile) this.enemies.get(i)).getID().equals(""))
 					{
@@ -258,14 +287,13 @@ public class Board extends JPanel implements MouseListener
 					}
 					this.remove(this.enemies.remove(i));
 					this.remove(enemyHealth.remove(i));
-					System.out.println("Removing enemy");
+					//System.out.println("Removing enemy");
 				}
 			}
 		}
 			  
 			 
 			
-		
 			int i = 0;
 			for(JLabel label : this.enemies)
 			{
@@ -289,7 +317,7 @@ public class Board extends JPanel implements MouseListener
 	
 	public void animateAttack(Point start, Point end, towerType type)
 	{
-		System.out.println("Animating attack from (" + start.getX() + ", " + start.getY() + ") -> (" + end.getX() + ", " + end.getY() + ").");
+		//System.out.println("Animating attack from (" + start.getX() + ", " + start.getY() + ") -> (" + end.getX() + ", " + end.getY() + ").");
 		switch(type)
 		{
 		case NORMAL:
@@ -365,6 +393,11 @@ public class Board extends JPanel implements MouseListener
 	public void updateMiniMap(ArrayList<Point> towers, ArrayList<Point> enemies)
 	{
 		
+	}
+	
+	public void towerUpgrade()
+	{
+		upgrading = true;
 	}
 	
 	public void paintComponent(Graphics g)

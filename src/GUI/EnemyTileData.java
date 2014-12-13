@@ -82,7 +82,7 @@ public class EnemyTileData
 		EnemyTile tempEnemyTile = new EnemyTile();
 		if(name.equals("Pikachu"))
 		{
-			System.out.println("Makin a pikachu");
+			//System.out.println("Makin a pikachu");
 			switch(dir)
 			{
 			case NORTH:
@@ -246,7 +246,7 @@ public class EnemyTileData
 				break;	
 			}
 		}
-		System.out.println(name);
+		//System.out.println(name);
 		return tempEnemyTile;
 	}
 	

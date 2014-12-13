@@ -18,8 +18,9 @@ public class CharmanderTower extends Tower{
 	private final int costOfUpgrade2 = 100;
 	private final int maxLevelAttainable = 3;
 	
-	private int burnPower = 5;
+	private int burnPower = 3;
 	private int durationOfBurnEffect = 3; // in seconds
+	private int burnMulti = 3;
 	//String Name, int Attack, int Radius, int FireRateSec, String PlayersName
 	/**
 	 * The default settings for the cerulean gym a attack power of 25, a radius range of 3 tiles,
@@ -65,13 +66,29 @@ public class CharmanderTower extends Tower{
 		if (canAttackEnemy(myClosestEnemy.getLocation())){
 			myClosestEnemy.incomingAttack(super.getAttackPower());
 			getMap().notifyOfAttack(this.getType(), this.getPosition(), myClosestEnemy.getLocation());
-			if ( super.getCurrentLevel() >= 2){
-				Random r = new Random();
-				int chanceOfEffect = r.nextInt(3);
-				if (chanceOfEffect == 0){
+			
+			if ( super.getCurrentLevel() == 1)
+			{
+				Random r1 = new Random();
+				int chanceOfEffect1 = r1.nextInt(7);
+				if (chanceOfEffect1 == 0)
 					myClosestEnemy.setBurnt(durationOfBurnEffect, burnPower);
 				}
-			}			
+			else if( super.getCurrentLevel() == 2)
+			{
+					Random r2 = new Random();
+					int chanceOfEffect2 = r2.nextInt(5);
+					if (chanceOfEffect2 == 0)
+						myClosestEnemy.setBurnt(durationOfBurnEffect, burnPower+burnMulti);
+			}
+				else if(super.getCurrentLevel() == 3)
+				{
+					Random r3 = new Random();
+					int chanceOfEffect3 = r3.nextInt(3);
+					if (chanceOfEffect3 == 0)
+						myClosestEnemy.setBurnt(durationOfBurnEffect, burnPower+burnMulti+burnMulti);
+				}	
+						
 		}else{
 			return false; //If cannot attack enemy
 		}
@@ -141,7 +158,7 @@ public class CharmanderTower extends Tower{
 		this.levelIncrease(); 		// increases the leve by one
 		this.setAttackPower(5); 	// increase attack power by 5 poins
 		this.modifyAttackRadius(2);// increase attack radius to 25 pixels
-		this.increaseFireRate(1); 	// increase the fire rate by one
+		this.increaseFireRate(2); 	// increase the fire rate by one
 		if (super.getCurrentLevel() == 2){
 			super.setImageURL(level2);
 			super.setPokemonName("Charmeleon");

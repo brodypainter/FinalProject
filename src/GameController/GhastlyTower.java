@@ -29,7 +29,7 @@ public class GhastlyTower extends Tower {
 	
 	// @ Max for the special ability
 	int durationOfBurnEffect = 3;
-	int burnPower = 3;
+	int burnPower = 3, burnMulti =3;
 	
 	
 	public GhastlyTower(String PlayersName){
@@ -71,13 +71,28 @@ public class GhastlyTower extends Tower {
 		if ( canAttackEnemy(myClosestEnemy.getLocation())){
 			myClosestEnemy.incomingAttack(super.getAttackPower());
 			
-			if ( super.getCurrentLevel() >= 2){
-				Random r = new Random();
-				int chanceOfEffect = r.nextInt(3);
-				if (chanceOfEffect == 0){
+			if ( super.getCurrentLevel() == 1)
+			{
+				Random r1 = new Random();
+				int chanceOfEffect1 = r1.nextInt(7);
+				if (chanceOfEffect1 == 0)
 					myClosestEnemy.setBurnt(durationOfBurnEffect, burnPower);
-				}
 			}
+			else if( super.getCurrentLevel() == 2)
+			{
+					Random r2 = new Random();
+					int chanceOfEffect2 = r2.nextInt(5);
+					if (chanceOfEffect2 == 0)
+						myClosestEnemy.setBurnt(durationOfBurnEffect, burnPower+burnMulti);
+			}
+				else if(super.getCurrentLevel() == 3)
+				{
+					Random r3 = new Random();
+					int chanceOfEffect3 = r3.nextInt(3);
+					if (chanceOfEffect3 == 0)
+						myClosestEnemy.setBurnt(durationOfBurnEffect, burnPower+burnMulti*2);
+				}
+			
 			getMap().notifyOfAttack(this.getType(), this.getPosition(), myClosestEnemy.getLocation());
 				
 			

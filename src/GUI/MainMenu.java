@@ -172,7 +172,8 @@ public class MainMenu extends JFrame implements WindowListener
 			{
 				frame.setVisible(false);
 				view = new GameView(GameView.gameType.SINGLE, username, client, player);
-				client.createLevel(0); //Call AFTER view is created
+				int levelCode = promptLevel();
+				client.createLevel(levelCode); //Call AFTER view is created
 			}
 			if(arg0.getSource().equals(multiPlayer))
 			{
@@ -184,10 +185,35 @@ public class MainMenu extends JFrame implements WindowListener
 			}
 			if(arg0.getSource().equals(settings))
 			{
-				JOptionPane.showMessageDialog(frame, "Settings menu not yet available", "Pokemon Tower Defense", JOptionPane.OK_OPTION);
+				GameInstructions gi = new GameInstructions();
+				//JOptionPane.showMessageDialog(frame, "Settings menu not yet available", "Pokemon Tower Defense", JOptionPane.OK_OPTION);
 			}
 		}
 	}
+	
+	public int promptLevel() //Not showing up for me? -PH
+	{
+		String[] possibleValues = { "Level 1", "Level 2", "Level 3" };
+		String option = (String) JOptionPane.showInputDialog(null, "Choose one", "Input", JOptionPane.INFORMATION_MESSAGE, null, possibleValues, possibleValues[0]);
+		if(option.equals("Level 1"))
+		{
+			return 1;
+		}
+		else if(option.equals("Level 2"))
+		{
+			return 2;
+		}
+		else if(option.equals("Level 3"))
+		{
+			return 3;
+		}
+		else
+		{
+			return 1;
+		}
+		
+	}
+	
 	
 	public GameView getView()
 	{

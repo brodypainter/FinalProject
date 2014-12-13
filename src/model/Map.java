@@ -372,12 +372,16 @@ public abstract class Map implements Serializable{
 	 * @param p
 	 */
 	public void upgradeTower(Point p) {
+		boolean towerExists = grid[p.x][p.y].containsGym();
 		Tower towerToUpgrade = grid[p.x][p.y].getGym();
-		int costOfUpgrade = towerToUpgrade.getCostOfLevelingUp();
-		if(costOfUpgrade <= player.getMoney()){
-			if(towerToUpgrade.upgradeCurrentTower(player.getMoney())){
-				player.spendMoney(costOfUpgrade);
-				server.updateClients(player.getHealthPoints(), player.getMoney(), isPlayer1sMap);
+		
+		if(towerExists){
+			int costOfUpgrade = towerToUpgrade.getCostOfLevelingUp();
+			if(costOfUpgrade <= player.getMoney()){
+				if(towerToUpgrade.upgradeCurrentTower(player.getMoney())){
+					player.spendMoney(costOfUpgrade);
+					server.updateClients(player.getHealthPoints(), player.getMoney(), isPlayer1sMap);
+				}
 			}
 		}
 	}

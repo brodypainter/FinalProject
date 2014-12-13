@@ -27,7 +27,10 @@ public class GameInstructions extends JFrame{
 			+ "Each felled Pokemon gives you gold. In order to win you must defeat all enemy waves without losing all your HP.\n"
 			+ "Losing all of your HP results in a game over.\n\n"
 			+ "To start a multiplayer game, click online in the main menu and have your second client do the same.\n"
-			+ "In this mode both players share the same health and can send money to each other by .... .\n" //Not finished yet
+			+ "In this mode both players share the same health and can send money to each other by typing a message\n"
+			+ "starting with the character '$' and followed by the integer amount of money they wish to send.\n"
+			+ "A mini map of the partner player's screen is also displayed, with green squares representing towers\n"
+			+ "and red squares representing enemies." 
 			+ "";
 	
 	public GameInstructions(){
