@@ -46,6 +46,13 @@ public class Board extends JPanel implements MouseListener
 	EnemyTile selectedEnemy;
 	String selectedEnemyID = "";
 	ImageIcon tower1Proj;
+	ImageIcon tower2Proj;
+	ImageIcon tower3Proj;
+	ImageIcon tower4Proj;
+	ImageIcon tower5Proj;
+	ImageIcon tower6Proj;
+	ImageIcon tower7Proj;
+	ImageIcon tower8Proj;
 	JProgressBar temp;
 	JLabel background;
 	boolean towerSelected;
@@ -90,7 +97,14 @@ public class Board extends JPanel implements MouseListener
 	{
 		tileHeight = height;
 		tileWidth = width;
-		tower1Proj = new ImageIcon(createImageIcon("/images/spinningBone.gif").getImage().getScaledInstance(tileWidth/2, tileHeight/2, Image.SCALE_DEFAULT));
+		tower1Proj = new ImageIcon(createImageIcon("/images/tower1Projectile.gif").getImage().getScaledInstance(tileWidth/2, tileHeight/2, Image.SCALE_DEFAULT));
+		tower2Proj = new ImageIcon(createImageIcon("/images/tower2Projectile.gif").getImage().getScaledInstance(tileWidth/2, tileHeight/2, Image.SCALE_DEFAULT));
+		tower3Proj = new ImageIcon(createImageIcon("/images/tower3Projectile.gif").getImage().getScaledInstance(tileWidth/2, tileHeight/2, Image.SCALE_DEFAULT));
+		tower4Proj = new ImageIcon(createImageIcon("/images/tower4Projectile.gif").getImage().getScaledInstance(tileWidth/2, tileHeight/2, Image.SCALE_DEFAULT));
+		tower5Proj = new ImageIcon(createImageIcon("/images/tower5Projectile.gif").getImage().getScaledInstance(tileWidth/2, tileHeight/2, Image.SCALE_DEFAULT));
+		tower6Proj = new ImageIcon(createImageIcon("/images/tower6Projectile.gif").getImage().getScaledInstance(tileWidth/2, tileHeight/2, Image.SCALE_DEFAULT));
+		tower7Proj = new ImageIcon(createImageIcon("/images/tower7Projectile.gif").getImage().getScaledInstance(tileWidth/2, tileHeight/2, Image.SCALE_DEFAULT));
+		tower8Proj = new ImageIcon(createImageIcon("/images/tower8Projectile.gif").getImage().getScaledInstance(tileWidth/2, tileHeight/2, Image.SCALE_DEFAULT));
 		upgradePanel.setSize(tileWidth, tileHeight);
 		upgradePanel.setIcon(new ImageIcon(createImageIcon("/images/towerInfoPanel.png").getImage().getScaledInstance(tileWidth, tileHeight, Image.SCALE_DEFAULT)));
 		upgradePanel.setLocation(0, 0);
@@ -279,26 +293,68 @@ public class Board extends JPanel implements MouseListener
 		switch(type)
 		{
 		case NORMAL:
-			Bone temp = new Bone();
-			temp.setIcon(tower1Proj);
-			temp.setPath(new Path(start.x, start.y, end.x, end.y));
-			temp.setSize(tileWidth/2, tileHeight/2);
-			projectiles.add(temp);
-			this.add(temp);
+			Bone temp1 = new Bone();
+			temp1.setIcon(tower1Proj);
+			temp1.setPath(new Path(start.x, start.y, end.x, end.y));
+			temp1.setSize(tileWidth/2, tileHeight/2);
+			projectiles.add(temp1);
+			this.add(temp1);
 			break;
 		case ELECTRIC:
+			ElectricBall temp2 = new ElectricBall();
+			temp2.setIcon(tower3Proj);
+			temp2.setPath(new Path(start.x, start.y, end.x, end.y));
+			temp2.setSize(tileWidth/2, tileHeight/2);
+			projectiles.add(temp2);
+			this.add(temp2);
 			break;
 		case FIRE:
+			FireBall temp3 = new FireBall();
+			temp3.setIcon(tower7Proj);
+			temp3.setPath(new Path(start.x, start.y, end.x, end.y));
+			temp3.setSize(tileWidth/2, tileHeight/2);
+			projectiles.add(temp3);
+			this.add(temp3);
 			break;
 		case GRASS:
+			GrassBall temp4 = new GrassBall();
+			temp4.setIcon(tower4Proj);
+			temp4.setPath(new Path(start.x, start.y, end.x, end.y));
+			temp4.setSize(tileWidth/2, tileHeight/2);
+			projectiles.add(temp4);
+			this.add(temp4);
 			break;
 		case MEWTWO:
+			Bone temp5 = new Bone();
+			temp5.setIcon(tower8Proj);
+			temp5.setPath(new Path(start.x, start.y, end.x, end.y));
+			temp5.setSize(tileWidth/2, tileHeight/2);
+			projectiles.add(temp5);
+			this.add(temp5);
 			break;
 		case POISON:
+			GhostBall temp6 = new GhostBall();
+			temp6.setIcon(tower5Proj);
+			temp6.setPath(new Path(start.x, start.y, end.x, end.y));
+			temp6.setSize(tileWidth/2, tileHeight/2);
+			projectiles.add(temp6);
+			this.add(temp6);
 			break;
 		case PSYCHIC:
+			PsychicBall temp7 = new PsychicBall();
+			temp7.setIcon(tower6Proj);
+			temp7.setPath(new Path(start.x, start.y, end.x, end.y));
+			temp7.setSize(tileWidth/2, tileHeight/2);
+			projectiles.add(temp7);
+			this.add(temp7);
 			break;
 		case WATER:
+			WaterBall temp8 = new WaterBall();
+			temp8.setIcon(tower2Proj);
+			temp8.setPath(new Path(start.x, start.y, end.x, end.y));
+			temp8.setSize(tileWidth/2, tileHeight/2);
+			projectiles.add(temp8);
+			this.add(temp8);
 			break;
 		default:
 			break;
