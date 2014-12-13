@@ -411,7 +411,7 @@ public class GameServer implements Serializable{
 	 * @param levelCode Int code identifying difficulty level which specifies which actual level to load
 	 */
 	public void createLevel(String name, int levelCode){
-		if(this.levelA != null){
+		if(this.levelA == null){
 			this.levelA = LevelFactory.generateLevel(this.player1, thisServer, levelCode);
 		}
 	}
