@@ -30,7 +30,7 @@ public class KoffingEnemy extends Enemy{
 		
 		//health, attackPower, defense, speed, name, worth, Image, mapRef
 
-		super(100, 5, 12, 2, "Koffing", 75, currentMap, "src/images/enemy5Down.gif", "src/images/enemy5Up.gif","src/images/enemy5Left.gif", "src/images/enemy5Right.gif");
+		super(100, 5, 12, 0.4, "Koffing", 75, currentMap, "src/images/enemy5Down.gif", "src/images/enemy5Up.gif","src/images/enemy5Left.gif", "src/images/enemy5Right.gif");
 		/* src/images/pikachuRight.gif
 		 * src/images/pikachuLeft.gif
 		 * src/images/pikachuRight.gif

@@ -45,7 +45,7 @@ public class CuboneTower extends Tower{
 	public CuboneTower(String PlayersName){
 		/* String Name, int Attack, int Radius, double FireRateSec, String PlayersName,
 					String Image, int cost */
-		super("Cubone", 15, 3, 1.5, PlayersName,"src/images/tower1Level1.png", Cost);	
+		super("Cubone", 15, 3, 0.5, PlayersName,"src/images/tower1Level1.png", Cost);	
 		 setTowerType(towerType.NORMAL);
 		// TODO Auto-generated constructor stub
 	}
