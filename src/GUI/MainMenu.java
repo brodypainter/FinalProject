@@ -177,8 +177,6 @@ public class MainMenu extends JFrame implements WindowListener
 			if(arg0.getSource().equals(multiPlayer))
 			{
 				frame.setVisible(false);
-				Object[] possibleValues = { "Level 1", "Level 2", "Level 3" };
-				JOptionPane.showInputDialog(null, "Choose one", "Input", JOptionPane.INFORMATION_MESSAGE, null, possibleValues, possibleValues[0]);
 				view = new GameView(GameView.gameType.MULTI, username, client, player);
 				client.joinMultiplayer();
 			}
@@ -188,6 +186,30 @@ public class MainMenu extends JFrame implements WindowListener
 			}
 		}
 	}
+	
+	public int promptLevel()
+	{
+		String[] possibleValues = { "Level 1", "Level 2", "Level 3" };
+		String option = (String) JOptionPane.showInputDialog(null, "Choose one", "Input", JOptionPane.INFORMATION_MESSAGE, null, possibleValues, possibleValues[0]);
+		if(option.equals("Level 1"))
+		{
+			return 1;
+		}
+		else if(option.equals("Level 2"))
+		{
+			return 2;
+		}
+		else if(option.equals("Level 3"))
+		{
+			return 3;
+		}
+		else
+		{
+			return 1;
+		}
+		
+	}
+	
 	
 	public GameView getView()
 	{

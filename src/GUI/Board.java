@@ -180,10 +180,27 @@ public class Board extends JPanel implements MouseListener
 		{
 			this.towers.add(towers.get(this.towers.size()));
 		}
+		
+		for(TowerTile tile : towers)
+		{
+			
+		}
+		
 		int i = 0;
 		for(TowerTile tile : towers)
 		{
 			tile = towers.get(i);
+			if(tile.getLevel() != this.towers.get(i).getLevel())
+			{
+				this.towers.get(i).setUpgradable(tile.upgradable);
+				this.towers.get(i).setSpecial(tile.getSpecial());
+				this.towers.get(i).setRate(tile.getRate());
+				this.towers.get(i).setRange(tile.getRange());
+				this.towers.get(i).setPower(tile.getPower());
+				this.towers.get(i).setCost(tile.getCost());
+				this.towers.get(i).setLevel(tile.getLevel());
+				//this.towers.get(i).setIcon(towerData.);
+			}
 			i++;
 		}
 	}

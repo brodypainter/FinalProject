@@ -503,6 +503,7 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 		//If there is a different amount of TowerImages sent then there
 		//are already JLabels based on TowerImages on the board, remove
 		//all these JLabels, create new ones, add them to a new towers list, and put them on board
+		
 		if(this.towers.size() != newTowers.size())
 		{
 			//for(JLabel tower: towers){
@@ -527,6 +528,15 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 			}
 			((Board) board).addTowers(towers);
 			System.out.println("Updating board towers");
+		}
+		int i = 0;
+		for(TowerImage tile : newTowers)
+		{
+			if(towerData.getTile(tile.getImageURL()).getLevel() != this.towers.get(i).getLevel())
+			{
+				System.out.println("Upgrade detected");
+			}
+			i++;
 		}
 		repaint();
 		
