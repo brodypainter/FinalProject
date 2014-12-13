@@ -16,6 +16,7 @@ public class EnemyImage implements Serializable {
 						  //Use this to offset the enemy from its top left corner of grid location
 	private int healthPercentage; //For future use to display HP bar of enemies, 0 to 100
 	private String ID; //a 4-digit, 0-9 ID unique to each enemy
+	private String name;
 	private int maxHealth;
 	private int attackPower;
 	private int defense;
@@ -34,6 +35,7 @@ public class EnemyImage implements Serializable {
 		this.defense = enemy.getDefense();
 		this.speed = enemy.getSpeed();
 		this.worth = enemy.getMoney();
+		this.name = enemy.getName();
 	}
 	
 	public int getMaxHealth(){
@@ -62,6 +64,10 @@ public class EnemyImage implements Serializable {
 
 	public String getID(){
 		return ID;
+	}
+	
+	public String getName(){
+		return this.name;
 	}
 	
 	public Point getLocation(){

@@ -109,7 +109,7 @@ public abstract class Enemy implements Serializable{
 		this.upURL = north;
 		this.leftURL = west;
 		this.rightURL = east;
-		orientation = directionFacing.SOUTH; //By default
+		orientation = directionFacing.EAST; //By default
 		timeSinceLastMovement = 0;
 		stepsTaken = 0;
 		healthPercentage = 100;
@@ -523,5 +523,9 @@ public enum directionFacing{NORTH, EAST, SOUTH, WEST};
 
 	public int getMaxHealth() {
 		return this.maxHealth;
+	}
+
+	public String getName() {
+		return this.Pokemon;
 	}
 }

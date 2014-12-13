@@ -314,7 +314,7 @@ public abstract class Map implements Serializable{
 		//call all enemies and towers to call their tick() method, which will increment their
 		//cool down timers, causing them to move/shoot if they are ready
 		ArrayList<EnemyImage> enemyImages = new ArrayList<EnemyImage>();
-		ArrayList<Enemy> tempEnemies = new ArrayList<Enemy>(enemies);
+		ArrayList<Enemy> tempEnemies = new ArrayList<Enemy>(enemies); //To prevent error multithread editing
 		for(Enemy enemy : tempEnemies){
 			enemy.tick(timePerTick);
 			enemyImages.add(new EnemyImage(enemy));
