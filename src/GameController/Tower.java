@@ -328,7 +328,7 @@ public abstract class Tower implements Serializable{
 	public Enemy findClosestEnemy(ArrayList<Enemy> enemies){
 		Enemy closests = null;
 		//Double shortestDist = null;
-		Integer greatestStepsTaken = null;
+		int greatestStepsTaken = -1;
 
 		if (enemies.isEmpty()){
 			return closests;
