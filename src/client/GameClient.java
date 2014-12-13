@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -28,6 +29,7 @@ import commands.normalSpeedCommand;
 import commands.playPauseCommand;
 import commands.saveGameCommand;
 import commands.speedUpCommand;
+import commands.upgradeTowerCommand;
 //import commands.upgradeTowerCommand;
 
 public class GameClient{
@@ -176,8 +178,7 @@ public class GameClient{
 	 * @param i the levelCode
 	 */
 	public void createLevel(int i){
-		// Hardcoded as level 0 for now
-		ServerCreateLevelCommand c = new ServerCreateLevelCommand(clientName, 0);
+		ServerCreateLevelCommand c = new ServerCreateLevelCommand(clientName, i);
 		sendCommand(c);
 	}	
 	
@@ -238,8 +239,8 @@ public class GameClient{
 	 * @param p the location coordinates (rows, columns) of tower to be upgraded
 	 */
 	public void upgradeTower(Point p){
-		//Command<GameServer> c = new upgradeTowerCommand(p);
-		//this.sendCommand(c);
+		Command<GameServer> c = new upgradeTowerCommand(clientName, p);
+		this.sendCommand(c);
 	}
 	
 	/*//Unnecessary method for now unless we make a player click remove enemy in area type thing
@@ -270,10 +271,12 @@ public class GameClient{
 	 * @param fromPlayer1 
 	 */
 	public void mapBackgroundUpdate(String backgroundImageURL, LinkedList<LinkedList<Point>> l, int rowsInMap, int columnsInMap, boolean fromPlayer1) {
-		mainMenu.getView().setMapBackgroundImageURL(backgroundImageURL);
-		mainMenu.getView().setEnemyPathCoords(l);
-		Point mapSize = new Point(columnsInMap,rowsInMap);
-		mainMenu.getView().setGridSize(mapSize);
+		if(this.isPlayer1Client == fromPlayer1){
+			mainMenu.getView().setMapBackgroundImageURL(backgroundImageURL);
+			mainMenu.getView().setEnemyPathCoords(l);
+			Point mapSize = new Point(columnsInMap,rowsInMap);
+			mainMenu.getView().setGridSize(mapSize);
+		}
 	}
 
 	//Called by server via command every tick to pass updated enemy/tower image locations/states
@@ -285,8 +288,21 @@ public class GameClient{
 	 */
 	public void update(List<EnemyImage> enemyImages, List<TowerImage> towerImages, boolean fromPlayer1){
 		//System.out.println("Client update being called"); //Testing purposes
-		mainMenu.getView().update(towerImages, enemyImages);
+		
 		//GUI shouldn't hold enemies or towers, instead hold their image classes
+		if(this.isPlayer1Client == fromPlayer1){
+			mainMenu.getView().update(towerImages, enemyImages);
+		}else{
+			ArrayList<Point> partnerTowerLocations = new ArrayList<Point>();
+			for(TowerImage t: towerImages){
+				partnerTowerLocations.add(t.getLocation());
+			}
+			ArrayList<Point> partnerEnemyLocations = new ArrayList<Point>();
+			for(EnemyImage e: enemyImages){
+				partnerEnemyLocations.add(e.getLocation());
+			}
+			mainMenu.getView().updateMiniMap(partnerTowerLocations, partnerEnemyLocations);
+		}
 	}
 	
 	
@@ -298,14 +314,18 @@ public class GameClient{
 	 * @param fromPlayer1 
 	 */
 	public void updateHPandMoney(int hp, int money, boolean fromPlayer1) {
-		mainMenu.getView().setPlayerHP(hp);
-		mainMenu.getView().setPlayerMoney(money);
+		if(this.isPlayer1Client == fromPlayer1){
+			mainMenu.getView().setPlayerHP(hp);
+			mainMenu.getView().setPlayerMoney(money);
+		}
 	}
 
 	//Called by Server via command whenever a tower attacks an enemy
 	//The points pass (rowsdown, columnsacross) in the model grid of tower and enemy
 	public void towerAttack(towerType t, Point towerLoc, Point enemyLoc, boolean fromPlayer1) {
-		mainMenu.getView().animateAttack(towerLoc, enemyLoc, t);
+		if(this.isPlayer1Client == fromPlayer1){
+			mainMenu.getView().animateAttack(towerLoc, enemyLoc, t);
+		}
 	}
 	
 	//called from Server via command when the game is won
@@ -390,4 +410,13 @@ public class GameClient{
 		this.isPlayer1Client = isPlayer1Client;
 	}
 	
+	/**
+	 * Called by GameServer via Command when both multiplayers have clicked Online,
+	 * prompts player1 client to ask user for Level desired.
+	 */
+	public void multiplayerLevelSelectPrompt(){
+		if(this.isPlayer1Client){
+			this.createLevel(this.mainMenu.promptLevel());
+		}
+	}
 }

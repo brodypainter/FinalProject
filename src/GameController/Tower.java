@@ -60,7 +60,7 @@ public abstract class Tower implements Serializable{
 	private int AttackPts;
 	private int rangeRadius;
 	private double FireRateSecs;
-	private int Level = 1;
+	private int Level;
 	private Point BoardLocation; 
 	private String GymOwner;
 	private String ImageURL;
@@ -92,6 +92,7 @@ public abstract class Tower implements Serializable{
 		this.GymOwner = PlayersName;
 		this.ImageURL = Image;
 		timeSinceLastFire = 0;
+		this.Level = 1;
 		CostofTower = cost;
 	} // end Currency
 	
