@@ -178,6 +178,8 @@ public class MainMenu extends JFrame implements WindowListener
 			if(arg0.getSource().equals(multiPlayer))
 			{
 				frame.setVisible(false);
+				Object[] possibleValues = { "Level 1", "Level 2", "Level 3" };
+				JOptionPane.showInputDialog(frame, "Choose one", "Input", JOptionPane.INFORMATION_MESSAGE, null, possibleValues, possibleValues[0]);
 				view = new GameView(GameView.gameType.MULTI, username, client, player);
 				client.joinMultiplayer();
 			}
