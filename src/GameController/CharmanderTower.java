@@ -10,7 +10,7 @@ public class CharmanderTower extends Tower{
 	
 	private String level1= "src/images/tower7Level1.png";
 	private String level2= "src/images/tower7Level2.png";
-	private String level3= "src/images/tower7level2.png";
+	private String level3= "src/images/tower7level2.png"; //Level2 or 3?
 	
 	// the Cerulean Gym cost 300 but can be changed if desired
 	public static final int Cost = 200;
@@ -62,20 +62,21 @@ public class CharmanderTower extends Tower{
 		if (myClosestEnemy == null)
 			return false;
 		
-		if ( canAttackEnemy(myClosestEnemy.getLocation())){
+		if (canAttackEnemy(myClosestEnemy.getLocation())){
 			myClosestEnemy.incomingAttack(super.getAttackPower());
+			getMap().notifyOfAttack(this.getType(), this.getPosition(), myClosestEnemy.getLocation());
 			if ( super.getCurrentLevel() >= 2){
 				Random r = new Random();
 				int chanceOfEffect = r.nextInt(3);
 				if (chanceOfEffect == 0){
 					myClosestEnemy.setBurnt(durationOfBurnEffect, burnPower);
 				}
-			}
-			
-			getMap().notifyOfAttack(this.getType(), this.getPosition(), myClosestEnemy.getLocation());
-				
-			
+			}			
+		}else{
+			return false; //If cannot attack enemy
 		}
+		return true;
+	}
 		/*
 		//TODO is set up the graphics call for attack
 		if(!enemies.isEmpty()){ //just check if enemies has size >=1
@@ -109,8 +110,7 @@ public class CharmanderTower extends Tower{
 			}// end if
 		} // end for loop
 		}// end while loop*/
-		return true;
-	}
+	
 
 	// This sets modifers when we figure it out
 	@Override

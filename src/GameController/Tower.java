@@ -58,7 +58,7 @@ public abstract class Tower implements Serializable{
 	private String TowerName;
 	private towerType type;
 	private int AttackPts;
-	private int RadiusPxls;
+	private int rangeRadius;
 	private double FireRateSecs;
 	private int Level = 1;
 	private Point BoardLocation; 
@@ -86,7 +86,7 @@ public abstract class Tower implements Serializable{
 					String Image, int cost){
 		this.TowerName = Name;
 		this.AttackPts = Attack;
-		this.RadiusPxls = Radius;
+		this.rangeRadius = Radius;
 		this.FireRateSecs = FireRateSec;
 		this.GymOwner = PlayersName;
 		this.ImageURL = Image;
@@ -186,7 +186,7 @@ public abstract class Tower implements Serializable{
 		
 		//Currently we are only moving the enemies/towers in 1x1 discrete squares on model
 		//so RadiusPxls should be replaced by something like "squareRange" for now. -PWH
-		if(Distance <= this.RadiusPxls){
+		if(Distance <= this.rangeRadius){
 			return true;
 		}
 		return false;
@@ -252,18 +252,18 @@ public abstract class Tower implements Serializable{
 	 * @return true that the radius was modified
 	 */
 	public boolean modifyAttackRadius(int radius){
-		int newRadius = this.RadiusPxls + radius;
+		int newRadius = this.rangeRadius + radius;
 		if (newRadius < 1){
 			newRadius = 1;
 		}
-		this.RadiusPxls = newRadius;
+		this.rangeRadius = newRadius;
 		return true;
 		
 	}
 	
 	// returns the attack radius of the tower
 	public int getRange(){
-		return this.RadiusPxls;
+		return this.rangeRadius;
 	}
 	
 	// returns the image URL
@@ -285,10 +285,10 @@ public abstract class Tower implements Serializable{
 	}
 	
 	/**
-	 * Updates the coolDownTime variable, must be called every time FireRateSecs is changed
+	 * Updates the coolDownTime variable (ms), must be called every time FireRateSecs is changed
 	 */
 	private void calculateCoolDown(){
-		coolDownTime = (int)(1.0/FireRateSecs)*1000;
+		coolDownTime = (int)((1.0/FireRateSecs)*1000);
 	}
 	
 	public void setMap(Map map){
@@ -312,7 +312,7 @@ public abstract class Tower implements Serializable{
 				timeSinceLastFire = 0; //Attack was successful, restart cooldown
 				readyToFire = false;
 			}else{
-				readyToFire = true;
+				readyToFire = true; //No enemies in range, Maintain in readyToFire mode
 			}
 		}
 		
@@ -320,13 +320,14 @@ public abstract class Tower implements Serializable{
 	
 	//May want to rename method to findPriorityEnemy or something -PWH
 	/**
-	 * This takes the list of enemies and in that list find a single enemy that is both in range and farthest along path
+	 * This takes the list of enemies and in that list find a single enemy that is 
+	 * both in range and farthest along path to prioritize attacking
 	 * @param enemies
 	 * @return
 	 */
 	public Enemy findClosestEnemy(ArrayList<Enemy> enemies){
 		Enemy closests = null;
-		Double shortestDist = null;
+		//Double shortestDist = null;
 		Integer greatestStepsTaken = null;
 
 		if (enemies.isEmpty()){
@@ -337,13 +338,15 @@ public abstract class Tower implements Serializable{
 				int NumberOfStep = enemy.getStepsTaken();
 				Double Distance = Math.sqrt( Math.pow((EnemysLocation.getX() - this.BoardLocation.getX()), 2) +
 						Math.pow((EnemysLocation.getY() - this.BoardLocation.getY()), 2 ));
-				if (shortestDist == null){
+				/*if (shortestDist == null)//was shortestDist == null, changed -PWH{
+					//closests = enemy;
+					//shortestDist = Distance;
+					//greatestStepsTaken = NumberOfStep;
+				
+				}/*/
+			if ( Distance < this.rangeRadius &&  NumberOfStep > greatestStepsTaken ){
 					closests = enemy;
-					shortestDist = Distance;
-					greatestStepsTaken = NumberOfStep;
-				} else if ( Distance < shortestDist &&  NumberOfStep > greatestStepsTaken ){
-					closests = enemy;
-					shortestDist = Distance;
+					//shortestDist = Distance;
 					greatestStepsTaken = NumberOfStep;
 				}
 			}
