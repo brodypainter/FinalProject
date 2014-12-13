@@ -23,7 +23,8 @@ public class MagnemiteTower extends Tower{
 	private final int costOfUpgrade2 = 100;
 	private final int maxLevelAttainable = 2;
 	
-	private int durationOfSlow = 5;
+	private int durationOfSlow = 3;
+	private int multiSlow = 3;
 	//String Name, int Attack, int Radius, int FireRateSec, String PlayersName
 	/**
 	 * The default settings for the cerulean gym a attack power of 25, a radius range of 3 tiles,
@@ -69,13 +70,28 @@ public class MagnemiteTower extends Tower{
 		if ( canAttackEnemy(myClosestEnemy.getLocation())){
 			myClosestEnemy.incomingAttack(super.getAttackPower());
 			
-			if ( super.getCurrentLevel() >= 2){
-				Random r = new Random();
-				int chanceOfEffect = r.nextInt(4);
-				if (chanceOfEffect == 0){
+			if ( super.getCurrentLevel() == 1)
+			{
+				Random r1 = new Random();
+				int chanceOfEffect1 = r1.nextInt(7);
+				if (chanceOfEffect1 == 0)
 					myClosestEnemy.setSlowed(durationOfSlow);
-				}
 			}
+			else if( super.getCurrentLevel() == 2)
+			{
+					Random r2 = new Random();
+					int chanceOfEffect2 = r2.nextInt(5);
+					if (chanceOfEffect2 == 0)
+						myClosestEnemy.setSlowed(durationOfSlow+multiSlow);
+			}
+				else if(super.getCurrentLevel() == 3)
+				{
+					Random r3 = new Random();
+					int chanceOfEffect3 = r3.nextInt(3);
+					if (chanceOfEffect3 == 0)
+						myClosestEnemy.setSlowed(durationOfSlow+multiSlow+multiSlow);
+				}
+			
 			getMap().notifyOfAttack(this.getType(), this.getPosition(), myClosestEnemy.getLocation());
 				
 			

@@ -36,42 +36,42 @@ public class Level0 extends Level implements Serializable{
 			ArrayList<Enemy> wave = new ArrayList<Enemy>();
 			for (int j = 0; j < 5; j++){
 				int enemyGenerator = r.nextInt(20);
-				if (enemyGenerator <= 6){
+				if (enemyGenerator <= 2){
 					PikachuEnemy pika = new PikachuEnemy(getMap1());
 					pika.setPathTravelingCode(0); //Will walk along path 0
 					wave.add(pika);
 				}
-				else if (enemyGenerator >= 7 && enemyGenerator <= 12){
+				else if (enemyGenerator >= 3 && enemyGenerator <= 5){
 					BulbasaurEnemy bulb = new BulbasaurEnemy(getMap1());
 					bulb.setPathTravelingCode(0); //Will walk along path 0
 					wave.add(bulb);
 				}
-				else if (enemyGenerator >= 13 && enemyGenerator <= 15){
+				else if (enemyGenerator >= 6 && enemyGenerator <= 7){
 					SquirtleEnemy squirt = new SquirtleEnemy(getMap1());
 					squirt.setPathTravelingCode(0);
 					wave.add(squirt);
 				}
-				else if (enemyGenerator >= 100 && enemyGenerator <= 100){
+				else if (enemyGenerator >= 8 && enemyGenerator <= 10){
 					GrowlitheEnemy charm = new GrowlitheEnemy(getMap1());
 					charm.setPathTravelingCode(0);
 					wave.add(charm);
 				}
-				else if (enemyGenerator >= 100 && enemyGenerator <= 100){
+				else if (enemyGenerator >= 11 && enemyGenerator <= 12){
 					MewEnemy mew = new MewEnemy(getMap1());
 					mew.setPathTravelingCode(0);
 					wave.add(mew);
 				}
-				else if (enemyGenerator >= 15 && enemyGenerator <= 19){
+				else if (enemyGenerator >= 13 && enemyGenerator <= 14){
 					KoffingEnemy koff =new KoffingEnemy(getMap1());
 					koff.setPathTravelingCode(0);
 					wave.add(koff);
 				}
-				else if (enemyGenerator >= 99 && enemyGenerator <= 100){
+				else if (enemyGenerator >= 15 && enemyGenerator <= 16){
 					RattataEnemy ratt = new RattataEnemy(getMap1());
 					ratt.setPathTravelingCode(0);
 					wave.add(ratt);
 				}
-				else if (enemyGenerator >= 99 && enemyGenerator <= 100){
+				else if (enemyGenerator >= 17 && enemyGenerator <= 19){
 					McCannEnemy doctor = new McCannEnemy(getMap1());
 					doctor.setPathTravelingCode(0);
 					wave.add(doctor);
