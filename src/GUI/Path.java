@@ -34,7 +34,7 @@ public class Path
 	{
 		double currentDistance = distance * (progress/100);
 		//System.out.println("Distance from origin: " + currentDistance);
-		Point2D.Double output = new Point2D.Double( -(((terminal.x-initial.x) * (currentDistance / distance)) - terminal.x), -(((terminal.y-initial.y) * (currentDistance / distance)) - terminal.y));
+		Point2D.Double output = new Point2D.Double( -(((initial.x-terminal.x) * (currentDistance / distance)) - initial.x), -(((initial.y-terminal.y) * (currentDistance / distance)) - initial.y));
 		//System.out.println("New point: (" + output.x + ", " + output.y + ")");
 		return output;
 	}

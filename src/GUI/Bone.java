@@ -5,7 +5,7 @@ import java.awt.geom.Point2D;
 
 import javax.swing.JLabel;
 
-public class Bone extends JLabel
+public class Bone extends Projectile
 {
 	double progress = 0;
 	JLabel label;
@@ -30,7 +30,6 @@ public class Bone extends JLabel
 	{
 		return path.getLocation(progress);
 	}
-	
 	
 	public JLabel getLabel()
 	{

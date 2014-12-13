@@ -540,6 +540,7 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 			directionFacing orientation = ei.getOrientation();
 			tempEnemyLabel.setID(ei.getID());
 			int progress = ei.getProgress();
+			tempEnemyLabel.setStats(ei.getHealthPercentage(), ei.getMaxHealth(), ei.getAttackPower(), ei.getDefense(), ei.getSpeed(), ei.getWorth());
 			//System.out.println(orientation);
 			//get eiLocation and offset
 			//it by progress fraction of tilewidth/height in direction of orientation
@@ -668,6 +669,11 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 	public void upgrade(Point p)
 	{
 		client.upgradeTower(p);
+	}
+	
+	public void updateMiniMap(ArrayList<Point> towers, ArrayList<Point> enemy)
+	{
+		((Board) board).updateMiniMap(towers, enemy);
 	}
 	
 	/**

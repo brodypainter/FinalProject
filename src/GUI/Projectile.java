@@ -9,7 +9,6 @@ public abstract class Projectile extends JLabel
 {	
 	abstract double getProgress();
 	abstract Point2D.Double getLocationInGrid();
-	public abstract Point getLocation();
 	abstract void setProgress(int progress);
 	abstract JLabel getLabel();
 	abstract void setLabel(JLabel label);
