@@ -1,6 +1,7 @@
 package GameController;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import GUI.GameView.towerType;
 
@@ -69,13 +70,33 @@ public class AbraTower extends Tower{
 			return false;
 		
 		if ( canAttackEnemy(myClosestEnemy.getLocation())){
-			myClosestEnemy.incomingAttack(super.getAttackPower());
-			/*
-			 * GUI here
-			 */
-			getMap().notifyOfAttack(this.getType(), this.getPosition(), myClosestEnemy.getLocation());
-				
 			
+			myClosestEnemy.incomingAttack(super.getAttackPower());
+			
+			if ( super.getCurrentLevel() == 1)
+			{
+				Random r1 = new Random();
+				int chanceOfEffect1 = r1.nextInt(7);
+				if (chanceOfEffect1 == 0)
+					myClosestEnemy.teleportToBeginning();
+			}
+			else if( super.getCurrentLevel() == 2)
+			{
+					Random r2 = new Random();
+					int chanceOfEffect2 = r2.nextInt(5);
+					if (chanceOfEffect2 == 0)
+						myClosestEnemy.teleportToBeginning();
+			}
+				else if(super.getCurrentLevel() == 3)
+				{
+					Random r3 = new Random();
+					int chanceOfEffect3 = r3.nextInt(3);
+					if (chanceOfEffect3 == 0)
+							myClosestEnemy.teleportToBeginning();
+				}	
+			
+		getMap().notifyOfAttack(this.getType(), this.getPosition(), myClosestEnemy.getLocation());
+				
 		}
 		/*
 		//TODO is set up the graphics call for attack

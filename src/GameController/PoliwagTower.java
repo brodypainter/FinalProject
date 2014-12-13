@@ -134,7 +134,7 @@ public class PoliwagTower extends Tower{
 		this.levelIncrease(); 		// increases the leve by one
 		this.setAttackPower(5); 	// increase attack power by 5 poins
 		this.modifyAttackRadius(2);// increase attack radius to 25 pixels
-		this.increaseFireRate(1); 	// increase the fire rate by one
+		this.increaseFireRate(3); 	// increase the fire rate by one
 		if (super.getCurrentLevel() == 2){
 			super.setImageURL(level2);
 			super.setPokemonName("Poliwhirl");
