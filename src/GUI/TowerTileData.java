@@ -70,7 +70,7 @@ public class TowerTileData
 			tempTowerLabel.setRate(1.5);
 			tempTowerLabel.setUpgradable(true);
 			tempTowerLabel.setIcon(tower1Level1Image);
-			System.out.println("Tower 1 level 1 tile generated");
+			//System.out.println("Tower 1 level 1 tile generated");
 		}
 		else if(URL.endsWith("tower1Level2.png"))
 		{
