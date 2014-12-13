@@ -504,8 +504,15 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 		//are already JLabels based on TowerImages on the board, remove
 		//all these JLabels, create new ones, add them to a new towers list, and put them on board
 		
+		
+		//TODO: When towers are upgraded to evolve the size of the List doesn't change
+		//and this is going undetected, but their level does change. 
+		//Check if TowerImage.getLevel() has changed and if so update with its new String imageURL
+		
 		if(this.towers.size() != newTowers.size())
 		{
+			
+			
 			//for(JLabel tower: towers){
 			//	board.remove(tower);
 			//}
@@ -618,13 +625,14 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 		System.out.println("Tile Width: " + tileWidth + " \nTile Height:" + tileHeight);
 	}
 	
-	public void removeTower(Point removeTowerAtCoordinates)
+	public void sellTower(Point removeTowerAtCoordinates)
 	{
 		//TODO://Just send me the Point(rowsdown, columns) of where you want to try to sell a tower.
 		//I would recommend you have a place/icon on GUI you can click to make your cursor
 		//appear like a hammer and set a boolean to "sellTower = true" or something
 		//and then on next click in mouselistener if sellTower == true then send the
 		//calculated coordinates the mouse was at in this method. -PH
+		client.sellTower(removeTowerAtCoordinates);
 	}
 	
 	public void hideTowerStats()
