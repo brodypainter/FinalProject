@@ -5,6 +5,7 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.OptionalDataException;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -88,10 +89,11 @@ public class GameClient{
 	//			}
 				catch (EOFException e) {
 					return; // "gracefully" terminate
+				}catch(OptionalDataException e){
+					return;
 				}
 				catch(Exception e){
-					return;
-					//e.printStackTrace();
+					e.printStackTrace();
 				}
 			}
 		}
