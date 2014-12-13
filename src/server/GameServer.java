@@ -149,11 +149,11 @@ public class GameServer implements Serializable{
 					if(player1 == null){
 						player1 = new Player(clientName, 100, 100);
 						output.writeObject(player1);
-						output.writeObject(true);
+						output.writeObject(true); //Sets isPlayer1Client to true
 					}else{
 						player2 = new Player(clientName, 100, 100);
 						output.writeObject(player2);
-						output.writeObject(false);
+						output.writeObject(false); //Sets isPlayer1Client to true
 					}
 										
 //					System.out.println("Player Send Try");
