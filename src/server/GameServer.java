@@ -34,6 +34,7 @@ import commands.ClientTowerAttack;
 import commands.ClientUpdate;
 import commands.Command;
 import commands.DisconnectCommand;
+import commands.PromptMultiplayerLevelCommand;
 import commands.changeStateCommand;
 
 /**
@@ -410,7 +411,7 @@ public class GameServer implements Serializable{
 	 * @param levelCode Int code identifying difficulty level which specifies which actual level to load
 	 */
 	public void createLevel(String name, int levelCode){
-		if(this.waitingFor2ndPlayer == false){
+		if(this.levelA != null){
 			this.levelA = LevelFactory.generateLevel(this.player1, thisServer, levelCode);
 		}
 	}
@@ -585,7 +586,10 @@ public class GameServer implements Serializable{
 			player1.setPartner(player2);
 			player2.setPartner(player1);
 			this.multiplayer = true;
-			this.createLevel("Tester", 0); //TODO: Hardcoded for now, see if there is a way to choose, or just make it a random level 0-3
+			//Call Client to prompt for level select
+			//this.createLevel("Tester", 0); //TODO: Hardcoded for now, see if there is a way to choose, or just make it a random level 0-3
+			Command<GameClient> c = new PromptMultiplayerLevelCommand();
+			this.sendCommand(c);
 		}else{
 			this.waitingFor2ndPlayer = true;
 		}

@@ -148,9 +148,9 @@ public class CuboneTower extends Tower{
 
 	@Override
 	public boolean levelUp() {
-		this.levelIncrease(); 		// increases the leve by one
+		this.levelIncrease(); 		// increases the level by one
 		this.setAttackPower(5); 	// increase attack power by 5 poins
-		this.modifyAttackRadius(2);// increase attack radius to 25 pixels
+		this.modifyAttackRadius(2);// increase attack radius to 2
 		this.increaseFireRate(1); 	// increase the fire rate by one
 		if (super.getCurrentLevel() == 2){
 			super.setImageURL(level2);
