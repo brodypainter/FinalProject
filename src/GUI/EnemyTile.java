@@ -2,6 +2,8 @@ package GUI;
 
 import javax.swing.JLabel;
 
+import GameController.Enemy.directionFacing;
+
 public class EnemyTile extends JLabel
 {
 	int health;
@@ -11,6 +13,7 @@ public class EnemyTile extends JLabel
 	int defense;
 	double speed;
 	int worth;
+	directionFacing dir;
 	
 	void setHealth(int health)
 	{
@@ -45,6 +48,11 @@ public class EnemyTile extends JLabel
 	void setWorth(int worth)
 	{
 		this.worth = worth;
+	}
+	
+	void setDirection(directionFacing dir)
+	{
+		this.dir = dir;
 	}
 	
 	int getHealth()
@@ -85,6 +93,11 @@ public class EnemyTile extends JLabel
 	int getDefense()
 	{
 		return defense;
+	}
+	
+	directionFacing getDirection()
+	{
+		return dir;
 	}
 	
 	/**
