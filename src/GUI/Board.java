@@ -293,12 +293,6 @@ public class Board extends JPanel implements MouseListener
 		for(int i = 0; i < this.enemies.size(); i++)
 		{
 			//System.out.println("Enemy ID (Exists): " + ((EnemyTile) this.enemies.get(i)).getID());
-			if(enemiesInUpdate.size() == 0){
-				System.out.println("Removing enemy: " + this.enemies.get(i).getPokeName());
-				this.remove(this.enemies.remove(i));
-				this.remove(enemyHealth.remove(i));
-				break;
-			}
 			
 			for(int j = 0; j < enemiesInUpdate.size(); j++)
 			{
@@ -331,10 +325,19 @@ public class Board extends JPanel implements MouseListener
 		}
 		
 		
-		if(this.enemies.size() != enemiesInUpdate.size())
-		{
-			System.out.println("Invalid array size, " + this.enemies.size() + ", " + enemiesInUpdate.size());
-		}
+		//	System.out.println("Invalid array size, " + this.enemies.size() + ", " + enemiesInUpdate.size());
+			//for(EnemyTile tile : this.enemies)
+			//{
+				//System.out.println(tile.getID());
+			//}
+		//	System.out.println("End of list.");
+			
+		//	System.out.println("Invalid array size[], " + this.enemies.size() + ", " + enemiesInUpdate.size() + "{}");
+			//for(EnemyTile tile : enemiesInUpdate)
+		//	{
+			//	System.out.println(tile.getID());
+		//	}
+			//System.out.println("End of list.");
 			  
 			 
 			
