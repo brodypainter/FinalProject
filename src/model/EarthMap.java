@@ -25,4 +25,10 @@ public class EarthMap extends Map{
 		super(gridDimensions, paths, mapType, background, mapTypeCode, player);	
 	}
 
+	@Override
+	int getNumberOfPaths() {
+		// TODO Auto-generated method stub
+		return 1;
+	}
+
 }

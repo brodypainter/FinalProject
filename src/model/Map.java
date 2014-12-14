@@ -112,9 +112,7 @@ public abstract class Map implements Serializable{
 	}
 	
 	// @Max 12/13 for waves of enemies and their paths to travle
-	public int getNumberOfPaths(){
-		return enemyPaths.size();
-	}
+	abstract int getNumberOfPaths();
 
 	/**
 	 * Sets the Map instance variable in all the tiles in the 2D array grid to this map
