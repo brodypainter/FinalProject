@@ -336,8 +336,8 @@ public class GameServer implements Serializable{
 		if(!outputs.isEmpty()){
 			for (ObjectOutputStream out : outputs.values()){
 				try{
-					System.out.println(out.toString());
-					System.out.println("Command:\n" + c.toString());
+					//System.out.println(out.toString());
+					//System.out.println("Command:\n" + c.toString());
 					out.writeObject(c); // Write the command out
 				}catch(Exception e){
 					e.printStackTrace();

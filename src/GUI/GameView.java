@@ -591,12 +591,15 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 			tempEnemyLabel.setHealth(ei.getHealthPercentage());
 			tempEnemyLabel.setLocation(x, y);
 			tempEnemyLabel.setSize(tileWidth, tileHeight); //Idk how big we want each enemy, use this for now
-			
+			tempEnemyLabel.setPokemon(ei.getName());
 			enemies.add(tempEnemyLabel);
 		}
 		//System.out.println("Progress of furthest enemy: " + newEnemies.get(0).getProgress());
-		((Board) board).addEnemies(enemies);
+		
+		//((Board) board).addEnemies(enemies);
+		((Board) board).updateEnemyTiles(enemies); //Test Method -PH
 		repaint();
+		
 	}
 	
 	void updateTileSize()
@@ -773,7 +776,7 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 				selectedTowerFromStore.setIcon(tower7Image);
 				selectedTowerFromStore.setBounds(arg0.getX()-(tileWidth/2), arg0.getY()-(tileHeight/2), tileWidth, tileHeight);
 				selectedTowerFromStore.setVisible(true);
-				selectedTowerType = towerType.MEWTWO;
+				selectedTowerType = towerType.FIRE; //charmander
 				return;
 			}
 			Rectangle tower8 = new Rectangle((int)(12.3*getSize().width)/15 + 10,(int) ((3*getSize().height)/3.8) + 30, (int) (getSize().width / 9.5), getSize().height / 8);
@@ -783,7 +786,7 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 				selectedTowerFromStore.setIcon(tower8Image);
 				selectedTowerFromStore.setBounds(arg0.getX()-(tileWidth/2), arg0.getY()-(tileHeight/2), tileWidth, tileHeight);
 				selectedTowerFromStore.setVisible(true);
-				selectedTowerType = towerType.NORMAL;
+				selectedTowerType = towerType.MEWTWO;
 				return;
 			}
 		}

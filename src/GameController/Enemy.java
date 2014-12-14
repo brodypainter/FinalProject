@@ -364,7 +364,7 @@ public enum directionFacing{NORTH, EAST, SOUTH, WEST};
 			}
 			if (timeDuration == 0){
 				if (isSlowed)
-					this.Speed *= 2;
+					this.Speed *= 0.5; //Speed should be slowed
 				
 				isBurnt = false;
 				isAsleep = false;
@@ -514,6 +514,7 @@ public enum directionFacing{NORTH, EAST, SOUTH, WEST};
 	
 	public boolean teleportToBeginning(){
 		setLocation(startingPosition);
+		//TODO: also set their number of steps to 0
 		return true;
 	}
 

@@ -157,6 +157,7 @@ public abstract class Map implements Serializable{
 	 */
 	public void spawnEnemy(Enemy enemy){
 		enemy.setMap(this);
+		//TODO: Set its directionFacing
 		int pathNumber = enemy.getPathTravelingCode();
 		grid[firstPathTiles.get(pathNumber).x][firstPathTiles.get(pathNumber).y].addPokemon(enemy);
 		enemy.setLocation(firstPathTiles.get(pathNumber));
