@@ -17,4 +17,10 @@ public class MultiplayerMap extends Map{
 		
 	}
 
+	@Override
+	int getNumberOfPaths() {
+		// TODO Auto-generated method stub
+		return 1;
+	}
+
 }

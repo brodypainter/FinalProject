@@ -62,12 +62,12 @@ public abstract class Level implements Serializable {
   //This will include things like setting player's initial HP and $, creating the waves of enemies you want to
   //send on this level, the time delay in between each enemy wave, the map to play on (use MapFactory to create Maps)
   public void levelSpecificSetup(){
+	  setMap();
 	  createWaves();
 	  setPlayerStartingHP();
 	  setPlayerStartingMoney();
 	  setWaveDelayIntervals();
 	  setEnemySpawnDelayIntervals();
-	  setMap();
   }
   
   public abstract void createWaves(); //create wavesList and populate it with enemies specific to each Level
