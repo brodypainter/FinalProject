@@ -115,7 +115,6 @@ public class GameClient{
 			out = new ObjectOutputStream(server.getOutputStream());
 			in = new ObjectInputStream(server.getInputStream());
 			
-			// write out the name of this client
 			out.writeObject(clientName);
 			
 			// TODO send a disconnect command to the server to safely disconnect
@@ -192,6 +191,7 @@ public class GameClient{
 	public void sendCommand(Command<GameServer> command){
 		try {
 			out.writeObject(command);
+			System.out.println(command.toString());
 		} catch (IOException e) {
 			//System.out.println("sendCommand FAILED");
 			e.printStackTrace();
