@@ -193,9 +193,12 @@ public class MainMenu extends JFrame implements WindowListener
 	
 	public int promptLevel() //Not showing up for me? -PH
 	{
-		String[] possibleValues = { "Level 1", "Level 2", "Level 3" };
+		String[] possibleValues = { "Level 0", "Level 1", "Level 2", "Level 3" };
 		String option = (String) JOptionPane.showInputDialog(null, "Choose one", "Input", JOptionPane.INFORMATION_MESSAGE, null, possibleValues, possibleValues[0]);
-		if(option.equals("Level 1"))
+		if(option.equals("Level 0"))
+		{
+			return 0;
+		}else if(option.equals("Level 1"))
 		{
 			return 1;
 		}
