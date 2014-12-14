@@ -34,6 +34,8 @@ public class Board extends JPanel implements MouseListener
 {
 	ArrayList<TowerTile> towers;
 	ArrayList<EnemyTile> enemies;
+	ArrayList<EnemyTile> enemiesPrefFrame;
+	ArrayList<EnemyTile> enemiesThisFrame;
 	ArrayList<JLabel> enemyTiles;
 	ArrayList<JProgressBar> enemyHealth;
 	ArrayList<Projectile> projectiles;
@@ -78,6 +80,8 @@ public class Board extends JPanel implements MouseListener
 		this.view = view;
 		towers = new ArrayList<TowerTile>();
 		enemies = new ArrayList<EnemyTile>();
+		this.enemiesPrefFrame = new ArrayList<EnemyTile>(); //PH Testing
+		this.enemiesThisFrame = new ArrayList<EnemyTile>(); //PH testing
 		enemyTiles = new ArrayList<JLabel>();
 		lines = new ArrayList<Line>();
 		tower1Proj = new ImageIcon();
@@ -211,12 +215,36 @@ public class Board extends JPanel implements MouseListener
 		}
 	}
 	
-	public void addEnemies(List<EnemyTile> enemies)
+	/**
+	 * Test method PH for repainting enemies
+	 * @param enemiesInUpdate
+	 */
+	public void updateEnemyTiles(List<EnemyTile> enemiesInUpdate){
+		for(EnemyTile e: enemiesPrefFrame){
+			this.remove(e);
+		}
+		this.enemiesPrefFrame.clear();
+		this.enemiesPrefFrame.addAll(this.enemiesThisFrame);
+		this.enemiesThisFrame.clear();
+		this.enemiesThisFrame.addAll(enemiesInUpdate);
+		for(EnemyTile e: enemiesThisFrame){
+			this.add(e);
+		}
+		repaint();
+	}
+	
+	
+	/**
+	 * Takes in a list of EnemyTiles. Updates Board
+	 * @param enemiesInUpdate
+	 */
+	public void addEnemies(List<EnemyTile> enemiesInUpdate)
 	
 	{
+		//Why is this stat display method here? -PH
 		if(enemySelected)
 		{
-			for(EnemyTile enemy : enemies)
+			for(EnemyTile enemy : enemiesInUpdate)
 			{
 				if(enemy.getID().equals(selectedEnemyID))
 				{
@@ -228,19 +256,7 @@ public class Board extends JPanel implements MouseListener
 			}
 		}
 		
-		while(this.enemies.size() < enemies.size())
-		{
-			EnemyTile tempTile = (EnemyTile) enemies.get(this.enemies.size());
-			tempTile.addMouseListener(new EnemyClickListener());
-			this.enemies.add(tempTile);
-			this.enemyHealth.add(new JProgressBar(0,100));
-			enemyHealth.get(enemyHealth.size()-1).setBackground(Color.RED);
-			enemyHealth.get(enemyHealth.size()-1).setForeground(Color.GREEN);
-			enemyHealth.get(enemyHealth.size()-1).setSize(tileWidth, tileHeight/4);
-			enemyHealth.get(enemyHealth.size()-1).setVisible(true);
-			this.add(enemyHealth.get(enemyHealth.size()-1));
-			this.add(this.enemies.get(this.enemies.size()-1));
-		}
+		
 		
 		
 		//for(int i = 0; i < enemies.size() && i < this.enemies.size(); i++)
@@ -254,40 +270,70 @@ public class Board extends JPanel implements MouseListener
 		//		System.out.println("Removing enemy");
 		//	 }
 		//}
-		if(enemies.size() == 0)
+		
+		//If there are no EnemyTiles in the update then remove all from Board
+		
+		// commented out for testing
+		if(enemiesInUpdate.size() == 0)
 		{
 			for(EnemyTile tile : this.enemies)
 			{
 				this.remove(tile);
 				this.remove(enemyHealth.get(this.enemies.indexOf(tile)));
 			}
-			System.out.println("Removing all enemies from view and list");
+			System.out.println("Removed all enemies from view and list");
 			enemyHealth.clear();
 			this.enemies.clear();
 		}
 		
 	
 	
+		//Check which EnemyTiles to keep on the board, remove ones that do not have a matching
+		//ID with any of the EnemyTiles in the update
 		for(int i = 0; i < this.enemies.size(); i++)
 		{
 			//System.out.println("Enemy ID (Exists): " + ((EnemyTile) this.enemies.get(i)).getID());
+			if(enemiesInUpdate.size() == 0){
+				System.out.println("Removing enemy: " + this.enemies.get(i).getPokeName());
+				this.remove(this.enemies.remove(i));
+				this.remove(enemyHealth.remove(i));
+				break;
+			}
 			
-			for(int j = 0; j < enemies.size(); j++)
+			for(int j = 0; j < enemiesInUpdate.size(); j++)
 			{
 				//System.out.println("Enemy ID (Adding): " + ((EnemyTile) enemies.get(j)).getID());
-				if(this.enemies.get(i).getID().equals(((EnemyTile) enemies.get(j)).getID()))
+				if(this.enemies.get(i).getID().equals(((EnemyTile) enemiesInUpdate.get(j)).getID()))
 					break;
-				if(j == enemies.size() - 1)
+				if(j == enemiesInUpdate.size() - 1)
 				{
+					System.out.println("Removing enemy: " + this.enemies.get(i).getPokeName());
 					this.remove(this.enemies.remove(i));
 					this.remove(enemyHealth.remove(i));
-					//System.out.println("Removing enemy");
+					
 				}
 			}
 		}
-		if(this.enemies.size() != enemies.size())
+		//Creates an EnemyTile in Board's list for each one it is missing from the update?
+		while(this.enemies.size() < enemiesInUpdate.size())
 		{
-			System.out.println("Invalid array size, " + this.enemies.size() + ", " + enemies.size());
+			EnemyTile tempTile = (EnemyTile) enemiesInUpdate.get(this.enemies.size());
+			tempTile.addMouseListener(new EnemyClickListener());
+			this.enemies.add(tempTile);
+			System.out.println("Added a new EnemyImage to board: " + tempTile.getPokeName());
+			this.enemyHealth.add(new JProgressBar(0,100));
+			enemyHealth.get(enemyHealth.size()-1).setBackground(Color.RED);
+			enemyHealth.get(enemyHealth.size()-1).setForeground(Color.GREEN);
+			enemyHealth.get(enemyHealth.size()-1).setSize(tileWidth, tileHeight/4);
+			enemyHealth.get(enemyHealth.size()-1).setVisible(true);
+			this.add(enemyHealth.get(enemyHealth.size()-1));
+			this.add(this.enemies.get(this.enemies.size()-1));
+		}
+		
+		
+		if(this.enemies.size() != enemiesInUpdate.size())
+		{
+			System.out.println("Invalid array size, " + this.enemies.size() + ", " + enemiesInUpdate.size());
 		}
 			  
 			 
@@ -295,8 +341,9 @@ public class Board extends JPanel implements MouseListener
 			int i = 0;
 			for(JLabel label : this.enemies)
 			{
-				label.setLocation(enemies.get(i).getLocation().x, enemies.get(i).getLocation().y);
-				label.setIcon(enemies.get(i).getIcon());
+				
+				label.setLocation(enemiesInUpdate.get(i).getLocation().x, enemiesInUpdate.get(i).getLocation().y); //giving indexoutofbounds
+				label.setIcon(enemiesInUpdate.get(i).getIcon());
 				if(label.getLocation().x > this.getWidth() || label.getLocation().y > this.getHeight() || label.getLocation().x < 0 || label.getLocation().y < 0)
 				{
 					this.enemies.remove(label);
@@ -306,8 +353,8 @@ public class Board extends JPanel implements MouseListener
 			i = 0;
 			for(JProgressBar bar : this.enemyHealth)
 			{
-				bar.setLocation(enemies.get(i).getLocation().x, enemies.get(i).getLocation().y - (tileHeight/4));
-				bar.setValue(((EnemyTile) enemies.get(i)).getHealth());
+				bar.setLocation(enemiesInUpdate.get(i).getLocation().x, enemiesInUpdate.get(i).getLocation().y - (tileHeight/4));
+				bar.setValue(((EnemyTile) enemiesInUpdate.get(i)).getHealth());
 				i++;
 			}
 			repaint();

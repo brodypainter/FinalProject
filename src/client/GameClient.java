@@ -81,7 +81,7 @@ public class GameClient{
 					//System.out.println("Read Object");
 					@SuppressWarnings("unchecked")
 					Command<GameClient> c = (Command<GameClient>)in.readObject();
-					System.out.println(c.toString());
+					//System.out.println(c.toString());
 					c.execute(GameClient.this);
 					//System.out.println(in.readObject());
 				}
@@ -335,6 +335,7 @@ public class GameClient{
 	public void notifyLevelWasWon(){
 		JOptionPane.showMessageDialog(mainMenu, "You win");
 		mainMenu.setVisible(false);
+		mainMenu.getView().setVisible(false);
 		mainMenu = new MainMenu(this);
 		mainMenu.setVisible(true);
 	}
@@ -343,6 +344,7 @@ public class GameClient{
 	public void notifyLevelWasLost(){
 		JOptionPane.showMessageDialog(mainMenu, "You lose");
 		mainMenu.setVisible(false);
+		mainMenu.getView().setVisible(false);
 		mainMenu = new MainMenu(this);
 		mainMenu.setVisible(true);
 	}

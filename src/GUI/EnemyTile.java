@@ -14,6 +14,7 @@ public class EnemyTile extends JLabel
 	double speed;
 	int worth;
 	directionFacing dir;
+	private String pokeName;
 	
 	void setHealth(int health)
 	{
@@ -117,5 +118,14 @@ public class EnemyTile extends JLabel
 		this.defense = defense;
 		this.speed = speed;
 		this.worth = worth;
+	}
+
+	public void setPokemon(String name) {
+		this.pokeName = name;
+		
+	}
+	
+	public String getPokeName(){
+		return this.pokeName;
 	}
 }
