@@ -11,7 +11,7 @@ public class GrowlitheEnemy extends Enemy{
 	public GrowlitheEnemy(Map currentMap) {
 		
 		//  health, attack, defense, speed, name, worth, image and map
-		super(120, 15, 7, 0.75, "Charmander", 100
+		super(120, 15, 7, 0.75, "Growlithe", 100
 				, currentMap, "src/images/enemy7Down.gif","src/images/enemy7Up.gif","src/images/enemy7Left.gif","src/images/enemy7Right.gif");
 		// TODO Auto-generated constructor stub
 		this.attackPower=15;
@@ -26,13 +26,13 @@ public class GrowlitheEnemy extends Enemy{
 									"Defense: " + getDefense() + "\n"+
 									"Speed: "+ getSpeed() + "\n" +
 									"Value: " + getMoney() + "\n"+
-									"Special: Charmander has its attack\n"+
+									"Special: Growlithe has its attack\n"+
 									" doubled if it reaches your base\n");
 		return stats;
 	}
 	
 	/*
-	 * Charmanders special ability is if health is above 50% by the time it reaches the
+	 * Growlithe special ability is if health is above 50% by the time it reaches the
 	 * end of the map its attack increases to 2x
 	 */
 	
