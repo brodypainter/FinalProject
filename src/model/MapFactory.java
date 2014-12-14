@@ -98,8 +98,8 @@ public class MapFactory {
 		case 1:
 			
 			//Set the size of the map
-			horizontalSize = 30;
-			verticalSize = 20;
+			horizontalSize = 20;
+			verticalSize = 15;
 			grid = new Tile[verticalSize][horizontalSize];
 			
 			//Populate the Tile[][] with appropriate amount of tiles
@@ -117,8 +117,59 @@ public class MapFactory {
 			 *4	#           @ @ @ @
 			 */
 			//Initialize and populate path point r,c
-			path = new LinkedList<Point>();
-			path.add(new Point(0,2));
+			LinkedList<Point> path1 = new LinkedList<Point>();
+			
+			path1.add(new Point(0,2));
+			path1.add(new Point(1,2));
+			path1.add(new Point(2,2));
+			path1.add(new Point(3,2));
+			path1.add(new Point(4,2));
+			path1.add(new Point(5,2));
+			path1.add(new Point(6,2));
+			path1.add(new Point(7,2));
+			path1.add(new Point(8,2));
+			path1.add(new Point(8,3));
+			path1.add(new Point(8,4));
+			path1.add(new Point(8,5));
+			path1.add(new Point(8,6));
+			path1.add(new Point(8,7));
+			path1.add(new Point(9,7));
+			path1.add(new Point(10,7));
+			path1.add(new Point(11,7));
+			path1.add(new Point(12,7));
+			path1.add(new Point(12,8));
+			path1.add(new Point(12,9));
+			path1.add(new Point(12,10));
+			path1.add(new Point(12,11));
+			path1.add(new Point(11,11));
+			path1.add(new Point(10,11));
+			path1.add(new Point(9,11));
+			path1.add(new Point(8,11));
+			path1.add(new Point(7,11));
+			path1.add(new Point(6,11));
+			path1.add(new Point(5,11));
+			path1.add(new Point(4,11));
+			path1.add(new Point(3,11));
+			path1.add(new Point(3,12));
+			path1.add(new Point(3,13));
+			path1.add(new Point(3,14));
+			path1.add(new Point(4,14));
+			path1.add(new Point(5,14));
+			path1.add(new Point(6,14));
+			path1.add(new Point(7,14));
+			path1.add(new Point(7,15));
+			path1.add(new Point(7,16));
+			path1.add(new Point(7,17));
+			path1.add(new Point(6,17));
+			path1.add(new Point(5,17));
+			path1.add(new Point(4,17));
+			path1.add(new Point(3,17));
+			path1.add(new Point(2,17));
+			path1.add(new Point(1,17));
+			path1.add(new Point(0,17));
+
+			
+			/*path.add(new Point(0,2));
 			path.add(new Point(1,2));
 			path.add(new Point(2,2));
 			path.add(new Point(3,2));
@@ -235,12 +286,12 @@ public class MapFactory {
 			path.add(new Point(16,3));
 			path.add(new Point(16,2));
 			path.add(new Point(16,1));
-			path.add(new Point(16,0));
+			path.add(new Point(16,0));*/
 			//path.add(new Point(,));
 			
 			//add (all) newly created enemy paths to the paths 2D list
 			paths = new LinkedList<LinkedList<Point>>();
-			paths.add(path);
+			paths.add(path1);
 			
 			//assign the levelDesciption String
 			levelDescription = "This is the Lava map and is 20 x 30. It has a single path";
@@ -256,11 +307,107 @@ public class MapFactory {
 			break;
 			//case other levels...
 		 case 2:
+			 // a smaller map with which to traverse
+				//Set the size of the map
+				horizontalSize = 20;
+				verticalSize = 15;
+				grid = new Tile[verticalSize][horizontalSize];
+			 
+				//Populate the Tile[][] with appropriate amount of tiles
+				for(int r = 0; r < verticalSize; r++){
+					for(int c = 0; c < horizontalSize; c++){
+						grid[r][c] = new Tile();
+					}
+				}
+				
+				paths = new LinkedList<LinkedList<Point>>();
+				
+				LinkedList<Point> path3 = new LinkedList<Point>();
+				
+				path3.add(new Point(13,0));
+				path3.add(new Point(13,1));
+				path3.add(new Point(13,2));
+				path3.add(new Point(13,4));
+				path3.add(new Point(12,4));
+				path3.add(new Point(11,4));
+				path3.add(new Point(10,4));
+				path3.add(new Point(9,4));
+				path3.add(new Point(8,4));
+				path3.add(new Point(7,4));
+				path3.add(new Point(6,4));
+				path3.add(new Point(5,4));
+				path3.add(new Point(4,4));
+				path3.add(new Point(3,4));
+				path3.add(new Point(2,4));
+				path3.add(new Point(2,5));
+				path3.add(new Point(2,6));
+				path3.add(new Point(2,7));
+				path3.add(new Point(2,8));
+				path3.add(new Point(3,8));
+				path3.add(new Point(4,8));
+				path3.add(new Point(5,8));
+				path3.add(new Point(5,9));
+				path3.add(new Point(5,10));
+				path3.add(new Point(5,11));
+				path3.add(new Point(5,12));
+				path3.add(new Point(5,13));
+				path3.add(new Point(5,14));
+				path3.add(new Point(6,14));
+				path3.add(new Point(7,14));
+				path3.add(new Point(8,14));
+				path3.add(new Point(9,14));
+				path3.add(new Point(10,14));
+				path3.add(new Point(11,14));
+				path3.add(new Point(11,15));
+				path3.add(new Point(11,16));
+				path3.add(new Point(11,17));
+				path3.add(new Point(11,18));
+				path3.add(new Point(11,19));
+				/*
+				path3.add(new Point());
+				path3.add(new Point());
+				path3.add(new Point());
+				path3.add(new Point());
+				path3.add(new Point());
+				path3.add(new Point());
+				path3.add(new Point());
+				path3.add(new Point());
+				path3.add(new Point());
+				path3.add(new Point());
+				path3.add(new Point());
+				path3.add(new Point());
+				path3.add(new Point());
+				path3.add(new Point());
+				path3.add(new Point());
+				path3.add(new Point());
+				
+				LinkedList<Point> path4 = new LinkedList<Point>();
+				
+				path4.add(new Point(6,0));
+				path4.add(new Point(6,1));
+				*/
+				
+				//add (all) newly created enemy paths to the paths 2D list
+				paths.add(path3);
+				//paths.add(path4);
+				
+				//assign the levelDesciption String
+				levelDescription = "This is the Cave map of 20x15 with two paths";
+				
+				//assign the backgroundImage for the level
+				backgroundImage = "/images/level1Background.png"; //
+										
+				
+				//instantiate a LevelXMap object that extends Map class
+				map = new CaveMap(grid, paths, levelDescription, backgroundImage, mapCode, player);
+				
+			 break;
+		 case 3:
 		  //this will have a second path to traverse
 		 			
 			//Set the size of the map
-			horizontalSize = 45;
-			verticalSize = 30;
+			horizontalSize = 20;
+			verticalSize = 15;
 			grid = new Tile[verticalSize][horizontalSize];
 			
 			//Populate the Tile[][] with appropriate amount of tiles
@@ -274,8 +421,39 @@ public class MapFactory {
 			
 			//Initialize and populate paths
 			
-				LinkedList<Point> path1 = new LinkedList<Point>();
-			
+				LinkedList<Point> path5 = new LinkedList<Point>();
+				
+				path5.add(new Point(1,0));
+				path5.add(new Point());
+				path5.add(new Point());
+				path5.add(new Point());
+				path5.add(new Point());
+				path5.add(new Point());
+				path5.add(new Point());
+				path5.add(new Point());
+				path5.add(new Point());
+				path5.add(new Point(1,9));
+				path5.add(new Point());
+				path5.add(new Point());
+				path5.add(new Point());
+				path5.add(new Point(5,9));
+				path5.add(new Point());
+				path5.add(new Point());
+				path5.add(new Point());
+				path5.add(new Point());
+				path5.add(new Point(5,14));
+				path5.add(new Point());
+				path5.add(new Point(3,14));
+				path5.add(new Point());
+				path5.add(new Point(3,16));
+				path5.add(new Point());
+				path5.add(new Point(5,16));
+				path5.add(new Point());
+				path5.add(new Point());
+				path5.add(new Point(5,19));
+		
+
+			/*
 				path1.add(new Point(29,7));
 				path1.add(new Point(28,7));
 				path1.add(new Point(28,6));
@@ -380,10 +558,40 @@ public class MapFactory {
 				path1.add(new Point(27,29));
 				path1.add(new Point(28,29));
 				path1.add(new Point(29,29));
-
+*/
 
 				LinkedList<Point> path2 = new LinkedList<Point>();
-			
+				
+				path2.add(new Point(13,0));
+				path2.add(new Point(13,1));
+				path2.add(new Point(13,2));
+				path2.add(new Point(13,3));
+				path2.add(new Point(13,4));
+				path2.add(new Point(12,5));
+				path2.add(new Point(11,6));
+				path2.add(new Point(10,7));
+				path2.add(new Point(9,8));
+				path2.add(new Point(8,4));
+				path2.add(new Point(8,5));
+				path2.add(new Point(8,6));
+				path2.add(new Point(8,7));
+				path2.add(new Point(8,8));
+				path2.add(new Point(8,9));
+				path2.add(new Point(8,10));
+				path2.add(new Point(8,11));
+				path2.add(new Point(8,12));
+				path2.add(new Point(8,13));
+				path2.add(new Point(9,13));
+				path2.add(new Point(10,13));
+				path2.add(new Point(10,14));
+				path2.add(new Point(10,15));
+				path2.add(new Point(10,16));
+				path2.add(new Point(10,17));
+				path2.add(new Point(9,17));
+				path2.add(new Point(8,17));
+				path2.add(new Point(8,18));
+				path2.add(new Point(8,19));
+			/*
 				path2.add(new Point(6,0));
 				path2.add(new Point(6,1));
 				path2.add(new Point(6,2));
@@ -522,14 +730,14 @@ public class MapFactory {
 				path2.add(new Point(2,25));
 				path2.add(new Point(1,25));
 				path2.add(new Point(0,25));
-
+*/
 
 			//add (all) newly created enemy paths to the paths 2D list
-			paths.add(path1);
+			paths.add(path5);
 			paths.add(path2);
 			
 			//assign the levelDesciption String
-			levelDescription = "This is the biggest map of 30 x 45 with two paths";
+			levelDescription = "This is the water map with two paths";
 			
 			//assign the backgroundImage for the level
 			backgroundImage = "/images/level1Background.png"; //

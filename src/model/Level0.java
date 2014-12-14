@@ -79,14 +79,14 @@ public class Level0 extends Level implements Serializable{
 					koff.setPathTravelingCode(pathDecider);
 					wave.add(koff);
 				}
-				else if (enemyGenerator >= 15 && enemyGenerator <= 16){
+				else if (enemyGenerator >= 15 && enemyGenerator <= 18){
 					RattataEnemy ratt = new RattataEnemy(getMap1());
 					int numberOfPaths = getMap1().getNumberOfPaths();
 					int pathDecider = pathRandom.nextInt(numberOfPaths);
 					ratt.setPathTravelingCode(pathDecider);
 					wave.add(ratt);
 				}
-				else if (enemyGenerator >= 17 && enemyGenerator <= 19){
+				else if (enemyGenerator >= 19 && enemyGenerator <= 19){
 					McCannEnemy doctor = new McCannEnemy(getMap1());
 					int numberOfPaths = getMap1().getNumberOfPaths();
 					int pathDecider = pathRandom.nextInt(numberOfPaths);
