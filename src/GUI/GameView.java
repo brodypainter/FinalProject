@@ -542,6 +542,8 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 			if(towerData.getTile(tile.getImageURL()).getLevel() != this.towers.get(i).getLevel())
 			{
 				System.out.println("Upgrade detected");
+				this.towers.set(i, towerData.getTile(tile.getImageURL()));
+				((Board) board).addTowers(towers);
 			}
 			i++;
 		}

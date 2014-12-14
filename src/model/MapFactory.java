@@ -89,7 +89,7 @@ public class MapFactory {
 			levelDescription = "This is the EarthMap. It is a 10x15 tile map";
 			
 			//assign the backgroundImage for the level
-			backgroundImage = "/images/Cerulean_Gym.png"; //TODO:Rename this image file to EarthMap and make sure the path graphics match path coords
+			backgroundImage = "/images/level1Background.png"; //TODO:Rename this image file to EarthMap and make sure the path graphics match path coords
 			
 			//instantiate a XMap object that extends Map class
 			map = new EarthMap(grid, paths, levelDescription, backgroundImage, mapCode, player);
@@ -249,7 +249,7 @@ public class MapFactory {
 			
 			 // @ Max Justice Sun 10:50 added ceruleanGym
 			 
-			backgroundImage = null; //"src/images/Cerulean_Gym.png"; 							//and place the image's location here <---
+			backgroundImage = "/images/level1Background.png"; 							//and place the image's location here <---
 			
 			//instantiate a LevelXMap object that extends Map class
 			map = new LavaMap(grid, paths, levelDescription, backgroundImage, mapCode, player);
@@ -532,7 +532,7 @@ public class MapFactory {
 			levelDescription = "This is the biggest map of 30 x 45 with two paths";
 			
 			//assign the backgroundImage for the level
-			backgroundImage = "/images/Cerulean_Gym.png"; //
+			backgroundImage = "/images/level1Background.png"; //
 									
 			
 			//instantiate a LevelXMap object that extends Map class
