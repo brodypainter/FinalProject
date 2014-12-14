@@ -36,7 +36,7 @@ public class MainMenu extends JFrame implements WindowListener
 	JButton singlePlayer;
 	private JButton loadButton;
 	JButton multiPlayer;
-	JButton settings;
+	JButton instructions;
 	GameView view;
 	GameClient client;
 	String username;
@@ -74,9 +74,7 @@ public class MainMenu extends JFrame implements WindowListener
 		this.setLayout(null);
 		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
 		
-		loadButton = new JButton("Load");
-		loadButton.addActionListener(new LoadAction());
-		loadButton.setBounds(this.getWidth()/4, (this.getHeight()*3)/5, this.getWidth()/2, this.getHeight()/10);
+		
 		
 		//line below sets frame to be half of width and height of screen, and puts it in the middle
 		setBounds((int) (screen.getWidth()/4), (int) (screen.getHeight()/4), (int) (screen.getWidth()/2), (int) (screen.getHeight()/2));
@@ -96,10 +94,13 @@ public class MainMenu extends JFrame implements WindowListener
 		multiPlayer = new JButton("Online");
 		multiPlayer.setBounds(this.getWidth()/4, (this.getHeight()*2)/5, this.getWidth()/2, this.getHeight()/10);
 		multiPlayer.addActionListener(new buttonListener());
-		settings = new JButton("Settings");
-		settings.setBounds(this.getWidth()/4, (this.getHeight()*3)/5, this.getWidth()/2, this.getHeight()/10);
-		settings.addActionListener(new buttonListener());
-		/*
+		instructions = new JButton("Game Instructions");
+		instructions.setBounds(this.getWidth()/4, (this.getHeight()*3)/5, this.getWidth()/2, this.getHeight()/10);
+		instructions.addActionListener(new buttonListener());
+		loadButton = new JButton("Load");
+		loadButton.addActionListener(new LoadAction());
+		loadButton.setBounds(this.getWidth()/4, (this.getHeight()*4)/5, this.getWidth()/2, this.getHeight()/10);/*
+		
 		//Set title
 		title = new JLabel("Pokemon Tower Defense");
 		title.setForeground(Color.WHITE);
@@ -113,7 +114,7 @@ public class MainMenu extends JFrame implements WindowListener
 		this.add(singlePlayer);
 		this.add(multiPlayer);
 		this.add(loadButton);
-		//this.add(settings);
+		this.add(instructions);
 		this.add(bg);
 		
 		frame = this;
@@ -155,8 +156,8 @@ public class MainMenu extends JFrame implements WindowListener
 			bg.setBounds(0, 0, frame.getWidth(), frame.getHeight());
 			singlePlayer.setBounds(frame.getWidth()/4, frame.getHeight()/5, frame.getWidth()/2, frame.getHeight()/10);
 			multiPlayer.setBounds(frame.getWidth()/4, (frame.getHeight()*2)/5, frame.getWidth()/2, frame.getHeight()/10);
-			settings.setBounds(frame.getWidth()/4, (frame.getHeight()*3)/5, frame.getWidth()/2, frame.getHeight()/10);
-			loadButton.setBounds(frame.getWidth()/4, (frame.getHeight()*3)/5, frame.getWidth()/2, frame.getHeight()/10);
+			instructions.setBounds(frame.getWidth()/4, (frame.getHeight()*3)/5, frame.getWidth()/2, frame.getHeight()/10);
+			loadButton.setBounds(frame.getWidth()/4, (frame.getHeight()*4)/5, frame.getWidth()/2, frame.getHeight()/10);
 			repaint();
 		}
 		public void componentShown(ComponentEvent arg0){}
@@ -183,7 +184,7 @@ public class MainMenu extends JFrame implements WindowListener
 				view = new GameView(GameView.gameType.MULTI, username, client, player);
 				client.joinMultiplayer();
 			}
-			if(arg0.getSource().equals(settings))
+			if(arg0.getSource().equals(instructions))
 			{
 				GameInstructions gi = new GameInstructions();
 				//JOptionPane.showMessageDialog(frame, "Settings menu not yet available", "Pokemon Tower Defense", JOptionPane.OK_OPTION);
@@ -251,7 +252,7 @@ public class MainMenu extends JFrame implements WindowListener
 		super.paint(g);
 		//g.drawImage(bg, 0, 30, this);
 		multiPlayer.repaint();
-		settings.repaint();
+		instructions.repaint();
 		loadButton.repaint();
 		singlePlayer.repaint();
 		/*
