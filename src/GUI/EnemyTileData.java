@@ -181,7 +181,7 @@ public class EnemyTileData
 				break;	
 			}
 		}
-		else if(name.equals("Ratatta"))
+		else if(name.equals("Rattata"))
 		{
 			switch(dir)
 			{
@@ -221,7 +221,7 @@ public class EnemyTileData
 				break;	
 			}
 		}
-		else if(name.equals("McCann"))
+		else if(name.equals("Doc McCann"))
 		{
 			tempEnemyTile.setIcon(enemy8);
 		}
