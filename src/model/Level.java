@@ -171,7 +171,7 @@ public abstract class Level implements Serializable {
 		return map2;
 	}
   
-	public void setMap(Map map){
+	public void setMap1(Map map){
 	  this.map1 = map;
 	}
 	

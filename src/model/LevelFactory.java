@@ -33,7 +33,7 @@ public class LevelFactory{
 			return new Level2(player, server);
 		case 3:
 			return new Level3(player, server);
-		case 4: 
+		case 4: //Only for debugging
 			return new LevelMultiplayer(player, server);
 		default: 
 			return new Level0(player, server);
