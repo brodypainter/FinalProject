@@ -294,6 +294,8 @@ public class GameClient{
 		
 		//GUI shouldn't hold enemies or towers, instead hold their image classes
 		if(this.isPlayer1Client == fromPlayer1){
+			//Testing print line passed, receiving correct number of enemyImages per update
+			//System.out.println("GameClient receiving enemyImages update of size: " + enemyImages.size());
 			mainMenu.getView().update(towerImages, enemyImages);
 		}else{
 			ArrayList<Point> partnerTowerLocations = new ArrayList<Point>();

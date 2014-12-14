@@ -328,6 +328,8 @@ public abstract class Map implements Serializable{
 			tower.tick(timePerTick);
 			towerImages.add(new TowerImage(tower));
 		}
+		//Testing Passed, is sending the right amount of enemy images
+		//System.out.println("Server sending enemyImages update of size: " + enemyImages.size());
 		this.server.updateClients(enemyImages, towerImages, isPlayer1sMap);
 		
 	}

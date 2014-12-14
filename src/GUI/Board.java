@@ -435,6 +435,12 @@ public class Board extends JPanel implements MouseListener
 		}
 	}
 	
+	/**
+	 * Creates a new JFrame mini map, paints the scaled Board background image, red
+	 * squares where enemies are and green squares where towers of partner are
+	 * @param towers
+	 * @param enemies
+	 */
 	public void updateMiniMap(ArrayList<Point> towers, ArrayList<Point> enemies)
 	{
 		
@@ -456,6 +462,18 @@ public class Board extends JPanel implements MouseListener
 		{
 			label.repaint();
 		}
+		
+		//Test lists by peter
+		for(JLabel l : this.enemiesPrefFrame){
+			l.repaint();
+		}
+		for(JLabel l : this.enemiesThisFrame){
+			l.repaint();
+		}
+		
+		
+		
+		
 		towerRange.repaint();
 		for(JLabel label : towers)
 		{

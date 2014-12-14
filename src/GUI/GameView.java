@@ -596,7 +596,11 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 		}
 		//System.out.println("Progress of furthest enemy: " + newEnemies.get(0).getProgress());
 		
-		//((Board) board).addEnemies(enemies);
+		//((Board) board).addEnemies(enemies); //Desone's method
+		
+		//Test print line passed, sending the right amount of EnemyTiles to Board
+		//System.out.println("Sending # of EnemyTiles to Board: " + enemies.size());
+		
 		((Board) board).updateEnemyTiles(enemies); //Test Method -PH
 		repaint();
 		
