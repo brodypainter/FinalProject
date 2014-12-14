@@ -20,7 +20,7 @@ public class AbraTower extends Tower{
 	
 	private String level1= "src/images/tower6Level1.png";
 	private String level2= "src/images/tower6Level2.png";
-	private String level3= "src/images/tower6level2.png";
+	private String level3= "src/images/tower6level3.png";
 	
 	// the Charmander Gym cost 300 but can be changed if desired
 	public static final int Cost = 300;

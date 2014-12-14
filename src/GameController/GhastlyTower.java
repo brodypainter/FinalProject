@@ -13,7 +13,7 @@ public class GhastlyTower extends Tower {
 	private static final long serialVersionUID = 1056434548730766900L;
 	private String level1= "src/images/tower5Level1.png";
 	private String level2= "src/images/tower5Level2.png";
-	private String level3= "src/images/tower5level2.png";
+	private String level3= "src/images/tower5level3.png";
 
 	// the Cerulean Gym cost 300 but can be changed if desired
 	public static final int Cost = 200;

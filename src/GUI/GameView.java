@@ -753,7 +753,7 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 				selectedTowerFromStore.setIcon(tower5Image);
 				selectedTowerFromStore.setBounds(arg0.getX()-(tileWidth/2), arg0.getY()-(tileHeight/2), tileWidth, tileHeight);
 				selectedTowerFromStore.setVisible(true);
-				selectedTowerType = towerType.POISON;
+				selectedTowerType = towerType.POISON; //Ghastly
 				return;
 			}
 			Rectangle tower6 = new Rectangle((int)(9.05*getSize().width)/15 + 10,(int) ((3*getSize().height)/3.8) + 30, (int) (getSize().width / 9.5), getSize().height / 8);
@@ -763,7 +763,7 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 				selectedTowerFromStore.setIcon(tower6Image);
 				selectedTowerFromStore.setBounds(arg0.getX()-(tileWidth/2), arg0.getY()-(tileHeight/2), tileWidth, tileHeight);
 				selectedTowerFromStore.setVisible(true);
-				selectedTowerType = towerType.PSYCHIC;
+				selectedTowerType = towerType.PSYCHIC; //Abra
 				return;
 			}
 			Rectangle tower7 = new Rectangle((int)(10.67*getSize().width)/15 + 10,(int) ((3*getSize().height)/3.8) + 30, (int) (getSize().width / 9.5), getSize().height / 8);
