@@ -36,49 +36,49 @@ public class Level1 extends Level implements Serializable{
 			ArrayList<Enemy> wave = new ArrayList<Enemy>();
 			for (int j = 0; j < 5; j++){
 				int enemyGenerator = r.nextInt(20); // choose a value between 0 and 19
-				if (enemyGenerator <= 4){
+				if (enemyGenerator <= 2){
 					PikachuEnemy pika = new PikachuEnemy(getMap1());
 					int pathDecider = pathRandom.nextInt(getMap1().getNumberOfPaths());
 					pika.setPathTravelingCode(pathDecider); //Will walk along path 0
 					wave.add(pika);
 				}
-				else if (enemyGenerator >= 5 && enemyGenerator <= 7){
+				else if (enemyGenerator >= 3 && enemyGenerator <= 5){
 					BulbasaurEnemy bulb = new BulbasaurEnemy(getMap1());
 					int pathDecider = pathRandom.nextInt(getMap1().getNumberOfPaths());
 					bulb.setPathTravelingCode(pathDecider); //Will walk along path 0
 					wave.add(bulb);
 				}
-				else if (enemyGenerator >= 8 && enemyGenerator <= 11){
+				else if (enemyGenerator >= 6 && enemyGenerator <= 7){
 					SquirtleEnemy squirt = new SquirtleEnemy(getMap1());
 					int pathDecider = pathRandom.nextInt(getMap1().getNumberOfPaths());
 					squirt.setPathTravelingCode(pathDecider);
 					wave.add(squirt);
 				}
-				else if (enemyGenerator >= 12 && enemyGenerator <= 14){
+				else if (enemyGenerator >= 8 && enemyGenerator <= 9){
 					GrowlitheEnemy charm = new GrowlitheEnemy(getMap1());
 					int pathDecider = pathRandom.nextInt(getMap1().getNumberOfPaths());
 					charm.setPathTravelingCode(pathDecider);
 					wave.add(charm);
 				}
-				else if (enemyGenerator >= 15 && enemyGenerator <= 16){
+				else if (enemyGenerator >= 10 && enemyGenerator <= 12){
 					MewEnemy mew = new MewEnemy(getMap1());
 					int pathDecider = pathRandom.nextInt(getMap1().getNumberOfPaths());
 					mew.setPathTravelingCode(pathDecider);
 					wave.add(mew);
 				}
-				else if (enemyGenerator >= 99 && enemyGenerator <= 100){
+				else if (enemyGenerator >= 13 && enemyGenerator <= 15){
 					KoffingEnemy koff =new KoffingEnemy(getMap1());
 					int pathDecider = pathRandom.nextInt(getMap1().getNumberOfPaths());
 					koff.setPathTravelingCode(pathDecider);
 					wave.add(koff);
 				}
-				else if (enemyGenerator >= 17 && enemyGenerator <= 19){
+				else if (enemyGenerator >= 16 && enemyGenerator <= 18){
 					RattataEnemy ratt = new RattataEnemy(getMap1());
 					int pathDecider = pathRandom.nextInt(getMap1().getNumberOfPaths());
 					ratt.setPathTravelingCode(pathDecider);
 					wave.add(ratt);
 				}
-				else if (enemyGenerator >= 99 && enemyGenerator <= 100){
+				else if (enemyGenerator >= 19 && enemyGenerator <= 19){
 					McCannEnemy doctor = new McCannEnemy(getMap1());
 					int pathDecider = pathRandom.nextInt(getMap1().getNumberOfPaths());
 					doctor.setPathTravelingCode(pathDecider);
@@ -123,7 +123,7 @@ public class Level1 extends Level implements Serializable{
 
 	@Override
 	public void setMap() {
-		Map levelsMap = MapFactory.generateMap(getPlayer1(), 0);
+		Map levelsMap = MapFactory.generateMap(getPlayer1(), 1);
 		 //the int mapCode is 0 because this is level 1 and we want Map 0 Earth Map
 		levelsMap.setServer(this.getServer()); //Must set the map's server so it knows to send first update
 		this.setMap(levelsMap);							//and where to send updates thereafter
