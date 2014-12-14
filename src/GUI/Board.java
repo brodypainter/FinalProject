@@ -197,14 +197,15 @@ public class Board extends JPanel implements MouseListener
 			if(tile.getLevel() != this.towers.get(i).getLevel())
 			{
 				System.out.println("Upgrade detected");
-				this.towers.get(i).setUpgradable(tile.upgradable);
-				this.towers.get(i).setSpecial(tile.getSpecial());
-				this.towers.get(i).setRate(tile.getRate());
-				this.towers.get(i).setRange(tile.getRange());
-				this.towers.get(i).setPower(tile.getPower());
-				this.towers.get(i).setCost(tile.getCost());
-				this.towers.get(i).setLevel(tile.getLevel());
-				//this.towers.get(i).setIcon(towerData.);
+				TowerTile tempTile = this.towers.get(i);
+				tempTile.setSpecial(tile.getSpecial());
+				tempTile.setRate(tile.getRate());
+				tempTile.setRange(tile.getRange());
+				tempTile.setPower(tile.getPower());
+				tempTile.setCost(tile.getCost());
+				tempTile.setLevel(tile.getLevel());
+				tempTile.setIcon(tile.getIcon());
+				this.towers.set(i, tempTile);
 			}
 			i++;
 		}
