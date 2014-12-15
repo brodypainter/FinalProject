@@ -14,7 +14,7 @@ public class OddishTower extends Tower{
 	
 	private String level1= "src/images/tower4Level1.png";
 	private String level2= "src/images/tower4Level2.png";
-	private String level3= "src/images/tower4level2.png";
+	private String level3= "src/images/tower4level3.png";
 	
 	// the Cerulean Gym cost 300 but can be changed if desired
 	public static final int Cost = 120;

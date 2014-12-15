@@ -6,6 +6,11 @@ import GUI.GameView.towerType;
 
 public class MewtwoTower extends Tower{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6774459183746215045L;
+
 	// the Cerulean Gym cost 300 but can be changed if desired
 	public static final int Cost = 1500;
 	

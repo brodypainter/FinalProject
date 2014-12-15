@@ -10,7 +10,7 @@ public class CharmanderTower extends Tower{
 	
 	private String level1= "src/images/tower7Level1.png";
 	private String level2= "src/images/tower7Level2.png";
-	private String level3= "src/images/tower7level2.png"; //Level2 or 3?
+	private String level3= "src/images/tower7level3.png"; //Level2 or 3?
 	
 	// the Cerulean Gym cost 300 but can be changed if desired
 	public static final int Cost = 200;

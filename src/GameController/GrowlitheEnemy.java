@@ -7,6 +7,7 @@ import model.Map;
 public class GrowlitheEnemy extends Enemy{
 
 	
+	private static final long serialVersionUID = -514019104475232652L;
 	private int attackPower;
 	public GrowlitheEnemy(Map currentMap) {
 		

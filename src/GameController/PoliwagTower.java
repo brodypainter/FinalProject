@@ -7,12 +7,16 @@ import GUI.GameView.towerType;
 public class PoliwagTower extends Tower{
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3686302097423973732L;
+	/**
 	 * Poliwags ability is a high fire rate
 	 */
 	
 	private String level1= "src/images/tower2Level1.png";
 	private String level2= "src/images/tower2Level2.png";
-	private String level3= "src/images/tower2level2.png";
+	private String level3= "src/images/tower2level3.png";
 	
 	// the Cerulean Gym cost 300 but can be changed if desired
 	public static final int Cost = 150;

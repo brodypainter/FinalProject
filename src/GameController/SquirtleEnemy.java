@@ -4,6 +4,10 @@ import model.Map;
 
 public class SquirtleEnemy extends Enemy{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8663719648002595599L;
 	private String idleImg,
 					moveLeft,
 					moveRight,
