@@ -281,7 +281,7 @@ public class Board extends JPanel implements MouseListener
 				this.remove(tile);
 				this.remove(enemyHealth.get(this.enemies.indexOf(tile)));
 			}
-			System.out.println("Removed all enemies from view and list");
+			//System.out.println("Removed all enemies from view and list");
 			enemyHealth.clear();
 			this.enemies.clear();
 		}
@@ -438,17 +438,8 @@ public class Board extends JPanel implements MouseListener
 		}
 	}
 	
-	/**
-	 * Creates a new JFrame mini map, paints the scaled Board background image, red
-	 * squares where enemies are and green squares where towers of partner are
-	 * @param towers
-	 * @param enemies
-	 */
-	public void updateMiniMap(ArrayList<Point> towers, ArrayList<Point> enemies)
-	{
-		
-	}
-	
+
+
 	public void towerUpgrade()
 	{
 		upgrading = true;

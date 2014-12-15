@@ -98,7 +98,7 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 	int tileWidth = 102;
 	int tileHeight = 155; 
 	ArrayList<Line> lines = new ArrayList<Line>();
-	
+	MiniMap map;
 	
 	
 	private String pewterProjectile = "/images/spinningBone.gif";
@@ -155,6 +155,8 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 	
 	private GameClient client;
 	
+	private gameType gameType;
+	
 	/**
 	 * Allows game to be started from GameView
 	 * @param args Not used
@@ -191,7 +193,7 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 		//addMouseWheelListener(this);  //Temporarily disabled to stop scaling
 		//addComponentListener(new resizeListener());  //Temporarily disabled to stop scaling
 		addMouseMotionListener(this);
-		
+		gameType = type;
 		//animationTimer = new Timer(50, null);
 		//towersLast = new ArrayList<TowerImage>();
 		
@@ -212,7 +214,7 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 		{
 			System.out.println("Unable to set operating system look and feel");
 		}
-
+		
 		chat = new JFrame("Pokemon Tower Defense - Chat");
 		chat.setSize(400, 300);
 		chat.setLocation(this.getX() + this.getWidth(), this.getY());
@@ -541,6 +543,7 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 		int i = 0;
 		for(TowerImage tile : newTowers)
 		{
+			//System.out.println(tile.getLevel() + " <- tower url");
 			if(towerData.getTile(tile.getImageURL()).getLevel() != this.towers.get(i).getLevel())
 			{
 				System.out.println("Upgrade detected");
@@ -625,6 +628,8 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 		tileHeight = (int) ((board.getHeight()/levelHeight));
 		towerData = new TowerTileData(tileWidth, tileHeight);
 		enemyData = new EnemyTileData(tileWidth, tileHeight);
+		if(gameType == gameType.MULTI)
+			map = new MiniMap(tileWidth, tileHeight, levelWidth, levelHeight);
 		
 		tower1Image = new ImageIcon(createImageIcon("/images/tower1Level1.png").getImage().getScaledInstance(tileWidth, tileHeight,Image.SCALE_SMOOTH));
 		tower2Image = new ImageIcon(createImageIcon("/images/tower2Level1.png").getImage().getScaledInstance(tileWidth, tileHeight,Image.SCALE_SMOOTH));
@@ -711,9 +716,10 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 		client.upgradeTower(p);
 	}
 	
-	public void updateMiniMap(ArrayList<Point> towers, ArrayList<Point> enemy)
+	public void updateMiniMap(ArrayList<Point> towers, ArrayList<Point> enemies)
 	{
-		((Board) board).updateMiniMap(towers, enemy);
+		map.updateTowers(towers);
+		map.updateEnemies(enemies);
 	}
 	
 	/**
