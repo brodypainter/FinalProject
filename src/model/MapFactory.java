@@ -306,7 +306,7 @@ public class MapFactory {
 			map = new LavaMap(grid, paths, levelDescription, backgroundImage, mapCode, player);
 			break;
 			//case other levels...
-		 case 2:
+		 case 2: //The Cave Map
 			 // a smaller map with which to traverse
 				//Set the size of the map
 				horizontalSize = 20;
@@ -402,7 +402,7 @@ public class MapFactory {
 				map = new CaveMap(grid, paths, levelDescription, backgroundImage, mapCode, player);
 				
 			 break;
-		 case 3:
+		 case 3: //The Water Map
 		  //this will have a second path to traverse
 		 			
 			//Set the size of the map
