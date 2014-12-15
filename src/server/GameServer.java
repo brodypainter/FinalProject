@@ -532,10 +532,15 @@ public class GameServer implements Serializable{
 			//reset currentLevel and it's map's transient variables GameServer
 			levelA.setServer(thisServer);
 			levelA.getMap1().setServer(thisServer);
+			
+			
 			//Start the game paused and at normal speed, notify GUI of this state.
-			this.paused = true;
+			//this.paused = true;
 			this.normalSpeed();
 			
+			//start the game unpaused, GUI can't be notified of starting paused yet
+			this.paused = false;
+			this.startTimer();
 			
 		}catch(Exception e){
 			// TODO tell the player that there was an issue
