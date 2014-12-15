@@ -179,10 +179,11 @@ public class MainMenu extends JFrame implements WindowListener
 			if(arg0.getSource().equals(multiPlayer))
 			{
 				frame.setVisible(false);
-				Object[] possibleValues = { "Level 1", "Level 2", "Level 3" };
-				JOptionPane.showInputDialog(frame, "Choose one", "Input", JOptionPane.INFORMATION_MESSAGE, null, possibleValues, possibleValues[0]);
+				//Object[] possibleValues = { "Level 1", "Level 2", "Level 3", "Level 4 Debug" };
+				//JOptionPane.showInputDialog(frame, "Choose one", "Input", JOptionPane.INFORMATION_MESSAGE, null, possibleValues, possibleValues[0]);
 				view = new GameView(GameView.gameType.MULTI, username, client, player);
 				client.joinMultiplayer();
+				//TODO:Will be prompted to pick a level is client1 and partner joins otherwise display waiting pic
 			}
 			if(arg0.getSource().equals(instructions))
 			{
@@ -192,9 +193,9 @@ public class MainMenu extends JFrame implements WindowListener
 		}
 	}
 	
-	public int promptLevel() //Not showing up for me? -PH
+	public int promptLevel()
 	{
-		String[] possibleValues = { "Level 0", "Level 1", "Level 2", "Level 3" };
+		String[] possibleValues = { "Level 0", "Level 1", "Level 2", "Level 3", "Debug Level" };
 		String option = (String) JOptionPane.showInputDialog(null, "Choose one", "Input", JOptionPane.INFORMATION_MESSAGE, null, possibleValues, possibleValues[0]);
 		if(option.equals("Level 0"))
 		{
@@ -210,6 +211,9 @@ public class MainMenu extends JFrame implements WindowListener
 		else if(option.equals("Level 3"))
 		{
 			return 3;
+		}else if(option.equals("Debug Level"))
+		{
+			return 4;
 		}
 		else
 		{

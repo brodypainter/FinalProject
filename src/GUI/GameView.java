@@ -43,6 +43,7 @@ import javax.swing.ScrollPaneLayout;
 import javax.swing.Timer;
 import javax.swing.UIManager;
 
+import server.GameServer;
 import GameController.Enemy.directionFacing;
 import client.GameClient;
 import client.Player;
@@ -160,6 +161,7 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 	 */
 	public static void main(String[] args)
 	{
+		new GameServer();
 		new GameClient();
 	}
 	
@@ -549,10 +551,14 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 		}
 		repaint();
 		
-		enemies = new ArrayList<EnemyTile>();
 		
-		EnemyTile tempEnemyLabel = new EnemyTile();
+		
+		
+		enemies = new ArrayList<EnemyTile>();
+		//System.out.println("Start of list of enemies:");
+		EnemyTile tempEnemyLabel;
 		for(EnemyImage ei: newEnemies){
+			tempEnemyLabel = new EnemyTile();
 			//tempEnemyLabel = new JLabel(new ImageIcon(ei.getImageURL()));
 			tempEnemyLabel.setIcon(enemyData.getTile(ei.getName(), ei.getOrientation()).getIcon());
 			Point eiLocation = ei.getLocation();//this point contains the rowsdown in x and the columnsacross in y
@@ -564,7 +570,7 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 			//get eiLocation and offset
 			//it by progress fraction of tilewidth/height in direction of orientation
 			//to put the image in the right place
-			
+			//System.out.println(ei.getID());
 			//To use when IDs are set up
 			//tempEnemyLabel.setID(ei.getID());
 			
@@ -596,8 +602,18 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 		}
 		//System.out.println("Progress of furthest enemy: " + newEnemies.get(0).getProgress());
 		
-		//((Board) board).addEnemies(enemies);
-		((Board) board).updateEnemyTiles(enemies); //Test Method -PH
+		//for(EnemyImage tile : newEnemies)
+		//{
+			//System.out.println(tile.getID());
+		//}
+		//System.out.println("End of list.");
+		
+		((Board) board).addEnemies(enemies); //Desone's method
+		
+		//Test print line passed, sending the right amount of EnemyTiles to Board
+		//System.out.println("Sending # of EnemyTiles to Board: " + enemies.size());
+		
+		//((Board) board).updateEnemyTiles(enemies); //Test Method -PH
 		repaint();
 		
 	}

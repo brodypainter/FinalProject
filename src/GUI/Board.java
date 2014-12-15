@@ -293,12 +293,6 @@ public class Board extends JPanel implements MouseListener
 		for(int i = 0; i < this.enemies.size(); i++)
 		{
 			//System.out.println("Enemy ID (Exists): " + ((EnemyTile) this.enemies.get(i)).getID());
-			if(enemiesInUpdate.size() == 0){
-				System.out.println("Removing enemy: " + this.enemies.get(i).getPokeName());
-				this.remove(this.enemies.remove(i));
-				this.remove(enemyHealth.remove(i));
-				break;
-			}
 			
 			for(int j = 0; j < enemiesInUpdate.size(); j++)
 			{
@@ -331,10 +325,19 @@ public class Board extends JPanel implements MouseListener
 		}
 		
 		
-		if(this.enemies.size() != enemiesInUpdate.size())
-		{
-			System.out.println("Invalid array size, " + this.enemies.size() + ", " + enemiesInUpdate.size());
-		}
+		//	System.out.println("Invalid array size, " + this.enemies.size() + ", " + enemiesInUpdate.size());
+			//for(EnemyTile tile : this.enemies)
+			//{
+				//System.out.println(tile.getID());
+			//}
+		//	System.out.println("End of list.");
+			
+		//	System.out.println("Invalid array size[], " + this.enemies.size() + ", " + enemiesInUpdate.size() + "{}");
+			//for(EnemyTile tile : enemiesInUpdate)
+		//	{
+			//	System.out.println(tile.getID());
+		//	}
+			//System.out.println("End of list.");
 			  
 			 
 			
@@ -435,6 +438,12 @@ public class Board extends JPanel implements MouseListener
 		}
 	}
 	
+	/**
+	 * Creates a new JFrame mini map, paints the scaled Board background image, red
+	 * squares where enemies are and green squares where towers of partner are
+	 * @param towers
+	 * @param enemies
+	 */
 	public void updateMiniMap(ArrayList<Point> towers, ArrayList<Point> enemies)
 	{
 		
@@ -456,6 +465,18 @@ public class Board extends JPanel implements MouseListener
 		{
 			label.repaint();
 		}
+		
+		//Test lists by peter
+		for(JLabel l : this.enemiesPrefFrame){
+			l.repaint();
+		}
+		for(JLabel l : this.enemiesThisFrame){
+			l.repaint();
+		}
+		
+		
+		
+		
 		towerRange.repaint();
 		for(JLabel label : towers)
 		{
