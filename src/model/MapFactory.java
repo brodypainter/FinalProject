@@ -94,8 +94,8 @@ public class MapFactory {
 			//instantiate a XMap object that extends Map class
 			map = new EarthMap(grid, paths, levelDescription, backgroundImage, mapCode, player);
 			break;
-			//TODO: Max finish making case 1 and 2 for WaterMap and LavaMap, give one multiple paths
-		case 1:
+			
+		case 1: //This is the lava map
 			
 			//Set the size of the map
 			horizontalSize = 20;
@@ -294,13 +294,13 @@ public class MapFactory {
 			paths.add(path1);
 			
 			//assign the levelDesciption String
-			levelDescription = "This is the Lava map and is 20 x 30. It has a single path";
+			levelDescription = "This is the Lava map. It has a single path";
 			
 			//assign the backgroundImage for the level
 			
 			 // @ Max Justice Sun 10:50 added ceruleanGym
 			 
-			backgroundImage = "/images/level1Background.png"; 							//and place the image's location here <---
+			backgroundImage = "/images/LavaMap.png"; 							//and place the image's location here <---
 			
 			//instantiate a LevelXMap object that extends Map class
 			map = new LavaMap(grid, paths, levelDescription, backgroundImage, mapCode, player);
@@ -394,8 +394,8 @@ public class MapFactory {
 				//assign the levelDesciption String
 				levelDescription = "This is the Cave map of 20x15 with two paths";
 				
-				//assign the backgroundImage for the level
-				backgroundImage = "/images/level1Background.png"; //
+				//TODO:assign the backgroundImage for the level
+				backgroundImage = "/images/15x10background.png"; //
 										
 				
 				//instantiate a LevelXMap object that extends Map class

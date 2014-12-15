@@ -423,7 +423,10 @@ public class GameClient{
 	 */
 	public void multiplayerLevelSelectPrompt(){
 		if(this.isPlayer1Client){
-			this.createLevel(this.mainMenu.promptLevel());
+			//Testing print
+			System.out.println("Received player 1 level select prompt command");
+			int levelCode = this.mainMenu.promptLevel();
+			this.createLevel(levelCode);
 		}
 	}
 
