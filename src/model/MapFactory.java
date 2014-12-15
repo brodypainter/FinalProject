@@ -327,6 +327,7 @@ public class MapFactory {
 				path3.add(new Point(13,0));
 				path3.add(new Point(13,1));
 				path3.add(new Point(13,2));
+				path3.add(new Point(13,3));
 				path3.add(new Point(13,4));
 				path3.add(new Point(12,4));
 				path3.add(new Point(11,4));
@@ -424,32 +425,32 @@ public class MapFactory {
 				LinkedList<Point> path5 = new LinkedList<Point>();
 				
 				path5.add(new Point(1,0));
-				path5.add(new Point());
-				path5.add(new Point());
-				path5.add(new Point());
-				path5.add(new Point());
-				path5.add(new Point());
-				path5.add(new Point());
-				path5.add(new Point());
-				path5.add(new Point());
+				path5.add(new Point(1,1));
+				path5.add(new Point(1,2));
+				path5.add(new Point(1,3));
+				path5.add(new Point(1,4));
+				path5.add(new Point(1,5));
+				path5.add(new Point(1,6));
+				path5.add(new Point(1,7));
+				path5.add(new Point(1,8));
 				path5.add(new Point(1,9));
-				path5.add(new Point());
-				path5.add(new Point());
-				path5.add(new Point());
+				path5.add(new Point(2,9));
+				path5.add(new Point(3,9));
+				path5.add(new Point(4,9));
 				path5.add(new Point(5,9));
-				path5.add(new Point());
-				path5.add(new Point());
-				path5.add(new Point());
-				path5.add(new Point());
+				path5.add(new Point(5,10));
+				path5.add(new Point(5,11));
+				path5.add(new Point(5,12));
+				path5.add(new Point(5,13));
 				path5.add(new Point(5,14));
-				path5.add(new Point());
+				path5.add(new Point(4,14));
 				path5.add(new Point(3,14));
-				path5.add(new Point());
+				path5.add(new Point(3,15));
 				path5.add(new Point(3,16));
-				path5.add(new Point());
+				path5.add(new Point(4,16));
 				path5.add(new Point(5,16));
-				path5.add(new Point());
-				path5.add(new Point());
+				path5.add(new Point(5,17));
+				path5.add(new Point(5,18));
 				path5.add(new Point(5,19));
 		
 
@@ -562,15 +563,15 @@ public class MapFactory {
 
 				LinkedList<Point> path2 = new LinkedList<Point>();
 				
-				path2.add(new Point(13,0));
-				path2.add(new Point(13,1));
-				path2.add(new Point(13,2));
-				path2.add(new Point(13,3));
-				path2.add(new Point(13,4));
-				path2.add(new Point(12,5));
-				path2.add(new Point(11,6));
-				path2.add(new Point(10,7));
-				path2.add(new Point(9,8));
+				path2.add(new Point(12,0));
+				path2.add(new Point(12,1));
+				path2.add(new Point(12,2));
+				path2.add(new Point(12,3));
+				path2.add(new Point(12,4));
+				//path2.add(new Point(12,5));
+				path2.add(new Point(11,4));
+				path2.add(new Point(10,4));
+				path2.add(new Point(9,4));
 				path2.add(new Point(8,4));
 				path2.add(new Point(8,5));
 				path2.add(new Point(8,6));
@@ -740,7 +741,7 @@ public class MapFactory {
 			levelDescription = "This is the water map with two paths";
 			
 			//assign the backgroundImage for the level
-			backgroundImage = "/images/level1Background.png"; //
+			backgroundImage = "/images/WaterLevel.png"; //
 									
 			
 			//instantiate a LevelXMap object that extends Map class

@@ -80,6 +80,8 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 	private JButton load;
 	private JButton pause;
 	private boolean paused = false;
+	private JButton toggleSpeed;
+	private boolean spedUp = false; //True if game is in sped up mode, false if not
 	private Point scrollLocation;
 	private Point scrollLast;
 	private Point mouseLoc;
@@ -150,6 +152,8 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 	private ImageIcon enemy1ImageW = new ImageIcon();
 	private ImageIcon enemy2Image;
 	private ImageIcon enemy3Image;
+	
+	
 	
 	int qualitySetting;
 	
@@ -255,6 +259,12 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 		pause.setBounds((getWidth()/2 - 60), 5, 100, 30);
 		pause.addActionListener(new PauseAction());
 		this.add(pause);
+		
+		toggleSpeed = new JButton("ToggleSpeed");
+		toggleSpeed.setText("Speed x 2");
+		toggleSpeed.setBounds((getWidth()/2 - 50 + 101), 5, 130, 30);
+		toggleSpeed.addActionListener(new SpeedToggleAction());
+		this.add(toggleSpeed);
 		
 		//Sets the draggable tower image and hides it
 		selectedTowerFromStore = new JLabel(new ImageIcon(createImageIcon("/images/tower1Level1.png").getImage().getScaledInstance(getSize().width/20, getSize().height/12, Image.SCALE_SMOOTH)));
@@ -708,6 +718,20 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 				save.setVisible(true);
 			}
 			
+		}
+	}
+	
+	private class SpeedToggleAction implements ActionListener{
+		public void actionPerformed(ActionEvent arg0){
+			if(!spedUp){
+				toggleSpeed.setText("Normal Speed");
+				client.speedUpGame();
+				spedUp = true;
+			}else{
+				toggleSpeed.setText("Speed x 2");
+				client.normalSpeedGame();
+				spedUp = false;
+			}
 		}
 	}
 	

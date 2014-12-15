@@ -518,7 +518,8 @@ public class Board extends JPanel implements MouseListener
 	{
 		public void actionPerformed(ActionEvent arg0)
 		{
-			view.upgrade(new Point(((int) (selectedTower.getX()/tileWidth)), ((int) (selectedTower.getY()/tileHeight))));
+			//pass row, column
+			view.upgrade(new Point((((int) (selectedTower.getY()/tileHeight))),(int) (selectedTower.getX()/tileWidth)));
 		}
 	}
 	

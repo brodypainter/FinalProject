@@ -40,6 +40,13 @@ public class LevelMultiplayer extends Level {
 		ArrayList<Enemy> wave = new ArrayList<Enemy>();	
 		wave.add(new PikachuEnemy(this.getMap1()));
 		wave.add(new MewEnemy(this.getMap1()));
+		wave.add(new KoffingEnemy(this.getMap1()));
+		wave.add(new KoffingEnemy(this.getMap1()));
+		wave.add(new KoffingEnemy(this.getMap1()));
+		wave.add(new SquirtleEnemy(this.getMap1()));
+		wave.add(new SquirtleEnemy(this.getMap1()));
+		wave.add(new SquirtleEnemy(this.getMap1()));
+		wave.add(new BulbasaurEnemy(this.getMap1()));
 		waveList.add(wave);
 		setWavesList(waveList); //Set the master wavesList inherited instance variable
 	}
