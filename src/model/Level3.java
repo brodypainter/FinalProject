@@ -121,7 +121,7 @@ public class Level3 extends Level implements Serializable{
 	@Override
 	public void setMap() {
 		Map levelsMap = MapFactory.generateMap(getPlayer1(), 3);
-		 //the int mapCode is 2 because this is level 3 and we want Map 2 Water Map (starts at 0)
+		 //the int mapCode is 2 because this is level 3 and we want Map 3 Water Map (starts at 0)
 		levelsMap.setServer(this.getServer()); //Must set the map's server so it knows to send first update
 		this.setMap1(levelsMap);							//and where to send updates thereafter
 		// TODO Auto-generated method stub

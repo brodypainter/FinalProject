@@ -396,7 +396,7 @@ public class MapFactory {
 				levelDescription = "This is the Cave map of 20x15 with two paths";
 				
 				//TODO:assign the backgroundImage for the level
-				backgroundImage = "/images/15x10background.png"; //
+				backgroundImage = "/images/CaveMap.png"; //
 										
 				
 				//instantiate a LevelXMap object that extends Map class
