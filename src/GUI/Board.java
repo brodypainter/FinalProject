@@ -188,12 +188,6 @@ public class Board extends JPanel implements MouseListener
 			this.towers.add(towers.get(this.towers.size()));
 		}
 		
-		if(upgrading)
-		{
-			upgrading = false;
-			System.out.println("This upgrade option works as well");
-		}
-		
 		int i = 0;
 		for(TowerTile tile : towers)
 		{

@@ -107,7 +107,7 @@ public class TowerTileData
 			tempTowerLabel.setUpgradable(true);
 			tempTowerLabel.setIcon(tower2Level2Image);
 		}
-		else if(URL.endsWith("tower2Level3.png"))
+		else if(URL.endsWith("tower2level3.png"))
 		{
 			tempTowerLabel = new TowerTile();
 			tempTowerLabel.setType(2);
@@ -167,7 +167,7 @@ public class TowerTileData
 			tempTowerLabel.setUpgradable(true);
 			tempTowerLabel.setIcon(tower4Level2Image);
 		}
-		else if(URL.endsWith("tower4Level3.png"))
+		else if(URL.endsWith("tower4level3.png"))
 		{
 			tempTowerLabel = new TowerTile();
 			tempTowerLabel.setType(4);
@@ -203,7 +203,7 @@ public class TowerTileData
 			tempTowerLabel.setUpgradable(true);
 			tempTowerLabel.setIcon(tower5Level2Image);
 		}
-		else if(URL.endsWith("tower5Level3.png"))
+		else if(URL.endsWith("tower5level3.png"))
 		{
 			tempTowerLabel = new TowerTile();
 			tempTowerLabel.setType(5);
@@ -239,7 +239,7 @@ public class TowerTileData
 			tempTowerLabel.setUpgradable(true);
 			tempTowerLabel.setIcon(tower6Level2Image);
 		}
-		else if(URL.endsWith("tower6Level3.png"))
+		else if(URL.endsWith("tower6level3.png"))
 		{
 			tempTowerLabel = new TowerTile();
 			tempTowerLabel.setType(6);
@@ -275,7 +275,7 @@ public class TowerTileData
 			tempTowerLabel.setUpgradable(true);
 			tempTowerLabel.setIcon(tower7Level2Image);
 		}
-		else if(URL.endsWith("tower7Level3.png"))
+		else if(URL.endsWith("tower7level3.png"))
 		{
 			tempTowerLabel = new TowerTile();
 			tempTowerLabel.setType(7);
@@ -301,6 +301,7 @@ public class TowerTileData
 		}
 		else
 		{
+			System.out.println("No matching image found");
 			tempTowerLabel = new TowerTile();
 			tempTowerLabel.setType(1);
 			tempTowerLabel.setLevel(1);
@@ -308,7 +309,7 @@ public class TowerTileData
 			tempTowerLabel.setPower(1);
 			tempTowerLabel.setRate(1);
 			tempTowerLabel.setUpgradable(false);
-			tempTowerLabel.setIcon(tower1Level1Image);
+			tempTowerLabel.setIcon(tower1Level2Image);
 		}
 		return tempTowerLabel;
 	}
