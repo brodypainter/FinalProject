@@ -183,7 +183,7 @@ public class MainMenu extends JFrame implements WindowListener
 				//JOptionPane.showInputDialog(frame, "Choose one", "Input", JOptionPane.INFORMATION_MESSAGE, null, possibleValues, possibleValues[0]);
 				view = new GameView(GameView.gameType.MULTI, username, client, player);
 				client.joinMultiplayer();
-				//TODO:display waiting pic
+				//TODO:display waiting for partner pic
 			}
 			if(arg0.getSource().equals(instructions))
 			{

@@ -14,7 +14,7 @@ public class PromptMultiplayerLevelCommand extends Command<GameClient>{
 	
 	@Override
 	public void execute(GameClient executeOn) {
-		// TODO Auto-generated method stub
+		executeOn.multiplayerLevelSelectPrompt();
 		
 	}
 
