@@ -15,7 +15,7 @@ public class CaveMap extends Map {
 	@Override
 	int getNumberOfPaths() {
 		// TODO Auto-generated method stub
-		return 2;
+		return 1;
 	}
 
 }
