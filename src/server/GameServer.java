@@ -434,15 +434,14 @@ public class GameServer implements Serializable{
 		//System.out.println("GameServer attempting to add tower to row: " + loc.x + " col: " + loc.y);
 		Tower towerToAdd = TowerFactory.generateTower(type, client2Map.get(clientName).getPlayer()); // Generate a tower	
 		//System.out.println("addTower command received, adding tower to current level");
-		if(client2Map.get(clientName).addTower(towerToAdd, loc)){ // Ask the map to add the tower
+		client2Map.get(clientName).addTower(towerToAdd, loc); // Ask the map to add the tower
 			//System.out.println("successfully added tower");
-		}else{
 			//System.out.println("Adding tower failed due to position/lack of $!");
-		}
+		
 	}
 	
 	/**
-	 * Sell the tower
+	 * Sell the tower, not used 
 	 * 
 	 * @param location The location that the tower to be sold is located
 	 */

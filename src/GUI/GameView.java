@@ -935,6 +935,7 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 		Rectangle tower7 = new Rectangle((int)(10.67*getSize().width)/15 + 10,(int) ((3*getSize().height)/3.8) + 30, (int) (getSize().width / 9.5), getSize().height / 8);
 		Rectangle tower8 = new Rectangle((int)(12.3*getSize().width)/15 + 10,(int) ((3*getSize().height)/3.8) + 30, (int) (getSize().width / 9.5), getSize().height / 8);
 		
+		//TODO: Fill in the setText with the new info
 		if(tower1.contains(arg0.getPoint()))
 		{
 			towerInfo.setVisible(true);
@@ -943,33 +944,33 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 		else if(tower2.contains(arg0.getPoint()))
 		{
 			towerInfo.setVisible(true);
-			towerInfoText.setText("Poliwag Tower\t\tCost: 150\nRange:\t2\nPower:\t10\nRate:\t4\nSpecial Ability:\tNone");
+			towerInfoText.setText("Poliwag Tower\t\tCost: 150\nRange:\t2\nPower:\t10\nRate:\t4\nSpecial Ability:\tRapid Fire");
 		}
 		else if(tower3.contains(arg0.getPoint()))
 		{
 			towerInfo.setVisible(true);
-			towerInfoText.setText("Magnemite Tower\t\tCost: 180\nRange:\t3\nPower:\t12\nRate:\t1.5\nSpecial Ability:\tNone");
+			towerInfoText.setText("Magnemite Tower\t\tCost: 180\nRange:\t3\nPower:\t12\nRate:\t1.5\nSpecial Ability:\tSlows");
 		}
 		else if(tower4.contains(arg0.getPoint()))
 		{
 			towerInfo.setVisible(true);
-			towerInfoText.setText("Oddish Tower\t\tCost: 120\nRange:\t2\nPower:\t8\nRate:\t1\nSpecial Ability:\tNone");
+			towerInfoText.setText("Oddish Tower\t\tCost: 120\nRange:\t2\nPower:\t8\nRate:\t1\nSpecial Ability:\tSleep");
 		}
 		else if(tower5.contains(arg0.getPoint()))
 		{
 			towerInfo.setVisible(true);
-			towerInfoText.setText("Ghastly Tower\t\tCost: 200\nRange:\t2\nPower:\t20\nRate:\t1\nSpecial Ability:\tNone");
+			towerInfoText.setText("Ghastly Tower\t\tCost: 200\nRange:\t2\nPower:\t20\nRate:\t1\nSpecial Ability:\tCurse");
 		}
 		else if(tower6.contains(arg0.getPoint()))
 		{
 			towerInfo.setVisible(true);
-			towerInfoText.setText("Abra Tower\t\tCost: 150\nRange:\t2\nPower:\t8\nRate:\t1.5\nSpecial Ability:\tNone");
+			towerInfoText.setText("Abra Tower\t\tCost: 150\nRange:\t2\nPower:\t8\nRate:\t1.5\nSpecial Ability:\tTeleport");
 		}
 		else if(tower7.contains(arg0.getPoint()))
 		{
 			towerInfo.setLocation(mouseLoc.x - towerInfo.getWidth(), mouseLoc.y - towerInfo.getHeight() - 10);
 			towerInfo.setVisible(true);
-			towerInfoText.setText("Charmander Tower\t\tCost: 200\nRange:\t5\nPower:\t15\nRate:\t2\nSpecial Ability:\tNone");
+			towerInfoText.setText("Charmander Tower\t\tCost: 200\nRange:\t5\nPower:\t15\nRate:\t2\nSpecial Ability:\tBurn");
 		}
 
 		else if(tower8.contains(arg0.getPoint()))
