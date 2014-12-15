@@ -30,7 +30,7 @@ public class MewEnemy extends Enemy{
 			
 			//health, attackPower, defense, speed, name, worth, Image, mapRef
 
-			super(150, 10, 10, 1.0, "Mew", 110, currentMap, "src/images/enemy4Down.gif", "src/images/enemy4Up.gif","src/images/enemy4Left.gif", "src/images/enemy4Right.gif");
+			super(150, 10, 0, 1.0, "Mew", 110, currentMap, "src/images/enemy4Down.gif", "src/images/enemy4Up.gif","src/images/enemy4Left.gif", "src/images/enemy4Right.gif");
 			/* src/images/pikachuRight.gif
 			 * src/images/pikachuLeft.gif
 			 * src/images/pikachuRight.gif

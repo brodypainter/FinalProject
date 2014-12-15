@@ -31,7 +31,7 @@ public class McCannEnemy extends Enemy{
 		
 		//health, attackPower, defense, speed, name, worth, Image, mapRef
 
-		super(200, 10, 12, 0.4, "Doc McCann", 1000, currentMap, "src/images/pikachuDown.gif", "src/images/pikachuUp.gif","src/images/pikachuLeft.gif", "src/images/pikachuRight.gif");
+		super(230, 25, 10, 0.5, "Doc McCann", 500, currentMap, "src/images/pikachuDown.gif", "src/images/pikachuUp.gif","src/images/pikachuLeft.gif", "src/images/pikachuRight.gif");
 		/* src/images/pikachuRight.gif
 		 * src/images/pikachuLeft.gif
 		 * src/images/pikachuRight.gif

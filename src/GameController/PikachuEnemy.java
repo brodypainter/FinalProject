@@ -41,7 +41,7 @@ public class PikachuEnemy extends Enemy{
 		
 		//health, attackPower, defense, speed, name, worth, Image, mapRef
 															// down, up, left, right
-		super(100, 6, 10, 1.0, "Pikachu", 50, currentMap, "src/images/pikachuDown.gif", "src/images/pikachuUp.gif","src/images/pikachuLeft.gif", "src/images/pikachuRight.gif");
+		super(70, 6, 0, 1.0, "Pikachu", 50, currentMap, "src/images/pikachuDown.gif", "src/images/pikachuUp.gif","src/images/pikachuLeft.gif", "src/images/pikachuRight.gif");
 		/* src/images/pikachuRight.gif
 		 * src/images/pikachuLeft.gif
 		 * src/images/pikachuRight.gif

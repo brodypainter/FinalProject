@@ -76,11 +76,11 @@ public class TowerTileData
 		{
 			tempTowerLabel = new TowerTile();
 			tempTowerLabel.setType(1);
-			tempTowerLabel.setLevel(1);
+			tempTowerLabel.setLevel(2);
 			tempTowerLabel.setRange(5);
 			tempTowerLabel.setPower(20);
 			tempTowerLabel.setRate(2.5);
-			tempTowerLabel.setUpgradable(true);
+			tempTowerLabel.setUpgradable(false);
 			tempTowerLabel.setIcon(tower1Level2Image);
 		}
 		else if(URL.endsWith("tower2Level1.png"))
@@ -91,194 +91,212 @@ public class TowerTileData
 			tempTowerLabel.setRange(2);
 			tempTowerLabel.setPower(10);
 			tempTowerLabel.setRate(4);
+			tempTowerLabel.setSpecial("");
 			tempTowerLabel.setUpgradable(true);
 			tempTowerLabel.setIcon(tower2Level1Image);
 		}
 		else if(URL.endsWith("tower2Level2.png"))
 		{
 			tempTowerLabel = new TowerTile();
-			tempTowerLabel.setType(1);
-			tempTowerLabel.setLevel(1);
-			tempTowerLabel.setRange(1);
-			tempTowerLabel.setPower(1);
-			tempTowerLabel.setRate(1);
+			tempTowerLabel.setType(2);
+			tempTowerLabel.setLevel(2);
+			tempTowerLabel.setRange(5);
+			tempTowerLabel.setPower(15);
+			tempTowerLabel.setRate(6);
+			tempTowerLabel.setSpecial("Rapid Fire");
 			tempTowerLabel.setUpgradable(true);
 			tempTowerLabel.setIcon(tower2Level2Image);
 		}
 		else if(URL.endsWith("tower2Level3.png"))
 		{
 			tempTowerLabel = new TowerTile();
-			tempTowerLabel.setType(1);
-			tempTowerLabel.setLevel(1);
-			tempTowerLabel.setRange(1);
-			tempTowerLabel.setPower(1);
-			tempTowerLabel.setRate(1);
-			tempTowerLabel.setUpgradable(true);
+			tempTowerLabel.setType(2);
+			tempTowerLabel.setLevel(3);
+			tempTowerLabel.setRange(7);
+			tempTowerLabel.setPower(20);
+			tempTowerLabel.setRate(8);
+			tempTowerLabel.setSpecial("Rapid Fire");
+			tempTowerLabel.setUpgradable(false);
 			tempTowerLabel.setIcon(tower2Level3Image);
 		}
 		else if(URL.endsWith("tower3Level1.png"))
 		{
 			tempTowerLabel = new TowerTile();
-			tempTowerLabel.setType(1);
+			tempTowerLabel.setType(3);
 			tempTowerLabel.setLevel(1);
-			tempTowerLabel.setRange(1);
-			tempTowerLabel.setPower(1);
-			tempTowerLabel.setRate(1);
+			tempTowerLabel.setRange(3);
+			tempTowerLabel.setPower(12);
+			tempTowerLabel.setRate(1.5);
+			tempTowerLabel.setSpecial("Slows");
 			tempTowerLabel.setUpgradable(true);
 			tempTowerLabel.setIcon(tower3Level1Image);
 		}
 		else if(URL.endsWith("tower3Level2.png"))
 		{
 			tempTowerLabel = new TowerTile();
-			tempTowerLabel.setType(1);
-			tempTowerLabel.setLevel(1);
-			tempTowerLabel.setRange(1);
-			tempTowerLabel.setPower(1);
-			tempTowerLabel.setRate(1);
-			tempTowerLabel.setUpgradable(true);
+			tempTowerLabel.setType(3);
+			tempTowerLabel.setLevel(2);
+			tempTowerLabel.setRange(5);
+			tempTowerLabel.setPower(17);
+			tempTowerLabel.setRate(2.5);
+			tempTowerLabel.setSpecial("Slows");
+			tempTowerLabel.setUpgradable(false);
 			tempTowerLabel.setIcon(tower3Level2Image);
 		}
 		else if(URL.endsWith("tower4Level1.png"))
 		{
 			tempTowerLabel = new TowerTile();
-			tempTowerLabel.setType(1);
+			tempTowerLabel.setType(4);
 			tempTowerLabel.setLevel(1);
-			tempTowerLabel.setRange(1);
-			tempTowerLabel.setPower(1);
+			tempTowerLabel.setRange(2);
+			tempTowerLabel.setPower(8);
 			tempTowerLabel.setRate(1);
+			tempTowerLabel.setSpecial("Sleep");
 			tempTowerLabel.setUpgradable(true);
 			tempTowerLabel.setIcon(tower4Level1Image);
 		}
 		else if(URL.endsWith("tower4Level2.png"))
 		{
 			tempTowerLabel = new TowerTile();
-			tempTowerLabel.setType(1);
-			tempTowerLabel.setLevel(1);
-			tempTowerLabel.setRange(1);
-			tempTowerLabel.setPower(1);
-			tempTowerLabel.setRate(1);
+			tempTowerLabel.setType(4);
+			tempTowerLabel.setLevel(2);
+			tempTowerLabel.setRange(4);
+			tempTowerLabel.setPower(13);
+			tempTowerLabel.setRate(1.5);
+			tempTowerLabel.setSpecial("Sleep");
 			tempTowerLabel.setUpgradable(true);
 			tempTowerLabel.setIcon(tower4Level2Image);
 		}
 		else if(URL.endsWith("tower4Level3.png"))
 		{
 			tempTowerLabel = new TowerTile();
-			tempTowerLabel.setType(1);
-			tempTowerLabel.setLevel(1);
-			tempTowerLabel.setRange(1);
-			tempTowerLabel.setPower(1);
-			tempTowerLabel.setRate(1);
-			tempTowerLabel.setUpgradable(true);
+			tempTowerLabel.setType(4);
+			tempTowerLabel.setLevel(3);
+			tempTowerLabel.setRange(6);
+			tempTowerLabel.setPower(18);
+			tempTowerLabel.setRate(2);
+			tempTowerLabel.setSpecial("Sleep");
+			tempTowerLabel.setUpgradable(false);
 			tempTowerLabel.setIcon(tower4Level3Image);
 		}
 		else if(URL.endsWith("tower5Level1.png"))
 		{
 			tempTowerLabel = new TowerTile();
-			tempTowerLabel.setType(1);
+			tempTowerLabel.setType(5);
 			tempTowerLabel.setLevel(1);
-			tempTowerLabel.setRange(1);
-			tempTowerLabel.setPower(1);
+			tempTowerLabel.setRange(2);
+			tempTowerLabel.setPower(20);
 			tempTowerLabel.setRate(1);
+			tempTowerLabel.setSpecial("Poison");
 			tempTowerLabel.setUpgradable(true);
 			tempTowerLabel.setIcon(tower5Level1Image);
 		}
 		else if(URL.endsWith("tower5Level2.png"))
 		{
 			tempTowerLabel = new TowerTile();
-			tempTowerLabel.setType(1);
-			tempTowerLabel.setLevel(1);
-			tempTowerLabel.setRange(1);
-			tempTowerLabel.setPower(1);
-			tempTowerLabel.setRate(1);
+			tempTowerLabel.setType(5);
+			tempTowerLabel.setLevel(2);
+			tempTowerLabel.setRange(4);
+			tempTowerLabel.setPower(25);
+			tempTowerLabel.setRate(1.5);
+			tempTowerLabel.setSpecial("High Attack");
 			tempTowerLabel.setUpgradable(true);
 			tempTowerLabel.setIcon(tower5Level2Image);
 		}
 		else if(URL.endsWith("tower5Level3.png"))
 		{
 			tempTowerLabel = new TowerTile();
-			tempTowerLabel.setType(1);
-			tempTowerLabel.setLevel(1);
-			tempTowerLabel.setRange(1);
-			tempTowerLabel.setPower(1);
-			tempTowerLabel.setRate(1);
-			tempTowerLabel.setUpgradable(true);
+			tempTowerLabel.setType(5);
+			tempTowerLabel.setLevel(3);
+			tempTowerLabel.setRange(6);
+			tempTowerLabel.setPower(30);
+			tempTowerLabel.setRate(2);
+			tempTowerLabel.setSpecial("High Attack");
+			tempTowerLabel.setUpgradable(false);
 			tempTowerLabel.setIcon(tower5Level3Image);
 		}
 		else if(URL.endsWith("tower6Level1.png"))
 		{
 			tempTowerLabel = new TowerTile();
-			tempTowerLabel.setType(1);
+			tempTowerLabel.setType(6);
 			tempTowerLabel.setLevel(1);
-			tempTowerLabel.setRange(1);
-			tempTowerLabel.setPower(1);
-			tempTowerLabel.setRate(1);
+			tempTowerLabel.setRange(2);
+			tempTowerLabel.setPower(8);
+			tempTowerLabel.setRate(1.5);
+			tempTowerLabel.setSpecial("Teleports");
 			tempTowerLabel.setUpgradable(true);
 			tempTowerLabel.setIcon(tower6Level1Image);
 		}
 		else if(URL.endsWith("tower6Level2.png"))
 		{
 			tempTowerLabel = new TowerTile();
-			tempTowerLabel.setType(1);
-			tempTowerLabel.setLevel(1);
-			tempTowerLabel.setRange(1);
-			tempTowerLabel.setPower(1);
-			tempTowerLabel.setRate(1);
+			tempTowerLabel.setType(6);
+			tempTowerLabel.setLevel(2);
+			tempTowerLabel.setRange(4);
+			tempTowerLabel.setPower(13);
+			tempTowerLabel.setRate(2);
+			tempTowerLabel.setSpecial("Teleports");
 			tempTowerLabel.setUpgradable(true);
 			tempTowerLabel.setIcon(tower6Level2Image);
 		}
 		else if(URL.endsWith("tower6Level3.png"))
 		{
 			tempTowerLabel = new TowerTile();
-			tempTowerLabel.setType(1);
-			tempTowerLabel.setLevel(1);
-			tempTowerLabel.setRange(1);
-			tempTowerLabel.setPower(1);
-			tempTowerLabel.setRate(1);
-			tempTowerLabel.setUpgradable(true);
+			tempTowerLabel.setType(6);
+			tempTowerLabel.setLevel(3);
+			tempTowerLabel.setRange(6);
+			tempTowerLabel.setPower(18);
+			tempTowerLabel.setRate(2.5);
+			tempTowerLabel.setSpecial("Teleports");
+			tempTowerLabel.setUpgradable(false);
 			tempTowerLabel.setIcon(tower6Level3Image);
 		}
 		else if(URL.endsWith("tower7Level1.png"))
 		{
 			tempTowerLabel = new TowerTile();
-			tempTowerLabel.setType(1);
+			tempTowerLabel.setType(7);
 			tempTowerLabel.setLevel(1);
-			tempTowerLabel.setRange(1);
-			tempTowerLabel.setPower(1);
-			tempTowerLabel.setRate(1);
+			tempTowerLabel.setRange(5);
+			tempTowerLabel.setPower(15);
+			tempTowerLabel.setRate(2);
+			tempTowerLabel.setSpecial("Burns");
 			tempTowerLabel.setUpgradable(true);
 			tempTowerLabel.setIcon(tower7Level1Image);
 		}
 		else if(URL.endsWith("tower7Level2.png"))
 		{
 			tempTowerLabel = new TowerTile();
-			tempTowerLabel.setType(1);
-			tempTowerLabel.setLevel(1);
-			tempTowerLabel.setRange(1);
-			tempTowerLabel.setPower(1);
-			tempTowerLabel.setRate(1);
+			tempTowerLabel.setType(7);
+			tempTowerLabel.setLevel(2);
+			tempTowerLabel.setRange(7);
+			tempTowerLabel.setPower(20);
+			tempTowerLabel.setRate(2.5);
+			tempTowerLabel.setSpecial("Burns");
 			tempTowerLabel.setUpgradable(true);
 			tempTowerLabel.setIcon(tower7Level2Image);
 		}
 		else if(URL.endsWith("tower7Level3.png"))
 		{
 			tempTowerLabel = new TowerTile();
-			tempTowerLabel.setType(1);
-			tempTowerLabel.setLevel(1);
-			tempTowerLabel.setRange(1);
-			tempTowerLabel.setPower(1);
-			tempTowerLabel.setRate(1);
-			tempTowerLabel.setUpgradable(true);
+			tempTowerLabel.setType(7);
+			tempTowerLabel.setLevel(3);
+			tempTowerLabel.setRange(10);
+			tempTowerLabel.setPower(50);
+			tempTowerLabel.setRate(3);
+			tempTowerLabel.setSpecial("Burns");
+			tempTowerLabel.setUpgradable(false);
 			tempTowerLabel.setIcon(tower7Level3Image);
 		}
 		else if(URL.endsWith("tower8Level1.png"))
 		{
 			tempTowerLabel = new TowerTile();
-			tempTowerLabel.setType(1);
-			tempTowerLabel.setLevel(1);
-			tempTowerLabel.setRange(1);
-			tempTowerLabel.setPower(1);
-			tempTowerLabel.setRate(1);
-			tempTowerLabel.setUpgradable(true);
+			tempTowerLabel.setType(8);
+			tempTowerLabel.setLevel(0);
+			tempTowerLabel.setRange(10);
+			tempTowerLabel.setPower(50);
+			tempTowerLabel.setRate(5);
+			tempTowerLabel.setSpecial("All Powerful");
+			tempTowerLabel.setUpgradable(false);
 			tempTowerLabel.setIcon(tower8Level1Image);
 		}
 		else
