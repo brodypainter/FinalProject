@@ -157,17 +157,19 @@ public class OddishTower extends Tower{
 
 	@Override
 	public boolean levelUp() {
-		//TODO Max Fix this method
 		this.levelIncrease(); 		// increases the leve by one
-		this.setAttackPower(5); 	// increase attack power by 5 poins
-		this.modifyAttackRadius(2);// increase attack radius to 25 pixels
-		this.increaseFireRate(1); 	// increase the fire rate by one
 		if (super.getCurrentLevel() == 2){
 			super.setImageURL(level2);
 			super.setPokemonName("Gloom");
+			this.setAttackPower(4); 	// increase attack power by 5 poins
+			this.modifyAttackRadius(0);// increase attack radius to 25 pixels
+			this.increaseFireRate(0.3); 	// increase the fire rate by one
 		}else if (super.getCurrentLevel() == 3){
 			super.setImageURL(level3);
 			super.setPokemonName("Vileplume");
+			this.setAttackPower(2); 	// increase attack power by 5 poins
+			this.modifyAttackRadius(1);// increase attack radius to 25 pixels
+			this.increaseFireRate(0.45); 	// increase the fire rate by one
 		}
 		return true;
 	}

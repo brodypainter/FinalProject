@@ -35,7 +35,7 @@ public class MagnemiteTower extends Tower{
 	public MagnemiteTower(){
 		/* String Name, int Attack, int Radius, double FireRateSec, String PlayersName,
 					String Image, int cost */
-		super("Magnemite", 12, 3, 1.5, "src/images/tower3Level1.png", Cost);	
+		super("Magnemite", 15, 3, 1.25, "src/images/tower3Level1.png", Cost);	
 		 setTowerType(towerType.ELECTRIC);
 		// TODO Auto-generated constructor stub
 	}
@@ -159,12 +159,13 @@ public class MagnemiteTower extends Tower{
 	@Override
 	public boolean levelUp() {
 		this.levelIncrease(); 		// increases the leve by one
-		this.setAttackPower(5); 	// increase attack power by 5 poins
-		this.modifyAttackRadius(2);// increase attack radius to 25 pixels
-		this.increaseFireRate(1); 	// increase the fire rate by one
+		
 		if (super.getCurrentLevel() == 2){
 			super.setImageURL(level2);
 			super.setPokemonName("Magnetite");
+			this.setAttackPower(5); 	// increase attack power by 5 poins
+			this.modifyAttackRadius(2);// increase attack radius to 25 pixels
+			this.increaseFireRate(0.75); 	// increase the fire rate by one
 		}
 		return true;
 	}

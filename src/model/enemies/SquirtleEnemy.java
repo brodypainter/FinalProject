@@ -8,18 +8,14 @@ public class SquirtleEnemy extends Enemy{
 	 * 
 	 */
 	private static final long serialVersionUID = -8663719648002595599L;
-	private String idleImg,
-					moveLeft,
-					moveRight,
-					moveUp,
-					moveDown;
+
 					
 	public SquirtleEnemy(Map mapRef) {
 		//health, attackPower, defense, speed, name, worth, Image, mapRef
 		// down, up, left, right
 
-		super(80, 8, 8, 1.0, "Squirtle", 140, mapRef, "src/images/enemy3Down.gif","src/images/enemy3Up.gif","src/images/enemy3Left.gif","src/images/enemy3Right.gif");
-		// TODO Auto-generated constructor stub
+		super(300, 3, 12, 0.6, "Squirtle", 140, mapRef, "src/images/enemy3Down.gif","src/images/enemy3Up.gif","src/images/enemy3Left.gif","src/images/enemy3Right.gif");
+		this.isTaunter();
 	}
 
 	@Override
@@ -38,7 +34,7 @@ public class SquirtleEnemy extends Enemy{
 
 	@Override
 	boolean specialPower() {
-		// TODO Auto-generated method stub
+		//taunt
 		return false;
 	}
 	

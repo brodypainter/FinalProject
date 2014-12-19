@@ -83,7 +83,8 @@ public abstract class Enemy implements Serializable{
 	private boolean activeEffectOn = false;
 	private int timeDuration = 0, secondsAlive = 0, burnDamage = 0;
 	private ArrayList<enemyStatus> status;
-	
+	private boolean taunt; //only true for squirtle
+	private boolean resourceful; //only true for ratatta
 	
 	public enum enemyType {NORMAL,WATER,ELECTRIC,GRASS,POISON,PSYCHIC,FIRE,MCCANN}
 	
@@ -121,6 +122,8 @@ public abstract class Enemy implements Serializable{
 		this.map = mapRef;
 		this.generateImageID();
 		this.status = new ArrayList<enemyStatus>();
+		this.taunt = false;
+		this.resourceful = false;
 		//distanceLeftOnPath = mapRef.lengthOfPath();
 	} // end constructor
 	
@@ -280,8 +283,8 @@ public enum directionFacing{NORTH, EAST, SOUTH, WEST};
 	}
 	
 	// set the speed of the pokemon is we need to later
-	public boolean setSpeed(int speed){
-		this.Speed = speed;
+	public boolean setSpeed(double d){
+		this.Speed = d;
 		calculateTimePerTile();
 		return true;
 	}
@@ -349,7 +352,7 @@ public enum directionFacing{NORTH, EAST, SOUTH, WEST};
 		timeSinceLastMovement = timeSinceLastMovement + timePerTick; //20 because master Timer ticks every 20 ms, make sure it is equal
 		if(timeSinceLastMovement >= timePerTile){
 			
-			if (!isAsleep){
+			if (!isAsleep || this.isImmune()){
 				map.updateEnemyPosition(this);
 				orientation = this.direction(this);//Enemy has just moved, update it's orientation
 				timeSinceLastMovement = 0;
@@ -358,7 +361,7 @@ public enum directionFacing{NORTH, EAST, SOUTH, WEST};
 		}
 		if (timeSinceLastMovement%1000 == 0){
 		
-			if (isBurnt){
+			if (isBurnt && !this.isImmune()){
 				
 				this.Health -= burnDamage;
 				
@@ -369,8 +372,11 @@ public enum directionFacing{NORTH, EAST, SOUTH, WEST};
 				
 			}
 			if (timeDuration == 0){
-				if (isSlowed)
-					this.Speed *= 0.5; //Speed should be slowed
+				if (isSlowed){
+					if(!this.isImmune()){
+						this.Speed *= 0.5; //Speed should be slowed
+					}
+				}
 				
 				isBurnt = false;
 				isAsleep = false;
@@ -524,6 +530,23 @@ public enum directionFacing{NORTH, EAST, SOUTH, WEST};
 		return true;
 	}
 
+	public void heal(int regenHP){
+		int newHP = this.getHealth() + regenHP;
+		if(newHP <= this.getMaxHealth()){
+			this.setHealth(newHP);
+		}else{
+			this.setHealth(this.getMaxHealth());
+		}
+	}
+	
+	public void setDefence(int d){
+		this.Defense = d;
+	}
+	
+	public void setWorth(int w){
+		this.Worth = w;
+	}
+	
 	public String getImageID() {
 		return this.imageID;
 	}
@@ -538,5 +561,30 @@ public enum directionFacing{NORTH, EAST, SOUTH, WEST};
 	
 	public ArrayList<enemyStatus> getStatus(){
 		return this.status;
+	}
+	
+	public Map getMap(){
+		return this.map;
+	}
+	
+	public void rally(){
+		this.levelUpAttackPower(2);
+		this.setDefence(this.getDefense() + 2);
+	}
+	
+	public void isTaunter(){
+		this.taunt = true;
+	}
+	
+	public boolean gotTaunted(){
+		return this.taunt;
+	}
+	
+	public void setResourceful(){
+		this.resourceful = true;
+	}
+	
+	public boolean isImmune(){
+		return resourceful;
 	}
 }

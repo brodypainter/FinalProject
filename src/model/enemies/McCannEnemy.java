@@ -1,5 +1,7 @@
 package model.enemies;
 
+import java.util.Random;
+
 import model.maps.Map;
 
 public class McCannEnemy extends Enemy{
@@ -31,7 +33,7 @@ public class McCannEnemy extends Enemy{
 		
 		//health, attackPower, defense, speed, name, worth, Image, mapRef
 
-		super(230, 25, 10, 0.5, "Doc McCann", 500, currentMap, "src/images/pikachuDown.gif", "src/images/pikachuUp.gif","src/images/pikachuLeft.gif", "src/images/pikachuRight.gif");
+		super(300, 5, 7, 0.8, "Doc McCann", 500, currentMap, "src/images/pikachuDown.gif", "src/images/pikachuUp.gif","src/images/pikachuLeft.gif", "src/images/pikachuRight.gif");
 		/* src/images/pikachuRight.gif
 		 * src/images/pikachuLeft.gif
 		 * src/images/pikachuRight.gif
@@ -58,9 +60,13 @@ public class McCannEnemy extends Enemy{
 	}
 
 	@Override
-	boolean specialPower() {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean specialPower() {
+		Random r = new Random();
+		int value = r.nextInt(16);
+		this.setDefence(value);
+		value = r.nextInt(1000);
+		this.setWorth(value);
+		return true;
 	}
 
 }

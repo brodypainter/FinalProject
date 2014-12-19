@@ -30,15 +30,8 @@ public class RattataEnemy extends Enemy{
 		
 		//health, attackPower, defense, speed, name, worth, Image, mapRef
 
-		super(200, 4, 4, 1.0, "Rattata", 90, currentMap, "src/images/enemy6Down.gif", "src/images/enemy6Up.gif","src/images/enemy6Left.gif", "src/images/enemy6Right.gif");
-		/* src/images/pikachuRight.gif
-		 * src/images/pikachuLeft.gif
-		 * src/images/pikachuRight.gif
-		 * src/images/pikachuDown.gif
-		 */
-		
-		//String[] allURLImages = new String[] {"src/images/pikachuRight.gif","src/images/pikachuLeft.gif", "src/images/pikachuUp.gif", "src/images/pikachuDown.gif" };
-		//super.setAllImageURL(allURLImages);
+		super(125, 7, 0, 1.1, "Rattata", 90, currentMap, "src/images/enemy6Down.gif", "src/images/enemy6Up.gif","src/images/enemy6Left.gif", "src/images/enemy6Right.gif");
+		this.setResourceful();
 	}
 
 	@Override
@@ -58,7 +51,7 @@ public class RattataEnemy extends Enemy{
 
 	@Override
 	boolean specialPower() {
-		// TODO Auto-generated method stub
+		// cannot receive status effects
 		return false;
 	}
 

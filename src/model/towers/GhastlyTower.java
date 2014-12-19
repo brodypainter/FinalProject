@@ -36,7 +36,7 @@ public class GhastlyTower extends Tower {
 	public GhastlyTower(){
 		/* String Name, int Attack, int Radius, double FireRateSec, String PlayersName,
 					String Image, int cost */
-		super("Ghastly", 20, 2, 1, "src/images/tower5Level1.png", Cost);	
+		super("Ghastly", 30, 3, 0.7, "src/images/tower5Level1.png", Cost);	
 		 setTowerType(towerType.POISON);
 		// TODO Auto-generated constructor stub
 	}
@@ -160,17 +160,20 @@ public class GhastlyTower extends Tower {
 	@Override
 	public boolean levelUp() {
 		this.levelIncrease(); 		// increases the leve by one
-		this.setAttackPower(5); 	// increase attack power by 5 poins
-		this.modifyAttackRadius(2);// increase attack radius to 25 pixels
-		this.increaseFireRate(0.5); 	// increase the fire rate by one
-		
+
 		if (super.getCurrentLevel() == 2){
 			super.setImageURL(level2);
 			super.setPokemonName("Haunter");
+			this.setAttackPower(10); 	// increase attack power by 5 poins
+			this.modifyAttackRadius(0);// increase attack radius to 25 pixels
+			this.increaseFireRate(0.15); 	// increase the fire rate by one
 		}
 		else if (super.getCurrentLevel() == 3){
 			super.setImageURL(level3);
 			super.setPokemonName("Gengar");
+			this.setAttackPower(10); 	// increase attack power by 5 poins
+			this.modifyAttackRadius(1);// increase attack radius to 25 pixels
+			this.increaseFireRate(0.15); 	// increase the fire rate by one
 		}
 		return true;
 	}

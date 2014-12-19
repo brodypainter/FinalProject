@@ -44,7 +44,7 @@ public class CuboneTower extends Tower{
 	public CuboneTower(){
 		/* String Name, int Attack, int Radius, double FireRateSec, String PlayersName,
 					String Image, int cost */
-		super("Cubone", 15, 3, 0.5, "src/images/tower1Level1.png", Cost);	
+		super("Cubone", 15, 3, 1, "src/images/tower1Level1.png", Cost);	
 		 setTowerType(towerType.NORMAL);
 		// TODO Auto-generated constructor stub
 	}
@@ -148,12 +148,13 @@ public class CuboneTower extends Tower{
 	@Override
 	public boolean levelUp() {
 		this.levelIncrease(); 		// increases the level by one
-		this.setAttackPower(5); 	// increase attack power by 5 poins
-		this.modifyAttackRadius(2);// increase attack radius to 2
-		this.increaseFireRate(1); 	// increase the fire rate by one
+		
 		if (super.getCurrentLevel() == 2){
 			super.setImageURL(level2);
-			super.setPokemonName("Marowok");
+			super.setPokemonName("Marowak");
+			this.setAttackPower(10); 	// increase attack power by 10 points
+			this.modifyAttackRadius(1);// increase attack radius by 1
+			this.increaseFireRate(0.75); 	// increase the fire rate by 0.75
 		}
 		return true;
 	}

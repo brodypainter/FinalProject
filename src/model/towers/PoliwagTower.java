@@ -33,7 +33,7 @@ public class PoliwagTower extends Tower{
 	public PoliwagTower(){
 		/* String Name, int Attack, int Radius, double FireRateSec, String PlayersName,
 					String Image, int cost */
-		super("Poliwag", 10, 4, 2, "src/images/tower2Level1.png", Cost);	
+		super("Poliwag", 8, 2, 3.5, "src/images/tower2Level1.png", Cost);	
 		 setTowerType(towerType.WATER);
 		// TODO Auto-generated constructor stub
 	}
@@ -137,15 +137,18 @@ public class PoliwagTower extends Tower{
 	@Override
 	public boolean levelUp() {
 		this.levelIncrease(); 		// increases the leve by one
-		this.setAttackPower(5); 	// increase attack power by 5 poins
-		this.modifyAttackRadius(2);// increase attack radius to 25 pixels
-		this.increaseFireRate(3); 	// increase the fire rate by one
 		if (super.getCurrentLevel() == 2){
 			super.setImageURL(level2);
 			super.setPokemonName("Poliwhirl");
+			this.setAttackPower(2); 	// increase attack power by 5 poins
+			this.modifyAttackRadius(0);// increase attack radius to 25 pixels
+			this.increaseFireRate(1); 	// increase the fire rate by one
 		}else if (super.getCurrentLevel() == 3){
 			super.setImageURL(level3);
 			super.setPokemonName("Poliwrath");
+			this.setAttackPower(2); 	// increase attack power by 5 poins
+			this.modifyAttackRadius(0);// increase attack radius to 25 pixels
+			this.increaseFireRate(1.5); 	// increase the fire rate by one
 		}
 		return true;
 	}

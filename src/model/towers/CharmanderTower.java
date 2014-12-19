@@ -31,7 +31,7 @@ public class CharmanderTower extends Tower{
 	public CharmanderTower(){
 		/* String Name, int Attack, int Radius, double FireRateSec, String PlayersName,
 					String Image, int cost */
-		super("Charmander", 15, 5, 2.0, "src/images/tower7Level1.png", Cost);	
+		super("Charmander", 15, 1, 2.0, "src/images/tower7Level1.png", Cost);	
 		 setTowerType(towerType.FIRE);
 		// TODO Auto-generated constructor stub
 	}
@@ -155,17 +155,19 @@ public class CharmanderTower extends Tower{
 
 	@Override
 	public boolean levelUp() {
-		//TODO Max Fix this method
-		this.levelIncrease(); 		// increases the leve by one
-		this.setAttackPower(5); 	// increase attack power by 5 poins
-		this.modifyAttackRadius(2);// increase attack radius to 25 pixels
-		this.increaseFireRate(2); 	// increase the fire rate by one
+		this.levelIncrease(); 		// increases the level by one
 		if (super.getCurrentLevel() == 2){
 			super.setImageURL(level2);
 			super.setPokemonName("Charmeleon");
+			this.setAttackPower(5); 	// increase attack power by 5 points
+			this.modifyAttackRadius(1);// increase attack radius to 25 pixels
+			this.increaseFireRate(0.5); 	// increase the fire rate by one
 		}else if (super.getCurrentLevel() == 3){
 			super.setImageURL(level3);
 			super.setPokemonName("Charizard");
+			this.setAttackPower(5); 	// increase attack power by 5 points
+			this.modifyAttackRadius(0);// increase attack radius by none
+			this.increaseFireRate(0.5); 	// increase the fire rate by
 		}
 		return true;
 	}

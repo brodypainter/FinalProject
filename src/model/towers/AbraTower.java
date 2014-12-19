@@ -37,7 +37,7 @@ public class AbraTower extends Tower{
 	public AbraTower(){
 		/* String Name, int Attack, int Radius, double FireRateSec, String PlayersName,
 					String Image, int cost */
-		super("Abra", 8, 2, 1.5, "src/images/tower6Level1.png", Cost);	
+		super("Abra", 27, 2, 0.7, "src/images/tower6Level1.png", Cost);	
 		 setTowerType(towerType.PSYCHIC);
 		// TODO Auto-generated constructor stub
 	}
@@ -160,16 +160,18 @@ public class AbraTower extends Tower{
 
 	@Override
 	public boolean levelUp() {
-		this.levelIncrease(); 		// increases the leve by one
-		this.setAttackPower(5); 	// increase attack power by 5 poins
-		this.modifyAttackRadius(2);// increase attack radius to 25 pixels
-		this.increaseFireRate(1); 	// increase the fire rate by one
 		if (super.getCurrentLevel() == 2){
 			super.setImageURL(level2);
 			super.setPokemonName("Kadabra");
+			this.setAttackPower(8); 	// increase attack power by 8 points
+			this.modifyAttackRadius(1);// increase attack radius 
+			this.increaseFireRate(0.3); 	// increase the fire rate
 		}else if (super.getCurrentLevel() == 3){
 			super.setImageURL(level3);
 			super.setPokemonName("Alakazam");
+			this.setAttackPower(5); 	// increase attack power by 5 points
+			this.modifyAttackRadius(1);// increase attack radius
+			this.increaseFireRate(0.3); 	// increase the fire rate
 		}
 		return true;
 	}

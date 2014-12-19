@@ -334,13 +334,13 @@ public abstract class Tower implements Serializable{
 				int NumberOfStep = enemy.getStepsTaken();
 				Double Distance = Math.sqrt( Math.pow((EnemysLocation.getX() - this.BoardLocation.getX()), 2) +
 						Math.pow((EnemysLocation.getY() - this.BoardLocation.getY()), 2 ));
-				/*if (shortestDist == null)//was shortestDist == null, changed -PWH{
-					//closests = enemy;
-					//shortestDist = Distance;
-					//greatestStepsTaken = NumberOfStep;
-				
-				}/*/
-			if ( Distance < this.rangeRadius &&  NumberOfStep > greatestStepsTaken ){
+				if(Distance <= this.rangeRadius){
+					if(enemy.gotTaunted()){
+						return enemy; //have to attack squirtle if he is in range
+					}
+					
+				}
+			if ( Distance <= this.rangeRadius &&  NumberOfStep > greatestStepsTaken ){
 					closests = enemy;
 					//shortestDist = Distance;
 					greatestStepsTaken = NumberOfStep;

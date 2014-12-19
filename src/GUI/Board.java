@@ -323,7 +323,7 @@ public class Board extends JPanel implements MouseListener
 			for(JLabel label : this.enemies)
 			{
 				
-				label.setLocation(enemiesInUpdate.get(i).getLocation().x, enemiesInUpdate.get(i).getLocation().y); //giving indexoutofbounds
+				label.setLocation(enemiesInUpdate.get(i).getLocation().x, enemiesInUpdate.get(i).getLocation().y); //TODO: Desone this is giving indexoutofbounds
 				label.setIcon(enemiesInUpdate.get(i).getIcon());
 				if(label.getLocation().x > this.getWidth() || label.getLocation().y > this.getHeight() || label.getLocation().x < 0 || label.getLocation().y < 0)
 				{

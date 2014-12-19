@@ -26,7 +26,7 @@ public class MewtwoTower extends Tower{
 	public MewtwoTower(){
 		/* String Name, int Attack, int Radius, double FireRateSec, String PlayersName,
 					String Image, int cost */
-		super("Fuckin' Mewtwo", 50, 10, 5.0,"src/images/tower8Level1.png", Cost);	
+		super("Fuckin' Mewtwo", 100, 8, 0.5,"src/images/tower8Level1.png", Cost);	
 		 setTowerType(towerType.MEWTWO);
 		// TODO Auto-generated constructor stub
 	}

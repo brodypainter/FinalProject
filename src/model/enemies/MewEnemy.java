@@ -1,5 +1,7 @@
 package model.enemies;
 
+import java.util.ArrayList;
+
 import model.maps.Map;
 
 public class MewEnemy extends Enemy{
@@ -8,7 +10,8 @@ public class MewEnemy extends Enemy{
 	 * 
 	 */
 	private static final long serialVersionUID = -1618919839702832946L;
-
+	private boolean heroAbility;
+		
 		/**
 		 * The constructor for Pokemon it takes the following variables
 		 * @param health for the initial state of the pokemons health
@@ -30,13 +33,13 @@ public class MewEnemy extends Enemy{
 			
 			//health, attackPower, defense, speed, name, worth, Image, mapRef
 
-			super(150, 10, 0, 1.0, "Mew", 110, currentMap, "src/images/enemy4Down.gif", "src/images/enemy4Up.gif","src/images/enemy4Left.gif", "src/images/enemy4Right.gif");
+			super(250, 7, 5, 1.0, "Mew", 110, currentMap, "src/images/enemy4Down.gif", "src/images/enemy4Up.gif","src/images/enemy4Left.gif", "src/images/enemy4Right.gif");
 			/* src/images/pikachuRight.gif
 			 * src/images/pikachuLeft.gif
 			 * src/images/pikachuRight.gif
 			 * src/images/pikachuDown.gif
 			 */
-			
+			this.heroAbility = true;
 			//String[] allURLImages = new String[] {"src/images/pikachuRight.gif","src/images/pikachuLeft.gif", "src/images/pikachuUp.gif", "src/images/pikachuDown.gif" };
 			//super.setAllImageURL(allURLImages);
 		}
@@ -57,9 +60,16 @@ public class MewEnemy extends Enemy{
 		}
 
 		@Override
-		boolean specialPower() {
-			// TODO Auto-generated method stub
-			return false;
+		public boolean specialPower() {
+			//Boost everyone's stats once
+			if(heroAbility){
+				ArrayList<Enemy> allies = new ArrayList<Enemy>(this.getMap().getEnemies());
+				for(Enemy a:allies){
+					a.rally();
+				}
+				heroAbility = false;
+			}
+			return true;
 		}
 
 }

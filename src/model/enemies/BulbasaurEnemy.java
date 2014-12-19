@@ -1,5 +1,6 @@
 package model.enemies;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import model.maps.Map;
@@ -18,7 +19,7 @@ public class BulbasaurEnemy extends Enemy{
 		
 																				// down, up, left, right
 
-		super(150, 10, 7, 0.5, "Bulbasaur", 120, mapRef, "src/images/enemy2Down.gif", "src/images/enemy2Up.gif", "src/images/enemy2Left.gif", "src/images/enemy2Right.gif");
+		super(400, 2, 7, 0.65, "Bulbasaur", 120, mapRef, "src/images/enemy2Down.gif", "src/images/enemy2Up.gif", "src/images/enemy2Left.gif", "src/images/enemy2Right.gif");
 		// TODO Auto-generated constructor stub
 	}
 
@@ -37,19 +38,19 @@ public class BulbasaurEnemy extends Enemy{
 	}
 
 	/**
-	 * Bulbasaur's special ability is can regain health slowly as it progresses
+	 * Bulbasaur's special ability is can regen itself and allies every 33% of step
 	 */
 	@Override
 	boolean specialPower() {
 		Random r = new Random();
 		int value = r.nextInt(3);
-		if (value == 0 || value == 1){
-			int newHealth = super.getHealth() + 5;
-			if (newHealth > this.health)
-				newHealth = this.health;
-			super.setHealth(newHealth);
-			return true;
+		if (value == 0){
+			ArrayList<Enemy> allies = new ArrayList<Enemy>(this.getMap().getEnemies());
+			for(Enemy a:allies){
+				a.heal(20);
+			}
 		}
-		return false;
+		
+		return true;
 	}
 }

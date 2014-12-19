@@ -8,14 +8,13 @@ public class GrowlitheEnemy extends Enemy{
 
 	
 	private static final long serialVersionUID = -514019104475232652L;
-	private int attackPower;
+
 	public GrowlitheEnemy(Map currentMap) {
 		
 		//  health, attack, defense, speed, name, worth, image and map
-		super(80, 18, 0, 1.0, "Growlithe", 110
+		super(160, 15, 3, 1.0, "Growlithe", 110
 				, currentMap, "src/images/enemy7Down.gif","src/images/enemy7Up.gif","src/images/enemy7Left.gif","src/images/enemy7Right.gif");
 		// TODO Auto-generated constructor stub
-		this.attackPower=15;
 	}
 
 	@Override
@@ -33,22 +32,13 @@ public class GrowlitheEnemy extends Enemy{
 	}
 	
 	/*
-	 * Growlithe special ability is if health is above 50% by the time it reaches the
-	 * end of the map its attack increases to 2x
+	 * Growlithe special ability is if health is higher its attack is too
 	 */
 	
 	@Override
-	boolean specialPower() {
-		// TODO Auto-generated metod stub
-		Point current = super.getLocation();
-		Point previous = super.getPreviousLocation();
-		if (current.x == previous.x && current.y == previous.y){
-			if (super.getHealthPercentage() >= 50){
-				super.levelUpAttackPower(this.attackPower*2);
-				return true;
-			}
-		}
+	public boolean specialPower() {
+		//set attack = to 8 + 7(hp%) every step
 		
-		return false;
+		return true;
 	}
 }

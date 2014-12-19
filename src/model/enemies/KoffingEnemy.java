@@ -30,7 +30,7 @@ public class KoffingEnemy extends Enemy{
 		
 		//health, attackPower, defense, speed, name, worth, Image, mapRef
 
-		super(200, 10, 7, 0.4, "Koffing", 140, currentMap, "src/images/enemy5Down.gif", "src/images/enemy5Up.gif","src/images/enemy5Left.gif", "src/images/enemy5Right.gif");
+		super(400, 10, 9, 0.3, "Koffing", 140, currentMap, "src/images/enemy5Down.gif", "src/images/enemy5Up.gif","src/images/enemy5Left.gif", "src/images/enemy5Right.gif");
 		/* src/images/pikachuRight.gif
 		 * src/images/pikachuLeft.gif
 		 * src/images/pikachuRight.gif
@@ -57,9 +57,9 @@ public class KoffingEnemy extends Enemy{
 	}
 
 	@Override
-	boolean specialPower() {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean specialPower() {
+		this.setSpeed(this.getSpeed()*1.02);
+		return true;
 	}
 
 }
