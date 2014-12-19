@@ -43,10 +43,14 @@ import javax.swing.ScrollPaneLayout;
 import javax.swing.Timer;
 import javax.swing.UIManager;
 
-import server.GameServer;
-import GameController.Enemy.directionFacing;
-import client.GameClient;
-import client.Player;
+
+
+
+
+import GUI.projectiles.Projectile;
+import model.enemies.Enemy.directionFacing;
+import controller.GameClient;
+
 
 
 
@@ -63,12 +67,6 @@ import client.Player;
 public class GameView extends JFrame implements MouseListener, MouseMotionListener
 {
 	private JFrame frame;
-	private JFrame chat;
-	private JTextPane chatHistory;
-	private JTextField chatInput;
-	private JScrollPane chatWindow;
-	private String chatString;
-	private JButton chatSend;
 	private Image bg;
 	private Image origBG;
 	private ImageIcon towerStoreBG;
@@ -99,8 +97,7 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 	private ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
 	int tileWidth = 102;
 	int tileHeight = 155; 
-	ArrayList<Line> lines = new ArrayList<Line>();
-	MiniMap map;
+	
 	
 	
 	private String pewterProjectile = "/images/spinningBone.gif";
@@ -117,8 +114,6 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 	private String enemy1ImageR = "/images/pikachuRight.gif";
 	
 	private String user;
-	
-	private Player player;
 	
 	towerType selectedTowerType;
 	private int levelWidth;
@@ -159,17 +154,8 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 	
 	private GameClient client;
 	
-	private gameType gameType;
 	
-	/**
-	 * Allows game to be started from GameView
-	 * @param args Not used
-	 */
-	public static void main(String[] args)
-	{
-		new GameServer();
-		new GameClient();
-	}
+
 	
 	/**
 	 * Creates and runs the gui with the given parameters
@@ -178,7 +164,7 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 	 * @param client The client under which the gui will run
 	 * @param player The player that is playing the game
 	 */
-	public GameView(gameType type, String user, GameClient client, Player player)
+	public GameView(String user, GameClient client)
 	{
 		System.out.println("Initializing GameView");
 		//Setup for the JFrame, sets size, closeOperation, adds listeners, and so on
@@ -197,7 +183,7 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 		//addMouseWheelListener(this);  //Temporarily disabled to stop scaling
 		//addComponentListener(new resizeListener());  //Temporarily disabled to stop scaling
 		addMouseMotionListener(this);
-		gameType = type;
+
 		//animationTimer = new Timer(50, null);
 		//towersLast = new ArrayList<TowerImage>();
 		
@@ -218,37 +204,7 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 		{
 			System.out.println("Unable to set operating system look and feel");
 		}
-		
-		chat = new JFrame("Pokemon Tower Defense - Chat");
-		chat.setSize(400, 300);
-		chat.setLocation(this.getX() + this.getWidth(), this.getY());
-		chatHistory = new JTextPane();
-		chatHistory.setSize(new Dimension(chat.getWidth()-60, chat.getHeight()));
-		chatString = "Welcome to Pokemon Tower Defense!";
-		chatHistory.setText(chatString);
-		chatHistory.setEditable(false);
-		chatWindow = new JScrollPane(chatHistory);
-		chatWindow.setSize(chat.getWidth(), chat.getHeight()-60);
-		chatWindow.setAutoscrolls(true);
-		chatWindow.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-		chatInput = new JTextField();
-		chatInput.setSize(chat.getWidth() - 80, 40);
-		chatInput.setLocation(0, chat.getHeight()-60);
-		chatInput.addActionListener(new ChatSend());
-		chatSend = new JButton("Send");
-		chatSend.addActionListener(new ChatSend());
-		chatSend.setSize(80, 40);
-		chatSend.setLocation(chat.getWidth() - 80, chat.getHeight() - 60);
-		chat.setLayout(null);
-		
-		chat.add(chatInput);
-		chat.add(chatSend);
-		chat.add(chatWindow);
-		chat.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-		chat.setResizable(false);
-		chat.setVisible(true);
-		chat.repaint();
-		
+			
 		save = new JButton("Save");
 		save.setBounds(this.getWidth()/2 - 110, 300, 200, 50);
 		save.addActionListener(new SaveAction());
@@ -371,72 +327,10 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 	 */
 	public boolean animateAttack(Point tower, Point enemy, towerType type)
 	{
-		//if(type == towerType.NORMAL)
-		//{
-			//System.out.println("Tower at row " + tower.x + " column " + tower.y + " attacks!");
-			//Line line = new Line(new Point(tower.y * tileWidth + (tileWidth/2), tower.x * tileHeight + (tileHeight/2)), new Point(enemy.y * tileWidth + (tileWidth/2), enemy.x * tileHeight + (tileHeight/2)));
-			//TODO:^Tower.x is the row of tower, tower.y is column, make sure to scale and keep
-			//track of which one you really want as first and second parameter
 		((Board) board).animateAttack(tower, enemy, type);		
-			//Bone newProjectile = new Bone();
-			//newProjectile.setPath(tower.x, tower.y, enemy.x, enemy.y);
-			//tower1Proj.setName("Projectile");
-			//newProjectile.setLabel(tower1Proj);
-			//Also set newProjectile's destination point here based on Point enemy
-			//again make sure you know what is in point 
-			//projectiles.add(newProjectile);
-			//lines.add(line);
-			//((Board) board).updateProjectiles(projectiles);
-		//}
 		return true;
 	}
 	
-	/*
-	class attackAnimation implements ActionListener
-	{
-		public void actionPerformed(ActionEvent arg0)
-		{
-			int ticksToWait = 2;
-			for(int i = 0; i < lines.size(); i++)
-			{
-				if(lines.get(0).getIterations() > ticksToWait)
-				{
-					System.out.println("Removing a line. " + lines.size() + " lines left.");
-					lines.remove(0);
-					((Board) board).removeLine();
-				}
-				else
-				{
-					for(int j = i; i < lines.size(); i++)
-					{
-						//lines.get(j).iterate();
-						lines.add(j, lines.get(j).iterate());
-					}
-				}
-			}
-			
-			
-			
-			
-			for(int i = 0; i < projectiles.size(); i++)
-			{
-				if(projectiles.get(i).isValid())
-				{
-					
-					Projectile temp = projectiles.get(i);
-					temp.setProgress(temp.getProgress() + 5);
-					projectiles.set(i, temp);
-				}
-				else
-				{
-					projectiles.remove(i);
-				}
-			}
-			//((Board) board).updateProjectiles(projectiles);
-		}	
-	}
-	
-	*/
 	
 	//These 3 set methods are called by GameClient in its mapBackgroundUpdate method
 	//which is called 1 time only when the map is created on the Server -PH
@@ -497,12 +391,7 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 		}
 	}
 	
-	/**
-	 * Simple enum for game type
-	 * @author Desone
-	 *
-	 */
-	enum gameType{SINGLE, MULTI}
+	
 	
 	/**
 	 * Simple enum for the tower type
@@ -622,11 +511,6 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 		//System.out.println("End of list.");
 		
 		((Board) board).addEnemies(enemies); //Desone's method
-		
-		//Test print line passed, sending the right amount of EnemyTiles to Board
-		//System.out.println("Sending # of EnemyTiles to Board: " + enemies.size());
-		
-		//((Board) board).updateEnemyTiles(enemies); //Test Method -PH
 		repaint();
 		
 	}
@@ -638,8 +522,6 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 		tileHeight = (int) ((board.getHeight()/levelHeight));
 		towerData = new TowerTileData(tileWidth, tileHeight);
 		enemyData = new EnemyTileData(tileWidth, tileHeight);
-		if(gameType == gameType.MULTI)
-			map = new MiniMap(tileWidth, tileHeight, levelWidth, levelHeight);
 		
 		tower1Image = new ImageIcon(createImageIcon("/images/tower1Level1.png").getImage().getScaledInstance(tileWidth, tileHeight,Image.SCALE_SMOOTH));
 		tower2Image = new ImageIcon(createImageIcon("/images/tower2Level1.png").getImage().getScaledInstance(tileWidth, tileHeight,Image.SCALE_SMOOTH));
@@ -674,24 +556,6 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 	public void hideTowerStats()
 	{
 		towerInfo.setVisible(false);
-	}
-	
-	public void addToChat(List<String> strings)
-	{
-		chatString = "";
-		for(String string : strings)
-		{
-			chatString += string + "\n";
-		}
-		chatHistory.setText(chatString);
-	}
-	
-	class ChatSend implements ActionListener
-	{
-		public void actionPerformed(ActionEvent e) {
-			client.newMessage(chatInput.getText());
-			chatInput.setText("");
-		}
 	}
 	
 	class SaveAction implements ActionListener
@@ -738,12 +602,6 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 	public void upgrade(Point p)
 	{
 		client.upgradeTower(p);
-	}
-	
-	public void updateMiniMap(ArrayList<Point> towers, ArrayList<Point> enemies)
-	{
-		map.updateTowers(towers);
-		map.updateEnemies(enemies);
 	}
 	
 	/**
@@ -1010,7 +868,7 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 	}
 	public void windowClosing(WindowEvent arg0)
 	{
-		client.disconnect();
+		
 	}
 	
 	/**

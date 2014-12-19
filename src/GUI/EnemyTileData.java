@@ -5,7 +5,7 @@ import java.net.URL;
 
 import javax.swing.ImageIcon;
 
-import GameController.Enemy.directionFacing;
+import model.enemies.Enemy.directionFacing;
 
 public class EnemyTileData
 {

@@ -2,7 +2,7 @@ package GUI;
 
 import javax.swing.JLabel;
 
-import GameController.Enemy.directionFacing;
+import model.enemies.Enemy.directionFacing;
 
 public class EnemyTile extends JLabel
 {

@@ -1,6 +1,5 @@
 package GUI;
 
-import java.awt.AWTEvent;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
@@ -11,12 +10,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.image.BufferedImage;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -26,9 +23,16 @@ import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 import javax.swing.Timer;
 
-import server.GameServer;
-import client.GameClient;
 import GUI.GameView.towerType;
+import GUI.projectiles.Bone;
+import GUI.projectiles.ElectricBall;
+import GUI.projectiles.FireBall;
+import GUI.projectiles.GhostBall;
+import GUI.projectiles.GrassBall;
+import GUI.projectiles.Path;
+import GUI.projectiles.Projectile;
+import GUI.projectiles.PsychicBall;
+import GUI.projectiles.WaterBall;
 
 public class Board extends JPanel implements MouseListener
 {
@@ -39,7 +43,6 @@ public class Board extends JPanel implements MouseListener
 	ArrayList<JLabel> enemyTiles;
 	ArrayList<JProgressBar> enemyHealth;
 	ArrayList<Projectile> projectiles;
-	volatile ArrayList<Line> lines;
 	boolean upgrading;
 	JButton upgrade;
 	JLabel upgradePanel;
@@ -67,12 +70,7 @@ public class Board extends JPanel implements MouseListener
 	GameView view;
 	Board board;
 	
-	public static void main(String[] args)
-	{
-		new GameServer();
-		new GameClient();
-	}
-	
+
 	public Board(GameView view)
 	{
 		System.out.println("Creating board");
@@ -83,7 +81,6 @@ public class Board extends JPanel implements MouseListener
 		this.enemiesPrefFrame = new ArrayList<EnemyTile>(); //PH Testing
 		this.enemiesThisFrame = new ArrayList<EnemyTile>(); //PH testing
 		enemyTiles = new ArrayList<JLabel>();
-		lines = new ArrayList<Line>();
 		tower1Proj = new ImageIcon();
 		enemyHealth = new ArrayList<JProgressBar>();
 		background = new JLabel("Waiting for image");
@@ -158,19 +155,6 @@ public class Board extends JPanel implements MouseListener
 		return c;
 	}
 	
-	
-	public void add(Line line)
-	{
-		lines.add(line);
-		System.out.println(enemies.get(0).getHealth());
-		repaint();
-	}
-	
-	public void removeLine()
-	{
-		lines.remove(0);
-		repaint();
-	}
 	
 	public void removeTowers()
 	{
@@ -466,10 +450,6 @@ public class Board extends JPanel implements MouseListener
 		for(JLabel label : towers)
 		{
 			g.drawImage(((ImageIcon) label.getIcon()).getImage(), label.getX(), label.getY(), this);
-		}
-		for(Line line : lines)
-		{
-			g.drawLine(line.getStart().x, line.getStart().y, line.getEnd().x, line.getEnd().y);
 		}
 		for(Projectile proj : projectiles)
 		{

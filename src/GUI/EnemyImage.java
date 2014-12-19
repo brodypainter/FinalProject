@@ -2,9 +2,11 @@ package GUI;
 
 import java.awt.Point;
 import java.io.Serializable;
+import java.util.ArrayList;
 
-import GameController.Enemy;
-import GameController.Enemy.directionFacing;
+import model.enemies.Enemy;
+import model.enemies.Enemy.directionFacing;
+import model.enemies.Enemy.enemyStatus;
 
 public class EnemyImage implements Serializable {
 
@@ -22,6 +24,7 @@ public class EnemyImage implements Serializable {
 	private int defense;
 	private double speed;
 	private int worth;
+	private ArrayList<enemyStatus> status;
 	
 	public EnemyImage(Enemy enemy){
 		this.imageURL = enemy.getImageURL();
@@ -36,6 +39,7 @@ public class EnemyImage implements Serializable {
 		this.speed = enemy.getSpeed();
 		this.worth = enemy.getMoney();
 		this.name = enemy.getName();
+		this.status = enemy.getStatus();
 	}
 	
 	public int getMaxHealth(){
@@ -84,5 +88,9 @@ public class EnemyImage implements Serializable {
 	
 	public int getHealthPercentage(){
 		return healthPercentage;
+	}
+	
+	public ArrayList<enemyStatus> getStatus(){
+		return this.status;
 	}
 }

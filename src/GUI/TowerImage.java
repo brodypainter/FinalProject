@@ -3,7 +3,7 @@ package GUI;
 import java.awt.Point;
 import java.io.Serializable;
 
-import GameController.Tower;
+import model.towers.Tower;
 
 /**
  * This class will be sent to the GUI inside an ArrayList of TowerImages

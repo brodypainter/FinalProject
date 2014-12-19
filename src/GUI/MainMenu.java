@@ -22,9 +22,8 @@ import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.text.IconView;
 
-import server.GameServer;
-import client.GameClient;
-import client.Player;
+import model.Player;
+import controller.GameClient;
 
 public class MainMenu extends JFrame implements WindowListener
 {
@@ -43,11 +42,6 @@ public class MainMenu extends JFrame implements WindowListener
 	Player player;
 	String map;
 	
-	public static void main(String[] args)
-	{
-		//new GameServer();
-		new GameClient(); 
-	}
 	
 	public MainMenu(GameClient client)
 	{
@@ -172,23 +166,15 @@ public class MainMenu extends JFrame implements WindowListener
 			if(arg0.getSource().equals(singlePlayer))
 			{
 				frame.setVisible(false);
-				view = new GameView(GameView.gameType.SINGLE, username, client, player);
+				view = new GameView(username, client);
 				int levelCode = promptLevel();
 				client.createLevel(levelCode); //Call AFTER view is created
 			}
-			if(arg0.getSource().equals(multiPlayer))
-			{
-				frame.setVisible(false);
-				//Object[] possibleValues = { "Level 1", "Level 2", "Level 3", "Level 4 Debug" };
-				//JOptionPane.showInputDialog(frame, "Choose one", "Input", JOptionPane.INFORMATION_MESSAGE, null, possibleValues, possibleValues[0]);
-				view = new GameView(GameView.gameType.MULTI, username, client, player);
-				client.joinMultiplayer();
-				//TODO:display waiting for partner pic
-			}
 			if(arg0.getSource().equals(instructions))
 			{
+				//Display the game instructions in a new window, do not remove -Peter
 				GameInstructions gi = new GameInstructions();
-				//JOptionPane.showMessageDialog(frame, "Settings menu not yet available", "Pokemon Tower Defense", JOptionPane.OK_OPTION);
+				
 			}
 		}
 	}
@@ -211,7 +197,8 @@ public class MainMenu extends JFrame implements WindowListener
 		else if(option.equals("Level 3"))
 		{
 			return 3;
-		}else if(option.equals("Debug Level"))
+		}
+		else if(option.equals("Debug Level"))
 		{
 			return 4;
 		}
@@ -238,7 +225,7 @@ public class MainMenu extends JFrame implements WindowListener
 		public void actionPerformed(ActionEvent arg0)
 		{
 			frame.setVisible(false);
-			view = new GameView(GameView.gameType.SINGLE, username, client, player);
+			view = new GameView(username, client);
 			client.loadGame();
 		}
 	}
