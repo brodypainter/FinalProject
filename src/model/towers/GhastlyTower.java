@@ -17,9 +17,9 @@ public class GhastlyTower extends Tower {
 	private String level3= "src/images/tower5level3.png";
 
 	// the Cerulean Gym cost 300 but can be changed if desired
-	public static final int Cost = 200;
-	private final int costOfUpgrade1 = 50;
-	private final int costOfUpgrade2 = 100;
+	public static final int Cost = 150;
+	private final int costOfUpgrade1 = 130;
+	private final int costOfUpgrade2 = 720;
 	private final int maxLevelAttainable = 3;
 	//String Name, int Attack, int Radius, int FireRateSec, String PlayersName
 	/**
@@ -36,7 +36,7 @@ public class GhastlyTower extends Tower {
 	public GhastlyTower(){
 		/* String Name, int Attack, int Radius, double FireRateSec, String PlayersName,
 					String Image, int cost */
-		super("Ghastly", 30, 3, 0.7, "src/images/tower5Level1.png", Cost);	
+		super("Ghastly", 32, 3, 0.7, "src/images/tower5Level1.png", Cost);	
 		 setTowerType(towerType.POISON);
 		// TODO Auto-generated constructor stub
 	}
@@ -75,23 +75,23 @@ public class GhastlyTower extends Tower {
 			if ( super.getCurrentLevel() == 1)
 			{
 				Random r1 = new Random();
-				int chanceOfEffect1 = r1.nextInt(7);
-				if (chanceOfEffect1 == 0)
-					myClosestEnemy.setBurnt(durationOfBurnEffect, burnPower);
+				int chanceOfEffect1 = r1.nextInt(10);
+				if (chanceOfEffect1 < 5)
+					//curse
 			}
 			else if( super.getCurrentLevel() == 2)
 			{
 					Random r2 = new Random();
-					int chanceOfEffect2 = r2.nextInt(5);
-					if (chanceOfEffect2 == 0)
-						myClosestEnemy.setBurnt(durationOfBurnEffect, burnPower+burnMulti);
+					int chanceOfEffect2 = r2.nextInt(10);
+					if (chanceOfEffect2 < 6)
+						//curse
 			}
 				else if(super.getCurrentLevel() == 3)
 				{
 					Random r3 = new Random();
-					int chanceOfEffect3 = r3.nextInt(3);
-					if (chanceOfEffect3 == 0)
-						myClosestEnemy.setBurnt(durationOfBurnEffect, burnPower+burnMulti*2);
+					int chanceOfEffect3 = r3.nextInt(10);
+					if (chanceOfEffect3 < 7)
+						//curse
 				}
 			
 			getMap().notifyOfAttack(this.getType(), this.getPosition(), myClosestEnemy.getLocation());
@@ -164,14 +164,14 @@ public class GhastlyTower extends Tower {
 		if (super.getCurrentLevel() == 2){
 			super.setImageURL(level2);
 			super.setPokemonName("Haunter");
-			this.setAttackPower(10); 	// increase attack power by 5 poins
+			this.setAttackPower(13); 	// increase attack power by 5 poins
 			this.modifyAttackRadius(0);// increase attack radius to 25 pixels
 			this.increaseFireRate(0.15); 	// increase the fire rate by one
 		}
 		else if (super.getCurrentLevel() == 3){
 			super.setImageURL(level3);
 			super.setPokemonName("Gengar");
-			this.setAttackPower(10); 	// increase attack power by 5 poins
+			this.setAttackPower(20); 	// increase attack power by 5 poins
 			this.modifyAttackRadius(1);// increase attack radius to 25 pixels
 			this.increaseFireRate(0.15); 	// increase the fire rate by one
 		}
