@@ -14,14 +14,14 @@ public class CharmanderTower extends Tower{
 	private String level3= "src/images/tower7level3.png"; //Level2 or 3?
 	
 	// the Cerulean Gym cost 300 but can be changed if desired
-	public static final int Cost = 200;
-	private final int costOfUpgrade1 = 50;
-	private final int costOfUpgrade2 = 100;
+	public static final int Cost = 130;
+	private final int costOfUpgrade1 = 470;
+	private final int costOfUpgrade2 = 600;
 	private final int maxLevelAttainable = 3;
 	
-	private int burnPower = 3;
+	private int burnPower = 10;
 	private int durationOfBurnEffect = 3; // in seconds
-	private int burnMulti = 3;
+	private int burnMulti = 1;
 	//String Name, int Attack, int Radius, int FireRateSec, String PlayersName
 	/**
 	 * The default settings for the cerulean gym a attack power of 25, a radius range of 3 tiles,
@@ -31,7 +31,7 @@ public class CharmanderTower extends Tower{
 	public CharmanderTower(){
 		/* String Name, int Attack, int Radius, double FireRateSec, String PlayersName,
 					String Image, int cost */
-		super("Charmander", 15, 1, 2.0, "src/images/tower7Level1.png", Cost);	
+		super("Charmander", 10, 1, 1.5, "src/images/tower7Level1.png", Cost);	
 		 setTowerType(towerType.FIRE);
 		// TODO Auto-generated constructor stub
 	}
@@ -71,23 +71,23 @@ public class CharmanderTower extends Tower{
 			if ( super.getCurrentLevel() == 1)
 			{
 				Random r1 = new Random();
-				int chanceOfEffect1 = r1.nextInt(7);
-				if (chanceOfEffect1 == 0)
+				int chanceOfEffect1 = r1.nextInt(10);
+				if (chanceOfEffect1 < 3)
 					myClosestEnemy.setBurnt(durationOfBurnEffect, burnPower);
 				}
 			else if( super.getCurrentLevel() == 2)
 			{
 					Random r2 = new Random();
-					int chanceOfEffect2 = r2.nextInt(5);
-					if (chanceOfEffect2 == 0)
-						myClosestEnemy.setBurnt(durationOfBurnEffect, burnPower+burnMulti);
+					int chanceOfEffect2 = r2.nextInt(10);
+					if (chanceOfEffect2 < 4)
+						myClosestEnemy.setBurnt(durationOfBurnEffect, burnPower);
 			}
 				else if(super.getCurrentLevel() == 3)
 				{
 					Random r3 = new Random();
-					int chanceOfEffect3 = r3.nextInt(3);
-					if (chanceOfEffect3 == 0)
-						myClosestEnemy.setBurnt(durationOfBurnEffect, burnPower+burnMulti+burnMulti);
+					int chanceOfEffect3 = r3.nextInt(10);
+					if (chanceOfEffect3 < 5)
+						myClosestEnemy.setBurnt(durationOfBurnEffect, burnPower);
 				}	
 						
 		}else{
@@ -159,15 +159,17 @@ public class CharmanderTower extends Tower{
 		if (super.getCurrentLevel() == 2){
 			super.setImageURL(level2);
 			super.setPokemonName("Charmeleon");
-			this.setAttackPower(5); 	// increase attack power by 5 points
+			this.setAttackPower(10); 	// increase attack power by 5 points
 			this.modifyAttackRadius(1);// increase attack radius to 25 pixels
-			this.increaseFireRate(0.5); 	// increase the fire rate by one
+			this.increaseFireRate(0.25); 	// increase the fire rate by one
+			this.burnPower = burnPower + 3;
 		}else if (super.getCurrentLevel() == 3){
 			super.setImageURL(level3);
 			super.setPokemonName("Charizard");
 			this.setAttackPower(5); 	// increase attack power by 5 points
 			this.modifyAttackRadius(0);// increase attack radius by none
-			this.increaseFireRate(0.5); 	// increase the fire rate by
+			this.increaseFireRate(0.25); 	// increase the fire rate by
+			this.burnPower = burnPower + 3;
 		}
 		return true;
 	}
