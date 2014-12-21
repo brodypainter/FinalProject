@@ -24,9 +24,9 @@ public class AbraTower extends Tower{
 	private String level3= "src/images/tower6level3.png";
 	
 	// the Charmander Gym cost 300 but can be changed if desired
-	public static final int Cost = 300;
-	private final int costOfUpgrade1 = 50;
-	private final int costOfUpgrade2 = 100;
+	public static final int Cost = 150;
+	private final int costOfUpgrade1 = 130;
+	private final int costOfUpgrade2 = 720;
 	private final int maxLevelAttainable = 3;
 	//String Name, int Attack, int Radius, int FireRateSec, String PlayersName
 	/**
@@ -37,7 +37,7 @@ public class AbraTower extends Tower{
 	public AbraTower(){
 		/* String Name, int Attack, int Radius, double FireRateSec, String PlayersName,
 					String Image, int cost */
-		super("Abra", 27, 2, 0.7, "src/images/tower6Level1.png", Cost);	
+		super("Abra", 27, 2, 1.0, "src/images/tower6Level1.png", Cost);	
 		 setTowerType(towerType.PSYCHIC);
 		// TODO Auto-generated constructor stub
 	}
@@ -164,14 +164,14 @@ public class AbraTower extends Tower{
 			super.setImageURL(level2);
 			super.setPokemonName("Kadabra");
 			this.setAttackPower(8); 	// increase attack power by 8 points
-			this.modifyAttackRadius(1);// increase attack radius 
-			this.increaseFireRate(0.3); 	// increase the fire rate
+			this.modifyAttackRadius(0);// increase attack radius 
+			this.increaseFireRate(0.15); 	// increase the fire rate
 		}else if (super.getCurrentLevel() == 3){
 			super.setImageURL(level3);
 			super.setPokemonName("Alakazam");
-			this.setAttackPower(5); 	// increase attack power by 5 points
+			this.setAttackPower(10); 	// increase attack power by 5 points
 			this.modifyAttackRadius(1);// increase attack radius
-			this.increaseFireRate(0.3); 	// increase the fire rate
+			this.increaseFireRate(0.15); 	// increase the fire rate
 		}
 		return true;
 	}
