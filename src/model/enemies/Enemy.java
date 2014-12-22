@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 
+import model.enemies.Enemy.directionFacing;
 import model.maps.Map;
 
 /**
@@ -48,8 +49,8 @@ import model.maps.Map;
  * void setProgress()
  */
 public abstract class Enemy implements Serializable{
+	
 	private static final long serialVersionUID = -6737505326016172175L;
-	private boolean canBeAttacked = true; // this is for Abra s
 	private int Health;
 	private int AttackPower;
 	private int Defense;
@@ -71,17 +72,11 @@ public abstract class Enemy implements Serializable{
 	private int progress;		// requested by Desone track progress (timeSinceLastMovement/timePerTile)
 	private directionFacing orientation; //The way the enemy is facing based on it's Location nextLocation
 	private int stepsTaken; //The amount of tiles the enemy has taken along the path, useful for targeting farthest
-	private int distanceLeftOnPath;
 	private int maxHealth; //The initial, maximum health of Enemy
 	private int healthPercentage; //The percentage of current Health / maxHealth
 	private int pathTravelingCode; //The path # that the enemy is traveling on, starting at 0. Set when Level spawns enemies
 	private String imageID; //A randomized, constant ID code for each Enemy to pass to their Image requested by Desone
-	
-	private Point startingPosition; // @Max 12/11 this is for the teleport method
-	private boolean checkerForStartingPosition = true;
 	private boolean isAsleep = false, isBurnt = false, isSlowed = false;
-	private boolean activeEffectOn = false;
-	private int timeDuration = 0, secondsAlive = 0, burnDamage = 0;
 	private ArrayList<enemyStatus> status;
 	private boolean taunt; //only true for squirtle
 	private boolean resourceful; //only true for ratatta
@@ -124,7 +119,6 @@ public abstract class Enemy implements Serializable{
 		this.status = new ArrayList<enemyStatus>();
 		this.taunt = false;
 		this.resourceful = false;
-		//distanceLeftOnPath = mapRef.lengthOfPath();
 	} // end constructor
 	
 	private void generateImageID() {
@@ -141,29 +135,21 @@ public abstract class Enemy implements Serializable{
 	// Max 12/2 this is for the pokemon's unique abilities
 	abstract boolean specialPower();
 	
+
+	/**
+	 * Sets the enemy's location to a point
+	 * @param p the location (row, column) to set to
+	 */
+	public void setLocation(Point p){
+		this.location = p;
+	}
+	
 	/**
 	 * This is just a getter returning the current location
 	 * @return the point of the current location on the screen
 	 */
 	public Point getLocation(){
 		return this.location;
-	}
-	
-	/**
-	 * This is the setLocation and it updates the location on the screen as the 
-	 * creature moves
-	 * @param x is the location it is being moved to
-	 * @return returns true that this method successful ran
-	 */
-	public boolean setLocation(Point x){
-		this.location = x;
-		// @Max 12/11 this stores the first point on the board the pokemon was at for teleport
-		if (checkerForStartingPosition){
-			this.startingPosition = x;
-			checkerForStartingPosition = false;
-		}
-			
-		return true;
 	}
 	
 	public void calculateHealthPercentage(){
@@ -346,44 +332,64 @@ public enum directionFacing{NORTH, EAST, SOUTH, WEST};
 	}
 
 	/**
-	 * Updates the timeSinceLastMovement variable and checks/moves if the Enemy can move
+	 * Updates the timeSinceLastMovement variable and checks/moves if the Enemy can move.
+	 * Also applies status effects
 	 */
 	public void tick(int timePerTick) {
-		timeSinceLastMovement = timeSinceLastMovement + timePerTick; //20 because master Timer ticks every 20 ms, make sure it is equal
-		if(timeSinceLastMovement >= timePerTile){
-			
-			if (!isAsleep || this.isImmune()){
-				map.updateEnemyPosition(this);
-				orientation = this.direction(this);//Enemy has just moved, update it's orientation
-				timeSinceLastMovement = 0;
-				specialPower();	
+		
+		//if enemy is asleep, make it progress towards waking up and check if it wakes up
+		if(isAsleep){
+			timeSpentSleeping += timePerTick;
+			if(timeSpentSleeping >= sleepTimeDuration){
+				isAsleep = false;
 			}
 		}
-		if (timeSinceLastMovement%1000 == 0){
 		
-			if (isBurnt && !this.isImmune()){
-				
-				this.Health -= burnDamage;
-				
-				if(isDead()){
-					this.map.removeDeadEnemy(this.location, this);
-				}
-				this.calculateHealthPercentage();
-				
-			}
-			if (timeDuration == 0){
-				if (isSlowed){
-					if(!this.isImmune()){
-						this.Speed *= 0.5; //Speed should be slowed
-					}
-				}
-				
-				isBurnt = false;
-				isAsleep = false;
+		//if enemy is slowed, make it progress towards returning to normal speed and check if it gets normal
+		if(isSlowed){
+			timeSpentSlowed += timePerTick;
+			if(timeSpentSlowed >= slowTimeDuration){
 				isSlowed = false;
-				activeEffectOn = false;
 			}
-			--timeDuration;
+		}
+		
+		//if enemy is burned, make progress toward next burn tick, do damage when reached, and remove burn when its over
+		if(isBurnt){
+			timeSpentBurned += timePerTick;
+			if(timeSpentBurned >= burnTickTimeDuration){
+				this.subtractBurnAttack();
+				timeSpentBurned = 0;
+				numOfBurnsSuffered++;
+				if(numOfBurnsSuffered == numOfBurnTicksTotal){
+					isBurnt = false;
+				}
+			}
+		}
+		
+		//if is being teleported, progress towards the actual teleport and then do so when it is time. Reinitialize progress values
+		if(isTeleporting){
+			this.timeSpentTeleporting += timePerTick;
+			if(timeSpentTeleporting >= this.teleportLength){
+				timeSinceLastMovement = 0;
+				this.setProgress(0);
+				map.teleportedEnemy(this);
+				isTeleporting = false;
+			}
+		}
+		
+		//Can only move when not asleep or being teleported
+		if(!isAsleep && !isTeleporting){
+			timeSinceLastMovement += timePerTick; //20 because master Timer ticks every 20 ms, make sure it is equal
+			if(isSlowed){
+				timeSinceLastMovement -= (int)(timePerTick * 0.25); //25% slow if slowed
+			}
+		}
+
+		if(timeSinceLastMovement >= timePerTile){
+			map.updateEnemyPosition(this);
+			orientation = this.direction(this);//Enemy has just moved, update it's orientation
+			timeSinceLastMovement = 0;
+			this.specialPower();//Activate special power on moving to next tile if applicable
 		}
 		
 		calculateProgress(); //Updates % of tile he is finished with
@@ -399,21 +405,16 @@ public enum directionFacing{NORTH, EAST, SOUTH, WEST};
 		this.previousLocation = previousLocation;
 	}
 
-	// dunno
+	// returns the location the enemy is headed towards
 	public Point getNextLocation() {
 			return nextLocation;
 	}
-	/**
-	 * In setNextLocation I set the countdown to remaining path left on the map by the enemy
-	 * So whenever it moves it subtracts the distance left on enemy
-	 * @param nextLocation
-	 */
+	
 	public void setNextLocation(Point nextLocation) {
 		this.nextLocation = nextLocation;
-		//distanceLeftOnPath--;
 	}
 	
-	// for desonne and the GUI
+	// for desone and the GUI
 	public int getProgress(){
 		return this.progress;
 	}
@@ -429,8 +430,9 @@ public enum directionFacing{NORTH, EAST, SOUTH, WEST};
 		if (prog < 0){
 			this.progress = 0;
 		}
-		if(prog > 1)
+		if(prog > 100){
 			this.progress = 100;
+		}
 		else
 			this.progress = (int)(prog*100);
 	}
@@ -439,12 +441,6 @@ public enum directionFacing{NORTH, EAST, SOUTH, WEST};
 		return orientation;
 	}
 	
-	/**
-	 * @ max Justice for attack algorithm
-	 */
-	public int getDistanceLeftForEnemy(){
-		return distanceLeftOnPath;
-	}
 
 	/**
 	 * Return the percent of health left out of max health
@@ -493,43 +489,86 @@ public enum directionFacing{NORTH, EAST, SOUTH, WEST};
 	}
 	
 	/**
-	 * @Max the special abilites are what follows
+	 * @Max the special abilities are what follows
 	 */
-	public boolean setAsleep(int amountOfSecsAsleep){
-		if (!activeEffectOn){
-			timeDuration = amountOfSecsAsleep;
+	public void setAsleep(int amountOfSecsAsleep){
+		if(!isAsleep && !resourceful){
+			sleepTimeDuration = amountOfSecsAsleep * 1000;
+			timeSpentSleeping = 0;
 			isAsleep = true;
-			activeEffectOn = true;
 		}
-		return true;
 	}
+	private int sleepTimeDuration; //The time enemy must stay asleep in ms
+	private int timeSpentSleeping; //The time enemy has spent sleeping so far
 	
 	public boolean setSlowed(int amountOfSecsSlowed){
-		if (!activeEffectOn){
-			timeDuration = amountOfSecsSlowed;
-			
+		if (!isSlowed && !resourceful){
+			slowTimeDuration = amountOfSecsSlowed * 1000;
+			timeSpentSlowed = 0;
 			isSlowed = true;
-			activeEffectOn = true;
 		}
 		return true;
 	}
+	private int slowTimeDuration;
+	private int timeSpentSlowed;
 	
 	public boolean setBurnt(int amountOfSecsBurnt, int burningDamage){
-		if(!activeEffectOn){
-			timeDuration = amountOfSecsBurnt;
-			isBurnt = true;
-			activeEffectOn = true;
+		if(!isBurnt && !resourceful){
+			numOfBurnTicksTotal = amountOfSecsBurnt;
+			numOfBurnsSuffered = 0;
+			burnTickTimeDuration = (amountOfSecsBurnt / 3) * 1000;
+			timeSpentBurned = 0;
 			burnDamage = burningDamage;
+			isBurnt = true;
 		}
 		return true;
 	}
+	private int burnDamage;
+	private int burnTickTimeDuration;
+	private int timeSpentBurned;
+	private int numOfBurnTicksTotal;
+	private int numOfBurnsSuffered;
 	
-	public boolean teleportToBeginning(){
-		//setLocation(startingPosition);
-		//TODO: also set their number of steps to 0
-		return true;
+	//called every time a burn does damage
+	private void subtractBurnAttack(){
+		this.Health -= burnDamage;
+		
+		if(isDead()){
+			this.map.removeDeadEnemy(this.location, this);
+		}
+		this.calculateHealthPercentage();
 	}
+	
+	public void setCurse() {
+		if(!resourceful){
+			this.Defense = Defense - 2;
+			if(this.Defense < 0){
+				this.Defense = 0;
+			}
+			isCursed = true;
+		}
+	}
+	
+	private boolean isCursed = false;
+	
+	//Teleports the enemy to the beginning after a short delay. Even hits ratatta
+	public void teleportToBeginning(){
+		if(!isTeleporting){
+			timeSpentTeleporting = 0;
+			isTeleporting = true;
+			//map.teleportedEnemy(this) will be called in 300 ms
+		}
+	}
+	
+	private boolean isTeleporting = false;
+	private int teleportLength = 300; //Length of teleport animation in ms
+	private int timeSpentTeleporting;
 
+	//called by map.teleportedEnemy
+	public void resetStepsTaken() {
+		this.stepsTaken = 0;
+	}
+	
 	public void heal(int regenHP){
 		int newHP = this.getHealth() + regenHP;
 		if(newHP <= this.getMaxHealth()){
@@ -587,4 +626,12 @@ public enum directionFacing{NORTH, EAST, SOUTH, WEST};
 	public boolean isImmune(){
 		return resourceful;
 	}
+
+	public void setOrientation(directionFacing o) {
+		this.orientation = o;
+	}
+
+	
+
+	
 }

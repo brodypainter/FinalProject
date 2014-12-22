@@ -24,7 +24,7 @@ import controller.GameServer;
 public class Level0 extends Level implements Serializable{
 	
 	private static final long serialVersionUID = -2776248289168724657L;
-	private static final int numbOfWaves = 3;
+	private static final int numbOfWaves = 8;
 	
 	public Level0(Player player, GameServer server) {
 		super(player, server);	
@@ -37,7 +37,7 @@ public class Level0 extends Level implements Serializable{
 		ArrayList<ArrayList<Enemy>> waveList = new ArrayList<ArrayList<Enemy>>(); //A temporary 2D array list of Enemy
 		for (int i = 0; i < numbOfWaves; i++){
 			ArrayList<Enemy> wave = new ArrayList<Enemy>();
-			for (int j = 0; j < 5; j++){
+			for (int j = 0; j < 25; j++){
 				int enemyGenerator = r.nextInt(20);
 				if (enemyGenerator <= 2){
 					PikachuEnemy pika = new PikachuEnemy(getMap());
@@ -109,18 +109,18 @@ public class Level0 extends Level implements Serializable{
 
 	@Override
 	public void setPlayerStartingMoney() {
-		getPlayer().setMoney(2000);
+		getPlayer().setMoney(20000);
 		notifyPlayerInfoUpdated(getPlayer().getHealthPoints(), getPlayer().getMoney());;
 	}
 
 	@Override
 	public void setWaveDelayIntervals() {
-		setWaveIntervals(10000L); //10 seconds between the last and first enemy of 2 successive waves
+		setWaveIntervals(20000L); //10 seconds between the last and first enemy of 2 successive waves
 	}
 
 	@Override
 	public void setEnemySpawnDelayIntervals() {
-		setEnemySpawnIntervals(1500L); //1.5 second between each enemy spawning in a wave
+		setEnemySpawnIntervals(500L); //1.5 second between each enemy spawning in a wave
 	}
 
 	@Override

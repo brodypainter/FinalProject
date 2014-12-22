@@ -9,6 +9,7 @@ import java.util.LinkedList;
 import controller.GameServer;
 import model.Player;
 import model.enemies.Enemy;
+import model.enemies.Enemy.directionFacing;
 import model.towers.Tower;
 import GUI.EnemyImage;
 import GUI.GameView.towerType;
@@ -68,6 +69,7 @@ public abstract class Map implements Serializable{
 	private LinkedList<LinkedList<Point>> enemyPaths; //A 2D list of all the lists of the tile coordinates that the
 	                                     //enemies will attempt to pass through
 	private LinkedList<Point> firstPathTiles; //The path tiles on which enemies spawn
+	private LinkedList<directionFacing> spawnOrientations; //The default orientation for spawned enemies for each path
 	private LinkedList<Point> lastPathTiles; //The path tiles on which enemies stop and do damage to health
 	private int currentEnemies; //The current total amount of enemies on the map (necessary?)
 	private String mapType; //A description of the map level, can be used for theme differentiation
@@ -100,17 +102,16 @@ public abstract class Map implements Serializable{
 		this.player = player;
 		currentEnemies = 0;
 		
-		
-		//player.setMap(this); //may not be necessary -PH
 		enemies = new ArrayList<Enemy>();
 		towers = new ArrayList<Tower>();
 		firstPathTiles = new LinkedList<Point>();
 		lastPathTiles = new LinkedList<Point>();
 		setPath();
 		setTilesMap();
+		setSpawnOrientations();
 	}
 	
-	// @Max 12/13 for waves of enemies and their paths to travle
+	// returns the number of paths in this concrete Map
 	public abstract int getNumberOfPaths();
 
 	/**
@@ -149,6 +150,26 @@ public abstract class Map implements Serializable{
 		}
 	}
 	
+	private void setSpawnOrientations(){
+		spawnOrientations = new LinkedList<directionFacing>();
+		for(int i = 0; i < enemyPaths.size(); i++){
+			Point first = enemyPaths.get(i).get(0);
+			Point second = enemyPaths.get(i).get(1);
+			if((first.y - second.y) < 0){
+				spawnOrientations.add(directionFacing.EAST);
+			}
+			if((first.y - second.y) > 0){
+				spawnOrientations.add(directionFacing.WEST);
+			}
+			if((first.x - second.x) < 0){
+				spawnOrientations.add(directionFacing.SOUTH);
+			}
+			if((first.x - second.x) > 0){
+				spawnOrientations.add(directionFacing.NORTH);
+			}
+		}
+	}
+	
 	/**
 	 * Adds an enemy Pokemon to this map, sets its location to the first tile in 
 	 * the appropriate enemy path, and adds it to the map's enemies list.
@@ -156,10 +177,10 @@ public abstract class Map implements Serializable{
 	 */
 	public void spawnEnemy(Enemy enemy){
 		enemy.setMap(this);
-		//TODO: Set its directionFacing
 		int pathNumber = enemy.getPathTravelingCode();
 		grid[firstPathTiles.get(pathNumber).x][firstPathTiles.get(pathNumber).y].addPokemon(enemy);
 		enemy.setLocation(firstPathTiles.get(pathNumber));
+		enemy.setOrientation(this.spawnOrientations.get(pathNumber));
 		enemies.add(enemy);
 		currentEnemies++;
 	}
@@ -216,6 +237,15 @@ public abstract class Map implements Serializable{
 		grid[location.x][location.y].removePokemon(enemy);
 		enemies.remove(enemy);
 		currentEnemies--;
+	}
+	
+	public void teleportedEnemy(Enemy e){
+		grid[e.getLocation().x][e.getLocation().y].removePokemon(e);
+		int pathNumber = e.getPathTravelingCode();
+		grid[firstPathTiles.get(pathNumber).x][firstPathTiles.get(pathNumber).y].addPokemon(e);
+		e.setLocation(firstPathTiles.get(pathNumber));
+		e.setOrientation(this.spawnOrientations.get(pathNumber));
+		e.resetStepsTaken();
 	}
 	
 	/**

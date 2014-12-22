@@ -27,7 +27,7 @@ public class LevelMultiplayer extends Level {
 
 	
 	private static final long serialVersionUID = -4356179074259053436L;
-	private static final int numbOfWaves = 3;
+	private static final int numbOfWaves = 8;
 	
 	public LevelMultiplayer(Player player, GameServer server) {
 		super(player, server);

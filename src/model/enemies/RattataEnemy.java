@@ -30,7 +30,7 @@ public class RattataEnemy extends Enemy{
 		
 		//health, attackPower, defense, speed, name, worth, Image, mapRef
 
-		super(125, 7, 0, 1.1, "Rattata", 90, currentMap, "src/images/enemy6Down.gif", "src/images/enemy6Up.gif","src/images/enemy6Left.gif", "src/images/enemy6Right.gif");
+		super(125, 7, 0, 0.8, "Rattata", 90, currentMap, "src/images/enemy6Down.gif", "src/images/enemy6Up.gif","src/images/enemy6Left.gif", "src/images/enemy6Right.gif");
 		this.setResourceful();
 	}
 

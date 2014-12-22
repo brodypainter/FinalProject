@@ -21,7 +21,7 @@ import controller.GameServer;
 public class Level1 extends Level implements Serializable{
 	
 	private static final long serialVersionUID = 8553831735812259923L;
-	private static final int numbOfWaves = 4;
+	private static final int numbOfWaves = 8;
 
 	public Level1(Player player, GameServer server) {
 		super(player, server);
@@ -36,7 +36,7 @@ public class Level1 extends Level implements Serializable{
 		ArrayList<ArrayList<Enemy>> waveList = new ArrayList<ArrayList<Enemy>>(); //A temporary 2D array list of Enemy
 		for (int i = 0; i < numbOfWaves; i++){
 			ArrayList<Enemy> wave = new ArrayList<Enemy>();
-			for (int j = 0; j < 5; j++){
+			for (int j = 0; j < 15; j++){
 				int enemyGenerator = r.nextInt(20); // choose a value between 0 and 19
 				if (enemyGenerator <= 2){
 					PikachuEnemy pika = new PikachuEnemy(getMap());
@@ -103,7 +103,7 @@ public class Level1 extends Level implements Serializable{
 
 	@Override
 	public void setPlayerStartingMoney() {
-		getPlayer().setMoney(2000);
+		getPlayer().setMoney(6500);
 		notifyPlayerInfoUpdated(getPlayer().getHealthPoints(), getPlayer().getMoney());
 		// TODO Auto-generated method stub
 
@@ -111,7 +111,7 @@ public class Level1 extends Level implements Serializable{
 
 	@Override
 	public void setWaveDelayIntervals() {
-		setWaveIntervals(15000L); //15 seconds between the last and first enemy of 2 successive waves
+		setWaveIntervals(20000L); //15 seconds between the last and first enemy of 2 successive waves
 		// TODO Auto-generated method stub
 
 	}

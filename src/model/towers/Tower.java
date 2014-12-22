@@ -56,22 +56,22 @@ import model.maps.Map;
 public abstract class Tower implements Serializable{
 	
 	private static final long serialVersionUID = -7315638174112463208L;
-	private String TowerName;
+	private String towerName;
 	private towerType type;
-	private int AttackPts;
+	private int attack;
 	private int rangeRadius;
-	private double FireRateSecs;
-	private int Level;
-	private Point BoardLocation; 
-	private String ImageURL;
-	private int Modifier;  //A modifier that might be used later on
+	private double fireSpeed;
+	private int level;
+	private Point location; 
+	private String imageURL;
+	private int modifier;  //A modifier that might be used later on
 	private int timeSinceLastFire; //The time, in ms, since Tower last fired.
 	private int coolDownTime; // (1/FireRateSecs)*1000, the minimum time in ms allowed between attacks
 	private Map map; //The map on which the tower is placed
-	private int CostofTower;
+	private int cost;
 	private boolean readyToFire; //true if tower is ready to fire, false if not
 	
-	// for image load the location of the image here
+	
 	/**
 	 * 
 	 * @param Name is the name of the Gym
@@ -83,24 +83,21 @@ public abstract class Tower implements Serializable{
 	 */
 	public Tower (String Name, int Attack, int Radius, double FireRateSec,
 					String Image, int cost){
-		this.TowerName = Name;
-		this.AttackPts = Attack;
+		this.towerName = Name;
+		this.attack = Attack;
 		this.rangeRadius = Radius;
-		this.FireRateSecs = FireRateSec;
+		this.fireSpeed = FireRateSec;
 		this.calculateCoolDown();
-		this.ImageURL = Image;
+		this.imageURL = Image;
 		timeSinceLastFire = 0;
-		this.Level = 1;
-		CostofTower = cost;
-	} // end Currency
+		this.level = 1;
+		this.cost = cost;
+	}
 	
-	/**
-	 * The following four methods lines 53 to 72 are the abstract methods of the Gym Class
-	 * @return
-	 */
+	//Three abstract methods:
 	
 	// attack an enemy!!!  this is could be dependent on the Gym
-	public abstract boolean AttackEnemy(ArrayList<Enemy> enemies);
+	public abstract boolean attackEnemy(ArrayList<Enemy> enemies);
 	
 	// a modifier method that might be used later on and is dependent on the Gyms Attributes
 	public abstract boolean setModifer();
@@ -114,12 +111,9 @@ public abstract class Tower implements Serializable{
 	 * @param amountToIncrease the amount to increase the 
 	 * @return true
 	 */
-	public abstract boolean increaseFireRate(double amountToIncrease);/*{
-		
-		this.AttackPts += amountToIncrease;
-		return true;
-		//this.AttackPts += 3 or another random value and make the increase a static amount
-	}// end increaseFireRate */
+	public void increaseFireRate(double amountToIncrease){
+		this.fireSpeed = fireSpeed + amountToIncrease;
+		}
 	
 	/**
 	 * 
@@ -140,15 +134,13 @@ public abstract class Tower implements Serializable{
 	 */
 	public abstract boolean levelUp();/*{
 		this.Level++;
-		this.AttackPts += 5;
-		this.RadiusPxls += 25;
-		this.FireRateSecs++;
+		increase stats in general depending on new level evolution
 		return true;
 	}*/
 	
 
 	/**@ Max justice 11/25 for displaying stats required
-	 * Print st
+	 * Print stats
 	 * @return
 	 */
 	public abstract String printTowerStats();
@@ -156,6 +148,7 @@ public abstract class Tower implements Serializable{
 	public abstract int getCostOfLevelingUp();
 	
 	public abstract boolean upgradeCurrentTower(int playersCoins);
+	
 	/**
 	 * Sets the location of the gym on the board. Point.x = the -y coordinate, Point.y = the x coordinate
 	 * from a Euclidian coordinate view.
@@ -164,7 +157,7 @@ public abstract class Tower implements Serializable{
 	 * @return
 	 */
 	public boolean setPlaceOnBoard (Point x){
-		this.BoardLocation = x;
+		this.location = x;
 		return true;
 	}// end setPlaceOnBoard
 	
@@ -174,19 +167,17 @@ public abstract class Tower implements Serializable{
 	 *                  _______________________________
 	 *  Distance = Sqrt -|( (x2 - x1)^2 +  (y2 - y1)^2 )
 	 * 			  
-	 * It then compares it the radius in pixels and returns true if it can attack 
+	 * It then compares it the range radius and returns true if it can attack 
 	 * else false
 	 * @param EnemysLocation is a point on the board
 	 * @return boolean
 	 */
 	public boolean canAttackEnemy(Point EnemysLocation){
-		Double Distance = Math.sqrt( Math.pow((EnemysLocation.getX() - this.BoardLocation.getX()), 2) +
-				Math.pow((EnemysLocation.getY() - this.BoardLocation.getY()), 2 ));
-		//System.out.println("Distance fromCanAttackEnemy is %.2f", Distance);
-		
+		Double distance = Math.sqrt( Math.pow((EnemysLocation.getX() - this.location.getX()), 2) +
+				Math.pow((EnemysLocation.getY() - this.location.getY()), 2 ));	
 		//we are only moving the enemies/towers in 1x1 discrete squares on model
-		
-		if(Distance <= this.rangeRadius){ // do any other checks here.
+		//add 0.5 to rangeRadius to round it out and allow attacking enemies on corners
+		if(distance <= ((double)this.rangeRadius + 0.5)){ // do any other checks here.
 			return true;
 		}
 		return false;
@@ -194,12 +185,12 @@ public abstract class Tower implements Serializable{
 	
 	// Getter to return the current level
 	public int getCurrentLevel(){
-		return this.Level;
+		return this.level;
 	}
 	
 	// Getter to return the Gym's Name
-	public String getGymName(){
-		return this.TowerName;
+	public String getTowerName(){
+		return this.towerName;
 	}
 	 
 	public void setTowerType(towerType type){
@@ -212,34 +203,32 @@ public abstract class Tower implements Serializable{
 	
 	// Getter to return the gym's FireRate fires per second
 	public double getFireRate(){
-		return this.FireRateSecs;
+		return this.fireSpeed;
 	}
 	
 	
 	public void setPokemonName(String evolvedName){
-		this.TowerName=evolvedName;
+		this.towerName=evolvedName;
 	}
 	
 	// sets the current firerate
-	public Boolean setFireRate (double fireRate){
-		this.FireRateSecs = fireRate;
+	public void setFireRate (double fireRate){
+		this.fireSpeed = fireRate;
 		this.calculateCoolDown();
-		return true;
 	}
 	
 	// get the attack power of the gym
 	public int getAttackPower(){
-		return this.AttackPts;
+		return this.attack;
 	}
 	
-	// this is set attack.  it prevents from attack from being less or equal to 0 by setting it to 1
-	public boolean setAttackPower(int attackPower){
-		int attack = this.AttackPts + attackPower;
+	// this is gain attack.  it prevents from attack from being less or equal to 0 by setting it to 1
+	public void gainAttackPower(int attackPower){
+		int attack = this.attack + attackPower;
 		if (attack <= 0){
 			attack = 1;
 		}
-		this.AttackPts = attack;
-		return true;
+		this.attack = attack;
 	}
 	
 	/**
@@ -247,14 +236,12 @@ public abstract class Tower implements Serializable{
 	 * @param radius
 	 * @return true that the radius was modified
 	 */
-	public boolean modifyAttackRadius(int radius){
+	public void increaseRange(int radius){
 		int newRadius = this.rangeRadius + radius;
 		if (newRadius < 1){
 			newRadius = 1;
 		}
 		this.rangeRadius = newRadius;
-		return true;
-		
 	}
 	
 	// returns the attack radius of the tower
@@ -264,27 +251,27 @@ public abstract class Tower implements Serializable{
 	
 	// returns the image URL
 	public String getImageURL(){
-		 return this.ImageURL;
+		 return this.imageURL;
 	 }
 	
 	public void setImageURL(String evolvedTower){
-		this.ImageURL = evolvedTower;
+		this.imageURL = evolvedTower;
 	}
 	
 	public boolean levelIncrease(){
-		this.Level++;
+		this.level++;
 		return true;
 	}
 	
 	public Point getPosition(){
-		return this.BoardLocation;
+		return this.location;
 	}
 	
 	/**
-	 * Updates the coolDownTime variable (ms), must be called every time FireRateSecs is changed
+	 * Updates the coolDownTime variable (ms), must be called every time fireSpeed is changed
 	 */
 	private void calculateCoolDown(){
-		coolDownTime = (int)((1.0/FireRateSecs)*1000);
+		coolDownTime = (int)((1.0/fireSpeed)*1000);
 	}
 	
 	public void setMap(Map map){
@@ -304,7 +291,7 @@ public abstract class Tower implements Serializable{
 			timeSinceLastFire = timeSinceLastFire + timePerTick; //20*tickDiluter because the Timer ticks every 20 ms
 		}
 		if(timeSinceLastFire >= coolDownTime || readyToFire){
-			if(AttackEnemy(map.getEnemies())){
+			if(attackEnemy(map.getEnemies())){
 				timeSinceLastFire = 0; //Attack was successful, restart cooldown
 				readyToFire = false;
 			}else{
@@ -314,49 +301,86 @@ public abstract class Tower implements Serializable{
 		
 	}
 	
-	//May want to rename method to findPriorityEnemy or something -PWH
+	//The following methods find a target Enemy according to certain target patterns
+	
 	/**
 	 * This takes the list of enemies and in that list find a single enemy that is 
 	 * both in range and farthest along path to prioritize attacking
-	 * @param enemies
-	 * @return
+	 * @param enemies all the enemies on the map
+	 * @return target, the farthest enemy in range
 	 */
-	public Enemy findClosestEnemy(ArrayList<Enemy> enemies){
-		Enemy closests = null;
-		//Double shortestDist = null;
+	public Enemy findFarthestEnemyInRange(ArrayList<Enemy> enemies){
+		Enemy target = null;
 		int greatestStepsTaken = -1;
 
 		if (enemies.isEmpty()){
-			return closests;
+			return target;
 		}
 			for (Enemy enemy: enemies){
-				Point EnemysLocation = enemy.getLocation();
-				int NumberOfStep = enemy.getStepsTaken();
-				Double Distance = Math.sqrt( Math.pow((EnemysLocation.getX() - this.BoardLocation.getX()), 2) +
-						Math.pow((EnemysLocation.getY() - this.BoardLocation.getY()), 2 ));
-				if(Distance <= this.rangeRadius){
-					if(enemy.gotTaunted()){
-						return enemy; //have to attack squirtle if he is in range
-					}
-					
+				int numberOfStep = enemy.getStepsTaken();
+				if(this.canAttackEnemy(enemy.getLocation()) && enemy.gotTaunted()){
+						return enemy; //have to attack squirtle if he is in range due to Taunt ability
 				}
-			if ( Distance <= this.rangeRadius &&  NumberOfStep > greatestStepsTaken ){
-					closests = enemy;
-					//shortestDist = Distance;
-					greatestStepsTaken = NumberOfStep;
+				if(this.canAttackEnemy(enemy.getLocation()) && (numberOfStep > greatestStepsTaken)){
+					target = enemy;
+					greatestStepsTaken = numberOfStep;
 				}
 			}
-		
-		return closests;
+		return target;
 	}
 	
+	/**
+	 * Returns an arraylist of all enemies in range of the tower to be hit by AOE attack
+	 * @param enemies a list of all enemies on the map
+	 * @return a list of all enemies in range, size 0 if none are in range
+	 */
+	public ArrayList<Enemy> findEnemiesInAOERange(ArrayList<Enemy> enemies){
+		ArrayList<Enemy> targets = new ArrayList<Enemy>();
+
+		if (enemies.isEmpty()){
+			return targets;
+		}
+			for (Enemy enemy: enemies){
+				if(this.canAttackEnemy(enemy.getLocation())){
+					targets.add(enemy);
+				}
+			}	
+		return targets;
+	}
+	
+	/**
+	 * Returns the newest enemy to enter this tower's range
+	 * @param enemies all the enemies on the map
+	 * @return target the newest enemy in the tower's range
+	 */
+	public Enemy findEarliestEnemyInRange(ArrayList<Enemy> enemies){
+		Enemy target = null;
+		int leastStepsTaken = 9999;
+
+		if (enemies.isEmpty()){
+			return target;
+		}
+			for (Enemy enemy: enemies){
+				int numberOfStep = enemy.getStepsTaken();
+				if(this.canAttackEnemy(enemy.getLocation()) && enemy.gotTaunted()){
+						return enemy; //have to attack squirtle if he is in range due to Taunt ability
+				}
+				if(this.canAttackEnemy(enemy.getLocation()) && (numberOfStep < leastStepsTaken)){
+					target = enemy;
+					leastStepsTaken = numberOfStep;
+				}
+			}
+		return target;
+	}
+	
+	
 	public boolean checkBuy(int PlayerCurrency) {
-		if (PlayerCurrency >= CostofTower)
+		if (PlayerCurrency >= cost)
 			return true;
 		return false;
 	} // end checkBuy
 
 	public int getCost(){
-		return CostofTower;
+		return cost;
 	}
 }
