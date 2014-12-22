@@ -19,13 +19,13 @@ public class MagnemiteTower extends Tower{
 	
 	
 	// the Cerulean Gym cost 300 but can be changed if desired
-	public static final int Cost = 180;
-	private final int costOfUpgrade1 = 50;
-	private final int costOfUpgrade2 = 100;
+	public static final int Cost = 130;
+	private final int costOfUpgrade1 = 870;
+	//private final int costOfUpgrade2 = 100;
 	private final int maxLevelAttainable = 2;
 	
-	private int durationOfSlow = 3;
-	private int multiSlow = 3;
+	private int durationOfSlow = 2;
+	private int multiSlow = 1;
 	//String Name, int Attack, int Radius, int FireRateSec, String PlayersName
 	/**
 	 * The default settings for the cerulean gym a attack power of 25, a radius range of 3 tiles,
@@ -35,7 +35,7 @@ public class MagnemiteTower extends Tower{
 	public MagnemiteTower(){
 		/* String Name, int Attack, int Radius, double FireRateSec, String PlayersName,
 					String Image, int cost */
-		super("Magnemite", 15, 3, 1.25, "src/images/tower3Level1.png", Cost);	
+		super("Magnemite", 20, 3, 1.25, "src/images/tower3Level1.png", Cost);	
 		 setTowerType(towerType.ELECTRIC);
 		// TODO Auto-generated constructor stub
 	}
@@ -63,6 +63,7 @@ public class MagnemiteTower extends Tower{
 		
 		Enemy myClosestEnemy;
 		
+		//change method to attack enemy shortest along path
 		myClosestEnemy = super.findClosestEnemy(enemies);
 		
 		if (myClosestEnemy == null)
@@ -74,19 +75,19 @@ public class MagnemiteTower extends Tower{
 			if ( super.getCurrentLevel() == 1)
 			{
 				Random r1 = new Random();
-				int chanceOfEffect1 = r1.nextInt(7);
+				int chanceOfEffect1 = r1.nextInt(2);
 				if (chanceOfEffect1 == 0)
 					myClosestEnemy.setSlowed(durationOfSlow);
 			}
 			else if( super.getCurrentLevel() == 2)
 			{
 					Random r2 = new Random();
-					int chanceOfEffect2 = r2.nextInt(5);
-					if (chanceOfEffect2 == 0)
-						myClosestEnemy.setSlowed(durationOfSlow+multiSlow);
+					int chanceOfEffect2 = r2.nextInt(4);
+					if (chanceOfEffect2 < 3)
+						myClosestEnemy.setSlowed(durationOfSlow + multiSlow);
 			}
 				else if(super.getCurrentLevel() == 3)
-				{
+				{//could make a magnezone evoultion i guess
 					Random r3 = new Random();
 					int chanceOfEffect3 = r3.nextInt(3);
 					if (chanceOfEffect3 == 0)
@@ -97,39 +98,6 @@ public class MagnemiteTower extends Tower{
 				
 			
 		}
-		/*
-		//TODO is set up the graphics call for attack
-		if(!enemies.isEmpty()){ //just check if enemies has size >=1
-		for (Enemy enemy : enemies){
-			if (canAttackEnemy(enemy.getLocation())){
-				//TODO Attack enemy with graphics commands
-				// Figure out how to implement the fireRate in here??
-				enemy.incomingAttack(super.getAttackPower());
-				//--------------code under here should be moved to enemy/deleted like we said ---------------
-				System.out.println("Health" + enemy.getHealth());
-				if (enemy.isDead())  		     // if it is dead remove it
-					enemies.remove(enemy);	 // remove to pokemon from list (no need to do this)
-				System.out.println(enemies.size());
-				
-				*
-				 * After we found an enemy and attacked we then pause the thread 
-				 * for for a shot per a second.  The thread counts time in
-				 * milliseconds so 1 sec = 1000 milliseconds with 3 shots per a sec
-				 * we get a pause of 333 milliseconds for each shot
-				 *               1000 milliseconds
-				 * Pause time =   ________________
-				 * 			(	   units of fire    )
-				 * 			(         ---------     )
-				 * 					  second
-				 *
-				try {
-				    Thread.sleep(1000/(int)this.getFireRate());                 //1000 milliseconds is one second.
-				} catch(InterruptedException ex) {
-				    Thread.currentThread().interrupt();
-				}
-			}// end if
-		} // end for loop
-		}// end while loop*/
 		return true;
 	}
 
@@ -163,9 +131,9 @@ public class MagnemiteTower extends Tower{
 		if (super.getCurrentLevel() == 2){
 			super.setImageURL(level2);
 			super.setPokemonName("Magnetite");
-			this.setAttackPower(5); 	// increase attack power by 5 poins
+			this.setAttackPower(20); 	// increase attack power by 20 poins
 			this.modifyAttackRadius(2);// increase attack radius to 25 pixels
-			this.increaseFireRate(0.75); 	// increase the fire rate by one
+			this.increaseFireRate(0.25); 	// increase the fire rate by one
 		}
 		return true;
 	}
