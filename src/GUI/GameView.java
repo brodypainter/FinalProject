@@ -852,17 +852,6 @@ public class GameView extends JFrame implements MouseListener, MouseMotionListen
 			clickedTowerStore = false;
 			selectedTowerFromStore.setVisible(false);
 			Point loc = new Point((int) ((arg0.getY() - scrollLocation.y)/tileHeight),(int) ((arg0.getX() - scrollLocation.x)/tileWidth));
-			if(selectedTowerType == towerType.PSYCHIC)
-			{
-				client.addTower(towerType.POISON, loc);
-				return;
-			}
-				
-			else if(selectedTowerType == towerType.POISON)
-			{
-				client.addTower(towerType.PSYCHIC, loc);
-				return;
-			}
 			client.addTower(selectedTowerType, loc);
 		}
 	}

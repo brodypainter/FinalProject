@@ -15,7 +15,7 @@ public class GameLaunch {
 	
 	
 	
-	public static void main (String argv[]){
+	public static void main (String[] args){
 		 new GameServer();
 	}
 }
